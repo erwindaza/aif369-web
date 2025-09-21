@@ -4,78 +4,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIF369 - Soluciones de IA para Negocios</title>
+    <title>AIF369 | Equipos de IA On-Demand para Corporaciones</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <header>
         <nav>
             <div class="logo">AIF369</div>
-            <a href="#contact" class="cta-button">Solicitar Diagnóstico</a>
+            <div class="nav-links">
+                <a href="#industries">Industrias</a>
+                <a href="#packs">Nuestro Modelo</a>
+                <a href="#contact" class="cta-button">Agendar Diagnóstico</a>
+            </div>
         </nav>
     </header>
 
     <main>
         <section class="hero">
-            <h1>Deje de Gastar en IA. Empiece a Invertir.</h1>
-            <p>Convertimos sus proyectos de IA de un centro de costos en un motor de ingresos. Para CTOs y CAIOs que exigen un ROI claro y una gobernanza a prueba de balas.</p>
-            <a href="#contact" class="cta-button">Obtener un Roadmap de Rentabilidad</a>
+            <div class="hero-content">
+                <h1>Equipos de IA On-Demand para Acelerar su Negocio.</h1>
+                <p>Desplegamos equipos de élite (Jefe de Proyecto + Desarrolladores IA) para ejecutar proyectos de alto impacto con un ROI medible y en tiempo récord.</p>
+                <a href="#contact" class="cta-button-main">Solicitar Diagnóstico de ROI</a>
+            </div>
         </section>
 
-        <section id="problems" class="problem-section">
-            <h2>¿Reconoce estos síntomas en su organización?</h2>
-            <div class="symptom-grid">
-                <div class="symptom-card">
-                    <h3>Proyectos "Zombie"</h3>
-                    <p>Pilotos de IA que parecen prometedores pero nunca llegan a producción o no demuestran un valor de negocio medible.</p>
+        <section id="industries" class="industries-section">
+            <h2>Soluciones de IA a la Medida de su Industria</h2>
+            <div class="tabs">
+                <button class="tab-link active" onclick="openIndustry(event, 'FinTech')">FinTech y Banca</button>
+                <button class="tab-link" onclick="openIndustry(event, 'Retail')">Retail y E-commerce</button>
+                <button class="tab-link" onclick="openIndustry(event, 'HealthTech')">Salud (HealthTech)</button>
+                <button class="tab-link" onclick="openIndustry(event, 'Manufacturing')">Manufactura</button>
+            </div>
+
+            <div id="FinTech" class="tab-content active">
+                <h3>Desafíos Comunes en FinTech</h3>
+                <ul>
+                    <li>Detección de fraude en tiempo real con alta precisión.</li>
+                    <li>Scoring de crédito y riesgo automatizado e inteligente.</li>
+                    <li>Hiper-personalización de productos y servicios financieros.</li>
+                </ul>
+                <p class="solution-highlight"><strong>Nuestra Solución:</strong> Desplegamos un motor de IA para la detección de anomalías (Pack de Implementación) que reduce los falsos positivos en un 30% en 4 meses.</p>
+            </div>
+
+            <div id="Retail" class="tab-content">
+                <h3>Desafíos Comunes en Retail</h3>
+                <ul>
+                    <li>Gestión de inventario ineficiente y pronóstico de demanda.</li>
+                    <li>Baja conversión y alta tasa de abandono de carritos.</li>
+                    <li>Falta de personalización en la experiencia de compra online.</li>
+                </ul>
+                <p class="solution-highlight"><strong>Nuestra Solución:</strong> Implementamos un sistema de pronóstico de demanda y recomendación que aumenta el valor promedio del pedido en un 15% en un trimestre.</p>
+            </div>
+
+            <div id="HealthTech" class="tab-content">
+                <h3>Desafíos Comunes en HealthTech</h3>
+                <ul>
+                    <li>Optimización de la gestión de citas y recursos hospitalarios.</li>
+                    <li>Análisis de grandes volúmenes de datos de pacientes para prevención.</li>
+                    <li>Automatización de la transcripción y resumen de consultas médicas.</li>
+                </ul>
+                 <p class="solution-highlight"><strong>Nuestra Solución:</strong> Un agente de IA que gestiona la agenda y reduce las ausencias (no-shows) en un 25%, junto con herramientas de análisis predictivo.</p>
+            </div>
+            
+            <div id="Manufacturing" class="tab-content">
+                <h3>Desafíos Comunes en Manufactura</h3>
+                <ul>
+                    <li>Control de calidad visual lento y propenso a errores humanos.</li>
+                    <li>Paradas no planificadas de maquinaria crítica.</li>
+                    <li>Optimización de la cadena de suministro y logística.</li>
+                </ul>
+                <p class="solution-highlight"><strong>Nuestra Solución:</strong> Un sistema de visión por computadora para la detección de defectos en la línea de producción, implementado en 2 sprints (8 semanas).</p>
+            </div>
+        </section>
+
+        <section id="packs" class="packs-section">
+            <h2>Nuestro Modelo: Equipos como Servicio (TaaS)</h2>
+            <div class="packs-grid">
+                <div class="pack-card">
+                    <h4>Pack Diagnóstico IA</h4>
+                    <div class="team">1x Jefe de Proyecto IA</div>
+                    <div class="duration">Duración: 2 semanas</div>
+                    <p>Un roadmap estratégico que identifica 2-3 oportunidades de alto ROI para la IA en su negocio.</p>
                 </div>
-                <div class="symptom-card">
-                    <h3>Deuda Técnica Exponencial</h3>
-                    <p>Soluciones rápidas que crean silos de datos y sistemas frágiles, imposibles de escalar y caros de mantener.</p>
+                <div class="pack-card featured">
+                    <h4>Pack de Implementación</h4>
+                    <div class="team">1x Jefe de Proyecto IA + 2x Desarrolladores IA</div>
+                    <div class="duration">Sprints de 4 semanas</div>
+                    <p>Desarrollo de un Producto Mínimo Viable (MVP) funcional para un proyecto específico.</p>
                 </div>
-                <div class="symptom-card">
-                    <h3>Parálisis por Riesgo</h3>
-                    <p>El miedo a brechas de seguridad, sesgos y problemas de cumplimiento normativo detiene las iniciativas más ambiciosas.</p>
+                <div class="pack-card">
+                    <h4>Pack de Escalado</h4>
+                    <div class="team">Equipos a Medida</div>
+                    <div class="duration">Contratos Trimestrales</div>
+                    <p>Desarrollo continuo, integración y mantenimiento de soluciones de IA a gran escala.</p>
                 </div>
             </div>
         </section>
 
-        <section id="solutions" class="solution-section">
-            <h2>Implementaciones Rápidas. Resultados Duraderos.</h2>
-            <div class="service-grid">
-                <div class="service-card">
+        <section id="capabilities" class="capabilities-section">
+            <h2>Nuestras Capacidades Fundamentales</h2>
+            <p>Estas son las soluciones base que adaptamos a los desafíos de cada industria.</p>
+            <div class="capabilities-grid">
+                 <div class="capability-card">
                     <h3>Agentes Autónomos para Clientes</h3>
-                    <p>Reemplace sus chatbots pasivos por agentes de IA proactivos que califican leads, cierran ventas y resuelven problemas.</p>
-                    <p class="roi-estimate"><strong>ROI Estimado:</strong> Reducción de Costo de Adquisición de Clientes en 3-6 meses.</p>
+                    <p>Reemplazamos chatbots pasivos por agentes proactivos que califican leads, cierran ventas y resuelven problemas.</p>
                 </div>
-                <div class="service-card">
+                <div class="capability-card">
                     <h3>Plataforma de Datos Inteligente</h3>
-                    <p>Unifique sus datos con una arquitectura moderna (Kafka/Data Mesh) en semanas. Habilite el análisis en tiempo real y la toma de decisiones.</p>
-                    <p class="roi-estimate"><strong>ROI Estimado:</strong> Eficiencia Operativa en 6-9 meses.</p>
+                    <p>Unificamos sus datos con arquitecturas modernas (Kafka/Data Mesh) para habilitar el análisis en tiempo real.</p>
                 </div>
-                <div class="service-card">
+                <div class="capability-card">
                     <h3>Gobernanza Activa (CAIO On-Demand)</h3>
-                    <p>Implementamos un marco de gobernanza y ética de IA basado en estándares probados (Diplomado U. de Chile). Innove a máxima velocidad, con mínimo riesgo.</p>
-                    <p class="roi-estimate"><strong>ROI Estimado:</strong> Mitigación de Riesgos y Cumplimiento en 4-7 meses.</p>
+                    <p>Implementamos un marco de gobernanza y ética de IA que le permite innovar a máxima velocidad, con mínimo riesgo.</p>
                 </div>
             </div>
         </section>
 
         <section id="contact" class="contact-section">
-            <h2>Inicie la Conversación</h2>
-            <p>Complete el formulario para agendar su diagnóstico de ROI gratuito y ver cómo la IA puede transformar su negocio.</p>
+            <h2>Agende su Diagnóstico de ROI</h2>
+            <p>Hablemos de cómo un equipo de IA on-demand puede generar valor medible en su organización.</p>
             <form>
                 <input type="text" placeholder="Nombre Completo" required>
-                <input type="email" placeholder="Email de Trabajo" required>
-                <input type="text" placeholder="Nombre de la Empresa" required>
-                <button type="submit" class="cta-button">Enviar</button>
+                <input type="email" placeholder="Email Corporativo" required>
+                <button type="submit" class="cta-button">Solicitar Sesión</button>
             </form>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 AIF369. Todos los derechos reservados.</p>
-        
+        <p>&copy; 2025 AIF369. IA como servicio para la empresa moderna.</p>
     </footer>
+
+    <script>
+        function openIndustry(evt, industryName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(industryName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
 </body>
 </html>
