@@ -1,0 +1,41 @@
+
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #f4f7f6; color: #333; line-height: 1.6; }
+header { background-color: #003440; padding: 1rem 5%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+.logo { font-size: 1.8rem; font-weight: bold; color: #e0f7fa; }
+.cta-button { background-color: #2b9348; color: #fff; padding: 0.8rem 1.8rem; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; border: none; cursor: pointer; }
+.cta-button:hover { background-color: #1a6d32; }
+main { max-width: 1200px; margin: 0 auto; }
+section { padding: 4rem 5%; margin-bottom: 2rem; border-radius: 8px; }
+.hero { text-align: center; background: linear-gradient(135deg, #e0f7fa 0%, #a7d9de 100%); color: #003440; padding: 6rem 5%; border-radius: 0; }
+.hero h1 { font-size: 3rem; margin-bottom: 1rem; line-height: 1.2; }
+.hero p { font-size: 1.3rem; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+.problem-section { background-color: #fff; text-align: center; }
+.problem-section h2, .solution-section h2, .contact-section h2 { font-size: 2.2rem; color: #003440; margin-bottom: 2.5rem; }
+.symptom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.symptom-card { background-color: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; border-top: 5px solid #d90429; }
+.symptom-card h3 { color: #d90429; font-size: 1.5rem; margin-bottom: 1rem; }
+.symptom-card p { font-size: 1rem; color: #555; }
+
+.solution-section { background-color: #e0f7fa; text-align: center; }
+.service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.service-card { background-color: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: left; border-top: 5px solid #005f73; }
+.service-card h3 { color: #005f73; font-size: 1.6rem; margin-bottom: 0.8rem; }
+.service-card p { margin-top: 0.5rem; }
+.roi-estimate { margin-top: 1rem; font-weight: bold; color: #2b9348; font-size: 1.1rem; }
+
+.contact-section { background-color: #003440; color: #fff; padding: 4rem 5%; text-align: center; border-radius: 0; }
+.contact-section p { font-size: 1.1rem; margin-bottom: 2rem; }
+form { display: flex; flex-direction: column; max-width: 500px; margin: 2rem auto 0; gap: 1rem; }
+input { padding: 1rem; border: none; border-radius: 5px; font-size: 1rem; }
+input:focus { outline: 2px solid #2b9348; }
+
+footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #666; background-color: #e0f7fa; margin-top: 2rem; }
+footer p { margin: 0.5rem 0; }
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.2rem; }
+    .hero p { font-size: 1rem; }
+    .problem-section h2, .solution-section h2, .contact-section h2 { font-size: 1.8rem; }
+}
