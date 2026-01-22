@@ -100,6 +100,21 @@ body {
     color: var(--primary);
 }
 
+.lang-toggle {
+    background: transparent;
+    border: 1px solid rgba(136, 146, 176, 0.6);
+    color: var(--text);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.lang-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
