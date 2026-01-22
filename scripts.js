@@ -69,19 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.cta.item3": "Riesgos clave de datos y gobernanza a revisar.",
             "index.cta.item4": "Propuesta de siguiente paso clara y accionable.",
             "index.cta.note": "Esta sesión no es comercial tradicional - el objetivo es claridad técnica y estratégica.",
-            "index.modal.title": "Resumen de solicitud enviada",
-            "index.modal.subtitle": "Estos son los datos enviados. Guarda este resumen y revisa dónde se almacenan.",
-            "index.modal.nameLabel": "Nombre:",
-            "index.modal.emailLabel": "Email:",
-            "index.modal.roleLabel": "Cargo:",
-            "index.modal.contextLabel": "Contexto:",
-            "index.modal.storageNote": "Por ahora los datos quedan guardados localmente en el navegador (storage embebido). Más adelante podemos conectarlo a una base de datos real.",
-            "index.modal.emailNote": "Al enviar se abrirá tu cliente de correo para mandar la solicitud a erwin.daza@gmail.com.",
-            "index.modal.emailButton": "Enviar email",
-            "index.modal.closeButton": "Cerrar",
-            "index.modal.closeAria": "Cerrar",
-            "index.modal.emailSubject": "Nueva solicitud de diagnóstico ejecutivo",
-            "index.modal.emailBodyIntro": "Detalles de la solicitud:",
             "index.footer.text": "IA, datos y cloud para la empresa moderna. AIF369 SpA - Chile.",
             "services.title": "Servicios AIF369 - IA, Datos y Cloud",
             "services.description": "Servicios de AIF369 para implementar IA, plataformas de datos y arquitecturas cloud en empresas y corporaciones.",
@@ -260,19 +247,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.cta.item3": "Key data and governance risks to review.",
             "index.cta.item4": "Clear, actionable next-step proposal.",
             "index.cta.note": "This session isn’t a traditional sales call - the goal is technical and strategic clarity.",
-            "index.modal.title": "Submitted request summary",
-            "index.modal.subtitle": "These are the details you submitted. Save this summary and review where the data is stored.",
-            "index.modal.nameLabel": "Name:",
-            "index.modal.emailLabel": "Email:",
-            "index.modal.roleLabel": "Title:",
-            "index.modal.contextLabel": "Context:",
-            "index.modal.storageNote": "For now the data is saved locally in the browser (embedded storage). We can connect this to a real database later.",
-            "index.modal.emailNote": "Sending will open your email client to send the request to erwin.daza@gmail.com.",
-            "index.modal.emailButton": "Send email",
-            "index.modal.closeButton": "Close",
-            "index.modal.closeAria": "Close",
-            "index.modal.emailSubject": "New executive assessment request",
-            "index.modal.emailBodyIntro": "Request details:",
             "index.footer.text": "AI, data, and cloud for the modern enterprise. AIF369 SpA - Chile.",
             "services.title": "AIF369 Services - AI, Data & Cloud",
             "services.description": "AIF369 services to implement AI, data platforms, and cloud architectures for enterprises and corporations.",
@@ -451,10 +425,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return "en";
     }
 
-    function getCurrentLanguage() {
-        return localStorage.getItem("site-lang") || getInitialLanguage();
-    }
-
     function setLanguage(lang) {
         const target = translations[lang] ? lang : "en";
         localStorage.setItem("site-lang", target);
@@ -464,90 +434,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const langToggle = document.querySelector(".lang-toggle");
     if (langToggle) {
         langToggle.addEventListener("click", function () {
-            const current = getCurrentLanguage();
+            const current = localStorage.getItem("site-lang") || getInitialLanguage();
             const next = current === "es" ? "en" : "es";
             setLanguage(next);
-        });
-    }
-
-    const contactForm = document.querySelector(".contact-form");
-    const modal = document.querySelector("[data-modal]");
-    const modalCloseButtons = document.querySelectorAll("[data-modal-close]");
-    const emailLink = document.querySelector("[data-email-link]");
-
-    function closeModal() {
-        if (modal) {
-            modal.hidden = true;
-            document.body.classList.remove("modal-open");
-        }
-    }
-
-    function openModal() {
-        if (modal) {
-            modal.hidden = false;
-            document.body.classList.add("modal-open");
-        }
-    }
-
-    if (modal) {
-        modal.addEventListener("click", function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
-    modalCloseButtons.forEach((button) => {
-        button.addEventListener("click", closeModal);
-    });
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-            closeModal();
-        }
-    });
-
-    if (contactForm) {
-        contactForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            const formData = new FormData(contactForm);
-            const submission = {
-                fullName: formData.get("fullName")?.toString().trim() || "",
-                email: formData.get("email")?.toString().trim() || "",
-                role: formData.get("role")?.toString().trim() || "",
-                context: formData.get("context")?.toString().trim() || "",
-                submittedAt: new Date().toISOString()
-            };
-
-            const stored = JSON.parse(localStorage.getItem("assessment-submissions") || "[]");
-            stored.push(submission);
-            localStorage.setItem("assessment-submissions", JSON.stringify(stored));
-
-            document.querySelectorAll("[data-summary]").forEach((element) => {
-                const key = element.dataset.summary;
-                element.textContent = submission[key] || "-";
-            });
-
-            if (emailLink) {
-                const lang = getCurrentLanguage();
-                const dictionary = translations[lang] || translations.en;
-                const subject = dictionary["index.modal.emailSubject"] || "Assessment request";
-                const intro = dictionary["index.modal.emailBodyIntro"] || "Request details:";
-                const bodyLines = [
-                    intro,
-                    "",
-                    `${dictionary["index.modal.nameLabel"] || "Name:"} ${submission.fullName}`,
-                    `${dictionary["index.modal.emailLabel"] || "Email:"} ${submission.email}`,
-                    `${dictionary["index.modal.roleLabel"] || "Role:"} ${submission.role}`,
-                    `${dictionary["index.modal.contextLabel"] || "Context:"} ${submission.context}`,
-                    "",
-                    `Submitted at: ${submission.submittedAt}`
-                ];
-                const mailto = `mailto:erwin.daza@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-                emailLink.setAttribute("href", mailto);
-            }
-
-            openModal();
         });
     }
 
