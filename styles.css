@@ -317,6 +317,10 @@ body {
     overflow: hidden;
 }
 
+[data-modal][hidden] {
+    display: none;
+}
+
 .modal-overlay {
     position: fixed;
     inset: 0;

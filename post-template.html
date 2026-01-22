@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n data-i18n-en="Article title - AIF369 Blog">Título del artículo - Blog AIF369</title>
-    <meta name="description" data-i18n data-i18n-en="Base template for AIF369 blog articles about AI, data, and cloud." content="Plantilla base para artículos del blog de AIF369 sobre IA, datos y cloud.">
+    <title data-i18n-title="post.title">Título del artículo - Blog AIF369</title>
+    <meta name="description" data-i18n-content="post.description" content="Plantilla base para artículos del blog de AIF369 sobre IA, datos y cloud.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -13,42 +13,42 @@
 <header class="site-header">
     <nav class="nav container">
         <div class="logo">AIF369</div>
-        <button class="nav-toggle" aria-label="Abrir menú" data-i18n data-i18n-en="Open menu" data-i18n-attr="aria-label">
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
-            <a href="index.html" data-i18n data-i18n-en="Home">Inicio</a>
-            <a href="services.html" data-i18n data-i18n-en="Services">Servicios</a>
-            <a href="education.html" data-i18n data-i18n-en="Education">Educación</a>
-            <a href="blog.html" class="active" data-i18n data-i18n-en="Blog">Blog</a>
-            <a href="portfolio.html" data-i18n data-i18n-en="Portfolio">Portafolio</a>
-            <button class="lang-toggle" type="button" data-lang-toggle aria-label="Cambiar a inglés">EN</button>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="blog.html" class="active" data-i18n="nav.blog">Blog</a>
+            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
 
 <main class="container">
     <article class="section article">
-        <p class="tag" data-i18n data-i18n-en="Category">Categoría</p>
-        <h1 data-i18n data-i18n-en="Article title">Título del artículo</h1>
-        <p class="blog-meta" data-i18n data-i18n-en="X-minute read - Level: Executive or Technical.">Lectura de X minutos - Nivel: Ejecutivo o Técnico.</p>
+        <p class="tag" data-i18n="post.tag">Categoría</p>
+        <h1 data-i18n="post.header">Título del artículo</h1>
+        <p class="blog-meta" data-i18n="post.meta">Lectura de X minutos - Nivel: Ejecutivo o Técnico.</p>
 
-        <p data-i18n data-i18n-en="Introduce the problem or business context. Explain why the reader should care about this topic.">Introduce el problema o contexto de negocio. Explica por qué el lector debería importar su atención en este tema.</p>
+        <p data-i18n="post.intro">Introduce el problema o contexto de negocio. Explica por qué el lector debería importar su atención en este tema.</p>
 
-        <h2 data-i18n data-i18n-en="Subtitle 1">Subtítulo 1</h2>
-        <p data-i18n data-i18n-en="Develop the main idea with examples. Keep paragraphs short and clear.">Desarrollo de la idea principal con ejemplos. Mantén los párrafos cortos y claros.</p>
+        <h2 data-i18n="post.section1">Subtítulo 1</h2>
+        <p data-i18n="post.section1.text">Desarrollo de la idea principal con ejemplos. Mantén los párrafos cortos y claros.</p>
 
-        <h2 data-i18n data-i18n-en="Subtitle 2">Subtítulo 2</h2>
+        <h2 data-i18n="post.section2">Subtítulo 2</h2>
         <ul>
-            <li data-i18n data-i18n-en="Key point one.">Punto clave uno.</li>
-            <li data-i18n data-i18n-en="Key point two.">Punto clave dos.</li>
-            <li data-i18n data-i18n-en="Key point three.">Punto clave tres.</li>
+            <li data-i18n="post.section2.item1">Punto clave uno.</li>
+            <li data-i18n="post.section2.item2">Punto clave dos.</li>
+            <li data-i18n="post.section2.item3">Punto clave tres.</li>
         </ul>
 
-        <h2 data-i18n data-i18n-en="What to do after reading this">Qué hacer después de leer esto</h2>
-        <p data-i18n data-i18n-en="Always finish with a clear call to action, aimed at helping the reader make a decision or evaluate something within their organization.">Termina siempre con un llamado a la acción claro, orientado a que el lector tome una decisión o evalúe algo dentro de su organización.</p>
+        <h2 data-i18n="post.section3">Qué hacer después de leer esto</h2>
+        <p data-i18n="post.section3.text">Termina siempre con un llamado a la acción claro, orientado a que el lector tome una decisión o evalúe algo dentro de su organización.</p>
 
-        <p><a href="blog.html" class="btn btn-link" data-i18n data-i18n-en="Back to blog">Volver al blog</a></p>
+        <p><a href="blog.html" class="btn btn-link" data-i18n="post.back">Volver al blog</a></p>
     </article>
 </main>
 
@@ -56,11 +56,11 @@
     <div class="container footer-layout">
         <div>
             <div class="logo">AIF369</div>
-            <p class="footer-text" data-i18n data-i18n-en="AI, data, and cloud for the modern enterprise.">IA, datos y cloud para la empresa moderna.</p>
+            <p class="footer-text" data-i18n="post.footer.text">IA, datos y cloud para la empresa moderna.</p>
         </div>
         <div class="footer-links">
-            <a href="index.html" data-i18n data-i18n-en="Home">Inicio</a>
-            <a href="services.html" data-i18n data-i18n-en="Services">Servicios</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
         </div>
     </div>
 </footer>
