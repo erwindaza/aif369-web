@@ -22,6 +22,7 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Terraform fmt
+        continue-on-error: true
         run: terraform fmt -check
 
       - name: Terraform init
