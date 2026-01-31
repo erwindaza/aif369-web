@@ -680,13 +680,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     localStorage.setItem("assessment-submissions", JSON.stringify(stored));
 
                     // Actualizar modal con los datos
-                    document.querySelectorAll("[data-summary]").forEach((element) => {
-                        const key = element.dataset.summary;
-                        if (key === 'fullName') element.textContent = submission.name;
-                        else if (key === 'role') element.textContent = submission.company;
-                        else if (key === 'context') element.textContent = submission.message;
-                        else element.textContent = submission[key] || "-";
-                    });
+                    document.querySelector('[data-summary="fullName"]').textContent = formData.get("fullName") || "-";
+                    document.querySelector('[data-summary="email"]').textContent = formData.get("email") || "-";
+                    document.querySelector('[data-summary="role"]').textContent = formData.get("role") || "-";
+                    document.querySelector('[data-summary="context"]').textContent = formData.get("context") || "-";
 
                     // Actualizar link de email
                     if (emailLink) {
