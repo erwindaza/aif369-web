@@ -309,6 +309,7 @@ nav {
 @media (max-width: 991px) {
     .nav-toggle {
         display: flex;
+        z-index: 1001;
     }
     
     .nav-links {
@@ -327,6 +328,8 @@ nav {
         box-shadow: var(--shadow-xl);
         transition: right var(--transition-slow);
         border-left: 1px solid var(--border);
+        z-index: 1000;
+        overflow-y: auto;
     }
     
     .nav-links.active {
@@ -336,6 +339,16 @@ nav {
     .nav-links a {
         padding: var(--space-3) var(--space-4);
         font-size: var(--text-base);
+        display: block;
+        width: 100%;
+    }
+    
+    /* CRÍTICO: Asegurar que lang-toggle sea visible en móvil */
+    .lang-toggle {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: var(--space-4);
     }
 }
 
