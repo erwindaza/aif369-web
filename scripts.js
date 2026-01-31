@@ -5,14 +5,52 @@ document.addEventListener("DOMContentLoaded", function () {
         ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
         : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
 
+    // Mobile Navigation Toggle
     const toggle = document.querySelector(".nav-toggle");
-    const links = document.querySelector(".nav-links");
+    const navLinks = document.querySelector(".nav-links");
 
-    if (toggle && links) {
-        toggle.addEventListener("click", function () {
-            links.classList.toggle("active");
+    if (toggle && navLinks) {
+        toggle.addEventListener("click", function (e) {
+            e.stopPropagation();
+            navLinks.classList.toggle("active");
+            toggle.classList.toggle("active");
+            document.body.style.overflow = navLinks.classList.contains("active") ? "hidden" : "";
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener("click", function(e) {
+            if (!navLinks.contains(e.target) && !toggle.contains(e.target)) {
+                navLinks.classList.remove("active");
+                toggle.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+        });
+
+        // Close menu when clicking on a link
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function() {
+                navLinks.classList.remove("active");
+                toggle.classList.remove("active");
+                document.body.style.overflow = "";
+            });
         });
     }
+
+    // Header scroll effect
+    const header = document.querySelector(".site-header");
+    let lastScroll = 0;
+
+    window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > 50) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+        
+        lastScroll = currentScroll;
+    });
 
     const translations = {
         es: {
