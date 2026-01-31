@@ -307,3 +307,85 @@ def submit_education_form():
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False)
+
+
+@app.route("/api/education", methods=["POST"])
+def submit_education_form():
+    """
+    Endpoint para recibir formularios de educación/coaching.
+    
+    Expected JSON payload:
+    {
+        "name": "Juan Pérez",
+        "email": "juan@example.com",
+        "company": "Empresa XYZ",
+        "interest": "curso-desarrollo-ia",
+        "team_size": "6-15",
+        "message": "Necesitamos capacitación..."
+    }
+    """
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+        
+        data = request.get_json()
+        
+        # Validar campos requeridos
+        required_fields = ["name", "email", "company", "interest", "message"]
+        missing_fields = [field for field in required_fields if not data.get(field)]
+        
+        if missing_fields:
+            return jsonify({
+                "error": f"Missing required fields: {', '.join(missing_fields)}"
+            }), 400
+        
+        # Preparar datos para BigQuery
+        submission_id = str(uuid.uuid4())
+        timestamp = datetime.utcnow().isoformat()
+        
+        row = {
+            "submission_id": submission_id,
+            "timestamp": timestamp,
+            "name": data["name"],
+            "email": data["email"],
+            "company": data["company"],
+            "message": data["message"],
+            "source_page": data.get("source_page", request.referrer or ""),
+            "user_agent": request.headers.get("User-Agent", ""),
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+            "form_type": "education",
+            "interest": data.get("interest", ""),
+            "team_size": data.get("team_size", "")
+        }
+        
+        # Insertar en BigQuery
+        table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
+        errors = bq_client.insert_rows_json(table_ref, [row])
+        
+        if errors:
+            print(f"BigQuery insert errors: {errors}")
+            return jsonify({
+                "error": "Failed to save submission",
+                "details": errors
+            }), 500
+        
+        # Enviar notificaciones por email
+        email_data = {
+            **row,
+            "submission_id": submission_id
+        }
+        send_email_notification(email_data)  # A nosotros
+        send_confirmation_email(email_data)   # Al cliente
+        
+        return jsonify({
+            "success": True,
+            "submission_id": submission_id,
+            "message": "Gracias por tu solicitud. Te contactaremos pronto."
+        }), 200
+        
+    except Exception as e:
+        print(f"Error processing education form: {str(e)}")
+        return jsonify({
+            "error": "Internal server error",
+            "message": str(e)
+        }), 500

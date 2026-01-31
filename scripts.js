@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction 
         ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
-        : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'; // Placeholder - se creará pronto
+        : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
 
     const toggle = document.querySelector(".nav-toggle");
     const links = document.querySelector(".nav-links");
@@ -539,6 +539,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const target = translations[lang] ? lang : "en";
         localStorage.setItem("site-lang", target);
         applyTranslations(target);
+        
+        // Actualizar el botón de idioma
+        const langToggle = document.querySelector(".lang-toggle");
+        if (langToggle) {
+            langToggle.textContent = target === "es" ? "EN" : "ES";
+            langToggle.setAttribute("aria-label", target === "es" ? "Switch to English" : "Cambiar a español");
+        }
     }
 
     const langToggle = document.querySelector(".lang-toggle");
@@ -659,13 +666,31 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     contactForm.reset();
-                    openModal();
+                    
+                    // Mostrar modal si existe, sino mostrar alert de éxito
+                    if (modal) {
+                        openModal();
+                    } else {
+                        const lang = getCurrentLanguage();
+                        const successMsg = lang === 'es' 
+                            ? '¡Gracias! Tu solicitud ha sido enviada. Te contactaremos pronto.'
+                            : 'Thank you! Your request has been submitted. We will contact you soon.';
+                        alert(successMsg);
+                    }
                 } else {
-                    alert('Error al enviar el formulario: ' + (result.error || 'Error desconocido'));
+                    const lang = getCurrentLanguage();
+                    const errorMsg = lang === 'es'
+                        ? 'Error al enviar el formulario: '
+                        : 'Error submitting form: ';
+                    alert(errorMsg + (result.error || 'Error desconocido'));
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error de conexión. Por favor intenta de nuevo más tarde.');
+                const lang = getCurrentLanguage();
+                const connectionMsg = lang === 'es'
+                    ? '❌ Error de conexión\n\nNo pudimos enviar tu solicitud. Por favor verifica tu conexión e intenta de nuevo.'
+                    : '❌ Connection Error\n\nWe could not submit your request. Please check your connection and try again.';
+                alert(connectionMsg);
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = originalText;
@@ -709,14 +734,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert('¡Solicitud enviada! Recibirás un email de confirmación en breve.');
+                    const lang = getCurrentLanguage();
+                    const successMsg = lang === 'es'
+                        ? '✅ ¡Solicitud enviada con éxito!\n\nRecibirás un email de confirmación en las próximas horas.\n\nID de solicitud: ' + result.submission_id
+                        : '✅ Request submitted successfully!\n\nYou will receive a confirmation email within the next few hours.\n\nRequest ID: ' + result.submission_id;
+                    alert(successMsg);
                     educationForm.reset();
+                    // Scroll to top after success
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                    alert('Error al enviar el formulario: ' + (result.error || 'Error desconocido'));
+                    const lang = getCurrentLanguage();
+                    const errorMsg = lang === 'es'
+                        ? 'Error al enviar el formulario: '
+                        : 'Error submitting form: ';
+                    alert(errorMsg + (result.error || 'Error desconocido'));
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error de conexión. Por favor intenta de nuevo más tarde.');
+                const lang = getCurrentLanguage();
+                const connectionMsg = lang === 'es'
+                    ? '❌ Error de conexión\n\nNo pudimos enviar tu solicitud. Por favor verifica tu conexión e intenta de nuevo.'
+                    : '❌ Connection Error\n\nWe could not submit your request. Please check your connection and try again.';
+                alert(connectionMsg);
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = originalText;
