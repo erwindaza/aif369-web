@@ -5,11 +5,6 @@
 .terraform.lock.hcl
 .terraform.tfstate.lock.info
 
-# Terraform variables (keep base terraform.tfvars per branch)
-# terraform.tfvars tracked per branch
-# Environment specific files are tracked
-# *.tfvars
-
 # Environment variables
 .env
 .env.local

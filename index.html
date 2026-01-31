@@ -1,159 +1,194 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIF369 | Equipos de IA On-Demand para Corporaciones</title>
+    <title data-i18n-title="index.title">AIF369 - Equipos de IA, Datos y Cloud para Corporaciones</title>
+    <meta name="description" data-i18n-content="index.description" content="AIF369 ofrece equipos senior de IA, datos y cloud para ejecutar proyectos de alto impacto con ROI medible en empresas y corporaciones.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<header class="site-header">
+    <nav class="nav container">
+        <div class="logo">AIF369</div>
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="#contacto" class="btn btn-outline" data-i18n="nav.diagnosis">Diagnóstico</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
+        </div>
+    </nav>
+</header>
 
-    <header>
-        <nav>
+<main>
+    <!-- HERO -->
+    <section class="hero container">
+        <div class="hero-content">
+            <p class="badge" data-i18n="hero.badge">IA aplicada - Datos vivos - Cloud escalable</p>
+            <h1 data-i18n="hero.title">Equipos de IA, Datos y Cloud para acelerar su empresa.</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">
+                Diseñamos y desplegamos arquitecturas modernas, agentes inteligentes y sistemas de datos que generan ROI medible,
+                con foco en gobierno, seguridad y operación continua.
+            </p>
+            <div class="hero-actions">
+                <a href="services.html" class="btn btn-primary" data-i18n="hero.cta.services">Ver servicios</a>
+                <a href="blog.html" class="btn btn-link" data-i18n="hero.cta.blog">Leer el último insight</a>
+            </div>
+            <p class="hero-note" data-i18n="hero.note">
+                Hablamos el lenguaje del negocio y el lenguaje técnico. Trabajamos con su CIO, CDO, CAIO y equipos de arquitectura.
+            </p>
+        </div>
+    </section>
+
+    <!-- VALUE PROPOSITION -->
+    <section class="section container">
+        <header class="section-header">
+            <h2 data-i18n="index.value.title">Qué hacemos</h2>
+            <p data-i18n="index.value.subtitle">Convertimos ideas de IA en sistemas que generan resultado financiero, cumplimiento regulatorio y ventaja competitiva.</p>
+        </header>
+        <div class="grid-3">
+            <article class="card">
+                <h3 data-i18n="index.value.card1.title">IA aplicada a procesos reales</h3>
+                <p data-i18n="index.value.card1.text">Agentes, modelos y automatizaciones que se integran con sus sistemas actuales - SAP, core bancario, e-commerce, CRM y canales de clientes.</p>
+            </article>
+            <article class="card">
+                <h3 data-i18n="index.value.card2.title">Plataformas de datos modernas</h3>
+                <p data-i18n="index.value.card2.text">Data Lakes, Lakehouse, MLOps y real time streaming con gobernanza activa, catálogo de datos y trazabilidad de extremo a extremo.</p>
+            </article>
+            <article class="card">
+                <h3 data-i18n="index.value.card3.title">Cloud empresarial</h3>
+                <p data-i18n="index.value.card3.text">Arquitecturas en AWS, GCP y Azure con prácticas de ingeniería de alto estándar, CI/CD, observabilidad y seguridad desde el diseño.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- INDUSTRIES -->
+    <section class="section section-alt">
+        <div class="container">
+            <header class="section-header">
+                <h2 data-i18n="index.industries.title">Industrias donde trabajamos</h2>
+                <p data-i18n="index.industries.subtitle">Adaptamos un mismo lenguaje de arquitectura y datos a contextos de negocio muy distintos.</p>
+            </header>
+            <div class="industries-grid">
+                <div class="industry-pill" data-i18n="index.industries.fintech">FinTech y banca</div>
+                <div class="industry-pill" data-i18n="index.industries.retail">Retail y e-commerce</div>
+                <div class="industry-pill" data-i18n="index.industries.health">Salud y seguros</div>
+                <div class="industry-pill" data-i18n="index.industries.manufacturing">Manufactura</div>
+                <div class="industry-pill" data-i18n="index.industries.telecom">Telecom</div>
+                <div class="industry-pill" data-i18n="index.industries.financial">Servicios financieros</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED CONTENT -->
+    <section class="section container">
+        <header class="section-header">
+            <h2 data-i18n="index.content.title">Contenido para líderes</h2>
+            <p data-i18n="index.content.subtitle">Artículos, guías y modelos para CAIO, CIO, CDO y equipos ejecutivos que toman decisiones sobre IA.</p>
+        </header>
+        <div class="grid-2">
+            <article class="card card-highlight">
+                <h3 data-i18n="index.content.featured.title">Insight destacado</h3>
+                <p class="tag" data-i18n="index.content.featured.tag">Artículo</p>
+                <h4 data-i18n="index.content.featured.headline">2026: cuando la IA deja de asistir y empieza a decidir</h4>
+                <p data-i18n="index.content.featured.text">
+                    Qué significa que la IA empiece a tomar decisiones operativas en vez de solo asistir a las personas,
+                    y cómo deben adaptarse los modelos de gobierno, riesgo y compliance.
+                </p>
+                <a href="blog-post-2026-ia-decide.html" class="btn btn-link" data-i18n="index.content.featured.link">Leer artículo</a>
+            </article>
+
+            <article class="card">
+                <h3 data-i18n="index.content.academy.title">Academia AIF369</h3>
+                <p data-i18n="index.content.academy.text">
+                    Una línea editorial que combina práctica de campo, estándares de arquitectura y marcos de gobierno de IA.
+                    Ideal para equipos de datos, arquitectura y transformación digital.
+                </p>
+                <ul class="simple-list">
+                    <li data-i18n="index.content.academy.item1">Guías prácticas para implementar agentes en producción.</li>
+                    <li data-i18n="index.content.academy.item2">Patrones de arquitecturas de datos y ML en la nube.</li>
+                    <li data-i18n="index.content.academy.item3">Plantillas para comités de IA y documentación CAIO.</li>
+                </ul>
+                <a href="education.html" class="btn btn-link" data-i18n="index.content.academy.link">Ver contenido educativo</a>
+            </article>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section id="contacto" class="section section-alt">
+        <div class="container">
+            <header class="section-header">
+                <h2 data-i18n="index.cta.title">Agendar diagnóstico ejecutivo</h2>
+                <p data-i18n="index.cta.subtitle">Una conversación de 45 minutos para entender el estado actual de su organización y posibles rutas de acción.</p>
+            </header>
+            <div class="contact-layout">
+                <form class="contact-form">
+                    <input type="text" name="fullName" placeholder="Nombre y apellido" data-i18n-placeholder="index.form.name" required>
+                    <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="index.form.email" required>
+                    <input type="text" name="role" placeholder="Cargo o rol" data-i18n-placeholder="index.form.role" required>
+                    <textarea rows="4" name="context" placeholder="Contexto breve de su interés en IA, datos o cloud" data-i18n-placeholder="index.form.context"></textarea>
+                    <button type="submit" class="btn btn-primary" data-i18n="index.form.button">Solicitar diagnóstico</button>
+                </form>
+                <div class="contact-side">
+                    <h3 data-i18n="index.cta.includes">Qué incluye</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="index.cta.item1">Radiografía rápida de capacidades actuales.</li>
+                        <li data-i18n="index.cta.item2">Mapa de oportunidades de alto impacto.</li>
+                        <li data-i18n="index.cta.item3">Riesgos clave de datos y gobernanza a revisar.</li>
+                        <li data-i18n="index.cta.item4">Propuesta de siguiente paso clara y accionable.</li>
+                    </ul>
+                    <p class="contact-note" data-i18n="index.cta.note">Esta sesión no es comercial tradicional - el objetivo es claridad técnica y estratégica.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="modal-overlay" data-modal hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="assessment-modal-title">
+        <div class="modal-header">
+            <h3 id="assessment-modal-title" data-i18n="index.modal.title">Resumen de solicitud enviada</h3>
+            <button class="modal-close" type="button" aria-label="Cerrar" data-i18n-aria-label="index.modal.closeAria" data-modal-close>×</button>
+        </div>
+        <p class="modal-text" data-i18n="index.modal.subtitle">¡Gracias por tu solicitud! Hemos recibido tu información y te contactaremos pronto.</p>
+        <ul class="modal-list">
+            <li><strong data-i18n="index.modal.nameLabel">Nombre:</strong> <span data-summary="fullName">-</span></li>
+            <li><strong data-i18n="index.modal.emailLabel">Email:</strong> <span data-summary="email">-</span></li>
+            <li><strong data-i18n="index.modal.roleLabel">Cargo:</strong> <span data-summary="role">-</span></li>
+            <li><strong data-i18n="index.modal.contextLabel">Contexto:</strong> <span data-summary="context">-</span></li>
+        </ul>
+        <p class="modal-note" data-i18n="index.modal.storageNote">Tu solicitud ha sido guardada en nuestra base de datos y recibirás una respuesta en las próximas 24 horas.</p>
+        <div class="modal-actions">
+            <button class="btn btn-primary" type="button" data-modal-close data-i18n="index.modal.closeButton">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
             <div class="logo">AIF369</div>
-            <div class="nav-links">
-                <a href="#industries">Industrias</a>
-                <a href="#packs">Nuestro Modelo</a>
-                <a href="#contact" class="cta-button">Agendar Diagnóstico</a>
-            </div>
-        </nav>
-    </header>
+            <p class="footer-text" data-i18n="index.footer.text">IA, datos y cloud para la empresa moderna. AIF369 SpA - Chile.</p>
+        </div>
+        <div class="footer-links">
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+        </div>
+    </div>
+</footer>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Equipos de IA On-Demand para Acelerar su Negocio.</h1>
-                <p>Desplegamos equipos de élite (Jefe de Proyecto + Desarrolladores IA) para ejecutar proyectos de alto impacto con un ROI medible y en tiempo récord.</p>
-                <a href="#contact" class="cta-button-main">Solicitar Diagnóstico de ROI</a>
-            </div>
-        </section>
-
-        <section id="industries" class="industries-section">
-            <h2>Soluciones de IA a la Medida de su Industria</h2>
-            <div class="tabs">
-                <button class="tab-link active" onclick="openIndustry(event, 'FinTech')">FinTech y Banca</button>
-                <button class="tab-link" onclick="openIndustry(event, 'Retail')">Retail y E-commerce</button>
-                <button class="tab-link" onclick="openIndustry(event, 'HealthTech')">Salud (HealthTech)</button>
-                <button class="tab-link" onclick="openIndustry(event, 'Manufacturing')">Manufactura</button>
-            </div>
-
-            <div id="FinTech" class="tab-content active">
-                <h3>Desafíos Comunes en FinTech</h3>
-                <ul>
-                    <li>Detección de fraude en tiempo real con alta precisión.</li>
-                    <li>Scoring de crédito y riesgo automatizado e inteligente.</li>
-                    <li>Hiper-personalización de productos y servicios financieros.</li>
-                </ul>
-                <p class="solution-highlight"><strong>Nuestra Solución:</strong> Desplegamos un motor de IA para la detección de anomalías (Pack de Implementación) que reduce los falsos positivos en un 30% en 4 meses.</p>
-            </div>
-
-            <div id="Retail" class="tab-content">
-                <h3>Desafíos Comunes en Retail</h3>
-                <ul>
-                    <li>Gestión de inventario ineficiente y pronóstico de demanda.</li>
-                    <li>Baja conversión y alta tasa de abandono de carritos.</li>
-                    <li>Falta de personalización en la experiencia de compra online.</li>
-                </ul>
-                <p class="solution-highlight"><strong>Nuestra Solución:</strong> Implementamos un sistema de pronóstico de demanda y recomendación que aumenta el valor promedio del pedido en un 15% en un trimestre.</p>
-            </div>
-
-            <div id="HealthTech" class="tab-content">
-                <h3>Desafíos Comunes en HealthTech</h3>
-                <ul>
-                    <li>Optimización de la gestión de citas y recursos hospitalarios.</li>
-                    <li>Análisis de grandes volúmenes de datos de pacientes para prevención.</li>
-                    <li>Automatización de la transcripción y resumen de consultas médicas.</li>
-                </ul>
-                 <p class="solution-highlight"><strong>Nuestra Solución:</strong> Un agente de IA que gestiona la agenda y reduce las ausencias (no-shows) en un 25%, junto con herramientas de análisis predictivo.</p>
-            </div>
-            
-            <div id="Manufacturing" class="tab-content">
-                <h3>Desafíos Comunes en Manufactura</h3>
-                <ul>
-                    <li>Control de calidad visual lento y propenso a errores humanos.</li>
-                    <li>Paradas no planificadas de maquinaria crítica.</li>
-                    <li>Optimización de la cadena de suministro y logística.</li>
-                </ul>
-                <p class="solution-highlight"><strong>Nuestra Solución:</strong> Un sistema de visión por computadora para la detección de defectos en la línea de producción, implementado en 2 sprints (8 semanas).</p>
-            </div>
-        </section>
-
-        <section id="packs" class="packs-section">
-            <h2>Nuestro Modelo: Equipos como Servicio (TaaS)</h2>
-            <div class="packs-grid">
-                <div class="pack-card">
-                    <h4>Pack Diagnóstico IA</h4>
-                    <div class="team">1x Jefe de Proyecto IA</div>
-                    <div class="duration">Duración: 2 semanas</div>
-                    <p>Un roadmap estratégico que identifica 2-3 oportunidades de alto ROI para la IA en su negocio.</p>
-                </div>
-                <div class="pack-card featured">
-                    <h4>Pack de Implementación</h4>
-                    <div class="team">1x Jefe de Proyecto IA + 2x Desarrolladores IA</div>
-                    <div class="duration">Sprints de 4 semanas</div>
-                    <p>Desarrollo de un Producto Mínimo Viable (MVP) funcional para un proyecto específico.</p>
-                </div>
-                <div class="pack-card">
-                    <h4>Pack de Escalado</h4>
-                    <div class="team">Equipos a Medida</div>
-                    <div class="duration">Contratos Trimestrales</div>
-                    <p>Desarrollo continuo, integración y mantenimiento de soluciones de IA a gran escala.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="capabilities" class="capabilities-section">
-            <h2>Nuestras Capacidades Fundamentales</h2>
-            <p>Estas son las soluciones base que adaptamos a los desafíos de cada industria.</p>
-            <div class="capabilities-grid">
-                 <div class="capability-card">
-                    <h3>Agentes Autónomos para Clientes</h3>
-                    <p>Reemplazamos chatbots pasivos por agentes proactivos que califican leads, cierran ventas y resuelven problemas.</p>
-                </div>
-                <div class="capability-card">
-                    <h3>Plataforma de Datos Inteligente</h3>
-                    <p>Unificamos sus datos con arquitecturas modernas (Kafka/Data Mesh) para habilitar el análisis en tiempo real.</p>
-                </div>
-                <div class="capability-card">
-                    <h3>Gobernanza Activa (CAIO On-Demand)</h3>
-                    <p>Implementamos un marco de gobernanza y ética de IA que le permite innovar a máxima velocidad, con mínimo riesgo.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact-section">
-            <h2>Agende su Diagnóstico de ROI</h2>
-            <p>Hablemos de cómo un equipo de IA on-demand puede generar valor medible en su organización.</p>
-            <form>
-                <input type="text" placeholder="Nombre Completo" required>
-                <input type="email" placeholder="Email Corporativo" required>
-                <button type="submit" class="cta-button">Solicitar Sesión</button>
-            </form>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 AIF369. IA como servicio para la empresa moderna.</p>
-    </footer>
-
-    <script>
-        function openIndustry(evt, industryName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tab-link");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(industryName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-    </script>
+<script src="scripts.js"></script>
 </body>
 </html>
