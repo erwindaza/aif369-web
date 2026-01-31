@@ -18,6 +18,12 @@ AIF369 es un sitio web de servicios profesionales que ofrece soluciones de IA, D
 
 ¡Bienvenidas las sugerencias de diseño y mejoras de UI/UX! Aquí te explicamos cómo puedes contribuir:
 
+### Inicio Rápido: 3 Formas de Enviar Ideas de Diseño
+
+1. **🚀 Rápido y Fácil (5 min)** - [Crea un issue simple](https://github.com/erwindaza/aif369-web/issues/new) describiendo qué te gustaría cambiar
+2. **📝 Propuesta Estructurada (15 min)** - Usa nuestra [Plantilla de Briefing de Diseño](./docs/DESIGN_BRIEF_TEMPLATE.md)
+3. **📖 Guía Paso a Paso** - Sigue la [guía completa de envío](./docs/HOW_TO_SUBMIT_DESIGN.md)
+
 ### Cómo Pasar una Plantilla de Diseño
 
 Tenemos una plantilla completa de briefing de diseño que facilita compartir tus ideas:
@@ -159,4 +165,4 @@ El sitio se despliega automáticamente a producción en cada push a `main`:
 
 ---
 
-**¿Quieres mejorar el diseño?** Comienza con la [Plantilla de Briefing de Diseño](./docs/DESIGN_BRIEF_TEMPLATE.md) →
+**¿Quieres mejorar el diseño?** Comienza con la [Guía de Inicio Rápido](./docs/HOW_TO_SUBMIT_DESIGN.md) o ve directo a la [Plantilla de Briefing de Diseño](./docs/DESIGN_BRIEF_TEMPLATE.md) →

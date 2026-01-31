@@ -18,6 +18,12 @@ AIF369 is a professional services website offering AI, Data, and Cloud solutions
 
 We welcome design suggestions and UI/UX improvements! Here's how you can contribute:
 
+### Quick Start: 3 Ways to Submit Design Ideas
+
+1. **🚀 Quick & Easy (5 min)** - [Create a simple issue](https://github.com/erwindaza/aif369-web/issues/new) describing what you'd like to change
+2. **📝 Structured Proposal (15 min)** - Use our [Design Brief Template](./docs/DESIGN_BRIEF_TEMPLATE.md)
+3. **📖 Step-by-Step Guide** - Follow the [complete submission guide](./docs/HOW_TO_SUBMIT_DESIGN.md)
+
 ### How to Submit a Design Template
 
 We have a comprehensive design brief template that makes it easy to share your ideas:
@@ -159,4 +165,4 @@ The site is automatically deployed to production on every push to `main`:
 
 ---
 
-**Looking to improve the design?** Start with the [Design Brief Template](./docs/DESIGN_BRIEF_TEMPLATE.md) →
+**Looking to improve the design?** Start with the [Quick Start Guide](./docs/HOW_TO_SUBMIT_DESIGN.md) or jump directly to the [Design Brief Template](./docs/DESIGN_BRIEF_TEMPLATE.md) →
