@@ -1,6 +1,9 @@
 import os
 import json
 import uuid
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -22,6 +25,60 @@ DATASET_ID = "aif369_analytics"
 TABLE_ID = "contact_form_submissions"
 
 bq_client = bigquery.Client(project=PROJECT_ID)
+
+# Configuración SMTP de Zoho Mail
+SMTP_HOST = "smtp.zoho.com"
+SMTP_PORT = 587
+SMTP_USER = os.getenv("SMTP_USER", "edaza@aif369.com")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "erwin.daza@gmail.com")
+
+
+def send_email_notification(submission_data):
+    """Envía notificación por email usando SMTP de Zoho"""
+    if not SMTP_PASSWORD:
+        print("Warning: SMTP_PASSWORD not configured. Skipping email notification.")
+        return False
+    
+    try:
+        # Crear mensaje
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = f'Nuevo contacto: {submission_data["name"]}'
+        msg['From'] = SMTP_USER
+        msg['To'] = NOTIFICATION_EMAIL
+        
+        # Contenido HTML
+        html = f'''
+        <html>
+          <body>
+            <h2>Nuevo formulario de contacto recibido</h2>
+            <p><strong>Nombre:</strong> {submission_data["name"]}</p>
+            <p><strong>Email:</strong> {submission_data["email"]}</p>
+            <p><strong>Empresa/Cargo:</strong> {submission_data["company"]}</p>
+            <p><strong>Mensaje:</strong></p>
+            <p>{submission_data["message"]}</p>
+            <hr>
+            <p><small>ID de submisión: {submission_data["submission_id"]}</small></p>
+            <p><small>Hora: {submission_data["timestamp"]}</small></p>
+            <p><small>Página: {submission_data["source_page"]}</small></p>
+          </body>
+        </html>
+        '''
+        
+        part = MIMEText(html, 'html')
+        msg.attach(part)
+        
+        # Enviar email
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.send_message(msg)
+        
+        print(f"Email notification sent to {NOTIFICATION_EMAIL}")
+        return True
+    except Exception as e:
+        print(f"Error sending email notification: {e}")
+        return False
 
 
 @app.route("/", methods=["GET"])
@@ -85,6 +142,13 @@ def submit_contact_form():
                 "error": "Failed to save submission",
                 "details": errors
             }), 500
+        
+        # Enviar notificación por email
+        email_data = {
+            **row,
+            "submission_id": submission_id
+        }
+        send_email_notification(email_data)
         
         return jsonify({
             "success": True,
