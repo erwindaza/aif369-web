@@ -1,0 +1,17 @@
+project_id  = "aif369-backend"
+region      = "us-central1"
+environment = "production"
+
+# Cloud Run
+backend_service_name = "aif369-backend-api"
+backend_image = "gcr.io/aif369-backend/aif369-backend:latest"
+
+# BigQuery
+dataset_id = "aif369_analytics"
+table_id = "contact_form_submissions"
+
+# Storage
+bucket_prefix = "aif369-prod"
+
+# URLs
+frontend_url = "https://aif369.com"
