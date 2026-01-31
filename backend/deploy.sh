@@ -10,7 +10,7 @@ IMAGE_NAME="gcr.io/${PROJECT_ID}/aif369-backend:latest"
 
 echo "🏗️  Construyendo imagen Docker..."
 cd backend
-docker build -t ${IMAGE_NAME} .
+docker build --platform linux/amd64 -t ${IMAGE_NAME} .
 
 echo "📤 Subiendo imagen a Container Registry..."
 docker push ${IMAGE_NAME}
@@ -23,7 +23,10 @@ gcloud run deploy ${SERVICE_NAME} \
   --project ${PROJECT_ID} \
   --allow-unauthenticated \
   --service-account aif369-backend-sa@${PROJECT_ID}.iam.gserviceaccount.com \
-  --set-env-vars PROJECT_ID=${PROJECT_ID}
+  --set-env-vars PROJECT_ID=${PROJECT_ID} \
+  --update-secrets SMTP_PASSWORD=aif369-smtp-password:latest \
+  --set-env-vars SMTP_USER=edaza@aif369.com \
+  --set-env-vars NOTIFICATION_EMAIL=erwin.daza@gmail.com
 
 echo "✅ Despliegue completado!"
 gcloud run services describe ${SERVICE_NAME} \

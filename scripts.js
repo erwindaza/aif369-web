@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (toggle && links) {
         toggle.addEventListener("click", function () {
-            links.classList.toggle("open");
+            links.classList.toggle("active");
         });
     }
 
