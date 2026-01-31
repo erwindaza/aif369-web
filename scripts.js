@@ -668,4 +668,52 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     setLanguage(getInitialLanguage());
-});
+
+    // Manejador del formulario de educación
+    const educationForm = document.getElementById("education-contact-form");
+    if (educationForm) {
+        educationForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            
+            const submitButton = educationForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+            
+            const formData = new FormData(educationForm);
+            const submission = {
+                name: formData.get("name")?.toString().trim() || "",
+                email: formData.get("email")?.toString().trim() || "",
+                company: formData.get("company")?.toString().trim() || "",
+                message: formData.get("message")?.toString().trim() || "",
+                source_page: window.location.href,
+                interest: formData.get("interest")?.toString().trim() || "",
+                team_size: formData.get("teamSize")?.toString().trim() || ""
+            };
+
+            try {
+                const response = await fetch('https://aif369-backend-api-830685315001.us-central1.run.app/api/education', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(submission)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('¡Solicitud enviada! Recibirás un email de confirmación en breve.');
+                    educationForm.reset();
+                } else {
+                    alert('Error al enviar el formulario: ' + (result.error || 'Error desconocido'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión. Por favor intenta de nuevo más tarde.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        });
+    }

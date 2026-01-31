@@ -58,6 +58,24 @@ resource "google_bigquery_table" "contact_form" {
       type        = "STRING"
       mode        = "NULLABLE"
       description = "IP del usuario (opcional)"
+    },
+    {
+      name        = "form_type"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Tipo de formulario: contact, education, etc"
+    },
+    {
+      name        = "interest"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Área de interés (para formulario de educación)"
+    },
+    {
+      name        = "team_size"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Tamaño del equipo (para formulario de educación)"
     }
   ])
 

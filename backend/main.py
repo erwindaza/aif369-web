@@ -35,7 +35,7 @@ NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "erwin.daza@gmail.com")
 
 
 def send_email_notification(submission_data):
-    """Envía notificación por email usando SMTP de Zoho"""
+    """Envía notificación por email usando SMTP de Zoho (para nosotros)"""
     if not SMTP_PASSWORD:
         print("Warning: SMTP_PASSWORD not configured. Skipping email notification.")
         return False
@@ -78,6 +78,63 @@ def send_email_notification(submission_data):
         return True
     except Exception as e:
         print(f"Error sending email notification: {e}")
+        return False
+
+
+def send_confirmation_email(submission_data):
+    """Envía email de confirmación al cliente"""
+    if not SMTP_PASSWORD:
+        return False
+    
+    try:
+        # Crear mensaje
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = '✓ Hemos recibido tu solicitud - AIF369'
+        msg['From'] = SMTP_USER
+        msg['To'] = submission_data["email"]
+        
+        # Contenido HTML
+        html = f'''
+        <html>
+          <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+              <h2 style="color: #2563eb;">¡Gracias por contactarnos!</h2>
+              <p>Hola <strong>{submission_data["name"]}</strong>,</p>
+              <p>Hemos recibido tu solicitud y te contactaremos en las próximas 24 horas.</p>
+              
+              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #1f2937;">Resumen de tu solicitud:</h3>
+                <p><strong>Email:</strong> {submission_data["email"]}</p>
+                <p><strong>Empresa/Cargo:</strong> {submission_data["company"]}</p>
+                <p><strong>Mensaje:</strong> {submission_data["message"]}</p>
+              </div>
+              
+              <p>Mientras tanto, puedes explorar más sobre nuestros servicios en <a href="https://aif369.com" style="color: #2563eb;">aif369.com</a></p>
+              
+              <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
+              
+              <p style="font-size: 12px; color: #6b7280;">
+                AIF369 - IA, Datos y Cloud para la empresa moderna<br>
+                <a href="https://aif369.com" style="color: #2563eb;">aif369.com</a>
+              </p>
+            </div>
+          </body>
+        </html>
+        '''
+        
+        part = MIMEText(html, 'html')
+        msg.attach(part)
+        
+        # Enviar email
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.send_message(msg)
+        
+        print(f"Confirmation email sent to {submission_data['email']}")
+        return True
+    except Exception as e:
+        print(f"Error sending confirmation email: {e}")
         return False
 
 
@@ -143,12 +200,13 @@ def submit_contact_form():
                 "details": errors
             }), 500
         
-        # Enviar notificación por email
+        # Enviar notificaciones por email
         email_data = {
             **row,
             "submission_id": submission_id
         }
-        send_email_notification(email_data)
+        send_email_notification(email_data)  # A nosotros
+        send_confirmation_email(email_data)   # Al cliente
         
         return jsonify({
             "success": True,
