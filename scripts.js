@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction 
         ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
-        : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'; // Placeholder - se creará pronto
+        : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
 
     const toggle = document.querySelector(".nav-toggle");
     const links = document.querySelector(".nav-links");
