@@ -1,7 +1,27 @@
 # 🎨 Template para Briefing de Diseño UI/UX - AIF369
 
+## 📝 ¿Cómo usar esta plantilla?
+
+Esta plantilla te ayuda a comunicar tus ideas de diseño de forma clara y estructurada. **No necesitas completar todas las secciones** - solo llena las que sean relevantes para tu propuesta.
+
+### Pasos para enviar tu propuesta:
+
+1. **Copia esta plantilla** y completa las secciones relevantes
+2. **Agrega referencias visuales** (links, capturas, mockups)
+3. **Crea un nuevo issue** en GitHub con la etiqueta `design`
+4. **Pega tu briefing completado** en el issue
+
+### Consejos:
+- ✅ Incluye ejemplos visuales (links a sitios que te gustan)
+- ✅ Explica el "por qué" detrás de cada sugerencia
+- ✅ Sé específico sobre qué elementos quieres cambiar
+- ❌ No te preocupes por ser técnico - solo expresa tus ideas
+- ❌ No necesitas ser diseñador profesional para contribuir
+
+---
+
 ## Instrucciones de Uso
-Completa las secciones relevantes y yo generaré un diseño profesional basado en tus especificaciones exactas.
+Completa las secciones relevantes y generaremos un diseño profesional basado en tus especificaciones exactas.
 
 ---
 
