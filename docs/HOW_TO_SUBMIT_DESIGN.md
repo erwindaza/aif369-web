@@ -82,6 +82,8 @@ Si pudiera cambiar SOLO UNA COSA sería:
 
 ## 🎯 Ejemplos de Buenas Propuestas
 
+¿Quieres ver ejemplos completos? Revisa [DESIGN_EXAMPLES.md](./DESIGN_EXAMPLES.md) con 6 propuestas reales detalladas.
+
 ### Ejemplo 1: Propuesta Simple
 ```markdown
 Título: [Design] Mejorar legibilidad del texto
@@ -264,6 +266,8 @@ If I could change ONLY ONE THING it would be:
 ---
 
 ## 🎯 Examples of Good Proposals
+
+Want to see complete examples? Check [DESIGN_EXAMPLES.md](./DESIGN_EXAMPLES.md) with 6 detailed real proposals.
 
 ### Example 1: Simple Proposal
 ```markdown
