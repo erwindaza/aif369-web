@@ -588,46 +588,86 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (contactForm) {
-        contactForm.addEventListener("submit", function (event) {
+        contactForm.addEventListener("submit", async function (event) {
             event.preventDefault();
+            
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+            
             const formData = new FormData(contactForm);
             const submission = {
-                fullName: formData.get("fullName")?.toString().trim() || "",
+                name: formData.get("fullName")?.toString().trim() || "",
                 email: formData.get("email")?.toString().trim() || "",
-                role: formData.get("role")?.toString().trim() || "",
-                context: formData.get("context")?.toString().trim() || "",
-                submittedAt: new Date().toISOString()
+                company: formData.get("role")?.toString().trim() || "",
+                message: formData.get("context")?.toString().trim() || "",
+                source_page: window.location.href
             };
 
-            const stored = JSON.parse(localStorage.getItem("assessment-submissions") || "[]");
-            stored.push(submission);
-            localStorage.setItem("assessment-submissions", JSON.stringify(stored));
+            try {
+                // Enviar a Cloud Run backend
+                const response = await fetch('https://aif369-backend-api-830685315001.us-central1.run.app/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(submission)
+                });
 
-            document.querySelectorAll("[data-summary]").forEach((element) => {
-                const key = element.dataset.summary;
-                element.textContent = submission[key] || "-";
-            });
+                const result = await response.json();
 
-            if (emailLink) {
-                const lang = getCurrentLanguage();
-                const dictionary = translations[lang] || translations.en;
-                const subject = dictionary["index.modal.emailSubject"] || "Assessment request";
-                const intro = dictionary["index.modal.emailBodyIntro"] || "Request details:";
-                const bodyLines = [
-                    intro,
-                    "",
-                    `${dictionary["index.modal.nameLabel"] || "Name:"} ${submission.fullName}`,
-                    `${dictionary["index.modal.emailLabel"] || "Email:"} ${submission.email}`,
-                    `${dictionary["index.modal.roleLabel"] || "Role:"} ${submission.role}`,
-                    `${dictionary["index.modal.contextLabel"] || "Context:"} ${submission.context}`,
-                    "",
-                    `Submitted at: ${submission.submittedAt}`
-                ];
-                const mailto = `mailto:erwin.daza@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-                emailLink.setAttribute("href", mailto);
+                if (response.ok) {
+                    // Guardar también en localStorage para historial local
+                    const stored = JSON.parse(localStorage.getItem("assessment-submissions") || "[]");
+                    stored.push({
+                        ...submission,
+                        submission_id: result.submission_id,
+                        submittedAt: new Date().toISOString()
+                    });
+                    localStorage.setItem("assessment-submissions", JSON.stringify(stored));
+
+                    // Actualizar modal con los datos
+                    document.querySelectorAll("[data-summary]").forEach((element) => {
+                        const key = element.dataset.summary;
+                        if (key === 'fullName') element.textContent = submission.name;
+                        else if (key === 'role') element.textContent = submission.company;
+                        else if (key === 'context') element.textContent = submission.message;
+                        else element.textContent = submission[key] || "-";
+                    });
+
+                    // Actualizar link de email
+                    if (emailLink) {
+                        const lang = getCurrentLanguage();
+                        const dictionary = translations[lang] || translations.en;
+                        const subject = dictionary["index.modal.emailSubject"] || "Assessment request";
+                        const intro = dictionary["index.modal.emailBodyIntro"] || "Request details:";
+                        const bodyLines = [
+                            intro,
+                            "",
+                            `${dictionary["index.modal.nameLabel"] || "Name:"} ${submission.name}`,
+                            `${dictionary["index.modal.emailLabel"] || "Email:"} ${submission.email}`,
+                            `${dictionary["index.modal.roleLabel"] || "Role:"} ${submission.company}`,
+                            `${dictionary["index.modal.contextLabel"] || "Context:"} ${submission.message}`,
+                            "",
+                            `Submission ID: ${result.submission_id}`
+                        ];
+                        const mailto = `mailto:erwin.daza@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+                        emailLink.setAttribute("href", mailto);
+                    }
+
+                    contactForm.reset();
+                    openModal();
+                } else {
+                    alert('Error al enviar el formulario: ' + (result.error || 'Error desconocido'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión. Por favor intenta de nuevo más tarde.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
             }
-
-            openModal();
         });
     }
 
