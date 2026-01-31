@@ -587,16 +587,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Inicializar idioma al cargar la página
-    const initialLang = getCurrentLanguage();
-    setLanguage(initialLang);
+    setLanguage(getCurrentLanguage());
 
+    // Event listener para cambiar idioma
     const langToggle = document.querySelector(".lang-toggle");
     if (langToggle) {
-        // Actualizar el texto inicial del botón
-        langToggle.textContent = initialLang === "es" ? "EN" : "ES";
-        langToggle.setAttribute("aria-label", initialLang === "es" ? "Switch to English" : "Cambiar a español");
-        
-        langToggle.addEventListener("click", function () {
+        langToggle.addEventListener("click", function (e) {
+            e.preventDefault();
             const current = getCurrentLanguage();
             const next = current === "es" ? "en" : "es";
             setLanguage(next);
