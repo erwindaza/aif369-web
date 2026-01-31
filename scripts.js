@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Configuración del backend según el entorno
+    const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
+    const BACKEND_URL = isProduction 
+        ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
+        : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'; // Placeholder - se creará pronto
+
     const toggle = document.querySelector(".nav-toggle");
     const links = document.querySelector(".nav-links");
 
@@ -603,7 +609,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
                 // Enviar a Cloud Run backend
-                const response = await fetch('https://aif369-backend-api-830685315001.us-central1.run.app/api/contact', {
+                const response = await fetch(`${BACKEND_URL}/api/contact`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -692,7 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             try {
-                const response = await fetch('https://aif369-backend-api-830685315001.us-central1.run.app/api/education', {
+                const response = await fetch(`${BACKEND_URL}/api/education`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
