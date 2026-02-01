@@ -239,6 +239,15 @@ nav {
     padding: var(--space-2);
     border-radius: var(--radius-sm);
     transition: background var(--transition-fast);
+    /* Asegurar área de toque adecuada en móvil */
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    /* Asegurar que siempre sea clickable/tappable */
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .nav-toggle:hover {
@@ -330,10 +339,13 @@ nav {
         border-left: 1px solid var(--border);
         z-index: 1000;
         overflow-y: auto;
+        /* Asegurar que no sea interactuable cuando está oculto */
+        pointer-events: none;
     }
     
     .nav-links.active {
         right: 0;
+        pointer-events: auto;
     }
     
     .nav-links a {
