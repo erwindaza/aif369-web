@@ -5,30 +5,66 @@ document.addEventListener("DOMContentLoaded", function () {
         ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
         : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
 
-    // Mobile Navigation Toggle
+    // Mobile Navigation Toggle - Robusto para Android
     const toggle = document.querySelector(".nav-toggle");
     const navLinks = document.querySelector(".nav-links");
 
     if (toggle && navLinks) {
-        toggle.addEventListener("click", function (e) {
+        // Variable para evitar procesamiento duplicado de eventos
+        let isProcessing = false;
+        
+        // Función para abrir/cerrar el menú
+        function toggleMenu(e) {
+            if (isProcessing) return;
+            isProcessing = true;
+            
+            e.preventDefault();
             e.stopPropagation();
-            navLinks.classList.toggle("active");
-            toggle.classList.toggle("active");
-            document.body.style.overflow = navLinks.classList.contains("active") ? "hidden" : "";
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener("click", function(e) {
-            if (!navLinks.contains(e.target) && !toggle.contains(e.target)) {
+            
+            const isActive = navLinks.classList.contains("active");
+            
+            if (isActive) {
+                // Cerrar menú
                 navLinks.classList.remove("active");
                 toggle.classList.remove("active");
                 document.body.style.overflow = "";
+            } else {
+                // Abrir menú
+                navLinks.classList.add("active");
+                toggle.classList.add("active");
+                document.body.style.overflow = "hidden";
             }
-        });
+            
+            // Reset flag después de un corto delay
+            setTimeout(() => { isProcessing = false; }, 300);
+        }
+        
+        // Agregar listeners tanto para click como touchstart
+        toggle.addEventListener("click", toggleMenu);
+        toggle.addEventListener("touchstart", toggleMenu, { passive: false });
 
-        // Close menu when clicking on a link
-        navLinks.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", function() {
+        // Función para cerrar el menú cuando se hace clic/tap fuera
+        function closeMenuOnOutsideInteraction(e) {
+            // Solo cerrar si el menú está abierto
+            if (!navLinks.classList.contains("active")) return;
+            
+            // No cerrar si se hace clic en el toggle o dentro del menú
+            if (toggle.contains(e.target) || navLinks.contains(e.target)) return;
+            
+            navLinks.classList.remove("active");
+            toggle.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+
+        // Cerrar menú cuando se hace clic/tap fuera - con delay para evitar conflicto
+        setTimeout(() => {
+            document.addEventListener("click", closeMenuOnOutsideInteraction);
+            document.addEventListener("touchstart", closeMenuOnOutsideInteraction, { passive: true });
+        }, 100);
+
+        // Cerrar menú cuando se hace clic en un link
+        navLinks.querySelectorAll("a, button").forEach(item => {
+            item.addEventListener("click", function() {
                 navLinks.classList.remove("active");
                 toggle.classList.remove("active");
                 document.body.style.overflow = "";
