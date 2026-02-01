@@ -246,6 +246,7 @@ nav {
     justify-content: center;
     /* Asegurar que siempre sea clickable/tappable */
     position: relative;
+    pointer-events: auto;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }

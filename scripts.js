@@ -5,18 +5,25 @@ document.addEventListener("DOMContentLoaded", function () {
         ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
         : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
 
-    // Mobile Navigation Toggle - Robusto para Android
+    // Mobile Navigation Toggle - Optimizado para Android con pointer events
     const toggle = document.querySelector(".nav-toggle");
     const navLinks = document.querySelector(".nav-links");
 
     if (toggle && navLinks) {
-        // Variable para evitar procesamiento duplicado de eventos
-        let isProcessing = false;
+        // Timestamp del último evento para evitar procesamiento duplicado
+        let lastEventTime = 0;
+        const DEBOUNCE_DELAY = 300;
         
         // Función para abrir/cerrar el menú
         function toggleMenu(e) {
-            if (isProcessing) return;
-            isProcessing = true;
+            const currentTime = Date.now();
+            
+            // Prevenir ejecución múltiple (debouncing)
+            if (currentTime - lastEventTime < DEBOUNCE_DELAY) {
+                e.preventDefault();
+                return;
+            }
+            lastEventTime = currentTime;
             
             e.preventDefault();
             e.stopPropagation();
@@ -27,21 +34,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Cerrar menú
                 navLinks.classList.remove("active");
                 toggle.classList.remove("active");
+                toggle.setAttribute("aria-expanded", "false");
                 document.body.style.overflow = "";
             } else {
                 // Abrir menú
                 navLinks.classList.add("active");
                 toggle.classList.add("active");
+                toggle.setAttribute("aria-expanded", "true");
                 document.body.style.overflow = "hidden";
             }
-            
-            // Reset flag después de un corto delay
-            setTimeout(() => { isProcessing = false; }, 300);
         }
         
-        // Agregar listeners tanto para click como touchstart
-        toggle.addEventListener("click", toggleMenu);
-        toggle.addEventListener("touchstart", toggleMenu, { passive: false });
+        // Usar pointer events (mejor compatibilidad con touch en Android)
+        // Solo agregar un listener - pointer events maneja mouse y touch automáticamente
+        if (window.PointerEvent) {
+            // Navegadores modernos con soporte de Pointer Events
+            toggle.addEventListener("pointerdown", toggleMenu);
+        } else {
+            // Fallback para navegadores antiguos
+            toggle.addEventListener("touchstart", toggleMenu, { passive: false });
+            toggle.addEventListener("click", toggleMenu);
+        }
 
         // Función para cerrar el menú cuando se hace clic/tap fuera
         function closeMenuOnOutsideInteraction(e) {
@@ -53,22 +66,33 @@ document.addEventListener("DOMContentLoaded", function () {
             
             navLinks.classList.remove("active");
             toggle.classList.remove("active");
+            toggle.setAttribute("aria-expanded", "false");
             document.body.style.overflow = "";
         }
 
-        // Cerrar menú cuando se hace clic/tap fuera - con delay para evitar conflicto
-        setTimeout(() => {
-            document.addEventListener("click", closeMenuOnOutsideInteraction);
+        // Cerrar menú cuando se hace clic/tap fuera
+        if (window.PointerEvent) {
+            document.addEventListener("pointerdown", closeMenuOnOutsideInteraction);
+        } else {
             document.addEventListener("touchstart", closeMenuOnOutsideInteraction, { passive: true });
-        }, 100);
+            document.addEventListener("click", closeMenuOnOutsideInteraction);
+        }
 
         // Cerrar menú cuando se hace clic en un link
         navLinks.querySelectorAll("a, button").forEach(item => {
-            item.addEventListener("click", function() {
+            const closeMenu = function() {
                 navLinks.classList.remove("active");
                 toggle.classList.remove("active");
+                toggle.setAttribute("aria-expanded", "false");
                 document.body.style.overflow = "";
-            });
+            };
+            
+            if (window.PointerEvent) {
+                item.addEventListener("pointerdown", closeMenu);
+            } else {
+                item.addEventListener("touchstart", closeMenu, { passive: true });
+                item.addEventListener("click", closeMenu);
+            }
         });
     }
 
