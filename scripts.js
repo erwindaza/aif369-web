@@ -992,3 +992,5 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+});
