@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <header class="site-header">
@@ -32,37 +32,160 @@
 <main class="container">
     <section class="section">
         <header class="section-header">
-            <h1 data-i18n="education.header.title">Academia AIF369</h1>
-            <p data-i18n="education.header.subtitle">Un espacio educativo orientado a la práctica, donde compartimos lo que usamos realmente en proyectos de IA, datos y cloud.</p>
+            <h1 data-i18n="education.header.title">Programa Profesional de Inteligencia Artificial</h1>
+            <p data-i18n="education.header.subtitle">Formación integral para profesionales que diseñan, implementan y gobiernan soluciones de IA en entornos productivos empresariales.</p>
         </header>
 
-        <div class="grid-3">
-            <article class="card">
-                <h2 data-i18n="education.card1.title">Guías prácticas</h2>
-                <ul class="simple-list">
-                    <li data-i18n="education.card1.item1">Checklist para llevar un piloto de IA a producción.</li>
-                    <li data-i18n="education.card1.item2">Pasos mínimos para un comité de IA efectivo.</li>
-                    <li data-i18n="education.card1.item3">Cómo conectar datos, IA y negocio en un mismo mapa.</li>
-                </ul>
-                <a href="course-guias-practicas.html" class="btn btn-link" data-i18n="education.card1.link">Ver más detalles</a>
-            </article>
+        <!-- Program Goals -->
+        <div class="education-section">
+            <h2 data-i18n="education.goals.title">Metas del Programa</h2>
+            
+            <div class="card card-highlight">
+                <h3 data-i18n="education.goals.general.title">Meta General</h3>
+                <p data-i18n="education.goals.general.text">Formar profesionales capaces de diseñar, implementar y gobernar soluciones de Inteligencia Artificial en entornos productivos, integrando datos, modelos y plataformas cloud bajo criterios de seguridad, escalabilidad, ética y cumplimiento normativo.</p>
+            </div>
 
-            <article class="card card-highlight">
-                <h2 data-i18n="education.card2.title">Curso profesional: Desarrollo con IA</h2>
-                <p data-i18n="education.card2.text">Arquitectura y setup profesional usando Codex AI → GitHub → Vercel, con prácticas reales de despliegue.</p>
-                <ul class="simple-list">
-                    <li data-i18n="education.card2.item1">Estructura de repositorio, CI/CD y entornos.</li>
-                    <li data-i18n="education.card2.item2">Automatización de revisión y control de calidad.</li>
-                    <li data-i18n="education.card2.item3">Entrega continua con monitoreo y rollback.</li>
+            <div class="card">
+                <h3 data-i18n="education.goals.specific.title">Metas Específicas</h3>
+                <ul class="education-list">
+                    <li data-i18n="education.goals.specific.item1">Comprender los fundamentos técnicos y estratégicos de la IA moderna (ML, Deep Learning y LLMs).</li>
+                    <li data-i18n="education.goals.specific.item2">Diseñar arquitecturas de IA end-to-end integradas con plataformas de datos y cloud.</li>
+                    <li data-i18n="education.goals.specific.item3">Construir y desplegar agentes de IA y pipelines automatizados en entornos reales.</li>
+                    <li data-i18n="education.goals.specific.item4">Aplicar principios de gobernanza, ética, trazabilidad y gestión de riesgos en IA.</li>
+                    <li data-i18n="education.goals.specific.item5">Evaluar el impacto, desempeño y retorno (ROI) de soluciones de IA en contextos organizacionales.</li>
+                    <li data-i18n="education.goals.specific.item6">Operar soluciones de IA bajo prácticas de MLOps y DataOps.</li>
                 </ul>
-                <a href="course-desarrollo-ia.html" class="btn btn-link" data-i18n="education.card2.link">Ver más detalles</a>
-            </article>
+            </div>
+        </div>
 
-            <article class="card">
-                <h2 data-i18n="education.card3.title">Material para CAIO y comités</h2>
-                <p data-i18n="education.card3.text">Plantillas, matrices y esquemas para documentar decisiones de IA y gestionar riesgo sin apagar la innovación.</p>
-                <a href="course-material-caio.html" class="btn btn-link" data-i18n="education.card3.link">Ver más detalles</a>
-            </article>
+        <!-- Modules -->
+        <div class="education-section">
+            <h2 data-i18n="education.modules.title">Módulos del Programa</h2>
+            
+            <div class="grid-2">
+                <article class="card">
+                    <div class="card-number">01</div>
+                    <h3 data-i18n="education.modules.module1.title">Fundamentos de Inteligencia Artificial</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.modules.module1.item1">Conceptos clave de IA, ML y Deep Learning</li>
+                        <li data-i18n="education.modules.module1.item2">Tipos de modelos y casos de uso empresariales</li>
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <div class="card-number">02</div>
+                    <h3 data-i18n="education.modules.module2.title">Datos para IA</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.modules.module2.item1">Arquitecturas de datos (Data Lakes, Warehouses, Feature Stores)</li>
+                        <li data-i18n="education.modules.module2.item2">Calidad, gobierno y preparación de datos</li>
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <div class="card-number">03</div>
+                    <h3 data-i18n="education.modules.module3.title">Modelos y Agentes de IA</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.modules.module3.item1">Modelos predictivos y generativos</li>
+                        <li data-i18n="education.modules.module3.item2">LLMs, agentes autónomos y orquestación</li>
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <div class="card-number">04</div>
+                    <h3 data-i18n="education.modules.module4.title">Arquitectura y Cloud para IA</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.modules.module4.item1">Despliegue en plataformas cloud</li>
+                        <li data-i18n="education.modules.module4.item2">Escalabilidad, seguridad y costos</li>
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <div class="card-number">05</div>
+                    <h3 data-i18n="education.modules.module5.title">MLOps y Operación</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.modules.module5.item1">Ciclo de vida de modelos</li>
+                        <li data-i18n="education.modules.module5.item2">Monitoreo, versionado y mejora continua</li>
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <div class="card-number">06</div>
+                    <h3 data-i18n="education.modules.module6.title">Gobernanza, Ética y Regulación</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.modules.module6.item1">Riesgos de IA, sesgos y explicabilidad</li>
+                        <li data-i18n="education.modules.module6.item2">Marcos de gobernanza y cumplimiento normativo</li>
+                    </ul>
+                </article>
+
+                <article class="card card-highlight">
+                    <div class="card-number">07</div>
+                    <h3 data-i18n="education.modules.module7.title">Proyecto Aplicado (Artificial Intelligence Factory)</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.modules.module7.item1">Desarrollo de una solución real de IA</li>
+                        <li data-i18n="education.modules.module7.item2">Presentación técnica y de negocio</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="education-section">
+            <h2 data-i18n="education.methodology.title">Metodología</h2>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <h3 data-i18n="education.methodology.card1.title">Teoría aplicada</h3>
+                    <p data-i18n="education.methodology.card1.text">Clases teóricas explicativas con apoyo visual y talleres prácticos con ejercicios guiados.</p>
+                </div>
+
+                <div class="card">
+                    <h3 data-i18n="education.methodology.card2.title">Práctica real</h3>
+                    <p data-i18n="education.methodology.card2.text">Laboratorios de prototipado con herramientas reales y desarrollo de proyectos incrementales.</p>
+                </div>
+
+                <div class="card">
+                    <h3 data-i18n="education.methodology.card3.title">Casos empresariales</h3>
+                    <p data-i18n="education.methodology.card3.text">Análisis de casos reales de empresas con uso de plataformas cloud y entornos colaborativos.</p>
+                </div>
+            </div>
+
+            <div class="card methodology-detail">
+                <h3 data-i18n="education.methodology.detail.title">Componentes de aprendizaje</h3>
+                <ul class="education-list">
+                    <li data-i18n="education.methodology.detail.item1">Clases teóricas explicativas con apoyo visual</li>
+                    <li data-i18n="education.methodology.detail.item2">Talleres prácticos y ejercicios guiados</li>
+                    <li data-i18n="education.methodology.detail.item3">Laboratorios de prototipado con herramientas reales</li>
+                    <li data-i18n="education.methodology.detail.item4">Desarrollo de proyectos incrementales</li>
+                    <li data-i18n="education.methodology.detail.item5">Análisis de casos reales de empresas</li>
+                    <li data-i18n="education.methodology.detail.item6">Uso de plataformas cloud y entornos colaborativos</li>
+                    <li data-i18n="education.methodology.detail.item7">Acompañamiento y retroalimentación continua</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Evaluation -->
+        <div class="education-section">
+            <h2 data-i18n="education.evaluation.title">Mecanismos de Evaluación</h2>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 data-i18n="education.evaluation.card1.title">Evaluación continua</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.evaluation.card1.item1">Ejercicios prácticos y laboratorios técnicos</li>
+                        <li data-i18n="education.evaluation.card1.item2">Evaluaciones cortas de comprensión conceptual</li>
+                        <li data-i18n="education.evaluation.card1.item3">Participación activa en actividades prácticas</li>
+                    </ul>
+                </div>
+
+                <div class="card card-highlight">
+                    <h3 data-i18n="education.evaluation.card2.title">Proyecto final</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.evaluation.card2.item1">Desarrollo de un proyecto aplicado de IA</li>
+                        <li data-i18n="education.evaluation.card2.item2">Presentación final del proyecto (técnica y funcional)</li>
+                        <li data-i18n="education.evaluation.card2.item3">Evaluación del uso correcto de datos, modelos, arquitectura y gobernanza</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
