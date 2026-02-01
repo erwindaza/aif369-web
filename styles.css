@@ -6,37 +6,37 @@
 
 /* ========== CSS CUSTOM PROPERTIES ========== */
 :root {
-    /* Brand Colors - Lighter palette */
-    --primary: #0066FF;
-    --primary-light: #3385FF;
-    --secondary: #00E5CC;
-    --accent: #7C3AED;
+    /* Brand Colors - Dark Navy + Blue/Cyan Accents */
+    --primary: #0088FF;
+    --primary-light: #3AA0FF;
+    --secondary: #00D9CC;
+    --accent: #00F0FF;
     
-    /* Backgrounds - Much lighter */
-    --bg-primary: #FAFBFC;
-    --bg-secondary: #F4F6F8;
-    --bg-tertiary: #FFFFFF;
-    --bg-glass: rgba(255, 255, 255, 0.7);
-    --bg-glass-dark: rgba(255, 255, 255, 0.9);
+    /* Backgrounds - Dark Navy Theme */
+    --bg-primary: #0A1628;
+    --bg-secondary: #0F1F35;
+    --bg-tertiary: #162B45;
+    --bg-glass: rgba(15, 31, 53, 0.8);
+    --bg-glass-dark: rgba(10, 22, 40, 0.95);
     
-    /* Text - Better contrast */
-    --text-primary: #0F1419;
-    --text-secondary: #586069;
-    --text-tertiary: #6E7781;
-    --text-inverse: #FFFFFF;
+    /* Text - High contrast for dark theme */
+    --text-primary: #FFFFFF;
+    --text-secondary: #A8B8D8;
+    --text-tertiary: #7B8BA8;
+    --text-inverse: #0A1628;
     
-    /* Borders */
-    --border: rgba(0, 0, 0, 0.06);
-    --border-strong: rgba(0, 0, 0, 0.12);
-    --border-hover: rgba(0, 102, 255, 0.3);
+    /* Borders - Adapted for dark theme */
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.15);
+    --border-hover: rgba(0, 136, 255, 0.5);
     
-    /* Shadows - Softer and more natural */
-    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.12);
-    --shadow-glow: 0 0 40px rgba(0, 102, 255, 0.25);
+    /* Shadows - Enhanced for dark theme */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.7);
+    --shadow-glow: 0 0 40px rgba(0, 136, 255, 0.4);
     
     /* Blur for glassmorphism */
     --blur-sm: blur(8px);
@@ -111,7 +111,7 @@ body {
     font-variation-settings: 'opsz' 32;
 }
 
-/* Gradient mesh background - Linear style */
+/* Gradient mesh background - Dark Navy with Blue/Cyan */
 body::before {
     content: '';
     position: fixed;
@@ -120,9 +120,9 @@ body::before {
     width: 200%;
     height: 200%;
     background: 
-        radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 229, 204, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 40% 10%, rgba(124, 58, 237, 0.06) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(0, 136, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 217, 204, 0.10) 0%, transparent 50%),
+        radial-gradient(circle at 40% 10%, rgba(0, 240, 255, 0.08) 0%, transparent 50%);
     pointer-events: none;
     z-index: -1;
     animation: meshMove 20s ease-in-out infinite;
@@ -900,4 +900,95 @@ nav {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
+}
+
+/* ========== EDUCATION PAGE SPECIFIC STYLES ========== */
+.education-section {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-12);
+}
+
+.education-section h2 {
+    text-align: center;
+    margin-bottom: var(--space-8);
+    font-size: clamp(var(--text-3xl), 4vw, var(--text-4xl));
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.education-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.education-list li {
+    padding-left: var(--space-5);
+    position: relative;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.education-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+.card-number {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--text-inverse);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+    box-shadow: var(--shadow-glow);
+}
+
+.methodology-detail {
+    margin-top: var(--space-6);
+}
+
+.methodology-detail h3 {
+    margin-bottom: var(--space-5);
+}
+
+/* Card highlight adjustments for dark theme */
+.card-highlight {
+    background: linear-gradient(135deg, 
+        rgba(0, 136, 255, 0.08) 0%, 
+        rgba(0, 217, 204, 0.08) 100%
+    );
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 768px) {
+    .education-section {
+        margin-top: var(--space-8);
+        margin-bottom: var(--space-8);
+    }
+    
+    .education-section h2 {
+        margin-bottom: var(--space-6);
+    }
+    
+    .card-number {
+        width: 40px;
+        height: 40px;
+        font-size: var(--text-lg);
+    }
 }
