@@ -16,17 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // Función para abrir/cerrar el menú
         function toggleMenu(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const currentTime = Date.now();
             
             // Prevenir ejecución múltiple (debouncing)
             if (currentTime - lastEventTime < DEBOUNCE_DELAY) {
-                e.preventDefault();
                 return;
             }
             lastEventTime = currentTime;
-            
-            e.preventDefault();
-            e.stopPropagation();
             
             const isActive = navLinks.classList.contains("active");
             
