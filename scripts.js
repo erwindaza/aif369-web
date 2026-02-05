@@ -1993,68 +1993,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function getInitialLanguage() {
-        const stored = localStorage.getItem("site-lang");
-        if (stored && translations[stored]) {
-            return stored;
-        }
-
-        const browserLang = navigator.language || "en";
-        if (browserLang.toLowerCase().startsWith("es")) {
-            return "es";
-        }
-
-        return "en";
-    }
-
-    function getCurrentLanguage() {
-        return localStorage.getItem("site-lang") || getInitialLanguage();
-    }
-
-    function setLanguage(lang) {
-        const target = translations[lang] ? lang : "en";
-        localStorage.setItem("site-lang", target);
-        applyTranslations(target);
-    }
-
-    const langToggle = document.querySelector(".lang-toggle");
-    if (langToggle) {
-        langToggle.addEventListener("click", function () {
-            const current = getCurrentLanguage();
-            const next = current === "es" ? "en" : "es";
-            setLanguage(next);
-        });
-    }
-
-    const contactForms = document.querySelectorAll("[data-contact-form]");
-    const modal = document.querySelector("[data-modal]");
-    const modalCloseButtons = document.querySelectorAll("[data-modal-close]");
-    const emailLink = document.querySelector("[data-email-link]");
-
-    function closeModal() {
-        if (modal) {
-            modal.hidden = true;
-            document.body.classList.remove("modal-open");
-        }
-    }
-
-    function openModal() {
-        if (modal) {
-            modal.hidden = false;
-            document.body.classList.add("modal-open");
-        }
-    }
-
-    closeModal();
-
-    if (modal) {
-        modal.addEventListener("click", function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
     const translations = {
         es: {
             "nav.home": "Inicio",
@@ -2177,7 +2115,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "education.card2.item1": "Estructura de repositorio, CI/CD y entornos.",
             "education.card2.item2": "Automatización de revisión y control de calidad.",
             "education.card2.item3": "Entrega continua con monitoreo y rollback.",
-            "education.card2.link": "Ver curso",
+            "education.card2.link": "Coordinar curso",
             "education.card3.title": "Material para CAIO y comités",
             "education.card3.text": "Plantillas, matrices y esquemas para documentar decisiones de IA y gestionar riesgo sin apagar la innovación.",
             "education.card3.link": "Solicitar material",
@@ -2196,9 +2134,9 @@ document.addEventListener("DOMContentLoaded", function () {
             "blog.post1.link": "Leer artículo completo",
             "blog.post2.tag": "Arquitectura de datos",
             "blog.post2.title": "De data lake a plataforma de decisiones - una ruta práctica",
-            "blog.post2.meta": "Lectura de 8 minutos - Arquitectura aplicada",
-            "blog.post2.text": "Cinco decisiones arquitectónicas que separan un data lake de una plataforma que habilita analítica, IA y gobierno con confianza.",
-            "blog.post2.link": "Ver ejemplo de estructura",
+            "blog.post2.meta": "Próximamente - En revisión editorial",
+            "blog.post2.text": "Este análisis estará disponible pronto con ejemplos y marcos prácticos para líderes de datos.",
+            "blog.post2.link": "Disponible pronto",
             "blog.aside.title": "Para quién escribimos",
             "blog.aside.text": "CAIO, CIO, CDO, CTO, CEOs y líderes de transformación que necesitan convertir IA en resultados trazables.",
             "blog.aside2.title": "Recibir próximos artículos",
@@ -2250,20 +2188,20 @@ document.addEventListener("DOMContentLoaded", function () {
             "product.cta.subtitle": "Escríbenos para recibir el detalle completo y coordinar fechas.",
             "product.cta.button": "Quiero el AI Governance Starter Kit",
             "product.footer.text": "Producto digital de AIF369 para acelerar gobierno de IA.",
-            "post.title": "Título del artículo - Blog AIF369",
-            "post.description": "Plantilla base para artículos del blog de AIF369 sobre IA, datos y cloud.",
-            "post.tag": "Categoría",
-            "post.header": "Título del artículo",
-            "post.meta": "Lectura de X minutos - Nivel: Ejecutivo o Técnico.",
-            "post.intro": "Introduce el problema o contexto de negocio. Explica por qué el lector debería importar su atención en este tema.",
-            "post.section1": "Subtítulo 1",
-            "post.section1.text": "Desarrollo de la idea principal con ejemplos. Mantén los párrafos cortos y claros.",
-            "post.section2": "Subtítulo 2",
-            "post.section2.item1": "Punto clave uno.",
-            "post.section2.item2": "Punto clave dos.",
-            "post.section2.item3": "Punto clave tres.",
-            "post.section3": "Qué hacer después de leer esto",
-            "post.section3.text": "Termina siempre con un llamado a la acción claro, orientado a que el lector tome una decisión o evalúe algo dentro de su organización.",
+            "post.title": "Artículo en desarrollo - Blog AIF369",
+            "post.description": "Artículo en desarrollo para el blog de AIF369 sobre IA, datos y cloud.",
+            "post.tag": "En desarrollo",
+            "post.header": "Artículo en preparación",
+            "post.meta": "Contenido en edición - Disponible pronto.",
+            "post.intro": "Estamos preparando este análisis con ejemplos reales, marcos de decisión y aprendizajes de proyectos recientes.",
+            "post.section1": "Qué encontrarás aquí",
+            "post.section1.text": "Un resumen ejecutivo, decisiones clave y recomendaciones para líderes de datos e IA.",
+            "post.section2": "Fecha estimada",
+            "post.section2.item1": "Entrega editorial en las próximas semanas.",
+            "post.section2.item2": "Incluye checklist y plantillas descargables.",
+            "post.section2.item3": "Disponible en español e inglés.",
+            "post.section3": "¿Necesitas este contenido antes?",
+            "post.section3.text": "Escríbenos y comparte tu caso para priorizar el contenido o recibir un resumen ejecutivo.",
             "post.back": "Volver al blog",
             "post.footer.text": "IA, datos y cloud para la empresa moderna.",
             "article.title": "2026: cuando la IA deja de asistir y empieza a decidir - Blog AIF369",
@@ -2409,7 +2347,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "education.card2.item1": "Repository structure, CI/CD, and environments.",
             "education.card2.item2": "Automated reviews and quality gates.",
             "education.card2.item3": "Continuous delivery with monitoring and rollback.",
-            "education.card2.link": "View course",
+            "education.card2.link": "Plan training",
             "education.card3.title": "Materials for CAIOs and committees",
             "education.card3.text": "Templates, matrices, and frameworks to document AI decisions and manage risk without shutting down innovation.",
             "education.card3.link": "Request material",
@@ -2428,9 +2366,9 @@ document.addEventListener("DOMContentLoaded", function () {
             "blog.post1.link": "Read full article",
             "blog.post2.tag": "Data architecture",
             "blog.post2.title": "From data lake to decision platform - a practical path",
-            "blog.post2.meta": "8-minute read - Applied architecture",
-            "blog.post2.text": "Five architectural decisions that separate a data lake from a platform that enables analytics, AI, and governance with confidence.",
-            "blog.post2.link": "View structure example",
+            "blog.post2.meta": "Coming soon - Editorial review",
+            "blog.post2.text": "This analysis will be available soon with examples and practical frameworks for data leaders.",
+            "blog.post2.link": "Available soon",
             "blog.aside.title": "Who we write for",
             "blog.aside.text": "CAIOs, CIOs, CDOs, CTOs, CEOs, and transformation leaders who need to turn AI into traceable results.",
             "blog.aside2.title": "Get upcoming articles",
@@ -2482,20 +2420,20 @@ document.addEventListener("DOMContentLoaded", function () {
             "product.cta.subtitle": "Contact us to receive the full details and schedule dates.",
             "product.cta.button": "I want the AI Governance Starter Kit",
             "product.footer.text": "AIF369 digital product to accelerate AI governance.",
-            "post.title": "Article title - AIF369 Blog",
-            "post.description": "Base template for AIF369 blog articles on AI, data, and cloud.",
-            "post.tag": "Category",
-            "post.header": "Article title",
-            "post.meta": "X-minute read - Level: Executive or Technical.",
-            "post.intro": "Introduce the business problem or context. Explain why the reader should pay attention to this topic.",
-            "post.section1": "Subtitle 1",
-            "post.section1.text": "Develop the main idea with examples. Keep paragraphs short and clear.",
-            "post.section2": "Subtitle 2",
-            "post.section2.item1": "Key point one.",
-            "post.section2.item2": "Key point two.",
-            "post.section2.item3": "Key point three.",
-            "post.section3": "What to do after reading this",
-            "post.section3.text": "Always finish with a clear call to action, aimed at helping the reader make a decision or evaluate something within their organization.",
+            "post.title": "Article in progress - AIF369 Blog",
+            "post.description": "In-progress article for the AIF369 blog about AI, data, and cloud.",
+            "post.tag": "In progress",
+            "post.header": "Article in preparation",
+            "post.meta": "Editing in progress - Available soon.",
+            "post.intro": "We are preparing this analysis with real examples, decision frameworks, and learnings from recent projects.",
+            "post.section1": "What you’ll find here",
+            "post.section1.text": "An executive summary, key decisions, and recommendations for data and AI leaders.",
+            "post.section2": "Estimated timing",
+            "post.section2.item1": "Editorial delivery in the next few weeks.",
+            "post.section2.item2": "Includes a checklist and downloadable templates.",
+            "post.section2.item3": "Available in Spanish and English.",
+            "post.section3": "Need this sooner?",
+            "post.section3.text": "Reach out and share your case to prioritize this content or receive an executive summary.",
             "post.back": "Back to blog",
             "post.footer.text": "AI, data, and cloud for the modern enterprise.",
             "article.title": "2026: when AI stops assisting and starts deciding - AIF369 Blog",
@@ -2570,8 +2508,26 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    let activeLanguage = null;
+
+    function readStoredLanguage() {
+        try {
+            return localStorage.getItem("site-lang");
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function persistLanguage(lang) {
+        try {
+            localStorage.setItem("site-lang", lang);
+        } catch (error) {
+            activeLanguage = lang;
+        }
+    }
+
     function getInitialLanguage() {
-        const stored = localStorage.getItem("site-lang");
+        const stored = readStoredLanguage();
         if (stored && translations[stored]) {
             return stored;
         }
@@ -2585,12 +2541,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getCurrentLanguage() {
-        return localStorage.getItem("site-lang") || getInitialLanguage();
+        const stored = readStoredLanguage();
+        return stored || activeLanguage || getInitialLanguage();
     }
 
     function setLanguage(lang) {
         const target = translations[lang] ? lang : "en";
-        localStorage.setItem("site-lang", target);
+        activeLanguage = target;
+        persistLanguage(target);
         applyTranslations(target);
     }
 
