@@ -8,7 +8,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <header class="site-header">
@@ -64,6 +64,191 @@
                 <a href="#educacion-cta" class="btn btn-link" data-i18n="education.card3.link">Solicitar material</a>
             </article>
         </div>
+
+        <!-- Evaluation -->
+        <div class="education-section">
+            <h2 data-i18n="education.evaluation.title">Mecanismos de Evaluación</h2>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 data-i18n="education.evaluation.card1.title">Evaluación continua</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.evaluation.card1.item1">Ejercicios prácticos y laboratorios técnicos</li>
+                        <li data-i18n="education.evaluation.card1.item2">Evaluaciones cortas de comprensión conceptual</li>
+                        <li data-i18n="education.evaluation.card1.item3">Participación activa en actividades prácticas</li>
+                    </ul>
+                </div>
+
+                <div class="card card-highlight">
+                    <h3 data-i18n="education.evaluation.card2.title">Proyecto final</h3>
+                    <ul class="simple-list">
+                        <li data-i18n="education.evaluation.card2.item1">Desarrollo de un proyecto aplicado de IA</li>
+                        <li data-i18n="education.evaluation.card2.item2">Presentación final del proyecto (técnica y funcional)</li>
+                        <li data-i18n="education.evaluation.card2.item3">Evaluación del uso correcto de datos, modelos, arquitectura y gobernanza</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contacto-educacion">
+        <header class="section-header">
+            <h2 data-i18n="education.contact.title">¿Necesitas cursos o coaching?</h2>
+            <p data-i18n="education.contact.subtitle">Completa el formulario y nos pondremos en contacto para diseñar una propuesta adaptada a tu equipo.</p>
+        </header>
+
+        <form id="education-contact-form" class="contact-form">
+            <div class="form-group">
+                <label for="edu-name" data-i18n="education.form.name">Nombre completo *</label>
+                <input type="text" id="edu-name" name="name" required data-i18n-placeholder="education.form.namePlaceholder">
+            </div>
+
+            <div class="form-group">
+                <label for="edu-email" data-i18n="education.form.email">Email corporativo *</label>
+                <input type="email" id="edu-email" name="email" required data-i18n-placeholder="education.form.emailPlaceholder">
+            </div>
+
+            <div class="form-group">
+                <label for="edu-company" data-i18n="education.form.company">Empresa *</label>
+                <input type="text" id="edu-company" name="company" required data-i18n-placeholder="education.form.companyPlaceholder">
+            </div>
+
+            <div class="form-group">
+                <label for="edu-interest" data-i18n="education.form.interest">Área de interés *</label>
+                <select id="edu-interest" name="interest" required>
+                    <option value="" data-i18n="education.form.selectOption">Selecciona una opción</option>
+                    <option value="curso-desarrollo-ia" data-i18n="education.form.option1">Curso: Desarrollo con IA</option>
+                    <option value="guias-practicas" data-i18n="education.form.option2">Guías prácticas (CAIO, producción)</option>
+                    <option value="coaching-equipos" data-i18n="education.form.option3">Coaching para equipos de IA/Datos</option>
+                    <option value="material-comite" data-i18n="education.form.option4">Material para comités de IA</option>
+                    <option value="otro" data-i18n="education.form.option5">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="edu-team-size" data-i18n="education.form.teamSize">Tamaño del equipo</label>
+                <select id="edu-team-size" name="teamSize">
+                    <option value="" data-i18n="education.form.selectOption">Selecciona una opción</option>
+                    <option value="1-5">1-5 personas</option>
+                    <option value="6-15">6-15 personas</option>
+                    <option value="16-50">16-50 personas</option>
+                    <option value="50+">Más de 50 personas</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="edu-message" data-i18n="education.form.message">Cuéntanos más sobre tu necesidad *</label>
+                <textarea id="edu-message" name="message" rows="5" required data-i18n-placeholder="education.form.messagePlaceholder"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+        </form>
+    </section>
+
+    <section id="educacion-contacto" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
+            <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
+        </header>
+        <form class="education-form" data-contact-form>
+            <div class="form-grid">
+                <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
+                <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>
+                <input type="text" name="company" placeholder="Empresa" data-i18n-placeholder="education.form.company" autocomplete="organization" required>
+                <select name="interest" data-i18n-placeholder="education.form.interest">
+                    <option value="" data-i18n="education.form.interest">Área de interés</option>
+                    <option value="guia" data-i18n="education.form.option.guides">Guías prácticas</option>
+                    <option value="curso" data-i18n="education.form.option.course">Curso profesional</option>
+                    <option value="material" data-i18n="education.form.option.material">Material CAIO</option>
+                </select>
+                <select name="teamSize" data-i18n-placeholder="education.form.teamSize">
+                    <option value="" data-i18n="education.form.teamSize">Tamaño del equipo</option>
+                    <option value="1-5">1-5</option>
+                    <option value="6-15">6-15</option>
+                    <option value="16-50">16-50</option>
+                    <option value="50+">50+</option>
+                </select>
+            </div>
+            <textarea rows="4" name="context" placeholder="Cuéntanos más sobre tu necesidad" data-i18n-placeholder="education.form.context" autocomplete="off"></textarea>
+            <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+            <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
+        </form>
+    </section>
+
+    <section id="educacion-contacto" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
+            <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
+        </header>
+        <form class="education-form" data-contact-form>
+            <div class="form-grid">
+                <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
+                <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>
+                <input type="text" name="company" placeholder="Empresa" data-i18n-placeholder="education.form.company" autocomplete="organization" required>
+                <select name="interest" data-i18n-placeholder="education.form.interest">
+                    <option value="" data-i18n="education.form.interest">Área de interés</option>
+                    <option value="guia" data-i18n="education.form.option.guides">Guías prácticas</option>
+                    <option value="curso" data-i18n="education.form.option.course">Curso profesional</option>
+                    <option value="material" data-i18n="education.form.option.material">Material CAIO</option>
+                </select>
+                <select name="teamSize" data-i18n-placeholder="education.form.teamSize">
+                    <option value="" data-i18n="education.form.teamSize">Tamaño del equipo</option>
+                    <option value="1-5">1-5</option>
+                    <option value="6-15">6-15</option>
+                    <option value="16-50">16-50</option>
+                    <option value="50+">50+</option>
+                </select>
+            </div>
+            <textarea rows="4" name="context" placeholder="Cuéntanos más sobre tu necesidad" data-i18n-placeholder="education.form.context" autocomplete="off"></textarea>
+            <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+            <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
+        </form>
+    </section>
+
+    <section id="educacion-contacto" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
+            <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
+        </header>
+        <form class="education-form" data-contact-form data-endpoint="/api/education">
+            <div class="form-grid">
+                <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
+                <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>
+                <input type="text" name="company" placeholder="Empresa" data-i18n-placeholder="education.form.company" autocomplete="organization" required>
+                <select name="interest" data-i18n-placeholder="education.form.interest">
+                    <option value="" data-i18n="education.form.interest">Área de interés</option>
+                    <option value="guia" data-i18n="education.form.option.guides">Guías prácticas</option>
+                    <option value="curso" data-i18n="education.form.option.course">Curso profesional</option>
+                    <option value="material" data-i18n="education.form.option.material">Material CAIO</option>
+                </select>
+                <select name="teamSize" data-i18n-placeholder="education.form.teamSize">
+                    <option value="" data-i18n="education.form.teamSize">Tamaño del equipo</option>
+                    <option value="1-5">1-5</option>
+                    <option value="6-15">6-15</option>
+                    <option value="16-50">16-50</option>
+                    <option value="50+">50+</option>
+                </select>
+            </div>
+            <textarea rows="4" name="context" placeholder="Cuéntanos más sobre tu necesidad" data-i18n-placeholder="education.form.context" autocomplete="off"></textarea>
+            <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+            <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
+        </form>
+    </section>
+
+    <section id="educacion-cta" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.cta.title">¿Necesitas formación o coaching?</h2>
+            <p data-i18n="education.cta.subtitle">Agenda una conversación y diseñamos una propuesta adaptada a tu equipo.</p>
+            <a href="index.html#contacto" class="btn btn-primary" data-i18n="education.cta.button">Agendar conversación</a>
+        </header>
+    </section>
+
+    <section id="educacion-cta" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.cta.title">¿Necesitas formación o coaching?</h2>
+            <p data-i18n="education.cta.subtitle">Agenda una conversación y diseñamos una propuesta adaptada a tu equipo.</p>
+            <a href="index.html#contacto" class="btn btn-primary" data-i18n="education.cta.button">Agendar conversación</a>
+        </header>
     </section>
 
     <section id="educacion-cta" class="section section-alt">
