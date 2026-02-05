@@ -229,6 +229,21 @@ nav {
     background-clip: text;
 }
 
+.lang-toggle {
+    background: transparent;
+    border: 1px solid rgba(136, 146, 176, 0.6);
+    color: var(--text);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.lang-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -251,8 +266,20 @@ nav {
     touch-action: manipulation;
 }
 
-.nav-toggle:hover {
-    background: var(--bg-secondary);
+.nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background-color: var(--text);
+}
+
+/* Hero */
+.hero {
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    align-items: center;
+    padding-top: 7rem;
 }
 
 .nav-toggle span {
@@ -264,8 +291,30 @@ nav {
     transition: all var(--transition-base);
 }
 
-.nav-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+.hero-media {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.hero-image {
+    width: min(520px, 100%);
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(3, 12, 26, 0.6);
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    background-color: rgba(10, 25, 47, 0.8);
+}
+
+.badge {
+    display: inline-block;
+    border-radius: 999px;
+    border: 1px solid rgba(100, 255, 218, 0.4);
+    padding: 0.3rem 0.9rem;
+    font-size: 0.8rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
 }
 
 .nav-toggle.active span:nth-child(2) {
@@ -279,7 +328,46 @@ nav {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.hero-note {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Cards y elementos comunes */
+.card {
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(100, 255, 218, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+    align-self: center;
+}
+
+.card h2,
+.card h3,
+.card p,
+.card ul {
+    width: 100%;
+}
+
+.card-highlight {
+    border: 1px solid rgba(100, 255, 218, 0.6);
 }
 
 .nav-links a {
@@ -449,12 +537,41 @@ nav {
     color: var(--primary);
 }
 
-.nav-toggle {
-    display: none;
+.contact-form select,
+.education-form select,
+.education-form input,
+.education-form textarea {
+    background-color: var(--bg-dark);
+    border-radius: 6px;
+    border: 1px solid rgba(136, 146, 176, 0.5);
+    padding: 0.75rem 0.9rem;
+    color: var(--text);
+    font-family: inherit;
+    width: 100%;
+}
+
+.education-form {
+    display: flex;
     flex-direction: column;
-    gap: 4px;
-    background: none;
-    border: none;
+    gap: 1rem;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.form-success {
+    color: var(--primary);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.contact-form textarea {
+    resize: vertical;
 }
 
 .btn-link {
@@ -468,20 +585,104 @@ nav {
     color: var(--primary-light);
 }
 
-/* ========== SECTIONS ========== */
-.section {
-    padding: var(--space-12) 0;
+/* Modal */
+.modal-open {
+    overflow: hidden;
 }
 
-.section-alt {
-    background: var(--bg-secondary);
-    position: relative;
+[data-modal][hidden] {
+    display: none;
 }
 
-.section-header {
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto var(--space-10);
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(10, 25, 47, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 200;
+}
+
+.modal-card {
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-text {
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+.modal-list {
+    margin: 1.5rem 0;
+    padding-left: 1.2rem;
+    color: var(--text);
+}
+
+.modal-list li + li {
+    margin-top: 0.5rem;
+}
+
+.modal-note {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+/* Blog */
+.blog-layout {
+    display: grid;
+    grid-template-columns: 2fr minmax(0, 1fr);
+    gap: 2rem;
+}
+
+.blog-card h2 {
+    margin-top: 0.5rem;
+    font-size: 1.6rem;
+    line-height: 1.35;
+}
+
+.blog-card h2 a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.blog-card h2 a:hover {
+    color: var(--primary);
+}
+
+.blog-meta {
+    font-size: 0.95rem;
+    color: #BFCBEA;
+    margin-bottom: 0.75rem;
 }
 
 .section-header p {
@@ -489,13 +690,37 @@ nav {
     margin-top: var(--space-4);
 }
 
-/* ========== HERO - Minimalist ========== */
-.hero {
-    min-height: 90vh;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 3rem;
-    align-items: center;
+.article h1 {
+    margin-bottom: 0.5rem;
+    font-size: clamp(2.2rem, 3.6vw, 3.2rem);
+    line-height: 1.2;
+}
+
+.article h2 {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #E3ECFF;
+}
+
+.article p,
+.article li {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #DDE7FF;
+}
+
+.article ul,
+.article ol {
+    padding-left: 1.4rem;
+}
+
+.article-cta {
+    margin-top: 2rem;
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    background: rgba(100, 255, 218, 0.12);
+    color: #F0FBFF;
 }
 
 .hero-content {
