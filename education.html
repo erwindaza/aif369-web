@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educación AIF369 - Academia de IA, Datos y Cloud</title>
-    <meta name="description" content="Academia AIF369 con material educativo, guías y recursos prácticos para equipos de IA, datos y cloud.">
+    <title data-i18n-title="education.title">Educación AIF369 - Academia de IA, Datos y Cloud</title>
+    <meta name="description" data-i18n-content="education.description" content="Academia AIF369 con material educativo, guías y recursos prácticos para equipos de IA, datos y cloud.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -13,15 +14,17 @@
 <header class="site-header">
     <nav class="nav container">
         <div class="logo">AIF369</div>
-        <button class="nav-toggle" aria-label="Abrir menú">
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
-            <a href="services.html">Servicios</a>
-            <a href="education.html" class="active">Educación</a>
-            <a href="blog.html">Blog</a>
-            <a href="portfolio.html">Portafolio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="education.html" class="active" data-i18n="nav.education">Educación</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -29,31 +32,68 @@
 <main class="container">
     <section class="section">
         <header class="section-header">
-            <h1>Academia AIF369</h1>
-            <p>Un espacio educativo orientado a la práctica, donde compartimos lo que usamos realmente en proyectos de IA, datos y cloud.</p>
+            <h1 data-i18n="education.header.title">Academia AIF369</h1>
+            <p data-i18n="education.header.subtitle">Un espacio educativo orientado a la práctica, donde compartimos lo que usamos realmente en proyectos de IA, datos y cloud.</p>
         </header>
 
         <div class="grid-3">
             <article class="card">
-                <h2>Guías prácticas</h2>
+                <h2 data-i18n="education.card1.title">Guías prácticas</h2>
                 <ul class="simple-list">
-                    <li>Checklist para llevar un piloto de IA a producción.</li>
-                    <li>Pasos mínimos para un comité de IA efectivo.</li>
-                    <li>Cómo conectar datos, IA y negocio en un mismo mapa.</li>
+                    <li data-i18n="education.card1.item1">Checklist para llevar un piloto de IA a producción.</li>
+                    <li data-i18n="education.card1.item2">Pasos mínimos para un comité de IA efectivo.</li>
+                    <li data-i18n="education.card1.item3">Cómo conectar datos, IA y negocio en un mismo mapa.</li>
                 </ul>
+                <a href="#educacion-contacto" class="btn btn-link" data-i18n="education.card1.link">Solicitar guía</a>
+            </article>
+
+            <article class="card card-highlight">
+                <h2 data-i18n="education.card2.title">Curso profesional: Desarrollo con IA</h2>
+                <p data-i18n="education.card2.text">Arquitectura y setup profesional usando Codex AI → GitHub → Vercel, con prácticas reales de despliegue.</p>
+                <ul class="simple-list">
+                    <li data-i18n="education.card2.item1">Estructura de repositorio, CI/CD y entornos.</li>
+                    <li data-i18n="education.card2.item2">Automatización de revisión y control de calidad.</li>
+                    <li data-i18n="education.card2.item3">Entrega continua con monitoreo y rollback.</li>
+                </ul>
+                <a href="product.html" class="btn btn-link" data-i18n="education.card2.link">Ver curso</a>
             </article>
 
             <article class="card">
-                <h2>Sesiones y demos</h2>
-                <p>Pronto habilitaremos demos guiadas sobre agentes, pipelines de datos y arquitecturas en nube.</p>
-                <p class="small-text">Las sesiones estarán orientadas a equipos técnicos pero con lenguaje accesible a ejecutivos.</p>
-            </article>
-
-            <article class="card">
-                <h2>Material para CAIO y comités</h2>
-                <p>Plantillas, matrices y esquemas para documentar decisiones de IA y gestionar riesgo sin apagar la innovación.</p>
+                <h2 data-i18n="education.card3.title">Material para CAIO y comités</h2>
+                <p data-i18n="education.card3.text">Plantillas, matrices y esquemas para documentar decisiones de IA y gestionar riesgo sin apagar la innovación.</p>
+                <a href="#educacion-contacto" class="btn btn-link" data-i18n="education.card3.link">Solicitar material</a>
             </article>
         </div>
+    </section>
+
+    <section id="educacion-contacto" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
+            <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
+        </header>
+        <form class="education-form" data-contact-form data-endpoint="/api/education">
+            <div class="form-grid">
+                <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
+                <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>
+                <input type="text" name="company" placeholder="Empresa" data-i18n-placeholder="education.form.company" autocomplete="organization" required>
+                <select name="interest" data-i18n-placeholder="education.form.interest">
+                    <option value="" data-i18n="education.form.interest">Área de interés</option>
+                    <option value="guia" data-i18n="education.form.option.guides">Guías prácticas</option>
+                    <option value="curso" data-i18n="education.form.option.course">Curso profesional</option>
+                    <option value="material" data-i18n="education.form.option.material">Material CAIO</option>
+                </select>
+                <select name="teamSize" data-i18n-placeholder="education.form.teamSize">
+                    <option value="" data-i18n="education.form.teamSize">Tamaño del equipo</option>
+                    <option value="1-5">1-5</option>
+                    <option value="6-15">6-15</option>
+                    <option value="16-50">16-50</option>
+                    <option value="50+">50+</option>
+                </select>
+            </div>
+            <textarea rows="4" name="context" placeholder="Cuéntanos más sobre tu necesidad" data-i18n-placeholder="education.form.context" autocomplete="off"></textarea>
+            <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+            <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
+        </form>
     </section>
 </main>
 
@@ -61,12 +101,13 @@
     <div class="container footer-layout">
         <div>
             <div class="logo">AIF369</div>
-            <p class="footer-text">IA, datos y cloud para la empresa moderna.</p>
+            <p class="footer-text" data-i18n="education.footer.text">IA, datos y cloud para la empresa moderna.</p>
         </div>
         <div class="footer-links">
-            <a href="index.html">Inicio</a>
-            <a href="blog.html">Blog</a>
-            <a href="services.html">Servicios</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
         </div>
     </div>
 </footer>
