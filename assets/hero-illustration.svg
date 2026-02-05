@@ -1,0 +1,23 @@
+<svg width="640" height="520" viewBox="0 0 640 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#64FFDA" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#1B2B46" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#64FFDA" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#64FFDA" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="20" y="20" width="600" height="480" rx="32" fill="url(#grad)" stroke="#64FFDA" stroke-opacity="0.35" stroke-width="2"/>
+  <rect x="60" y="70" width="520" height="70" rx="16" fill="#0A192F" stroke="#64FFDA" stroke-opacity="0.2"/>
+  <rect x="60" y="170" width="260" height="120" rx="20" fill="#0F223E" stroke="#64FFDA" stroke-opacity="0.25"/>
+  <rect x="340" y="170" width="240" height="120" rx="20" fill="#0F223E" stroke="#64FFDA" stroke-opacity="0.25"/>
+  <rect x="60" y="320" width="520" height="140" rx="24" fill="#0F223E" stroke="#64FFDA" stroke-opacity="0.25"/>
+  <circle cx="110" cy="105" r="10" fill="#64FFDA"/>
+  <circle cx="145" cy="105" r="10" fill="#64FFDA" fill-opacity="0.6"/>
+  <circle cx="180" cy="105" r="10" fill="#64FFDA" fill-opacity="0.35"/>
+  <rect x="90" y="360" width="220" height="12" rx="6" fill="url(#glow)"/>
+  <rect x="90" y="390" width="300" height="12" rx="6" fill="url(#glow)"/>
+  <rect x="90" y="420" width="180" height="12" rx="6" fill="url(#glow)"/>
+</svg>
