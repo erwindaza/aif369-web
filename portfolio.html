@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio AIF369 - Casos y demos</title>
-    <meta name="description" content="Portafolio de AIF369 con ejemplos de soluciones de IA, datos y cloud y demos conceptuales.">
+    <title data-i18n-title="portfolio.title">Portafolio AIF369 - Casos y demos</title>
+    <meta name="description" data-i18n-content="portfolio.description" content="Portafolio de AIF369 con ejemplos de soluciones de IA, datos y cloud y demos conceptuales.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -13,15 +13,17 @@
 <header class="site-header">
     <nav class="nav container">
         <div class="logo">AIF369</div>
-        <button class="nav-toggle" aria-label="Abrir menú">
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
-            <a href="services.html">Servicios</a>
-            <a href="education.html">Educación</a>
-            <a href="blog.html">Blog</a>
-            <a href="portfolio.html" class="active">Portafolio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="portfolio.html" class="active" data-i18n="nav.portfolio">Portafolio</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -29,31 +31,31 @@
 <main class="container">
     <section class="section">
         <header class="section-header">
-            <h1>Portafolio y demos</h1>
-            <p>Ejemplos de cómo se ve IA y datos funcionando en escenarios reales.</p>
+            <h1 data-i18n="portfolio.header.title">Portafolio y demos</h1>
+            <p data-i18n="portfolio.header.subtitle">Ejemplos de cómo se ve IA y datos funcionando en escenarios reales.</p>
         </header>
 
         <div class="grid-3">
             <article class="card">
-                <h2>Motor de revisión de catálogos de productos</h2>
-                <p>Pipeline que integra datos de múltiples fuentes, ejecuta modelos de calidad de datos y envía alertas a equipos de catálogo.</p>
-                <p class="small-text">Incluye integración con APIs de terceros, orquestación y monitoreo.</p>
+                <h2 data-i18n="portfolio.card1.title">Motor de revisión de catálogos de productos</h2>
+                <p data-i18n="portfolio.card1.text">Pipeline que integra datos de múltiples fuentes, ejecuta modelos de calidad de datos y envía alertas a equipos de catálogo.</p>
+                <p class="small-text" data-i18n="portfolio.card1.note">Incluye integración con APIs de terceros, orquestación y monitoreo.</p>
             </article>
 
             <article class="card">
-                <h2>Agente para atención en canales digitales</h2>
-                <p>Un agente conectado a datos de clientes y productos, capaz de responder, derivar y generar tickets con contexto.</p>
-                <p class="small-text">Diseñado para operar con políticas de seguridad y cumplimiento de datos personales.</p>
+                <h2 data-i18n="portfolio.card2.title">Agente para atención en canales digitales</h2>
+                <p data-i18n="portfolio.card2.text">Un agente conectado a datos de clientes y productos, capaz de responder, derivar y generar tickets con contexto.</p>
+                <p class="small-text" data-i18n="portfolio.card2.note">Diseñado para operar con políticas de seguridad y cumplimiento de datos personales.</p>
             </article>
 
             <article class="card">
-                <h2>Panel de gobierno de IA</h2>
-                <p>Tablero donde CAIO y comités pueden ver modelos, datos, riesgos, responsables y estado de cada iniciativa.</p>
-                <p class="small-text">Enlazado a artefactos técnicos para tener una vista única de la arquitectura viva.</p>
+                <h2 data-i18n="portfolio.card3.title">Panel de gobierno de IA</h2>
+                <p data-i18n="portfolio.card3.text">Tablero donde CAIO y comités pueden ver modelos, datos, riesgos, responsables y estado de cada iniciativa.</p>
+                <p class="small-text" data-i18n="portfolio.card3.note">Enlazado a artefactos técnicos para tener una vista única de la arquitectura viva.</p>
             </article>
         </div>
 
-        <p class="section-note">Este portafolio se irá actualizando con demos públicas y versiones anonimizadas de proyectos reales.</p>
+        <p class="section-note" data-i18n="portfolio.note">Este portafolio se irá actualizando con demos públicas y versiones anonimizadas de proyectos reales.</p>
     </section>
 </main>
 
@@ -61,12 +63,13 @@
     <div class="container footer-layout">
         <div>
             <div class="logo">AIF369</div>
-            <p class="footer-text">IA, datos y cloud para la empresa moderna.</p>
+            <p class="footer-text" data-i18n="portfolio.footer.text">IA, datos y cloud para la empresa moderna.</p>
         </div>
         <div class="footer-links">
-            <a href="index.html">Inicio</a>
-            <a href="blog.html">Blog</a>
-            <a href="services.html">Servicios</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
         </div>
     </div>
 </footer>
