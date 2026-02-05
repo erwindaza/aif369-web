@@ -50,8 +50,7 @@
             </p>
         </div>
         <div class="hero-media">
-            <img src="assets/hero-illustration.svg" alt="Arquitectura y despliegue de soluciones de IA" class="hero-image">
-            <div class="hero-caption" data-i18n="hero.caption">Formamos perfiles avanzados en IA aplicada, datos y cloud con enfoque profesional.</div>
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80" alt="Equipo avanzado trabajando en soluciones de IA" class="hero-image">
         </div>
     </section>
 
@@ -137,12 +136,13 @@
                 <p data-i18n="index.cta.subtitle">Una conversación de 45 minutos para entender el estado actual de su organización y posibles rutas de acción.</p>
             </header>
             <div class="contact-layout">
-                <form class="contact-form">
-                    <input type="text" name="fullName" placeholder="Nombre y apellido" data-i18n-placeholder="index.form.name" required>
-                    <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="index.form.email" required>
-                    <input type="text" name="role" placeholder="Cargo o rol" data-i18n-placeholder="index.form.role" required>
-                    <textarea rows="4" name="context" placeholder="Contexto breve de su interés en IA, datos o cloud" data-i18n-placeholder="index.form.context"></textarea>
+            <form class="contact-form" data-contact-form>
+                    <input type="text" name="fullName" placeholder="Nombre y apellido" data-i18n-placeholder="index.form.name" autocomplete="name" required>
+                    <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="index.form.email" autocomplete="email" required>
+                    <input type="text" name="role" placeholder="Cargo o rol" data-i18n-placeholder="index.form.role" autocomplete="organization-title" required>
+                    <textarea rows="4" name="context" placeholder="Contexto breve de su interés en IA, datos o cloud" data-i18n-placeholder="index.form.context" autocomplete="off"></textarea>
                     <button type="submit" class="btn btn-primary" data-i18n="index.form.button">Solicitar diagnóstico</button>
+                    <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
                 </form>
                 <div class="contact-side">
                     <h3 data-i18n="index.cta.includes">Qué incluye</h3>

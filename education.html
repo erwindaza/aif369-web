@@ -43,7 +43,7 @@
                     <li data-i18n="education.card1.item2">Pasos mínimos para un comité de IA efectivo.</li>
                     <li data-i18n="education.card1.item3">Cómo conectar datos, IA y negocio en un mismo mapa.</li>
                 </ul>
-                <a href="index.html#contacto" class="btn btn-link" data-i18n="education.card1.link">Solicitar guía</a>
+                <a href="#educacion-contacto" class="btn btn-link" data-i18n="education.card1.link">Solicitar guía</a>
             </article>
 
             <article class="card card-highlight">
@@ -60,7 +60,7 @@
             <article class="card">
                 <h2 data-i18n="education.card3.title">Material para CAIO y comités</h2>
                 <p data-i18n="education.card3.text">Plantillas, matrices y esquemas para documentar decisiones de IA y gestionar riesgo sin apagar la innovación.</p>
-                <a href="index.html#contacto" class="btn btn-link" data-i18n="education.card3.link">Solicitar material</a>
+                <a href="#educacion-contacto" class="btn btn-link" data-i18n="education.card3.link">Solicitar material</a>
             </article>
         </div>
 
@@ -141,6 +141,36 @@
             </div>
 
             <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+        </form>
+    </section>
+
+    <section id="educacion-contacto" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
+            <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
+        </header>
+        <form class="education-form" data-contact-form>
+            <div class="form-grid">
+                <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
+                <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>
+                <input type="text" name="company" placeholder="Empresa" data-i18n-placeholder="education.form.company" autocomplete="organization" required>
+                <select name="interest" data-i18n-placeholder="education.form.interest">
+                    <option value="" data-i18n="education.form.interest">Área de interés</option>
+                    <option value="guia" data-i18n="education.form.option.guides">Guías prácticas</option>
+                    <option value="curso" data-i18n="education.form.option.course">Curso profesional</option>
+                    <option value="material" data-i18n="education.form.option.material">Material CAIO</option>
+                </select>
+                <select name="teamSize" data-i18n-placeholder="education.form.teamSize">
+                    <option value="" data-i18n="education.form.teamSize">Tamaño del equipo</option>
+                    <option value="1-5">1-5</option>
+                    <option value="6-15">6-15</option>
+                    <option value="16-50">16-50</option>
+                    <option value="50+">50+</option>
+                </select>
+            </div>
+            <textarea rows="4" name="context" placeholder="Cuéntanos más sobre tu necesidad" data-i18n-placeholder="education.form.context" autocomplete="off"></textarea>
+            <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+            <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
         </form>
     </section>
 </main>
