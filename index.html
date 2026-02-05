@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n-title="index.title">AIF369 - Equipos de IA, Datos y Cloud para Corporaciones</title>
     <meta name="description" data-i18n-content="index.description" content="AIF369 ofrece equipos senior de IA, datos y cloud para ejecutar proyectos de alto impacto con ROI medible en empresas y corporaciones.">
+    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,10 +15,10 @@
 <header class="site-header">
     <nav class="nav container">
         <div class="logo">AIF369</div>
-        <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
-        <div class="nav-links" id="nav-menu">
+        <div class="nav-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
             <a href="education.html" data-i18n="nav.education">Educación</a>
@@ -25,7 +26,7 @@
             <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
             <a href="product.html" data-i18n="nav.product">Producto IA</a>
             <a href="#contacto" class="btn btn-outline" data-i18n="nav.diagnosis">Diagnóstico</a>
-            <button class="lang-toggle" type="button" aria-label="Switch to English">EN</button>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -160,16 +161,18 @@
             <h3 id="assessment-modal-title" data-i18n="index.modal.title">Resumen de solicitud enviada</h3>
             <button class="modal-close" type="button" aria-label="Cerrar" data-i18n-aria-label="index.modal.closeAria" data-modal-close>×</button>
         </div>
-        <p class="modal-text" data-i18n="index.modal.subtitle">¡Gracias por tu solicitud! Hemos recibido tu información y te contactaremos pronto.</p>
+        <p class="modal-text" data-i18n="index.modal.subtitle">Estos son los datos enviados. Guarda este resumen y revisa dónde se almacenan.</p>
         <ul class="modal-list">
             <li><strong data-i18n="index.modal.nameLabel">Nombre:</strong> <span data-summary="fullName">-</span></li>
             <li><strong data-i18n="index.modal.emailLabel">Email:</strong> <span data-summary="email">-</span></li>
             <li><strong data-i18n="index.modal.roleLabel">Cargo:</strong> <span data-summary="role">-</span></li>
             <li><strong data-i18n="index.modal.contextLabel">Contexto:</strong> <span data-summary="context">-</span></li>
         </ul>
-        <p class="modal-note" data-i18n="index.modal.storageNote">Tu solicitud ha sido guardada en nuestra base de datos y recibirás una respuesta en las próximas 24 horas.</p>
+        <p class="modal-note" data-i18n="index.modal.storageNote">Por ahora los datos quedan guardados localmente en el navegador (storage embebido). Más adelante podemos conectarlo a una base de datos real.</p>
+        <p class="modal-note" data-i18n="index.modal.emailNote">Al enviar se abrirá tu cliente de correo para mandar la solicitud a erwin.daza@gmail.com.</p>
         <div class="modal-actions">
-            <button class="btn btn-primary" type="button" data-modal-close data-i18n="index.modal.closeButton">Cerrar</button>
+            <a class="btn btn-primary" href="#" data-email-link data-i18n="index.modal.emailButton">Enviar email</a>
+            <button class="btn btn-outline" type="button" data-modal-close data-i18n="index.modal.closeButton">Cerrar</button>
         </div>
     </div>
 </div>

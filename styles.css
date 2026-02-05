@@ -404,10 +404,27 @@ nav {
     border: 2px solid var(--primary);
 }
 
-.btn-outline:hover {
-    background: var(--primary);
-    color: var(--text-inverse);
-    box-shadow: 0 4px 16px rgba(0, 102, 255, 0.2);
+.lang-toggle {
+    background: transparent;
+    border: 1px solid rgba(136, 146, 176, 0.6);
+    color: var(--text);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.lang-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
 }
 
 .btn-link {
@@ -516,16 +533,20 @@ nav {
     }
 }
 
-/* ========== CARDS - Glassmorphism ========== */
-.card {
-    background: var(--bg-glass);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    transition: all var(--transition-base);
-    height: 100%;
+.card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(100, 255, 218, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+}
+
+.card-highlight {
+    border: 1px solid rgba(100, 255, 218, 0.6);
 }
 
 .card:hover {
@@ -702,20 +723,83 @@ nav {
     font-style: italic;
 }
 
-/* ========== MODAL ========== */
+/* Modal */
+.modal-open {
+    overflow: hidden;
+}
+
+[data-modal][hidden] {
+    display: none;
+}
+
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: var(--blur-md);
+    background-color: rgba(10, 25, 47, 0.82);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2000;
-    padding: var(--space-4);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--transition-base);
+    padding: 1.5rem;
+    z-index: 200;
+}
+
+.modal-card {
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-text {
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+.modal-list {
+    margin: 1.5rem 0;
+    padding-left: 1.2rem;
+    color: var(--text);
+}
+
+.modal-list li + li {
+    margin-top: 0.5rem;
+}
+
+.modal-note {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+/* Blog */
+.blog-layout {
+    display: grid;
+    grid-template-columns: 2fr minmax(0, 1fr);
+    gap: 2rem;
 }
 
 .modal-overlay:not([hidden]) {
