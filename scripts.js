@@ -736,11 +736,26 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        document.querySelectorAll("[data-i18n-content]").forEach((element) => {
-            const key = element.dataset.i18nContent;
-            if (dictionary[key]) {
-                element.setAttribute("content", dictionary[key]);
+    if (toggle && links) {
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.addEventListener("click", function () {
+            links.classList.toggle("open");
+            const isOpen = links.classList.contains("open");
+            toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!links.contains(event.target) && event.target !== toggle) {
+                links.classList.remove("open");
+                toggle.setAttribute("aria-expanded", "false");
             }
+        });
+
+        links.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", function () {
+                links.classList.remove("open");
+                toggle.setAttribute("aria-expanded", "false");
+            });
         });
     }
 
@@ -1413,6 +1428,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 element.textContent = submission[key] || "-";
             });
 
+            let mailto = null;
             if (!backendOk && emailLink) {
                 const lang = getCurrentLanguage();
                 const dictionary = translations[lang] || translations.en;
@@ -1428,7 +1444,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "",
                     `Submitted at: ${submission.submittedAt}`
                 ];
-                const mailto = `mailto:edaza@aif369.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+                mailto = `mailto:edaza@aif369.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
                 emailLink.setAttribute("href", mailto);
             }
 
@@ -1439,6 +1455,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (modal) {
                 openModal();
+            } else if (!backendOk && mailto) {
+                window.location.href = mailto;
             }
         });
     });

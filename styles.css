@@ -131,6 +131,10 @@ main {
     padding-top: 5rem;
 }
 
+main {
+    padding-top: 5rem;
+}
+
 /* Layout */
 .container {
     width: 90%;
@@ -329,6 +333,21 @@ nav {
     color: var(--primary);
 }
 
+.lang-toggle {
+    background: transparent;
+    border: 1px solid rgba(136, 146, 176, 0.6);
+    color: var(--text);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.lang-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -336,19 +355,6 @@ nav {
     background: none;
     border: none;
     cursor: pointer;
-    padding: var(--space-2);
-    border-radius: var(--radius-sm);
-    transition: background var(--transition-fast);
-    /* Asegurar área de toque adecuada en móvil */
-    min-width: 44px;
-    min-height: 44px;
-    align-items: center;
-    justify-content: center;
-    /* Asegurar que siempre sea clickable/tappable */
-    position: relative;
-    pointer-events: auto;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
 }
 
 .nav-toggle span {
@@ -374,6 +380,22 @@ nav {
     background: var(--text-primary);
     border-radius: 2px;
     transition: all var(--transition-base);
+}
+
+.hero-media {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.hero-image {
+    width: min(520px, 100%);
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(3, 12, 26, 0.6);
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    background-color: rgba(10, 25, 47, 0.8);
 }
 
 .hero-media {
@@ -710,7 +732,7 @@ nav {
     border-radius: 6px;
     border: 1px solid rgba(136, 146, 176, 0.5);
     padding: 0.75rem 0.9rem;
-    color: var(--text);
+    color: #F8FAFF;
     font-family: inherit;
     width: 100%;
 }
@@ -720,9 +742,31 @@ nav {
     border-radius: 6px;
     border: 1px solid rgba(136, 146, 176, 0.5);
     padding: 0.75rem 0.9rem;
-    color: var(--text);
+    color: #F8FAFF;
     font-family: inherit;
     width: 100%;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #E6F0FF;
+}
+
+.card p,
+.card li,
+.blog-meta,
+.small-text {
+    color: #F4F7FF;
+}
+
+.form-success {
+    color: var(--primary);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.contact-form textarea {
+    resize: vertical;
 }
 
 .form-success {
@@ -833,32 +877,24 @@ nav {
     margin-top: 1.5rem;
 }
 
-/* Blog */
-.blog-layout {
-    display: grid;
-    grid-template-columns: 2fr minmax(0, 1fr);
-    gap: 2rem;
+/* Modal */
+.modal-open {
+    overflow: hidden;
 }
 
-.blog-card h2 {
-    margin-top: 0.5rem;
-    font-size: 1.6rem;
-    line-height: 1.35;
+[data-modal][hidden] {
+    display: none;
 }
 
-.blog-card h2 a {
-    color: var(--text);
-    text-decoration: none;
-}
-
-.blog-card h2 a:hover {
-    color: var(--primary);
-}
-
-.blog-meta {
-    font-size: 0.95rem;
-    color: #BFCBEA;
-    margin-bottom: 0.75rem;
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(10, 25, 47, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 200;
 }
 
 .modal-card {
@@ -920,9 +956,7 @@ nav {
     gap: 2rem;
 }
 
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
+.blog-card h2 {
     margin-top: 0.5rem;
     font-size: 1.6rem;
     line-height: 1.35;
@@ -952,6 +986,33 @@ nav {
     margin-bottom: 0.5rem;
     font-size: clamp(2.2rem, 3.6vw, 3.2rem);
     line-height: 1.2;
+}
+
+.article h2 {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #E3ECFF;
+}
+
+.article p,
+.article li {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #DDE7FF;
+}
+
+.article ul,
+.article ol {
+    padding-left: 1.4rem;
+}
+
+.article-cta {
+    margin-top: 2rem;
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    background: rgba(100, 255, 218, 0.12);
+    color: #F0FBFF;
 }
 
 .article h2 {
