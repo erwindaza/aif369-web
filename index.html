@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIF369 - Equipos de IA, Datos y Cloud para Corporaciones</title>
-    <meta name="description" content="AIF369 ofrece equipos senior de IA, datos y cloud para ejecutar proyectos de alto impacto con ROI medible en empresas y corporaciones.">
+    <title data-i18n-title="index.title">AIF369 - Equipos de IA, Datos y Cloud para Corporaciones</title>
+    <meta name="description" data-i18n-content="index.description" content="AIF369 ofrece equipos senior de IA, datos y cloud para ejecutar proyectos de alto impacto con ROI medible en empresas y corporaciones.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -13,16 +13,18 @@
 <header class="site-header">
     <nav class="nav container">
         <div class="logo">AIF369</div>
-        <button class="nav-toggle" aria-label="Abrir menú">
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
-            <a href="services.html">Servicios</a>
-            <a href="education.html">Educación</a>
-            <a href="blog.html">Blog</a>
-            <a href="portfolio.html">Portafolio</a>
-            <a href="#contacto" class="btn btn-outline">Diagnóstico</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="#contacto" class="btn btn-outline" data-i18n="nav.diagnosis">Diagnóstico</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -31,40 +33,44 @@
     <!-- HERO -->
     <section class="hero container">
         <div class="hero-content">
-            <p class="badge">IA aplicada - Datos vivos - Cloud escalable</p>
-            <h1>Equipos de IA, Datos y Cloud para acelerar su empresa.</h1>
-            <p class="hero-subtitle">
+            <p class="badge" data-i18n="hero.badge">IA aplicada - Datos vivos - Cloud escalable</p>
+            <h1 data-i18n="hero.title">Equipos de IA, Datos y Cloud para acelerar su empresa.</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">
                 Diseñamos y desplegamos arquitecturas modernas, agentes inteligentes y sistemas de datos que generan ROI medible,
                 con foco en gobierno, seguridad y operación continua.
             </p>
             <div class="hero-actions">
-                <a href="services.html" class="btn btn-primary">Ver servicios</a>
-                <a href="blog.html" class="btn btn-link">Leer el último insight</a>
+                <a href="services.html" class="btn btn-primary" data-i18n="hero.cta.services">Ver servicios</a>
+                <a href="blog.html" class="btn btn-link" data-i18n="hero.cta.blog">Leer el último insight</a>
             </div>
-            <p class="hero-note">
+            <p class="hero-note" data-i18n="hero.note">
                 Hablamos el lenguaje del negocio y el lenguaje técnico. Trabajamos con su CIO, CDO, CAIO y equipos de arquitectura.
             </p>
+        </div>
+        <div class="hero-media">
+            <img src="assets/hero-illustration.svg" alt="Arquitectura y despliegue de soluciones de IA" class="hero-image">
+            <div class="hero-caption" data-i18n="hero.caption">Formamos perfiles avanzados en IA aplicada, datos y cloud con enfoque profesional.</div>
         </div>
     </section>
 
     <!-- VALUE PROPOSITION -->
     <section class="section container">
         <header class="section-header">
-            <h2>Qué hacemos</h2>
-            <p>Convertimos ideas de IA en sistemas que generan resultado financiero, cumplimiento regulatorio y ventaja competitiva.</p>
+            <h2 data-i18n="index.value.title">Qué hacemos</h2>
+            <p data-i18n="index.value.subtitle">Convertimos ideas de IA en sistemas que generan resultado financiero, cumplimiento regulatorio y ventaja competitiva.</p>
         </header>
         <div class="grid-3">
             <article class="card">
-                <h3>IA aplicada a procesos reales</h3>
-                <p>Agentes, modelos y automatizaciones que se integran con sus sistemas actuales - SAP, core bancario, e-commerce, CRM y canales de clientes.</p>
+                <h3 data-i18n="index.value.card1.title">IA aplicada a procesos reales</h3>
+                <p data-i18n="index.value.card1.text">Agentes, modelos y automatizaciones que se integran con sus sistemas actuales - SAP, core bancario, e-commerce, CRM y canales de clientes.</p>
             </article>
             <article class="card">
-                <h3>Plataformas de datos modernas</h3>
-                <p>Data Lakes, Lakehouse, MLOps y real time streaming con gobernanza activa, catálogo de datos y trazabilidad de extremo a extremo.</p>
+                <h3 data-i18n="index.value.card2.title">Plataformas de datos modernas</h3>
+                <p data-i18n="index.value.card2.text">Data Lakes, Lakehouse, MLOps y real time streaming con gobernanza activa, catálogo de datos y trazabilidad de extremo a extremo.</p>
             </article>
             <article class="card">
-                <h3>Cloud empresarial</h3>
-                <p>Arquitecturas en AWS, GCP y Azure con prácticas de ingeniería de alto estándar, CI/CD, observabilidad y seguridad desde el diseño.</p>
+                <h3 data-i18n="index.value.card3.title">Cloud empresarial</h3>
+                <p data-i18n="index.value.card3.text">Arquitecturas en AWS, GCP y Azure con prácticas de ingeniería de alto estándar, CI/CD, observabilidad y seguridad desde el diseño.</p>
             </article>
         </div>
     </section>
@@ -73,16 +79,16 @@
     <section class="section section-alt">
         <div class="container">
             <header class="section-header">
-                <h2>Industrias donde trabajamos</h2>
-                <p>Adaptamos un mismo lenguaje de arquitectura y datos a contextos de negocio muy distintos.</p>
+                <h2 data-i18n="index.industries.title">Industrias donde trabajamos</h2>
+                <p data-i18n="index.industries.subtitle">Adaptamos un mismo lenguaje de arquitectura y datos a contextos de negocio muy distintos.</p>
             </header>
             <div class="industries-grid">
-                <div class="industry-pill">FinTech y banca</div>
-                <div class="industry-pill">Retail y e-commerce</div>
-                <div class="industry-pill">Salud y seguros</div>
-                <div class="industry-pill">Manufactura</div>
-                <div class="industry-pill">Telecom</div>
-                <div class="industry-pill">Servicios financieros</div>
+                <div class="industry-pill" data-i18n="index.industries.fintech">FinTech y banca</div>
+                <div class="industry-pill" data-i18n="index.industries.retail">Retail y e-commerce</div>
+                <div class="industry-pill" data-i18n="index.industries.health">Salud y seguros</div>
+                <div class="industry-pill" data-i18n="index.industries.manufacturing">Manufactura</div>
+                <div class="industry-pill" data-i18n="index.industries.telecom">Telecom</div>
+                <div class="industry-pill" data-i18n="index.industries.financial">Servicios financieros</div>
             </div>
         </div>
     </section>
@@ -90,33 +96,33 @@
     <!-- FEATURED CONTENT -->
     <section class="section container">
         <header class="section-header">
-            <h2>Contenido para líderes</h2>
-            <p>Artículos, guías y modelos para CAIO, CIO, CDO y equipos ejecutivos que toman decisiones sobre IA.</p>
+            <h2 data-i18n="index.content.title">Contenido para líderes</h2>
+            <p data-i18n="index.content.subtitle">Artículos, guías y modelos para CAIO, CIO, CDO y equipos ejecutivos que toman decisiones sobre IA.</p>
         </header>
         <div class="grid-2">
             <article class="card card-highlight">
-                <h3>Insight destacado</h3>
-                <p class="tag">Artículo</p>
-                <h4>2026: cuando la IA deja de asistir y empieza a decidir</h4>
-                <p>
+                <h3 data-i18n="index.content.featured.title">Insight destacado</h3>
+                <p class="tag" data-i18n="index.content.featured.tag">Artículo</p>
+                <h4 data-i18n="index.content.featured.headline">2026: cuando la IA deja de asistir y empieza a decidir</h4>
+                <p data-i18n="index.content.featured.text">
                     Qué significa que la IA empiece a tomar decisiones operativas en vez de solo asistir a las personas,
                     y cómo deben adaptarse los modelos de gobierno, riesgo y compliance.
                 </p>
-                <a href="blog-post-2026-ia-decide.html" class="btn btn-link">Leer artículo</a>
+                <a href="blog-post-2026-ia-decide.html" class="btn btn-link" data-i18n="index.content.featured.link">Leer artículo</a>
             </article>
 
             <article class="card">
-                <h3>Academia AIF369</h3>
-                <p>
+                <h3 data-i18n="index.content.academy.title">Academia AIF369</h3>
+                <p data-i18n="index.content.academy.text">
                     Una línea editorial que combina práctica de campo, estándares de arquitectura y marcos de gobierno de IA.
                     Ideal para equipos de datos, arquitectura y transformación digital.
                 </p>
                 <ul class="simple-list">
-                    <li>Guías prácticas para implementar agentes en producción.</li>
-                    <li>Patrones de arquitecturas de datos y ML en la nube.</li>
-                    <li>Plantillas para comités de IA y documentación CAIO.</li>
+                    <li data-i18n="index.content.academy.item1">Guías prácticas para implementar agentes en producción.</li>
+                    <li data-i18n="index.content.academy.item2">Patrones de arquitecturas de datos y ML en la nube.</li>
+                    <li data-i18n="index.content.academy.item3">Plantillas para comités de IA y documentación CAIO.</li>
                 </ul>
-                <a href="education.html" class="btn btn-link">Ver contenido educativo</a>
+                <a href="education.html" class="btn btn-link" data-i18n="index.content.academy.link">Ver contenido educativo</a>
             </article>
         </div>
     </section>
@@ -125,43 +131,66 @@
     <section id="contacto" class="section section-alt">
         <div class="container">
             <header class="section-header">
-                <h2>Agendar diagnóstico ejecutivo</h2>
-                <p>Una conversación de 45 minutos para entender el estado actual de su organización y posibles rutas de acción.</p>
+                <h2 data-i18n="index.cta.title">Agendar diagnóstico ejecutivo</h2>
+                <p data-i18n="index.cta.subtitle">Una conversación de 45 minutos para entender el estado actual de su organización y posibles rutas de acción.</p>
             </header>
             <div class="contact-layout">
                 <form class="contact-form">
-                    <input type="text" placeholder="Nombre y apellido" required>
-                    <input type="email" placeholder="Email corporativo" required>
-                    <input type="text" placeholder="Cargo o rol" required>
-                    <textarea rows="4" placeholder="Contexto breve de su interés en IA, datos o cloud"></textarea>
-                    <button type="submit" class="btn btn-primary">Solicitar diagnóstico</button>
+                    <input type="text" name="fullName" placeholder="Nombre y apellido" data-i18n-placeholder="index.form.name" required>
+                    <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="index.form.email" required>
+                    <input type="text" name="role" placeholder="Cargo o rol" data-i18n-placeholder="index.form.role" required>
+                    <textarea rows="4" name="context" placeholder="Contexto breve de su interés en IA, datos o cloud" data-i18n-placeholder="index.form.context"></textarea>
+                    <button type="submit" class="btn btn-primary" data-i18n="index.form.button">Solicitar diagnóstico</button>
                 </form>
                 <div class="contact-side">
-                    <h3>Qué incluye</h3>
+                    <h3 data-i18n="index.cta.includes">Qué incluye</h3>
                     <ul class="simple-list">
-                        <li>Radiografía rápida de capacidades actuales.</li>
-                        <li>Mapa de oportunidades de alto impacto.</li>
-                        <li>Riesgos clave de datos y gobernanza a revisar.</li>
-                        <li>Propuesta de siguiente paso clara y accionable.</li>
+                        <li data-i18n="index.cta.item1">Radiografía rápida de capacidades actuales.</li>
+                        <li data-i18n="index.cta.item2">Mapa de oportunidades de alto impacto.</li>
+                        <li data-i18n="index.cta.item3">Riesgos clave de datos y gobernanza a revisar.</li>
+                        <li data-i18n="index.cta.item4">Propuesta de siguiente paso clara y accionable.</li>
                     </ul>
-                    <p class="contact-note">Esta sesión no es comercial tradicional - el objetivo es claridad técnica y estratégica.</p>
+                    <p class="contact-note" data-i18n="index.cta.note">Esta sesión no es comercial tradicional - el objetivo es claridad técnica y estratégica.</p>
                 </div>
             </div>
         </div>
     </section>
 </main>
 
+<div class="modal-overlay" data-modal hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="assessment-modal-title">
+        <div class="modal-header">
+            <h3 id="assessment-modal-title" data-i18n="index.modal.title">Resumen de solicitud enviada</h3>
+            <button class="modal-close" type="button" aria-label="Cerrar" data-i18n-aria-label="index.modal.closeAria" data-modal-close>×</button>
+        </div>
+        <p class="modal-text" data-i18n="index.modal.subtitle">Estos son los datos enviados. Guarda este resumen y revisa dónde se almacenan.</p>
+        <ul class="modal-list">
+            <li><strong data-i18n="index.modal.nameLabel">Nombre:</strong> <span data-summary="fullName">-</span></li>
+            <li><strong data-i18n="index.modal.emailLabel">Email:</strong> <span data-summary="email">-</span></li>
+            <li><strong data-i18n="index.modal.roleLabel">Cargo:</strong> <span data-summary="role">-</span></li>
+            <li><strong data-i18n="index.modal.contextLabel">Contexto:</strong> <span data-summary="context">-</span></li>
+        </ul>
+        <p class="modal-note" data-i18n="index.modal.storageNote">Por ahora los datos quedan guardados localmente en el navegador (storage embebido). Más adelante podemos conectarlo a una base de datos real.</p>
+        <p class="modal-note" data-i18n="index.modal.emailNote">Al enviar se abrirá tu cliente de correo para mandar la solicitud a erwin.daza@gmail.com.</p>
+        <div class="modal-actions">
+            <a class="btn btn-primary" href="#" data-email-link data-i18n="index.modal.emailButton">Enviar email</a>
+            <button class="btn btn-outline" type="button" data-modal-close data-i18n="index.modal.closeButton">Cerrar</button>
+        </div>
+    </div>
+</div>
+
 <footer class="site-footer">
     <div class="container footer-layout">
         <div>
             <div class="logo">AIF369</div>
-            <p class="footer-text">IA, datos y cloud para la empresa moderna. AIF369 SpA - Chile.</p>
+            <p class="footer-text" data-i18n="index.footer.text">IA, datos y cloud para la empresa moderna. AIF369 SpA - Chile.</p>
         </div>
         <div class="footer-links">
-            <a href="blog.html">Blog</a>
-            <a href="education.html">Educación</a>
-            <a href="services.html">Servicios</a>
-            <a href="portfolio.html">Portafolio</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
+            <a href="product.html" data-i18n="nav.product">Producto IA</a>
         </div>
     </div>
 </footer>
