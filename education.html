@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n-title="education.title">Educación AIF369 - Academia de IA, Datos y Cloud</title>
     <meta name="description" data-i18n-content="education.description" content="Academia AIF369 con material educativo, guías y recursos prácticos para equipos de IA, datos y cloud.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -180,6 +181,36 @@
             <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
         </header>
         <form class="education-form" data-contact-form>
+            <div class="form-grid">
+                <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
+                <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>
+                <input type="text" name="company" placeholder="Empresa" data-i18n-placeholder="education.form.company" autocomplete="organization" required>
+                <select name="interest" data-i18n-placeholder="education.form.interest">
+                    <option value="" data-i18n="education.form.interest">Área de interés</option>
+                    <option value="guia" data-i18n="education.form.option.guides">Guías prácticas</option>
+                    <option value="curso" data-i18n="education.form.option.course">Curso profesional</option>
+                    <option value="material" data-i18n="education.form.option.material">Material CAIO</option>
+                </select>
+                <select name="teamSize" data-i18n-placeholder="education.form.teamSize">
+                    <option value="" data-i18n="education.form.teamSize">Tamaño del equipo</option>
+                    <option value="1-5">1-5</option>
+                    <option value="6-15">6-15</option>
+                    <option value="16-50">16-50</option>
+                    <option value="50+">50+</option>
+                </select>
+            </div>
+            <textarea rows="4" name="context" placeholder="Cuéntanos más sobre tu necesidad" data-i18n-placeholder="education.form.context" autocomplete="off"></textarea>
+            <button type="submit" class="btn btn-primary" data-i18n="education.form.submit">Enviar solicitud</button>
+            <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
+        </form>
+    </section>
+
+    <section id="educacion-contacto" class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
+            <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
+        </header>
+        <form class="education-form" data-contact-form data-endpoint="/api/education">
             <div class="form-grid">
                 <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
                 <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>

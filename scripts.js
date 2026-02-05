@@ -1460,68 +1460,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function getInitialLanguage() {
-        const stored = localStorage.getItem("site-lang");
-        if (stored && translations[stored]) {
-            return stored;
-        }
-
-        const browserLang = navigator.language || "en";
-        if (browserLang.toLowerCase().startsWith("es")) {
-            return "es";
-        }
-
-        return "en";
-    }
-
-    function getCurrentLanguage() {
-        return localStorage.getItem("site-lang") || getInitialLanguage();
-    }
-
-    function setLanguage(lang) {
-        const target = translations[lang] ? lang : "en";
-        localStorage.setItem("site-lang", target);
-        applyTranslations(target);
-    }
-
-    const langToggle = document.querySelector(".lang-toggle");
-    if (langToggle) {
-        langToggle.addEventListener("click", function () {
-            const current = getCurrentLanguage();
-            const next = current === "es" ? "en" : "es";
-            setLanguage(next);
-        });
-    }
-
-    const contactForms = document.querySelectorAll("[data-contact-form]");
-    const modal = document.querySelector("[data-modal]");
-    const modalCloseButtons = document.querySelectorAll("[data-modal-close]");
-    const emailLink = document.querySelector("[data-email-link]");
-
-    function closeModal() {
-        if (modal) {
-            modal.hidden = true;
-            document.body.classList.remove("modal-open");
-        }
-    }
-
-    function openModal() {
-        if (modal) {
-            modal.hidden = false;
-            document.body.classList.add("modal-open");
-        }
-    }
-
-    closeModal();
-
-    if (modal) {
-        modal.addEventListener("click", function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
     const translations = {
         es: {
             "nav.home": "Inicio",
@@ -1710,20 +1648,18 @@ document.addEventListener("DOMContentLoaded", function () {
             "product.deliverables.item1": "Informe ejecutivo (PDF) con hallazgos y prioridades.",
             "product.deliverables.item2": "Repositorio de plantillas editables (Docs/Sheets).",
             "product.deliverables.item3": "Sesión de 90 minutos con líderes para alinear el plan.",
-            "product.pricing.title": "Precio y tiempos",
-            "product.pricing.subtitle": "Diseñado para empresas medianas y corporaciones que necesitan claridad rápida.",
-            "product.pricing.card1.title": "Starter",
-            "product.pricing.card1.price": "USD 1.500",
-            "product.pricing.card1.text": "Ideal para equipos con un piloto activo.",
-            "product.pricing.card1.item1": "Entrega en 10 días hábiles.",
-            "product.pricing.card1.item2": "1 sesión ejecutiva.",
-            "product.pricing.card1.item3": "Plantillas y roadmap incluidos.",
-            "product.pricing.card2.title": "Enterprise",
-            "product.pricing.card2.price": "USD 3.000",
-            "product.pricing.card2.text": "Para organizaciones con múltiples áreas.",
-            "product.pricing.card2.item1": "Entrega en 15 días hábiles.",
-            "product.pricing.card2.item2": "2 sesiones ejecutivas.",
-            "product.pricing.card2.item3": "Diagnóstico extendido por unidad.",
+            "product.engagement.title": "Opciones de implementación",
+            "product.engagement.subtitle": "Definimos el alcance según la madurez actual y el nivel de urgencia del comité ejecutivo.",
+            "product.engagement.card1.title": "Sprint ejecutivo",
+            "product.engagement.card1.text": "Enfoque rápido para mapear riesgos, priorizar casos y alinear al CAIO con el negocio.",
+            "product.engagement.card1.item1": "Workshops con líderes y dueños de datos.",
+            "product.engagement.card1.item2": "Mapa de riesgos y quick wins.",
+            "product.engagement.card1.item3": "Plan de 90 días para habilitar gobernanza.",
+            "product.engagement.card2.title": "Acompañamiento enterprise",
+            "product.engagement.card2.text": "Diseñado para organizaciones con varias unidades que necesitan estandarizar gobierno y ejecución.",
+            "product.engagement.card2.item1": "Diagnóstico por unidad y comité de IA.",
+            "product.engagement.card2.item2": "Plantillas adaptadas por industria.",
+            "product.engagement.card2.item3": "Gobernanza continua y métricas ejecutivas.",
             "product.cta.title": "Solicitar el kit",
             "product.cta.subtitle": "Escríbenos para recibir el detalle completo y coordinar fechas.",
             "product.cta.button": "Quiero el AI Governance Starter Kit",
@@ -1953,20 +1889,18 @@ document.addEventListener("DOMContentLoaded", function () {
             "product.deliverables.item1": "Executive report (PDF) with findings and priorities.",
             "product.deliverables.item2": "Editable template repository (Docs/Sheets).",
             "product.deliverables.item3": "90-minute alignment session with leaders.",
-            "product.pricing.title": "Pricing and timeline",
-            "product.pricing.subtitle": "Designed for mid-market and enterprise teams needing fast clarity.",
-            "product.pricing.card1.title": "Starter",
-            "product.pricing.card1.price": "USD 1,500",
-            "product.pricing.card1.text": "Ideal for teams with an active pilot.",
-            "product.pricing.card1.item1": "Delivery in 10 business days.",
-            "product.pricing.card1.item2": "1 executive session.",
-            "product.pricing.card1.item3": "Templates and roadmap included.",
-            "product.pricing.card2.title": "Enterprise",
-            "product.pricing.card2.price": "USD 3,000",
-            "product.pricing.card2.text": "For organizations with multiple units.",
-            "product.pricing.card2.item1": "Delivery in 15 business days.",
-            "product.pricing.card2.item2": "2 executive sessions.",
-            "product.pricing.card2.item3": "Extended assessment per unit.",
+            "product.engagement.title": "Implementation options",
+            "product.engagement.subtitle": "We set scope based on current maturity and the executive committee’s urgency.",
+            "product.engagement.card1.title": "Executive sprint",
+            "product.engagement.card1.text": "Fast track to map risks, prioritize use cases, and align the CAIO with the business.",
+            "product.engagement.card1.item1": "Workshops with leaders and data owners.",
+            "product.engagement.card1.item2": "Risk map and quick wins.",
+            "product.engagement.card1.item3": "90-day plan to enable governance.",
+            "product.engagement.card2.title": "Enterprise partnership",
+            "product.engagement.card2.text": "Designed for multi-unit organizations that need standardized governance and execution.",
+            "product.engagement.card2.item1": "Unit-level diagnostics and AI committee setup.",
+            "product.engagement.card2.item2": "Industry-tailored templates.",
+            "product.engagement.card2.item3": "Ongoing governance and executive metrics.",
             "product.cta.title": "Request the kit",
             "product.cta.subtitle": "Contact us to receive the full details and schedule dates.",
             "product.cta.button": "I want the AI Governance Starter Kit",
@@ -2132,7 +2066,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     contactForms.forEach((form) => {
-        form.addEventListener("submit", function (event) {
+        form.addEventListener("submit", async function (event) {
             event.preventDefault();
             const formData = new FormData(form);
             const submission = {
@@ -2150,12 +2084,27 @@ document.addEventListener("DOMContentLoaded", function () {
             stored.push(submission);
             localStorage.setItem("assessment-submissions", JSON.stringify(stored));
 
+            const endpoint = form.dataset.endpoint;
+            let backendOk = false;
+
+            if (endpoint) {
+                backendOk = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(submission)
+                })
+                    .then((response) => response.ok)
+                    .catch(() => false);
+            }
+
             document.querySelectorAll("[data-summary]").forEach((element) => {
                 const key = element.dataset.summary;
                 element.textContent = submission[key] || "-";
             });
 
-            if (emailLink) {
+            if (!backendOk && emailLink) {
                 const lang = getCurrentLanguage();
                 const dictionary = translations[lang] || translations.en;
                 const subject = dictionary["index.modal.emailSubject"] || "Assessment request";
