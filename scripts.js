@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Configuración del backend según el entorno
+    const PROD_BACKEND_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
+    const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
-    const BACKEND_URL = isProduction 
-        ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
-        : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
+    const BACKEND_URL = isProduction ? PROD_BACKEND_URL : DEV_BACKEND_URL;
+    const FALLBACK_BACKEND_URL = isProduction ? null : PROD_BACKEND_URL;
 
     // Mobile Navigation Toggle - Optimizado para Android con pointer events
     const toggle = document.querySelector(".nav-toggle");
@@ -168,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.form.context": "Contexto breve de su interés en IA, datos o cloud",
             "index.form.button": "Solicitar diagnóstico",
             "form.success": "Gracias, recibimos tu solicitud. Te contactaremos pronto.",
+            "form.error": "No pudimos enviar tu solicitud. Intenta nuevamente.",
             "index.cta.includes": "Qué incluye",
             "index.cta.item1": "Radiografía rápida de capacidades actuales.",
             "index.cta.item2": "Mapa de oportunidades de alto impacto.",
@@ -400,6 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.form.context": "Brief context about your interest in AI, data, or cloud",
             "index.form.button": "Request assessment",
             "form.success": "Thanks, we received your request. We will contact you soon.",
+            "form.error": "We couldn't send your request. Please try again.",
             "index.cta.includes": "What’s included",
             "index.cta.item1": "Rapid snapshot of current capabilities.",
             "index.cta.item2": "Map of high-impact opportunities.",
@@ -722,7 +725,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function resolveBackendEndpoint(form) {
+    function resolveBackendEndpoint(form, baseUrl = BACKEND_URL) {
         const endpoint = form.dataset.endpoint;
         if (!endpoint) {
             return null;
@@ -733,7 +736,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const normalized = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-        return `${BACKEND_URL}${normalized}`;
+        return `${baseUrl}${normalized}`;
+    }
+
+    async function postToBackend(endpoint, payload) {
+        if (!endpoint) {
+            return false;
+        }
+
+        return fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        })
+            .then((response) => response.ok)
+            .catch(() => false);
     }
 
     function buildBackendPayload(submission) {
@@ -814,20 +833,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 submittedAt: new Date().toISOString()
             };
 
+            const rawEndpoint = form.dataset.endpoint || "";
             const endpoint = resolveBackendEndpoint(form);
-            let backendOk = false;
             const backendPayload = buildBackendPayload(submission);
+            let backendOk = await postToBackend(endpoint, backendPayload);
 
-            if (endpoint) {
-                backendOk = await fetch(endpoint, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(backendPayload)
-                })
-                    .then((response) => response.ok)
-                    .catch(() => false);
+            const isRelativeEndpoint = rawEndpoint && !rawEndpoint.startsWith("http");
+            if (!backendOk && FALLBACK_BACKEND_URL && isRelativeEndpoint) {
+                const fallbackEndpoint = resolveBackendEndpoint(form, FALLBACK_BACKEND_URL);
+                if (fallbackEndpoint && fallbackEndpoint !== endpoint) {
+                    backendOk = await postToBackend(fallbackEndpoint, backendPayload);
+                }
             }
 
             document.querySelectorAll("[data-summary]").forEach((element) => {
@@ -868,8 +884,13 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             const successMessage = form.querySelector(".form-success");
+            const errorMessage = form.querySelector(".form-error");
+            const shouldShowSuccess = backendOk || !!mailto;
             if (successMessage) {
-                successMessage.hidden = false;
+                successMessage.hidden = !shouldShowSuccess;
+            }
+            if (errorMessage) {
+                errorMessage.hidden = shouldShowSuccess;
             }
 
             if (modal) {

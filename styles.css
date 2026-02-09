@@ -1850,9 +1850,54 @@ nav {
     margin-top: 0.5rem;
 }
 
+.form-error {
+    color: #FF7B7B;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
 .contact-form textarea {
     resize: vertical;
     min-height: 120px;
+}
+
+/* ========== PRODUCT PAGE ========== */
+.product-hero .section-header {
+    text-align: left;
+    max-width: 820px;
+}
+
+.product-hero .section-header h1 {
+    font-size: clamp(2.6rem, 4vw, 3.6rem);
+    letter-spacing: -0.02em;
+}
+
+.product-hero .section-header p {
+    color: var(--text-secondary);
+}
+
+.product-grid {
+    align-items: stretch;
+}
+
+.product-grid .card {
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.product-grid .card h2 {
+    font-size: 1.6rem;
+}
+
+.product-section {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.product-cta .section-header {
+    text-align: center;
 }
 
 .article h1 {

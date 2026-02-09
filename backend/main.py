@@ -2,6 +2,7 @@ import os
 import json
 import uuid
 import smtplib
+import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
@@ -15,8 +16,8 @@ app = Flask(__name__)
 CORS(app, origins=[
     "https://aif369.com",
     "https://www.aif369.com",
-    "https://*.vercel.app",
-    "http://localhost:*"
+    re.compile(r"^https://.*\\.vercel\\.app$"),
+    re.compile(r"^http://localhost(:\\d+)?$")
 ])
 
 # Cliente de BigQuery
