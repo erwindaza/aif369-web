@@ -91,21 +91,23 @@
         </div>
     </section>
 
-    <section class="section" id="contacto-educacion">
+    <section class="section education-contact" id="contacto-educacion">
         <header class="section-header">
             <h2 data-i18n="education.contact.title">¿Necesitas cursos o coaching?</h2>
             <p data-i18n="education.contact.subtitle">Completa el formulario y nos pondremos en contacto para diseñar una propuesta adaptada a tu equipo.</p>
         </header>
 
         <form id="education-contact-form" class="contact-form" data-contact-form data-endpoint="/api/education">
-            <div class="form-group">
-                <label for="edu-name" data-i18n="education.form.name">Nombre completo *</label>
-                <input type="text" id="edu-name" name="name" required data-i18n-placeholder="education.form.namePlaceholder">
-            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="edu-name" data-i18n="education.form.name">Nombre completo *</label>
+                    <input type="text" id="edu-name" name="name" required data-i18n-placeholder="education.form.namePlaceholder">
+                </div>
 
-            <div class="form-group">
-                <label for="edu-email" data-i18n="education.form.email">Email corporativo *</label>
-                <input type="email" id="edu-email" name="email" required data-i18n-placeholder="education.form.emailPlaceholder">
+                <div class="form-group">
+                    <label for="edu-email" data-i18n="education.form.email">Email corporativo *</label>
+                    <input type="email" id="edu-email" name="email" required data-i18n-placeholder="education.form.emailPlaceholder">
+                </div>
             </div>
 
             <div class="form-group">
@@ -113,27 +115,29 @@
                 <input type="text" id="edu-company" name="company" required data-i18n-placeholder="education.form.companyPlaceholder">
             </div>
 
-            <div class="form-group">
-                <label for="edu-interest" data-i18n="education.form.interest">Área de interés *</label>
-                <select id="edu-interest" name="interest" required>
-                    <option value="" data-i18n="education.form.selectOption">Selecciona una opción</option>
-                    <option value="curso-desarrollo-ia" data-i18n="education.form.option1">Curso: Desarrollo con IA</option>
-                    <option value="guias-practicas" data-i18n="education.form.option2">Guías prácticas (CAIO, producción)</option>
-                    <option value="coaching-equipos" data-i18n="education.form.option3">Coaching para equipos de IA/Datos</option>
-                    <option value="material-comite" data-i18n="education.form.option4">Material para comités de IA</option>
-                    <option value="otro" data-i18n="education.form.option5">Otro</option>
-                </select>
-            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="edu-interest" data-i18n="education.form.interest">Área de interés *</label>
+                    <select id="edu-interest" name="interest" required>
+                        <option value="" data-i18n="education.form.selectOption">Selecciona una opción</option>
+                        <option value="curso-desarrollo-ia" data-i18n="education.form.option1">Curso: Desarrollo con IA</option>
+                        <option value="guias-practicas" data-i18n="education.form.option2">Guías prácticas (CAIO, producción)</option>
+                        <option value="coaching-equipos" data-i18n="education.form.option3">Coaching para equipos de IA/Datos</option>
+                        <option value="material-comite" data-i18n="education.form.option4">Material para comités de IA</option>
+                        <option value="otro" data-i18n="education.form.option5">Otro</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="edu-team-size" data-i18n="education.form.teamSize">Tamaño del equipo</label>
-                <select id="edu-team-size" name="teamSize">
-                    <option value="" data-i18n="education.form.selectOption">Selecciona una opción</option>
-                    <option value="1-5">1-5 personas</option>
-                    <option value="6-15">6-15 personas</option>
-                    <option value="16-50">16-50 personas</option>
-                    <option value="50+">Más de 50 personas</option>
-                </select>
+                <div class="form-group">
+                    <label for="edu-team-size" data-i18n="education.form.teamSize">Tamaño del equipo</label>
+                    <select id="edu-team-size" name="teamSize">
+                        <option value="" data-i18n="education.form.selectOption">Selecciona una opción</option>
+                        <option value="1-5">1-5 personas</option>
+                        <option value="6-15">6-15 personas</option>
+                        <option value="16-50">16-50 personas</option>
+                        <option value="50+">Más de 50 personas</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-group">

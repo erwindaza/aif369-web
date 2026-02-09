@@ -1765,6 +1765,34 @@ nav {
     gap: var(--space-4);
 }
 
+.education-contact .contact-form {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: var(--space-6);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 48px rgba(4, 12, 24, 0.45);
+}
+
+.education-contact .contact-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.education-contact .contact-form input,
+.education-contact .contact-form textarea,
+.education-contact .contact-form select {
+    width: 100%;
+}
+
+.education-contact .contact-form label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
 .contact-form input,
 .contact-form textarea {
     padding: var(--space-4);
