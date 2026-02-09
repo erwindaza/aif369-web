@@ -97,7 +97,7 @@
             <p data-i18n="education.contact.subtitle">Completa el formulario y nos pondremos en contacto para diseñar una propuesta adaptada a tu equipo.</p>
         </header>
 
-        <form id="education-contact-form" class="contact-form">
+        <form id="education-contact-form" class="contact-form" data-contact-form data-endpoint="/api/education">
             <div class="form-group">
                 <label for="edu-name" data-i18n="education.form.name">Nombre completo *</label>
                 <input type="text" id="edu-name" name="name" required data-i18n-placeholder="education.form.namePlaceholder">
@@ -150,7 +150,7 @@
             <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
             <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
         </header>
-        <form class="education-form" data-contact-form>
+        <form class="education-form" data-contact-form data-endpoint="/api/education">
             <div class="form-grid">
                 <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
                 <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>
@@ -180,7 +180,7 @@
             <h2 data-i18n="education.form.title">Solicitar información educativa</h2>
             <p data-i18n="education.form.subtitle">Cuéntanos lo que necesitas y enviaremos una propuesta adaptada a tu equipo.</p>
         </header>
-        <form class="education-form" data-contact-form>
+        <form class="education-form" data-contact-form data-endpoint="/api/education">
             <div class="form-grid">
                 <input type="text" name="fullName" placeholder="Nombre completo" data-i18n-placeholder="education.form.name" autocomplete="name" required>
                 <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="education.form.email" autocomplete="email" required>

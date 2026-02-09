@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.modal.emailLabel": "Email:",
             "index.modal.roleLabel": "Cargo:",
             "index.modal.contextLabel": "Contexto:",
-            "index.modal.storageNote": "Tu solicitud ha sido guardada en nuestra base de datos y recibirás una respuesta en las próximas 24 horas.",
+            "index.modal.storageNote": "Tu solicitud fue enviada a nuestro equipo. Te contactaremos pronto.",
             "index.modal.closeButton": "Cerrar",
             "index.modal.closeAria": "Cerrar",
             "index.modal.emailSubject": "Nueva solicitud de diagnóstico ejecutivo",
@@ -472,7 +472,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.modal.emailLabel": "Email:",
             "index.modal.roleLabel": "Title:",
             "index.modal.contextLabel": "Context:",
-            "index.modal.storageNote": "Your request has been saved in our database and you will receive a response within 24 hours.",
+            "index.modal.storageNote": "Your request was sent to our team. We will contact you soon.",
             "index.modal.closeButton": "Close",
             "index.modal.closeAria": "Close",
             "index.modal.emailSubject": "New executive assessment request",
@@ -828,8 +828,8 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.modal.emailLabel": "Email:",
             "index.modal.roleLabel": "Cargo:",
             "index.modal.contextLabel": "Contexto:",
-            "index.modal.storageNote": "Por ahora los datos quedan guardados localmente en el navegador (storage embebido). Más adelante podemos conectarlo a una base de datos real.",
-            "index.modal.emailNote": "Al enviar se abrirá tu cliente de correo para mandar la solicitud a edaza@aif369.com.",
+            "index.modal.storageNote": "Tu solicitud fue enviada a nuestro equipo. Te contactaremos pronto.",
+            "index.modal.emailNote": "Si necesitas añadir detalles, escríbenos a edaza@aif369.com.",
             "index.modal.emailButton": "Enviar email",
             "index.modal.closeButton": "Cerrar",
             "index.modal.closeAria": "Cerrar",
@@ -1060,8 +1060,8 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.modal.emailLabel": "Email:",
             "index.modal.roleLabel": "Title:",
             "index.modal.contextLabel": "Context:",
-            "index.modal.storageNote": "For now the data is saved locally in the browser (embedded storage). We can connect this to a real database later.",
-            "index.modal.emailNote": "Sending will open your email client to send the request to edaza@aif369.com.",
+            "index.modal.storageNote": "Your request was sent to our team. We will contact you soon.",
+            "index.modal.emailNote": "If you need to add details, email us at edaza@aif369.com.",
             "index.modal.emailButton": "Send email",
             "index.modal.closeButton": "Close",
             "index.modal.closeAria": "Close",
@@ -1354,6 +1354,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modal = document.querySelector("[data-modal]");
     const modalCloseButtons = document.querySelectorAll("[data-modal-close]");
     const emailLink = document.querySelector("[data-email-link]");
+    const emailNote = modal ? modal.querySelector("[data-email-note]") : null;
 
     function closeModal() {
         if (modal) {
@@ -1367,6 +1368,58 @@ document.addEventListener("DOMContentLoaded", function () {
             modal.hidden = false;
             document.body.classList.add("modal-open");
         }
+    }
+
+    function resolveBackendEndpoint(form) {
+        const endpoint = form.dataset.endpoint;
+        if (!endpoint) {
+            return null;
+        }
+
+        if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+            return endpoint;
+        }
+
+        const normalized = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+        return `${BACKEND_URL}${normalized}`;
+    }
+
+    function buildBackendPayload(submission) {
+        const messageParts = [];
+
+        if (submission.message) {
+            messageParts.push(submission.message);
+        }
+
+        if (submission.role) {
+            messageParts.push(`Cargo/rol: ${submission.role}`);
+        }
+
+        if (submission.context) {
+            messageParts.push(`Contexto: ${submission.context}`);
+        }
+
+        if (submission.interest) {
+            messageParts.push(`Interés: ${submission.interest}`);
+        }
+
+        if (submission.teamSize) {
+            messageParts.push(`Tamaño del equipo: ${submission.teamSize}`);
+        }
+
+        if (messageParts.length === 0) {
+            messageParts.push("Solicitud enviada desde el sitio web.");
+        }
+
+        return {
+            name: submission.fullName || submission.name || "",
+            email: submission.email || "",
+            company: submission.company || "",
+            interest: submission.interest || "",
+            team_size: submission.teamSize || "",
+            message: messageParts.join("\n"),
+            source_page: window.location.href
+        };
     }
 
     closeModal();
@@ -1393,23 +1446,25 @@ document.addEventListener("DOMContentLoaded", function () {
         form.addEventListener("submit", async function (event) {
             event.preventDefault();
             const formData = new FormData(form);
+            const rawName = formData.get("fullName")?.toString().trim()
+                || formData.get("name")?.toString().trim()
+                || "";
             const submission = {
-                fullName: formData.get("fullName")?.toString().trim() || "",
+                fullName: rawName,
+                name: rawName,
                 email: formData.get("email")?.toString().trim() || "",
                 role: formData.get("role")?.toString().trim() || "",
                 company: formData.get("company")?.toString().trim() || "",
                 interest: formData.get("interest")?.toString().trim() || "",
                 teamSize: formData.get("teamSize")?.toString().trim() || "",
                 context: formData.get("context")?.toString().trim() || "",
+                message: formData.get("message")?.toString().trim() || "",
                 submittedAt: new Date().toISOString()
             };
 
-            const stored = JSON.parse(localStorage.getItem("assessment-submissions") || "[]");
-            stored.push(submission);
-            localStorage.setItem("assessment-submissions", JSON.stringify(stored));
-
-            const endpoint = form.dataset.endpoint;
+            const endpoint = resolveBackendEndpoint(form);
             let backendOk = false;
+            const backendPayload = buildBackendPayload(submission);
 
             if (endpoint) {
                 backendOk = await fetch(endpoint, {
@@ -1417,7 +1472,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(submission)
+                    body: JSON.stringify(backendPayload)
                 })
                     .then((response) => response.ok)
                     .catch(() => false);
@@ -1429,6 +1484,14 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             let mailto = null;
+            if (emailLink) {
+                emailLink.hidden = true;
+                emailLink.removeAttribute("href");
+            }
+            if (emailNote) {
+                emailNote.hidden = true;
+            }
+
             if (!backendOk && emailLink) {
                 const lang = getCurrentLanguage();
                 const dictionary = translations[lang] || translations.en;
@@ -1446,6 +1509,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 ];
                 mailto = `mailto:edaza@aif369.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
                 emailLink.setAttribute("href", mailto);
+                emailLink.hidden = false;
+                if (emailNote) {
+                    emailNote.hidden = false;
+                }
             }
 
             const successMessage = form.querySelector(".form-success");

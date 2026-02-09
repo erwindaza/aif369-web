@@ -41,9 +41,19 @@ def send_email_notification(submission_data):
         return False
     
     try:
+        subject_prefix = "Nuevo contacto"
+        if submission_data.get("form_type"):
+            subject_prefix = f'{subject_prefix} ({submission_data["form_type"]})'
+
+        optional_lines = ""
+        if submission_data.get("interest"):
+            optional_lines += f'<p><strong>Interés:</strong> {submission_data["interest"]}</p>'
+        if submission_data.get("team_size"):
+            optional_lines += f'<p><strong>Tamaño del equipo:</strong> {submission_data["team_size"]}</p>'
+
         # Crear mensaje
         msg = MIMEMultipart('alternative')
-        msg['Subject'] = f'Nuevo contacto: {submission_data["name"]}'
+        msg['Subject'] = f'{subject_prefix}: {submission_data["name"]}'
         msg['From'] = SMTP_USER
         msg['To'] = NOTIFICATION_EMAIL
         
@@ -55,6 +65,7 @@ def send_email_notification(submission_data):
             <p><strong>Nombre:</strong> {submission_data["name"]}</p>
             <p><strong>Email:</strong> {submission_data["email"]}</p>
             <p><strong>Empresa/Cargo:</strong> {submission_data["company"]}</p>
+            {optional_lines}
             <p><strong>Mensaje:</strong></p>
             <p>{submission_data["message"]}</p>
             <hr>
@@ -87,6 +98,12 @@ def send_confirmation_email(submission_data):
         return False
     
     try:
+        optional_lines = ""
+        if submission_data.get("interest"):
+            optional_lines += f'<p><strong>Interés:</strong> {submission_data["interest"]}</p>'
+        if submission_data.get("team_size"):
+            optional_lines += f'<p><strong>Tamaño del equipo:</strong> {submission_data["team_size"]}</p>'
+
         # Crear mensaje
         msg = MIMEMultipart('alternative')
         msg['Subject'] = '✓ Hemos recibido tu solicitud - AIF369'
@@ -106,6 +123,7 @@ def send_confirmation_email(submission_data):
                 <h3 style="margin-top: 0; color: #1f2937;">Resumen de tu solicitud:</h3>
                 <p><strong>Email:</strong> {submission_data["email"]}</p>
                 <p><strong>Empresa/Cargo:</strong> {submission_data["company"]}</p>
+                {optional_lines}
                 <p><strong>Mensaje:</strong> {submission_data["message"]}</p>
               </div>
               
@@ -163,10 +181,20 @@ def submit_contact_form():
             return jsonify({"error": "Content-Type must be application/json"}), 400
         
         data = request.get_json()
+        name = data.get("name") or data.get("fullName") or ""
+        email = data.get("email") or ""
+        company = data.get("company") or data.get("role") or ""
+        message = data.get("message") or data.get("context") or ""
+        interest = data.get("interest") or ""
+        team_size = data.get("team_size") or data.get("teamSize") or ""
         
         # Validar campos requeridos
-        required_fields = ["name", "email", "message"]
-        missing_fields = [field for field in required_fields if not data.get(field)]
+        required_fields = {
+            "name": name,
+            "email": email,
+            "message": message
+        }
+        missing_fields = [field for field, value in required_fields.items() if not value]
         
         if missing_fields:
             return jsonify({
@@ -180,13 +208,16 @@ def submit_contact_form():
         row = {
             "submission_id": submission_id,
             "timestamp": timestamp,
-            "name": data["name"],
-            "email": data["email"],
-            "company": data.get("company", ""),
-            "message": data["message"],
+            "name": name,
+            "email": email,
+            "company": company,
+            "message": message,
             "source_page": data.get("source_page", request.referrer or ""),
             "user_agent": request.headers.get("User-Agent", ""),
-            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr)
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+            "form_type": data.get("form_type") or None,
+            "interest": interest or None,
+            "team_size": team_size or None
         }
         
         # Insertar en BigQuery
@@ -216,6 +247,96 @@ def submit_contact_form():
         
     except Exception as e:
         print(f"Error processing contact form: {str(e)}")
+        return jsonify({
+            "error": "Internal server error",
+            "message": str(e)
+        }), 500
+
+
+@app.route("/api/education", methods=["POST"])
+def submit_education_form():
+    """
+    Endpoint para recibir formularios de educación.
+
+    Expected JSON payload:
+    {
+        "name": "Juan Pérez",
+        "email": "juan@example.com",
+        "company": "Empresa XYZ",
+        "interest": "curso-desarrollo-ia",
+        "team_size": "6-15",
+        "message": "Necesitamos formación para..."
+    }
+    """
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        name = data.get("name") or data.get("fullName") or ""
+        email = data.get("email") or ""
+        company = data.get("company") or ""
+        interest = data.get("interest") or ""
+        team_size = data.get("team_size") or data.get("teamSize") or ""
+        message = data.get("message") or data.get("context") or ""
+
+        required_fields = {
+            "name": name,
+            "email": email,
+            "company": company,
+            "interest": interest,
+            "message": message
+        }
+        missing_fields = [field for field, value in required_fields.items() if not value]
+
+        if missing_fields:
+            return jsonify({
+                "error": f"Missing required fields: {', '.join(missing_fields)}"
+            }), 400
+
+        submission_id = str(uuid.uuid4())
+        timestamp = datetime.utcnow().isoformat()
+
+        row = {
+            "submission_id": submission_id,
+            "timestamp": timestamp,
+            "name": name,
+            "email": email,
+            "company": company,
+            "message": message,
+            "source_page": data.get("source_page", request.referrer or ""),
+            "user_agent": request.headers.get("User-Agent", ""),
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+            "form_type": "education",
+            "interest": interest or None,
+            "team_size": team_size or None
+        }
+
+        table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
+        errors = bq_client.insert_rows_json(table_ref, [row])
+
+        if errors:
+            print(f"BigQuery insert errors: {errors}")
+            return jsonify({
+                "error": "Failed to save submission",
+                "details": errors
+            }), 500
+
+        email_data = {
+            **row,
+            "submission_id": submission_id
+        }
+        send_email_notification(email_data)
+        send_confirmation_email(email_data)
+
+        return jsonify({
+            "success": True,
+            "submission_id": submission_id,
+            "message": "Gracias por tu solicitud de educación. Te contactaremos pronto."
+        }), 200
+
+    except Exception as e:
+        print(f"Error processing education form: {str(e)}")
         return jsonify({
             "error": "Internal server error",
             "message": str(e)

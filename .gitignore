@@ -25,6 +25,10 @@
 .DS_Store
 Thumbs.db
 
+# Local tooling
+.gcloud/
+**/__pycache__/
+
 # Terraform state files
 .terraform/
 *.tfstate
