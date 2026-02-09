@@ -1821,11 +1821,11 @@ nav {
 .education-form select,
 .education-form input,
 .education-form textarea {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-tertiary);
     border-radius: 6px;
-    border: 1px solid rgba(136, 146, 176, 0.5);
+    border: 1px solid var(--border);
     padding: 0.75rem 0.9rem;
-    color: var(--text);
+    color: var(--text-primary);
     font-family: inherit;
     width: 100%;
 }
@@ -1885,10 +1885,18 @@ nav {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
 }
 
 .product-grid .card h2 {
     font-size: 1.6rem;
+}
+
+.product-grid .card-highlight {
+    background: linear-gradient(160deg, rgba(0, 136, 255, 0.12) 0%, rgba(0, 217, 204, 0.08) 100%);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-glow);
 }
 
 .product-section {
@@ -1896,8 +1904,35 @@ nav {
     margin: 0 auto;
 }
 
+.product-section .simple-list {
+    margin-top: var(--space-4);
+}
+
+.product-section .simple-list li {
+    color: var(--text-secondary);
+}
+
 .product-cta .section-header {
     text-align: center;
+}
+
+/* ========== SERVICES - MLOPS ========= */
+.mlops-section .section-header {
+    text-align: left;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.mlops-section .section-body {
+    max-width: 960px;
+    margin: var(--space-4) auto 0;
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.mlops-section .btn {
+    margin-top: var(--space-5);
 }
 
 .article h1 {
