@@ -1916,6 +1916,74 @@ nav {
     text-align: center;
 }
 
+/* ========== AUTHOR PAGE ========== */
+.author-hero .section-header {
+    text-align: left;
+    max-width: 720px;
+}
+
+.author-grid {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: start;
+}
+
+.author-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    box-shadow: var(--shadow-md);
+}
+
+.author-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 32px;
+    background: linear-gradient(135deg, rgba(0, 136, 255, 0.35) 0%, rgba(0, 217, 204, 0.25) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.author-role {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.author-bio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.author-bio p {
+    color: var(--text-secondary);
+    font-size: var(--text-base);
+    line-height: 1.7;
+}
+
+.author-focus h3 {
+    margin-bottom: var(--space-3);
+}
+
+.author-cta .section-header {
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .author-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ========== SERVICES - MLOPS ========= */
 .mlops-section .section-header {
     text-align: left;
