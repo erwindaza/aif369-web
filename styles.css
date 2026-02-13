@@ -2170,3 +2170,43 @@ nav {
         font-size: var(--text-lg);
     }
 }
+
+
+.footer-social {
+    display: flex;
+    align-items: center;
+}
+
+.libutton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 16px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    min-width: 200px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: #0A66C2;
+    font-family: "SF Pro Text", Helvetica, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.libutton:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 768px) {
+    .footer-social {
+        width: 100%;
+    }
+
+    .libutton {
+        width: 100%;
+        justify-content: center;
+    }
+}
