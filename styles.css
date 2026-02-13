@@ -1938,19 +1938,16 @@ nav {
     flex-direction: column;
     gap: var(--space-4);
     box-shadow: var(--shadow-md);
+    align-items: flex-start;
 }
 
 .author-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 32px;
-    background: linear-gradient(135deg, rgba(0, 136, 255, 0.35) 0%, rgba(0, 217, 204, 0.25) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.4rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-sm);
 }
 
 .author-role {

@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction ? PROD_BACKEND_URL : DEV_BACKEND_URL;
-    const FALLBACK_BACKEND_URL = isProduction ? null : PROD_BACKEND_URL;
 
     // Mobile Navigation Toggle - Optimizado para Android con pointer events
     const toggle = document.querySelector(".nav-toggle");
@@ -875,18 +874,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 submittedAt: new Date().toISOString()
             };
 
-            const rawEndpoint = form.dataset.endpoint || "";
             const endpoint = resolveBackendEndpoint(form);
             const backendPayload = buildBackendPayload(submission);
             let backendOk = await postToBackend(endpoint, backendPayload);
-
-            const isRelativeEndpoint = rawEndpoint && !rawEndpoint.startsWith("http");
-            if (!backendOk && FALLBACK_BACKEND_URL && isRelativeEndpoint) {
-                const fallbackEndpoint = resolveBackendEndpoint(form, FALLBACK_BACKEND_URL);
-                if (fallbackEndpoint && fallbackEndpoint !== endpoint) {
-                    backendOk = await postToBackend(fallbackEndpoint, backendPayload);
-                }
-            }
 
             document.querySelectorAll("[data-summary]").forEach((element) => {
                 const key = element.dataset.summary;
