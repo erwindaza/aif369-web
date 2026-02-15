@@ -29,6 +29,9 @@ Thumbs.db
 .gcloud/
 **/__pycache__/
 
+# Private drafts (do not commit)
+private/
+
 # Terraform state files
 .terraform/
 *.tfstate
