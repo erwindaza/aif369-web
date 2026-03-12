@@ -2288,3 +2288,109 @@ nav {
         justify-content: center;
     }
 }
+
+/* ========== PRICING TIER CARDS ========== */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    align-items: stretch;
+}
+
+.pricing-grid .card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: var(--space-6);
+}
+
+.pricing-grid .card .btn {
+    margin-top: auto;
+}
+
+.pricing-grid .card-highlight {
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .pricing-grid .card-highlight {
+        transform: none;
+    }
+}
+
+/* ========== FORM GROUPS ========== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-group label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.contact-form select {
+    padding: var(--space-4);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23A8B8D8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.contact-form select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* ========== TRUST SIGNALS ========== */
+.contact-note {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    margin-top: var(--space-4);
+    line-height: 1.6;
+}
+
+.contact-side .simple-list li {
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.contact-side .simple-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+/* ========== MOBILE FORM ADJUSTMENTS ========== */
+@media (max-width: 768px) {
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+        font-size: 16px; /* Prevents iOS auto-zoom on focus */
+    }
+    
+    .contact-layout {
+        gap: var(--space-5);
+    }
+    
+    .contact-side {
+        padding: var(--space-4);
+        background: var(--bg-tertiary);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+    }
+}

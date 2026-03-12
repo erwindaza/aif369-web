@@ -5,7 +5,7 @@ import smtplib
 import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from google.cloud import bigquery
@@ -204,7 +204,7 @@ def submit_contact_form():
         
         # Preparar datos para BigQuery
         submission_id = str(uuid.uuid4())
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         
         row = {
             "submission_id": submission_id,
@@ -296,7 +296,7 @@ def submit_education_form():
             }), 400
 
         submission_id = str(uuid.uuid4())
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         row = {
             "submission_id": submission_id,

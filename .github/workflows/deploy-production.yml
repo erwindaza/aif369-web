@@ -1,0 +1,131 @@
+# ============================================================
+# CD Pipeline: Deploy to PRODUCTION
+# Triggered only on push to main (after merge from dev)
+# ============================================================
+name: deploy-production
+
+on:
+  push:
+    branches: [main]
+
+env:
+  PROJECT_ID: aif369-backend
+  REGION: us-central1
+  CLOUDSDK_CONFIG: /tmp/.gcloud-aif369
+
+jobs:
+  # ── Gate: require tests passed on the merge commit ───────
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Run tests (production gate)
+        run: pytest tests/ -v --tb=short
+        env:
+          PROJECT_ID: aif369-backend
+          SMTP_PASSWORD: ""
+
+  # ── Deploy backend to PRODUCTION ─────────────────────────
+  deploy-backend-prod:
+    needs: [verify]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build and push Docker image
+        run: |
+          gcloud auth configure-docker gcr.io --quiet
+          docker build --platform linux/amd64 -t gcr.io/$PROJECT_ID/aif369-backend:${{ github.sha }} backend/
+          docker build --platform linux/amd64 -t gcr.io/$PROJECT_ID/aif369-backend:latest backend/
+          docker push gcr.io/$PROJECT_ID/aif369-backend:${{ github.sha }}
+          docker push gcr.io/$PROJECT_ID/aif369-backend:latest
+
+      - name: Deploy to Cloud Run (PRODUCTION)
+        run: |
+          gcloud run deploy aif369-backend-api \
+            --image gcr.io/$PROJECT_ID/aif369-backend:${{ github.sha }} \
+            --platform managed \
+            --region $REGION \
+            --project $PROJECT_ID \
+            --allow-unauthenticated \
+            --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
+            --set-env-vars PROJECT_ID=$PROJECT_ID \
+            --update-secrets SMTP_PASSWORD=aif369-smtp-password:latest \
+            --set-env-vars SMTP_USER=edaza@aif369.com \
+            --set-env-vars NOTIFICATION_EMAIL=erwin.daza@gmail.com
+
+      - name: Verify production deployment
+        run: |
+          PROD_URL=$(gcloud run services describe aif369-backend-api \
+            --region $REGION --project $PROJECT_ID \
+            --format='value(status.url)')
+          echo "Production URL: $PROD_URL"
+          # Health check
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$PROD_URL")
+          if [ "$HTTP_CODE" -ne 200 ]; then
+            echo "❌ Health check failed: HTTP $HTTP_CODE"
+            exit 1
+          fi
+          echo "✅ Production health check passed"
+
+  # ── Terraform apply (only if infra changed) ──────────────
+  terraform-apply:
+    needs: [verify]
+    if: contains(github.event.head_commit.message, '[infra]') || contains(github.event.head_commit.modified, 'infra/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform plan
+        run: terraform plan -var-file=terraform.tfvars.production -out=tfplan
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve tfplan

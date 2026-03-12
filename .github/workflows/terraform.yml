@@ -1,36 +1,113 @@
-name: terraform-ci
+name: terraform
 
 on:
+  push:
+    branches: [dev, main]
+    paths:
+      - "infra/**"
   pull_request:
     paths:
       - "infra/**"
   workflow_dispatch:
 
+env:
+  TF_WORKING_DIR: infra/terraform
+  PROJECT_ID: aif369-backend
+  CLOUDSDK_CONFIG: /tmp/.gcloud-aif369
+
 jobs:
-  terraform:
+  # ── Validate (always) ───────────────────────────────────
+  validate:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: infra/terraform
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.6
+          terraform_version: "1.6.6"
 
       - name: Terraform fmt
-        continue-on-error: true
-        run: terraform fmt -check
+        run: terraform fmt -check -recursive
 
-      - name: Terraform init
+      - name: Terraform init (no backend)
         run: terraform init -backend=false
 
       - name: Terraform validate
         run: terraform validate
 
-      - name: Terraform plan (placeholder)
-        if: false
-        run: terraform plan -var="project_id=aif369-backend" -var="region=us-central1" -var="location=US" -var="environment=dev"
+  # ── Plan (on dev push or PR to main) ────────────────────
+  plan:
+    needs: [validate]
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Select tfvars
+        id: vars
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "tfvars=terraform.tfvars.production" >> $GITHUB_OUTPUT
+          else
+            echo "tfvars=terraform.tfvars.dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Terraform plan
+        run: terraform plan -var-file=${{ steps.vars.outputs.tfvars }} -no-color
+
+  # ── Apply (only on main push when infra changes) ────────
+  apply:
+    needs: [plan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform apply (production)
+        run: terraform apply -var-file=terraform.tfvars.production -auto-approve

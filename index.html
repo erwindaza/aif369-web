@@ -134,27 +134,28 @@
     <section id="contacto" class="section section-alt">
         <div class="container">
             <header class="section-header">
-                <h2 data-i18n="index.cta.title">Agendar diagnóstico ejecutivo</h2>
-                <p data-i18n="index.cta.subtitle">Una conversación de 45 minutos para entender el estado actual de su organización y posibles rutas de acción.</p>
+                <h2 data-i18n="index.cta.title">Conversemos sobre su próximo paso en IA</h2>
+                <p data-i18n="index.cta.subtitle">30 minutos para entender su contexto y recomendarle la ruta más rápida para generar valor con IA, datos o cloud.</p>
             </header>
             <div class="contact-layout">
             <form class="contact-form" data-contact-form data-endpoint="/api/contact">
+                    <input type="hidden" name="form_type" value="home-contacto">
                     <input type="text" name="fullName" placeholder="Nombre y apellido" data-i18n-placeholder="index.form.name" autocomplete="name" required>
                     <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="index.form.email" autocomplete="email" required>
                     <input type="text" name="role" placeholder="Cargo o rol" data-i18n-placeholder="index.form.role" autocomplete="organization-title" required>
                     <textarea rows="4" name="context" placeholder="Contexto breve de su interés en IA, datos o cloud" data-i18n-placeholder="index.form.context" autocomplete="off"></textarea>
-                    <button type="submit" class="btn btn-primary" data-i18n="index.form.button">Solicitar diagnóstico</button>
-                    <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
+                    <button type="submit" class="btn btn-primary" data-i18n="index.form.button">Solicitar conversación</button>
+                    <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos en menos de 24 horas.</p>
                 </form>
                 <div class="contact-side">
-                    <h3 data-i18n="index.cta.includes">Qué incluye</h3>
+                    <h3 data-i18n="index.cta.includes">¿Qué incluye la conversación?</h3>
                     <ul class="simple-list">
-                        <li data-i18n="index.cta.item1">Radiografía rápida de capacidades actuales.</li>
-                        <li data-i18n="index.cta.item2">Mapa de oportunidades de alto impacto.</li>
-                        <li data-i18n="index.cta.item3">Riesgos clave de datos y gobernanza a revisar.</li>
-                        <li data-i18n="index.cta.item4">Propuesta de siguiente paso clara y accionable.</li>
+                        <li data-i18n="index.cta.item1">Radiografía rápida de su situación actual.</li>
+                        <li data-i18n="index.cta.item2">Identificación de oportunidades de alto impacto.</li>
+                        <li data-i18n="index.cta.item3">Recomendación de modalidad: Express o Ejecutivo.</li>
+                        <li data-i18n="index.cta.item4">Siguiente paso claro y sin compromisos.</li>
                     </ul>
-                    <p class="contact-note" data-i18n="index.cta.note">Sesión ejecutiva enfocada en claridad estratégica y técnica, sin compromisos comerciales.</p>
+                    <p class="contact-note" data-i18n="index.cta.note">Sin costo, sin compromiso. Si no somos los indicados, se lo diremos con honestidad.</p>
                 </div>
             </div>
         </div>

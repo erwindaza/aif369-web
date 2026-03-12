@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n-title="service.diagnostico.title">Diagnóstico ejecutivo de IA y datos - AIF369</title>
     <meta name="description" data-i18n-content="service.diagnostico.description" content="Diagnóstico de IA y datos: versión Express en 5-7 días o Ejecutivo en 2-3 semanas. Identifique oportunidades de alto impacto y estime ROI.">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <header class="site-header">
@@ -44,17 +45,17 @@
         <div class="grid-2">
             <article class="card">
                 <h2 data-i18n="service.diagnostico.overview.title">¿Qué es este servicio?</h2>
-                <p data-i18n="service.diagnostico.overview.text1">Un diagnóstico ejecutivo que evalúa la madurez de su organización en IA y datos, identifica brechas críticas y propone un roadmap priorizado de proyectos con impacto medible.</p>
-                <p data-i18n="service.diagnostico.overview.text2">Diseñado para CTOs, CIOs, CDOs y CAIOs que necesitan claridad sobre dónde invertir recursos técnicos y presupuesto para generar valor real con datos e IA.</p>
+                <p data-i18n="service.diagnostico.overview.text1">Un diagnóstico que evalúa la madurez de su organización en IA y datos, identifica brechas críticas y propone un roadmap priorizado con impacto medible.</p>
+                <p data-i18n="service.diagnostico.overview.text2">Diseñado para líderes técnicos y de negocio — desde startups que necesitan claridad rápida hasta corporaciones que requieren evaluación profunda y alineación ejecutiva.</p>
             </article>
 
             <article class="card card-highlight">
-                <h2 data-i18n="service.diagnostico.duration.title">Duración y metodología</h2>
+                <h2 data-i18n="service.diagnostico.duration.title">Dos modalidades</h2>
                 <ul class="simple-list">
-                    <li data-i18n="service.diagnostico.duration.item1"><strong>2-3 semanas</strong> de trabajo</li>
-                    <li data-i18n="service.diagnostico.duration.item2"><strong>5-8 entrevistas</strong> con líderes y equipos técnicos</li>
-                    <li data-i18n="service.diagnostico.duration.item3"><strong>Análisis documental</strong> de arquitecturas y sistemas</li>
-                    <li data-i18n="service.diagnostico.duration.item4"><strong>Sesión final</strong> con el equipo ejecutivo</li>
+                    <li data-i18n="service.diagnostico.duration.item1"><strong>Express (5-7 días):</strong> quick wins, roadmap corto, arquitectura objetivo</li>
+                    <li data-i18n="service.diagnostico.duration.item2"><strong>Ejecutivo (2-3 semanas):</strong> entrevistas, evaluación profunda, ROI</li>
+                    <li data-i18n="service.diagnostico.duration.item3"><strong>Entregables claros:</strong> informe ejecutivo, mapa de brechas, plan de acción</li>
+                    <li data-i18n="service.diagnostico.duration.item4"><strong>Sin compromiso:</strong> conversación inicial gratuita para elegir modalidad</li>
                 </ul>
             </article>
         </div>
@@ -187,7 +188,7 @@
                     <li data-i18n="service.diagnostico.pricing.express.item5">Arquitectura objetivo recomendada</li>
                 </ul>
                 <p data-i18n="service.diagnostico.pricing.express.note" style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">Ideal para pymes, startups y equipos que necesitan claridad rápida para empezar a ejecutar.</p>
-                <a href="index.html#contacto" class="btn btn-primary" style="margin-top: 1rem;" data-i18n="service.diagnostico.pricing.express.cta">Solicitar Express</a>
+                <a href="#solicitar" class="btn btn-primary" style="margin-top: 1rem;" data-i18n="service.diagnostico.pricing.express.cta">Solicitar Express</a>
             </article>
 
             <article class="card">
@@ -203,17 +204,61 @@
                     <li data-i18n="service.diagnostico.pricing.ejecutivo.item6">Sesión de presentación con C-level</li>
                 </ul>
                 <p data-i18n="service.diagnostico.pricing.ejecutivo.note" style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">Para corporaciones y organizaciones que requieren profundidad, gobernanza y alineación ejecutiva.</p>
-                <a href="index.html#contacto" class="btn btn-link" style="margin-top: 1rem;" data-i18n="service.diagnostico.pricing.ejecutivo.cta">Solicitar Ejecutivo</a>
+                <a href="#solicitar" class="btn btn-link" style="margin-top: 1rem;" data-i18n="service.diagnostico.pricing.ejecutivo.cta">Solicitar Ejecutivo</a>
             </article>
         </div>
     </section>
 
-    <section class="section section-alt">
-        <header class="section-header">
-            <h2 data-i18n="service.diagnostico.cta.title">¿No sabe cuál elegir?</h2>
-            <p data-i18n="service.diagnostico.cta.subtitle">Contáctenos para una conversación inicial sin costo. Le ayudamos a elegir la modalidad que mejor se adapte a su contexto.</p>
-            <a href="index.html#contacto" class="btn btn-primary" data-i18n="service.diagnostico.cta.button">Agendar conversación</a>
-        </header>
+    <section id="solicitar" class="section section-alt">
+        <div class="container">
+            <header class="section-header">
+                <h2 data-i18n="service.diagnostico.form.title">Solicitar diagnóstico</h2>
+                <p data-i18n="service.diagnostico.form.subtitle">Completa el formulario y te contactamos en menos de 24 horas para agendar una conversación inicial sin costo.</p>
+            </header>
+            <div class="contact-layout">
+                <form class="contact-form" data-contact-form data-endpoint="/api/contact">
+                    <input type="hidden" name="form_type" value="diagnostico">
+                    <div class="form-group">
+                        <label for="diag-name">Nombre completo *</label>
+                        <input type="text" id="diag-name" name="fullName" placeholder="Nombre y apellido" autocomplete="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diag-email">Email *</label>
+                        <input type="email" id="diag-email" name="email" placeholder="Email corporativo o personal" autocomplete="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diag-company">Empresa o proyecto</label>
+                        <input type="text" id="diag-company" name="role" placeholder="Nombre de empresa, startup o proyecto" autocomplete="organization">
+                    </div>
+                    <div class="form-group">
+                        <label for="diag-modalidad">Modalidad de interés *</label>
+                        <select id="diag-modalidad" name="interest" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="diagnostico-express">Diagnóstico Express (5-7 días, desde USD 1.200)</option>
+                            <option value="diagnostico-ejecutivo">Diagnóstico Ejecutivo (2-3 semanas, desde USD 3.500)</option>
+                            <option value="no-estoy-seguro">No estoy seguro, necesito orientación</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="diag-context">¿Qué necesita resolver? *</label>
+                        <textarea id="diag-context" name="context" rows="4" placeholder="Cuéntenos brevemente su situación: qué problema quiere resolver, qué tamaño tiene su equipo, etc." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Solicitar diagnóstico</button>
+                    <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos en menos de 24 horas.</p>
+                    <p class="form-error" hidden data-i18n="form.error">No pudimos enviar tu solicitud. Intenta nuevamente o escríbenos a edaza@aif369.com.</p>
+                </form>
+                <div class="contact-side">
+                    <h3 data-i18n="service.diagnostico.form.includes">¿Qué pasa después?</h3>
+                    <ul class="simple-list">
+                        <li>Conversación inicial de 30 min (gratis, sin compromiso)</li>
+                        <li>Propuesta personalizada según su contexto</li>
+                        <li>Inicio en menos de 1 semana si lo necesita</li>
+                        <li>Pago flexible: al inicio o contra entrega</li>
+                    </ul>
+                    <p class="contact-note" style="margin-top: 1.5rem;">¿Prefiere escribirnos directo? <a href="mailto:edaza@aif369.com" style="color: var(--primary);">edaza@aif369.com</a></p>
+                </div>
+            </div>
+        </div>
     </section>
 </main>
 

@@ -1,0 +1,145 @@
+# ============================================================
+# CI Pipeline: runs on every push to dev and on PRs to main
+# - Lint & validate frontend
+# - Test backend
+# - Terraform validate
+# - Deploy backend to Cloud Run DEV (only on dev branch)
+# ============================================================
+name: ci
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [main]
+
+env:
+  PROJECT_ID: aif369-backend
+  REGION: us-central1
+  # Isolated gcloud config — never touches other projects
+  CLOUDSDK_CONFIG: /tmp/.gcloud-aif369
+
+jobs:
+  # ── Frontend checks ──────────────────────────────────────
+  frontend-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate HTML structure
+        run: |
+          echo "Checking all HTML files have doctype and closing tags..."
+          for f in *.html; do
+            if ! head -1 "$f" | grep -qi "doctype"; then
+              echo "❌ Missing DOCTYPE in $f"
+              exit 1
+            fi
+          done
+          echo "✅ All HTML files have DOCTYPE"
+
+      - name: Check no hardcoded localhost in production code
+        run: |
+          if grep -rn "localhost" *.html *.js *.css --include="*.html" --include="*.js" --include="*.css" | grep -v "// " | grep -v "node_modules"; then
+            echo "⚠️  Found localhost references (check if intentional)"
+          else
+            echo "✅ No hardcoded localhost"
+          fi
+
+  # ── Backend tests ────────────────────────────────────────
+  backend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+        env:
+          PROJECT_ID: aif369-backend
+          SMTP_PASSWORD: ""  # Skip email in tests
+
+  # ── Terraform validate ───────────────────────────────────
+  terraform-validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init (validation only)
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+  # ── Deploy backend to DEV ────────────────────────────────
+  deploy-backend-dev:
+    needs: [backend-tests, terraform-validate]
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build and push Docker image
+        run: |
+          gcloud auth configure-docker gcr.io --quiet
+          docker build --platform linux/amd64 -t gcr.io/$PROJECT_ID/aif369-backend-dev:${{ github.sha }} backend/
+          docker build --platform linux/amd64 -t gcr.io/$PROJECT_ID/aif369-backend-dev:latest backend/
+          docker push gcr.io/$PROJECT_ID/aif369-backend-dev:${{ github.sha }}
+          docker push gcr.io/$PROJECT_ID/aif369-backend-dev:latest
+
+      - name: Deploy to Cloud Run (DEV)
+        run: |
+          gcloud run deploy aif369-backend-api-dev \
+            --image gcr.io/$PROJECT_ID/aif369-backend-dev:${{ github.sha }} \
+            --platform managed \
+            --region $REGION \
+            --project $PROJECT_ID \
+            --allow-unauthenticated \
+            --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
+            --set-env-vars PROJECT_ID=$PROJECT_ID \
+            --update-secrets SMTP_PASSWORD=aif369-smtp-password:latest \
+            --set-env-vars SMTP_USER=edaza@aif369.com \
+            --set-env-vars NOTIFICATION_EMAIL=erwin.daza@gmail.com \
+            --tag dev
+
+      - name: Show DEV URL
+        run: |
+          gcloud run services describe aif369-backend-api-dev \
+            --region $REGION --project $PROJECT_ID \
+            --format='value(status.url)'

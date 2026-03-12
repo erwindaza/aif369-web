@@ -27,6 +27,7 @@ Thumbs.db
 
 # Local tooling
 .gcloud/
+.envrc
 **/__pycache__/
 
 # Private drafts (do not commit)
