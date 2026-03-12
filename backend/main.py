@@ -32,7 +32,8 @@ SMTP_HOST = "smtp.zoho.com"
 SMTP_PORT = 587
 SMTP_USER = os.getenv("SMTP_USER", "edaza@aif369.com")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "erwin.daza@gmail.com")
+NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "edaza@aif369.com")
+CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com")
 
 
 def send_email_notification(submission_data):
@@ -57,6 +58,7 @@ def send_email_notification(submission_data):
         msg['Subject'] = f'{subject_prefix}: {submission_data["name"]}'
         msg['From'] = SMTP_USER
         msg['To'] = NOTIFICATION_EMAIL
+        msg['Cc'] = CC_EMAIL
         
         # Contenido HTML
         html = f'''
@@ -86,7 +88,7 @@ def send_email_notification(submission_data):
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.send_message(msg)
         
-        print(f"Email notification sent to {NOTIFICATION_EMAIL}")
+        print(f"Email notification sent to {NOTIFICATION_EMAIL} (cc: {CC_EMAIL})")
         return True
     except Exception as e:
         print(f"Error sending email notification: {e}")
