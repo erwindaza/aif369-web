@@ -1693,6 +1693,14 @@ nav {
     margin-bottom: var(--space-3);
 }
 
+.price-tag {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--primary-light);
+    margin: var(--space-2) 0 var(--space-4);
+    line-height: 1.2;
+}
+
 /* ========== GRIDS ========== */
 .grid-2,
 .grid-3 {

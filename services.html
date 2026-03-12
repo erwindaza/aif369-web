@@ -20,84 +20,142 @@
         <div class="nav-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="services.html" class="active" data-i18n="nav.services">Servicios</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="education.html" data-i18n="nav.education">Academia</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre nosotros</a>
+            <a href="index.html#contacto" class="btn btn-outline" data-i18n="nav.cta">Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
 
 <main class="container">
+    <!-- HEADER -->
     <section class="section">
         <header class="section-header">
             <h1 data-i18n="services.header.title">Servicios AIF369</h1>
-            <p data-i18n="services.header.subtitle">Trabajamos con un modelo simple: equipos senior de IA, datos y cloud que se integran con su organización por sprints o tramos de proyecto.</p>
+            <p data-i18n="services.header.subtitle">Una escalera de valor clara: desde un producto digital de autodiagnóstico hasta un CAIO dedicado a su organización.</p>
+        </header>
+    </section>
+
+    <!-- VALUE LADDER: PRICING OVERVIEW -->
+    <section class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="services.ladder.title">Elija su punto de entrada</h2>
+            <p data-i18n="services.ladder.subtitle">Cada servicio puede contratarse independientemente. Elija según su urgencia, madurez y presupuesto.</p>
         </header>
 
         <div class="grid-3">
+            <!-- STARTER KIT -->
             <article class="card">
-                <div class="card-icon" aria-hidden="true">🧭</div>
-                <h2 data-i18n="services.card1.title">Diagnóstico de IA y datos</h2>
-                <p data-i18n="services.card1.text">Desde 5 días o hasta 3 semanas: identifique oportunidades de alto impacto y trace un roadmap concreto.</p>
+                <p class="tag">Producto digital</p>
+                <h3 data-i18n="services.ladder.kit.title">AI Governance Starter Kit</h3>
+                <p class="price-tag">USD 890</p>
+                <p data-i18n="services.ladder.kit.text">Cuestionario de madurez + plantillas de gobierno + roadmap de 90 días. Entregado en 10 días.</p>
                 <ul class="simple-list">
-                    <li data-i18n="services.card1.item1">Express (5-7 días): quick wins y arquitectura objetivo.</li>
-                    <li data-i18n="services.card1.item2">Ejecutivo (2-3 semanas): evaluación profunda y ROI.</li>
-                    <li data-i18n="services.card1.item3">Roadmap priorizado de corto y mediano plazo.</li>
+                    <li>Diagnóstico de madurez (cuestionario)</li>
+                    <li>Plantillas: política IA, riesgos, comité</li>
+                    <li>Roadmap 90 días con quick wins</li>
+                    <li>Sesión ejecutiva de 90 min</li>
                 </ul>
-                <a href="service-diagnostico.html" class="btn btn-link" data-i18n="services.card1.link">Ver más detalles</a>
+                <a href="product.html" class="btn btn-link" data-i18n="services.ladder.kit.cta">Ver detalle del kit →</a>
             </article>
 
+            <!-- DIAGNÓSTICO EXPRESS -->
+            <article class="card">
+                <p class="tag">⚡ Más popular</p>
+                <h3 data-i18n="services.ladder.express.title">Diagnóstico Express</h3>
+                <p class="price-tag">USD 1.500</p>
+                <p data-i18n="services.ladder.express.text">Evaluación de 5-7 días hábiles. Quick wins, roadmap corto y arquitectura objetivo.</p>
+                <ul class="simple-list">
+                    <li>Análisis de capacidades actuales</li>
+                    <li>Mapa de oportunidades alto impacto</li>
+                    <li>Arquitectura objetivo recomendada</li>
+                    <li>Informe ejecutivo + plan de acción</li>
+                </ul>
+                <a href="service-diagnostico.html" class="btn btn-link" data-i18n="services.ladder.express.cta">Ver Diagnóstico Express →</a>
+            </article>
+
+            <!-- DIAGNÓSTICO EJECUTIVO -->
             <article class="card card-highlight">
-                <div class="card-icon" aria-hidden="true">⚙️</div>
-                <h2 data-i18n="services.card2.title">Implementación de casos</h2>
-                <p data-i18n="services.card2.text">Equipos de proyecto que construyen y ponen en producción soluciones de IA, datos y automatización.</p>
+                <p class="tag">🏢 Corporativo</p>
+                <h3 data-i18n="services.ladder.ejecutivo.title">Diagnóstico Ejecutivo</h3>
+                <p class="price-tag">USD 4.500</p>
+                <p data-i18n="services.ladder.ejecutivo.text">2-3 semanas de evaluación profunda con entrevistas, ROI por caso de uso y presentación C-level.</p>
                 <ul class="simple-list">
-                    <li data-i18n="services.card2.item1">Agentes y copilotos para clientes y backoffice.</li>
-                    <li data-i18n="services.card2.item2">Plataformas de datos listas para IA y analítica.</li>
-                    <li data-i18n="services.card2.item3">Integración con sistemas existentes y seguridad corporativa.</li>
+                    <li>5-8 entrevistas con stakeholders</li>
+                    <li>Evaluación profunda de madurez</li>
+                    <li>ROI estimado por caso de uso</li>
+                    <li>Presentación ejecutiva a directorio</li>
                 </ul>
-                <a href="service-implementacion.html" class="btn btn-link" data-i18n="services.card2.link">Ver más detalles</a>
+                <a href="service-diagnostico.html" class="btn btn-link" data-i18n="services.ladder.ejecutivo.cta">Ver Diagnóstico Ejecutivo →</a>
+            </article>
+        </div>
+
+        <div class="grid-2" style="margin-top: 2rem;">
+            <!-- IMPLEMENTACIÓN -->
+            <article class="card">
+                <p class="tag">Proyectos</p>
+                <h3 data-i18n="services.ladder.impl.title">Implementación por sprint</h3>
+                <p class="price-tag">Desde USD 12.000/sprint</p>
+                <p data-i18n="services.ladder.impl.text">Equipo de 2-3 seniors que diseña, construye y despliega soluciones de IA y datos en producción.</p>
+                <ul class="simple-list">
+                    <li>Sprints de 2-4 semanas con entregables</li>
+                    <li>Agentes, plataformas de datos, MLOps</li>
+                    <li>Integración con sistemas corporativos</li>
+                    <li>Transferencia de conocimiento incluida</li>
+                </ul>
+                <a href="service-implementacion.html" class="btn btn-link" data-i18n="services.ladder.impl.cta">Ver Implementación →</a>
             </article>
 
-            <article class="card">
-                <div class="card-icon" aria-hidden="true">🛡️</div>
-                <h2 data-i18n="services.card3.title">Gobierno y CAIO as a Service</h2>
-                <p data-i18n="services.card3.text">Acompañamiento para crear comités, políticas y modelos operativos de IA sin frenar la innovación.</p>
+            <!-- CAIO -->
+            <article class="card card-highlight">
+                <p class="tag">Retainer</p>
+                <h3 data-i18n="services.ladder.caio.title">CAIO as a Service</h3>
+                <p class="price-tag">Desde USD 4.000/mes</p>
+                <p data-i18n="services.ladder.caio.text">Chief AI Officer dedicado 2 días/semana. Gobierno, comité, políticas y alineación con directorio.</p>
                 <ul class="simple-list">
-                    <li data-i18n="services.card3.item1">Diseño del rol CAIO y comité de IA.</li>
-                    <li data-i18n="services.card3.item2">Políticas de uso responsable y gestión de riesgo.</li>
-                    <li data-i18n="services.card3.item3">Modelo de priorización de casos de uso.</li>
+                    <li>CAIO senior con experiencia comprobada</li>
+                    <li>Diseño de comité y políticas de IA</li>
+                    <li>Facilitación de comités mensuales</li>
+                    <li>Reporting a CIO y directorio</li>
                 </ul>
-                <a href="service-gobierno.html" class="btn btn-link" data-i18n="services.card3.link">Ver más detalles</a>
+                <a href="service-gobierno.html" class="btn btn-link" data-i18n="services.ladder.caio.cta">Ver CAIO as a Service →</a>
             </article>
         </div>
     </section>
 
-    <section class="section section-alt mlops-section">
+    <!-- CASES (from old portfolio) -->
+    <section class="section">
         <header class="section-header">
-            <h2 data-i18n="services.mlops.title">MLOps y LLMOps</h2>
+            <h2 data-i18n="services.cases.title">Casos reales</h2>
+            <p data-i18n="services.cases.subtitle">Ejemplos de soluciones que hemos diseñado y desplegado.</p>
         </header>
-        <p class="section-body" data-i18n="services.mlops.body1">Las organizaciones que lideran el camino de la innovación en el aprendizaje automático (ML) y el modelo de lenguaje grande (LLM) se posicionan para obtener una ventaja competitiva significativa. Pero con demasiada frecuencia, llevar las innovaciones de IA más allá de la prueba de concepto y a la producción es una lucha.</p>
-        <p class="section-body" data-i18n="services.mlops.body2">Nuestros servicios MLOps y LLMOps combinan metodologías de Agilismo, Data Mesh y entrega continua para agilizar y acelerar el desarrollo, la implementación y las operaciones de ML y de IA generativa. A través de nuestras asociaciones con proveedores líderes en la nube, te ayudamos a crear soluciones MLOps y LLMOps flexibles y escalables que minimizan el trabajo manual y facilitan ciclos de innovación rápidos para un tiempo de obtención de valor más rápido.</p>
-        <a href="index.html#contacto" class="btn btn-primary" data-i18n="services.mlops.cta">Ponte en contacto con nosotros</a>
+
+        <div class="grid-3">
+            <article class="card">
+                <h3 data-i18n="services.cases.case1.title">Motor de revisión de catálogos</h3>
+                <p data-i18n="services.cases.case1.text">Pipeline que integra datos de múltiples fuentes, ejecuta modelos de calidad y envía alertas a equipos de catálogo.</p>
+                <p class="small-text">APIs de terceros · Orquestación · Monitoreo</p>
+            </article>
+            <article class="card">
+                <h3 data-i18n="services.cases.case2.title">Agente para canales digitales</h3>
+                <p data-i18n="services.cases.case2.text">Agente conectado a datos de clientes y productos, capaz de responder, derivar y generar tickets con contexto.</p>
+                <p class="small-text">LLM · RAG · Seguridad de datos personales</p>
+            </article>
+            <article class="card">
+                <h3 data-i18n="services.cases.case3.title">Panel de gobierno de IA</h3>
+                <p data-i18n="services.cases.case3.text">Tablero donde CAIO y comités ven modelos, datos, riesgos, responsables y estado de cada iniciativa.</p>
+                <p class="small-text">Dashboard · Trazabilidad · Comité ejecutivo</p>
+            </article>
+        </div>
     </section>
 
-    <section class="section section-alt mlops-section">
-        <header class="section-header">
-            <h2 data-i18n="services.latamgpt.title">Latam GPT</h2>
-        </header>
-        <p class="section-body" data-i18n="services.latamgpt.body1">Latam GPT acaba de ser lanzado desde Chile para el mundo, con foco en el español latino y necesidades regionales.</p>
-        <p class="section-body" data-i18n="services.latamgpt.body2">Te ayudamos a explorar casos de uso, integración en procesos de negocio y operación segura con gobernanza y cumplimiento.</p>
-        <a href="index.html#contacto" class="btn btn-primary" data-i18n="services.latamgpt.cta">Conversemos sobre Latam GPT</a>
-    </section>
-
+    <!-- CAPABILITIES -->
     <section class="section section-alt">
         <header class="section-header">
             <h2 data-i18n="services.capabilities.title">Capacidades técnicas</h2>
-            <p data-i18n="services.capabilities.subtitle">Trabajamos con un conjunto de tecnologías que cubre todo el ciclo de vida de datos e IA.</p>
+            <p data-i18n="services.capabilities.subtitle">Tecnologías que cubren todo el ciclo de vida de datos e IA.</p>
         </header>
 
         <div class="grid-3">
@@ -121,6 +179,15 @@
             </article>
         </div>
     </section>
+
+    <!-- CTA -->
+    <section class="section">
+        <header class="section-header">
+            <h2 data-i18n="services.cta.title">¿No sabe por dónde empezar?</h2>
+            <p data-i18n="services.cta.subtitle">Agende una conversación gratuita de 30 minutos. Le ayudamos a identificar el servicio correcto para su contexto.</p>
+            <a href="index.html#contacto" class="btn btn-primary" data-i18n="services.cta.button">Agendar conversación gratuita</a>
+        </header>
+    </section>
 </main>
 
 <footer class="site-footer">
@@ -131,10 +198,9 @@
         </div>
         <div class="footer-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="education.html" data-i18n="nav.education">Academia</a>
+            <a href="author.html" data-i18n="nav.author">Sobre nosotros</a>
         </div>
             <div class="footer-social">
             <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=erwin-daza-castillo" target="_blank" rel="noopener">Follow on LinkedIn</a>
