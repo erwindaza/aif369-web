@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Readiness Scorecard - AIF369</title>
+    <meta name="description" content="Evalúe la madurez de IA de su organización en 5 minutos. Obtenga un diagnóstico gratuito con recomendaciones personalizadas.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Scorecard-specific styles */
+        .scorecard-container { max-width: 720px; margin: 0 auto; }
+
+        .scorecard-progress { display: flex; gap: 6px; margin-bottom: var(--space-8); }
+        .scorecard-progress .step {
+            flex: 1; height: 4px; border-radius: 2px;
+            background: var(--border-strong); transition: background var(--transition-base);
+        }
+        .scorecard-progress .step.active { background: var(--primary); }
+        .scorecard-progress .step.done { background: var(--secondary); }
+
+        .scorecard-step { display: none; animation: fadeIn 0.3s ease; }
+        .scorecard-step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .scorecard-category {
+            font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--primary-light); margin-bottom: var(--space-2); font-weight: 600;
+        }
+        .scorecard-question {
+            font-size: var(--text-xl); font-weight: 600; color: var(--text-primary);
+            margin-bottom: var(--space-6); line-height: 1.4;
+        }
+        .scorecard-options { display: flex; flex-direction: column; gap: var(--space-3); }
+        .scorecard-option {
+            display: flex; align-items: center; gap: var(--space-4);
+            padding: var(--space-4) var(--space-5);
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: var(--radius-md); cursor: pointer;
+            transition: all var(--transition-base); color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .scorecard-option:hover { border-color: var(--primary); color: var(--text-primary); background: var(--bg-tertiary); }
+        .scorecard-option.selected { border-color: var(--primary); background: rgba(0,136,255,0.1); color: var(--text-primary); }
+        .scorecard-option .option-score {
+            width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            background: var(--bg-tertiary); font-weight: 600; font-size: var(--text-sm); color: var(--text-tertiary);
+            flex-shrink: 0; border: 1px solid var(--border);
+        }
+        .scorecard-option.selected .option-score { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .scorecard-nav { display: flex; justify-content: space-between; margin-top: var(--space-8); }
+        .scorecard-nav .btn { min-width: 140px; }
+
+        .scorecard-counter {
+            text-align: center; color: var(--text-tertiary); font-size: var(--text-sm);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Results */
+        .results-hidden { display: none; }
+        .results-visible { display: block; animation: fadeIn 0.5s ease; }
+
+        .score-circle {
+            width: 200px; height: 200px; border-radius: 50%; margin: 0 auto var(--space-6);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: conic-gradient(var(--primary) calc(var(--score-pct) * 3.6deg), var(--bg-tertiary) 0);
+            position: relative;
+        }
+        .score-circle::before {
+            content: ''; position: absolute; inset: 12px; border-radius: 50%; background: var(--bg-primary);
+        }
+        .score-circle .score-value {
+            position: relative; z-index: 1; font-size: var(--text-5xl);
+            font-weight: 700; color: var(--text-primary); line-height: 1;
+        }
+        .score-circle .score-label {
+            position: relative; z-index: 1; font-size: var(--text-sm);
+            color: var(--text-tertiary); margin-top: var(--space-1);
+        }
+
+        .maturity-level {
+            text-align: center; margin-bottom: var(--space-8); padding: var(--space-6);
+            background: var(--bg-secondary); border-radius: var(--radius-lg); border: 1px solid var(--border);
+        }
+        .maturity-level h2 { font-size: var(--text-3xl); margin-bottom: var(--space-2); }
+        .maturity-level .level-tag {
+            display: inline-block; padding: var(--space-1) var(--space-4);
+            border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+        .level-1 .level-tag { background: rgba(239,68,68,0.2); color: #ef4444; }
+        .level-2 .level-tag { background: rgba(249,115,22,0.2); color: #f97316; }
+        .level-3 .level-tag { background: rgba(234,179,8,0.2); color: #eab308; }
+        .level-4 .level-tag { background: rgba(34,197,94,0.2); color: #22c55e; }
+        .level-5 .level-tag { background: rgba(0,136,255,0.2); color: var(--primary-light); }
+
+        .dimension-scores { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-8); }
+        @media (max-width: 640px) { .dimension-scores { grid-template-columns: 1fr; } }
+        .dimension-card {
+            padding: var(--space-5); background: var(--bg-secondary); border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+        .dimension-card h4 { font-size: var(--text-base); margin-bottom: var(--space-2); color: var(--text-primary); }
+        .dimension-bar { height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden; margin-bottom: var(--space-2); }
+        .dimension-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+        .dimension-card .dim-score { font-size: var(--text-sm); color: var(--text-tertiary); }
+
+        .recommendation-card {
+            padding: var(--space-6); background: var(--bg-secondary); border-radius: var(--radius-lg);
+            border: 1px solid var(--primary); margin-bottom: var(--space-6);
+        }
+        .recommendation-card h3 { color: var(--primary-light); margin-bottom: var(--space-3); }
+        .recommendation-card .rec-price { font-size: var(--text-2xl); font-weight: 700; color: var(--text-primary); }
+
+        /* Lead capture step */
+        .lead-form { max-width: 480px; margin: 0 auto; }
+        .lead-form input {
+            width: 100%; padding: var(--space-4); margin-bottom: var(--space-3);
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: var(--radius-md); color: var(--text-primary);
+            font-size: var(--text-base); font-family: var(--font-sans);
+        }
+        .lead-form input::placeholder { color: var(--text-tertiary); }
+        .lead-form input:focus { outline: none; border-color: var(--primary); }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <div class="logo">AIF369</div>
+        <button class="nav-toggle" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="education.html" data-i18n="nav.education">Academia</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre nosotros</a>
+            <a href="index.html#contacto" class="btn btn-outline" data-i18n="nav.cta">Agendar llamada</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch">EN</button>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    <!-- HERO -->
+    <section class="section" style="padding-bottom: var(--space-6);">
+        <header class="section-header">
+            <p class="badge">Herramienta gratuita</p>
+            <h1>AI Readiness Scorecard</h1>
+            <p>Evalúe la madurez de IA de su organización en 5 minutos.<br>Reciba un diagnóstico con recomendaciones personalizadas.</p>
+        </header>
+    </section>
+
+    <!-- QUESTIONNAIRE -->
+    <section class="section scorecard-container" id="scorecard-quiz">
+        <div class="scorecard-progress" id="progress-bar"></div>
+        <div class="scorecard-counter" id="question-counter"></div>
+        <div id="scorecard-steps"></div>
+        <div class="scorecard-nav">
+            <button class="btn btn-outline" id="btn-prev" style="visibility:hidden;">← Anterior</button>
+            <button class="btn btn-primary" id="btn-next" disabled>Siguiente →</button>
+        </div>
+    </section>
+
+    <!-- LEAD CAPTURE (before results) -->
+    <section class="section scorecard-container results-hidden" id="lead-capture">
+        <header class="section-header">
+            <h2>Su resultado está listo</h2>
+            <p>Ingrese sus datos para ver su diagnóstico completo.</p>
+        </header>
+        <div class="lead-form">
+            <input type="text" id="lead-name" placeholder="Nombre y apellido" required>
+            <input type="email" id="lead-email" placeholder="Email corporativo" required>
+            <input type="text" id="lead-company" placeholder="Empresa" required>
+            <input type="text" id="lead-role" placeholder="Cargo (ej: CTO, VP Data, CAIO)">
+            <button class="btn btn-primary" id="btn-show-results" style="width:100%; margin-top: var(--space-4);">
+                Ver mi diagnóstico →
+            </button>
+        </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section scorecard-container results-hidden" id="scorecard-results">
+        <div class="score-circle" id="score-circle">
+            <span class="score-value" id="score-value">0</span>
+            <span class="score-label">de 100</span>
+        </div>
+        <div class="maturity-level" id="maturity-level"></div>
+        <h3 style="margin-bottom: var(--space-4);">Resultados por dimensión</h3>
+        <div class="dimension-scores" id="dimension-scores"></div>
+        <div id="recommendation"></div>
+        <div style="text-align:center; margin-top: var(--space-8);">
+            <a href="index.html#contacto" class="btn btn-primary">Agendar conversación gratuita</a>
+            <p style="margin-top: var(--space-3); color: var(--text-tertiary); font-size: var(--text-sm);">
+                Conversemos sobre cómo llevar su organización al siguiente nivel de madurez en IA.
+            </p>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div>
+            <div class="logo">AIF369</div>
+            <p>IA, Datos y Cloud para la empresa moderna.</p>
+        </div>
+        <div>
+            <a href="services.html">Servicios</a>
+            <a href="education.html">Academia</a>
+            <a href="blog.html">Insights</a>
+            <a href="author.html">Sobre nosotros</a>
+        </div>
+    </div>
+    <div class="container footer-bottom">
+        <p>© 2026 AIF369. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+<script>
+(function() {
+    // ===== QUESTIONS DATABASE =====
+    const questions = [
+        // ESTRATEGIA (4 preguntas)
+        {
+            category: "Estrategia",
+            dimension: "strategy",
+            question: "¿Su organización tiene una estrategia formal de IA alineada con los objetivos de negocio?",
+            options: [
+                { text: "No hemos considerado IA como parte de la estrategia", score: 1 },
+                { text: "Hay interés pero no está documentado", score: 2 },
+                { text: "Existe un plan inicial pero sin presupuesto asignado", score: 3 },
+                { text: "Tenemos estrategia documentada con presupuesto y sponsors", score: 4 },
+                { text: "Estrategia integrada con KPIs, revisión trimestral y governance", score: 5 }
+            ]
+        },
+        {
+            category: "Estrategia",
+            dimension: "strategy",
+            question: "¿Hay un responsable ejecutivo (CAIO, CDO, VP de IA) liderando las iniciativas de IA?",
+            options: [
+                { text: "Nadie tiene ese rol", score: 1 },
+                { text: "Alguien lo hace informalmente además de su rol principal", score: 2 },
+                { text: "Hay un responsable designado pero sin equipo dedicado", score: 3 },
+                { text: "Responsable con equipo pequeño y presupuesto propio", score: 4 },
+                { text: "C-level dedicado con equipo, presupuesto y reporte al board", score: 5 }
+            ]
+        },
+        {
+            category: "Estrategia",
+            dimension: "strategy",
+            question: "¿Cómo miden el ROI de las iniciativas de IA?",
+            options: [
+                { text: "No lo medimos", score: 1 },
+                { text: "Medimos de forma anecdótica o informal", score: 2 },
+                { text: "Tenemos métricas pero no son consistentes entre proyectos", score: 3 },
+                { text: "Framework de ROI estandarizado para todos los proyectos de IA", score: 4 },
+                { text: "Dashboard en tiempo real con impacto en negocio y tracking continuo", score: 5 }
+            ]
+        },
+        // DATOS (3 preguntas)
+        {
+            category: "Datos",
+            dimension: "data",
+            question: "¿Cuál es el estado de la infraestructura de datos de su organización?",
+            options: [
+                { text: "Datos en silos, sin catálogo ni estándares de calidad", score: 1 },
+                { text: "Algunos datos centralizados pero con problemas de calidad", score: 2 },
+                { text: "Data warehouse/lake funcional con procesos de ETL básicos", score: 3 },
+                { text: "Plataforma moderna con catálogo, linaje y calidad automatizada", score: 4 },
+                { text: "Data mesh o plataforma self-service con governance integrado", score: 5 }
+            ]
+        },
+        {
+            category: "Datos",
+            dimension: "data",
+            question: "¿Qué tan accesibles son los datos para los equipos que los necesitan?",
+            options: [
+                { text: "Requiere solicitudes manuales que toman semanas", score: 1 },
+                { text: "Acceso limitado, depende de IT para cada consulta", score: 2 },
+                { text: "Herramientas de BI disponibles para algunos equipos", score: 3 },
+                { text: "Acceso self-service con controles de seguridad", score: 4 },
+                { text: "Data marketplace con datos curados y APIs documentadas", score: 5 }
+            ]
+        },
+        {
+            category: "Datos",
+            dimension: "data",
+            question: "¿Tienen políticas de privacidad y protección de datos implementadas?",
+            options: [
+                { text: "No tenemos políticas formales", score: 1 },
+                { text: "Políticas básicas pero sin enforcement técnico", score: 2 },
+                { text: "Cumplimos regulaciones mínimas (GDPR, etc.)", score: 3 },
+                { text: "Marco completo con clasificación de datos y auditoría", score: 4 },
+                { text: "Privacy by design con automatización y monitoreo continuo", score: 5 }
+            ]
+        },
+        // TALENTO (3 preguntas)
+        {
+            category: "Talento",
+            dimension: "talent",
+            question: "¿Cómo es la capacidad técnica de su equipo en IA/ML?",
+            options: [
+                { text: "No tenemos personas con conocimiento en IA/ML", score: 1 },
+                { text: "1-2 personas con conocimiento básico o autodidacta", score: 2 },
+                { text: "Equipo pequeño de data science con proyectos piloto", score: 3 },
+                { text: "Equipo establecido con ML engineers y data scientists", score: 4 },
+                { text: "Centro de excelencia de IA con investigación y producción", score: 5 }
+            ]
+        },
+        {
+            category: "Talento",
+            dimension: "talent",
+            question: "¿Existe un programa de formación en IA para el resto de la organización?",
+            options: [
+                { text: "No existe formación en IA", score: 1 },
+                { text: "Algunos cursos voluntarios sin estructura", score: 2 },
+                { text: "Programa de AI literacy para líderes de negocio", score: 3 },
+                { text: "Plan de formación por niveles: awareness, user, builder", score: 4 },
+                { text: "Academia interna con certificaciones y comunidad activa", score: 5 }
+            ]
+        },
+        {
+            category: "Talento",
+            dimension: "talent",
+            question: "¿Cómo gestionan el conocimiento y las mejores prácticas de IA?",
+            options: [
+                { text: "No hay documentación ni procesos compartidos", score: 1 },
+                { text: "Conocimiento en la cabeza de pocas personas", score: 2 },
+                { text: "Documentación básica en wikis o drives compartidos", score: 3 },
+                { text: "Playbooks estandarizados y templates reutilizables", score: 4 },
+                { text: "Inner-source con repositorios compartidos y peer review", score: 5 }
+            ]
+        },
+        // TECNOLOGÍA (3 preguntas)
+        {
+            category: "Tecnología",
+            dimension: "technology",
+            question: "¿Cuál es el estado de su infraestructura cloud y MLOps?",
+            options: [
+                { text: "Solo on-premise, sin cloud", score: 1 },
+                { text: "Cloud básico (email, storage) sin uso para ML", score: 2 },
+                { text: "Cloud con algunos modelos desplegados manualmente", score: 3 },
+                { text: "Pipeline de MLOps con CI/CD, monitoring y versionado", score: 4 },
+                { text: "Plataforma de ML completa con feature store, A/B testing y auto-scaling", score: 5 }
+            ]
+        },
+        {
+            category: "Tecnología",
+            dimension: "technology",
+            question: "¿Cómo integran los modelos de IA con los sistemas de negocio existentes?",
+            options: [
+                { text: "No tenemos modelos en producción", score: 1 },
+                { text: "Modelos aislados sin integración real", score: 2 },
+                { text: "Integración manual en 1-2 procesos de negocio", score: 3 },
+                { text: "APIs y microservicios para integración automatizada", score: 4 },
+                { text: "Plataforma de decisiones con IA embebida en flujos core", score: 5 }
+            ]
+        },
+        {
+            category: "Tecnología",
+            dimension: "technology",
+            question: "¿Utilizan IA Generativa (LLMs, copilots) en la organización?",
+            options: [
+                { text: "No hemos explorado IA generativa", score: 1 },
+                { text: "Uso individual no regulado (ChatGPT personal)", score: 2 },
+                { text: "Piloto controlado en 1-2 áreas con guidelines básicos", score: 3 },
+                { text: "Despliegue corporativo con governance y uso aprobado", score: 4 },
+                { text: "Agentes de IA integrados en procesos core con RAG y fine-tuning", score: 5 }
+            ]
+        },
+        // GOBERNANZA (3 preguntas)
+        {
+            category: "Gobernanza",
+            dimension: "governance",
+            question: "¿Tienen un marco de gobernanza y ética para el uso de IA?",
+            options: [
+                { text: "No hemos considerado gobernanza de IA", score: 1 },
+                { text: "Discusiones informales sin políticas escritas", score: 2 },
+                { text: "Principios éticos documentados pero sin enforcement", score: 3 },
+                { text: "Framework de gobernanza con comité, políticas y auditoría", score: 4 },
+                { text: "Responsible AI integrado en el ciclo de vida con monitoreo continuo", score: 5 }
+            ]
+        },
+        {
+            category: "Gobernanza",
+            dimension: "governance",
+            question: "¿Cómo gestionan los riesgos asociados a los modelos de IA?",
+            options: [
+                { text: "No evaluamos riesgos de IA", score: 1 },
+                { text: "Evaluación ad-hoc cuando surge un problema", score: 2 },
+                { text: "Checklist básico antes de desplegar modelos", score: 3 },
+                { text: "Marco de riesgos con clasificación, mitigación y seguimiento", score: 4 },
+                { text: "Model risk management completo con monitoreo de drift y bias", score: 5 }
+            ]
+        },
+        {
+            category: "Gobernanza",
+            dimension: "governance",
+            question: "¿Existe un inventario de todos los modelos y sistemas de IA en uso?",
+            options: [
+                { text: "No tenemos visibilidad de qué IA se usa", score: 1 },
+                { text: "Algunos equipos saben qué usan, pero no hay registro central", score: 2 },
+                { text: "Lista o spreadsheet con los modelos principales", score: 3 },
+                { text: "Model registry con metadata, ownership y estado", score: 4 },
+                { text: "Model catalog completo con linaje, performance y compliance tracking", score: 5 }
+            ]
+        }
+    ];
+
+    const dimensions = {
+        strategy: { name: "Estrategia", color: "#0088FF", count: 0, total: 0 },
+        data: { name: "Datos", color: "#00D9CC", count: 0, total: 0 },
+        talent: { name: "Talento", color: "#F97316", count: 0, total: 0 },
+        technology: { name: "Tecnología", color: "#8B5CF6", count: 0, total: 0 },
+        governance: { name: "Gobernanza", color: "#22C55E", count: 0, total: 0 }
+    };
+
+    const maturityLevels = [
+        { min: 0,  max: 20,  level: 1, name: "Inicial",        desc: "Su organización está en la etapa inicial de exploración de IA. Hay oportunidad significativa de construir bases sólidas." },
+        { min: 21, max: 40,  level: 2, name: "Exploratorio",   desc: "Hay iniciativas aisladas pero falta estructura. Con un roadmap claro, puede acelerar significativamente." },
+        { min: 41, max: 60,  level: 3, name: "Experimentación", desc: "Tiene pilotos y capacidad básica. El reto ahora es escalar, gobernar y conectar IA con el valor de negocio." },
+        { min: 61, max: 80,  level: 4, name: "Escalamiento",   desc: "Operación madura con múltiples proyectos en producción. El foco debe estar en optimización y governance avanzado." },
+        { min: 81, max: 100, level: 5, name: "Líder en IA",    desc: "Su organización es referente en IA. El siguiente paso es innovación continua, investigación aplicada y influencia en el ecosistema." }
+    ];
+
+    const serviceRecommendations = [
+        { maxScore: 30, service: "AI Governance Starter Kit", price: "USD 890",
+          desc: "Ideal para comenzar: incluye diagnóstico de madurez, plantillas de gobernanza y roadmap de 90 días.",
+          link: "product.html" },
+        { maxScore: 55, service: "Diagnóstico Express", price: "USD 1.500",
+          desc: "Perfecto para su nivel: evaluación ejecutiva en 5 días con roadmap priorizado y sesiones con stakeholders.",
+          link: "service-diagnostico.html" },
+        { maxScore: 80, service: "Diagnóstico Ejecutivo", price: "USD 4.500",
+          desc: "Para consolidar su madurez: deep-dive de 3-4 semanas con benchmark sectorial y plan de transformación.",
+          link: "service-diagnostico.html" },
+        { maxScore: 100, service: "CAIO-as-a-Service", price: "USD 4.000/mes",
+          desc: "Para mantener el liderazgo: acompañamiento estratégico continuo con governance avanzado y optimización.",
+          link: "service-gobierno.html" }
+    ];
+
+    // ===== STATE =====
+    let currentStep = 0;
+    const answers = new Array(questions.length).fill(null);
+
+    // ===== RENDER =====
+    const stepsContainer = document.getElementById('scorecard-steps');
+    const progressBar = document.getElementById('progress-bar');
+    const counter = document.getElementById('question-counter');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function init() {
+        // Build progress bar
+        progressBar.innerHTML = questions.map((_, i) =>
+            `<div class="step" data-step="${i}"></div>`
+        ).join('');
+
+        // Build question steps
+        stepsContainer.innerHTML = questions.map((q, i) =>
+            `<div class="scorecard-step" data-step="${i}">
+                <div class="scorecard-category">${q.category}</div>
+                <div class="scorecard-question">${q.question}</div>
+                <div class="scorecard-options">
+                    ${q.options.map((opt, oi) =>
+                        `<div class="scorecard-option" data-question="${i}" data-option="${oi}" data-score="${opt.score}">
+                            <span class="option-score">${opt.score}</span>
+                            <span>${opt.text}</span>
+                        </div>`
+                    ).join('')}
+                </div>
+            </div>`
+        ).join('');
+
+        // Event delegation for option clicks
+        stepsContainer.addEventListener('click', function(e) {
+            const option = e.target.closest('.scorecard-option');
+            if (!option) return;
+            const qi = parseInt(option.dataset.question);
+            const oi = parseInt(option.dataset.option);
+            answers[qi] = { optionIndex: oi, score: questions[qi].options[oi].score };
+
+            // Update UI
+            stepsContainer.querySelectorAll(`.scorecard-option[data-question="${qi}"]`).forEach(el => el.classList.remove('selected'));
+            option.classList.add('selected');
+            btnNext.disabled = false;
+
+            // Auto-advance after a short delay
+            setTimeout(() => { if (currentStep < questions.length - 1) goToStep(currentStep + 1); }, 400);
+        });
+
+        goToStep(0);
+    }
+
+    function goToStep(step) {
+        currentStep = step;
+        // Update steps visibility
+        stepsContainer.querySelectorAll('.scorecard-step').forEach((el, i) => {
+            el.classList.toggle('active', i === step);
+        });
+        // Update progress bar
+        progressBar.querySelectorAll('.step').forEach((el, i) => {
+            el.classList.toggle('done', answers[i] !== null);
+            el.classList.toggle('active', i === step);
+        });
+        // Update counter
+        counter.textContent = `Pregunta ${step + 1} de ${questions.length}`;
+        // Update nav buttons
+        btnPrev.style.visibility = step === 0 ? 'hidden' : 'visible';
+        if (step === questions.length - 1) {
+            btnNext.textContent = 'Ver resultados →';
+        } else {
+            btnNext.textContent = 'Siguiente →';
+        }
+        btnNext.disabled = answers[step] === null;
+    }
+
+    btnNext.addEventListener('click', function() {
+        if (answers[currentStep] === null) return;
+        if (currentStep < questions.length - 1) {
+            goToStep(currentStep + 1);
+        } else {
+            showLeadCapture();
+        }
+    });
+
+    btnPrev.addEventListener('click', function() {
+        if (currentStep > 0) goToStep(currentStep - 1);
+    });
+
+    function showLeadCapture() {
+        document.getElementById('scorecard-quiz').style.display = 'none';
+        document.getElementById('lead-capture').classList.remove('results-hidden');
+        document.getElementById('lead-capture').classList.add('results-visible');
+    }
+
+    document.getElementById('btn-show-results').addEventListener('click', function() {
+        const name = document.getElementById('lead-name').value.trim();
+        const email = document.getElementById('lead-email').value.trim();
+        const company = document.getElementById('lead-company').value.trim();
+        const role = document.getElementById('lead-role').value.trim();
+
+        if (!name || !email || !company) {
+            alert('Por favor complete nombre, email y empresa.');
+            return;
+        }
+
+        // Calculate and show results
+        const results = calculateResults();
+
+        // Send to backend
+        sendScorecardData(name, email, company, role, results);
+
+        // Show results
+        renderResults(results);
+        document.getElementById('lead-capture').style.display = 'none';
+        document.getElementById('scorecard-results').classList.remove('results-hidden');
+        document.getElementById('scorecard-results').classList.add('results-visible');
+
+        // Animate score circle
+        setTimeout(() => {
+            document.getElementById('score-circle').style.setProperty('--score-pct', results.totalPct);
+        }, 100);
+    });
+
+    function calculateResults() {
+        // Reset dimensions
+        Object.values(dimensions).forEach(d => { d.count = 0; d.total = 0; });
+
+        answers.forEach((a, i) => {
+            if (a) {
+                const dim = questions[i].dimension;
+                dimensions[dim].count++;
+                dimensions[dim].total += a.score;
+            }
+        });
+
+        const maxPossible = questions.length * 5;
+        const totalScore = answers.reduce((sum, a) => sum + (a ? a.score : 0), 0);
+        const totalPct = Math.round((totalScore / maxPossible) * 100);
+
+        const dimResults = {};
+        Object.entries(dimensions).forEach(([key, dim]) => {
+            const maxDim = dim.count * 5;
+            dimResults[key] = {
+                name: dim.name,
+                color: dim.color,
+                score: dim.total,
+                max: maxDim,
+                pct: maxDim > 0 ? Math.round((dim.total / maxDim) * 100) : 0
+            };
+        });
+
+        const level = maturityLevels.find(l => totalPct >= l.min && totalPct <= l.max) || maturityLevels[0];
+
+        return { totalScore, totalPct, dimResults, level };
+    }
+
+    function renderResults(results) {
+        // Score value
+        document.getElementById('score-value').textContent = results.totalPct;
+
+        // Maturity level
+        const levelEl = document.getElementById('maturity-level');
+        levelEl.className = `maturity-level level-${results.level.level}`;
+        levelEl.innerHTML = `
+            <span class="level-tag">Nivel ${results.level.level}/5</span>
+            <h2>${results.level.name}</h2>
+            <p style="color: var(--text-secondary);">${results.level.desc}</p>
+        `;
+
+        // Dimension scores
+        const dimContainer = document.getElementById('dimension-scores');
+        dimContainer.innerHTML = Object.entries(results.dimResults).map(([key, dim]) => `
+            <div class="dimension-card">
+                <h4>${dim.name}</h4>
+                <div class="dimension-bar">
+                    <div class="dimension-bar-fill" style="width: ${dim.pct}%; background: ${dim.color};"></div>
+                </div>
+                <span class="dim-score">${dim.pct}%</span>
+            </div>
+        `).join('');
+
+        // Recommendation
+        const rec = serviceRecommendations.find(r => results.totalPct <= r.maxScore) || serviceRecommendations[serviceRecommendations.length - 1];
+        document.getElementById('recommendation').innerHTML = `
+            <div class="recommendation-card">
+                <h3>Recomendación para su organización</h3>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">${rec.desc}</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4);">
+                    <span class="rec-price">${rec.price}</span>
+                    <a href="${rec.link}" class="btn btn-primary">${rec.service} →</a>
+                </div>
+            </div>
+        `;
+    }
+
+    async function sendScorecardData(name, email, company, role, results) {
+        const PROD_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
+        const DEV_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
+        const isProd = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
+        const BASE = isProd ? PROD_URL : DEV_URL;
+
+        const dimSummary = Object.entries(results.dimResults)
+            .map(([k, d]) => `${d.name}: ${d.pct}%`).join(', ');
+
+        try {
+            await fetch(`${BASE}/api/scorecard`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name, email, company, role,
+                    total_score: results.totalPct,
+                    maturity_level: results.level.name,
+                    maturity_number: results.level.level,
+                    dimensions: results.dimResults,
+                    answers: answers.map((a, i) => ({
+                        question: questions[i].question,
+                        dimension: questions[i].dimension,
+                        score: a ? a.score : 0
+                    })),
+                    source_page: window.location.href
+                })
+            });
+        } catch (e) {
+            console.error('Error sending scorecard data:', e);
+        }
+    }
+
+    init();
+})();
+</script>
+</body>
+</html>

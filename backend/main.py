@@ -6,9 +6,10 @@ import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timezone
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from google.cloud import bigquery
+import google.generativeai as genai
 
 app = Flask(__name__)
 
@@ -34,6 +35,40 @@ SMTP_USER = os.getenv("SMTP_USER", "edaza@aif369.com")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "edaza@aif369.com")
 CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com")
+
+# Configuración de Gemini para el chatbot
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+
+SYSTEM_PROMPT = """Eres el asistente virtual de AIF369, una consultora especializada en IA, Datos y Cloud para empresas.
+Tu nombre es AIF369 Assistant. Responde en el mismo idioma que el usuario.
+
+SERVICIOS Y PRECIOS:
+- AI Governance Starter Kit: USD 890 — Diagnóstico de madurez, plantillas de gobernanza, roadmap de 90 días. Entregado en 10 días.
+- Diagnóstico Express: USD 1.500 — Evaluación ejecutiva en 5 días con roadmap priorizado, entrevistas con stakeholders y presentación al C-level.
+- Diagnóstico Ejecutivo: USD 4.500 — Deep-dive de 3-4 semanas, benchmark sectorial, plan de transformación completo, sesiones con hasta 10 stakeholders.
+- Implementación: USD 12.000/sprint — Sprints de 2-4 semanas para desplegar pipelines de datos, modelos ML, agentes de IA o infraestructura cloud.
+- CAIO-as-a-Service: USD 4.000/mes — Acompañamiento estratégico continuo como Chief AI Officer externo, governance avanzado, formación del equipo.
+
+HERRAMIENTA GRATUITA:
+- AI Readiness Scorecard: Evaluación gratuita de madurez en IA en 5 minutos con recomendaciones personalizadas. Disponible en aif369.com/scorecard.html
+
+FORMACIÓN:
+- Cursos corporativos de IA aplicada, Data Engineering, MLOps y Generative AI para equipos técnicos y ejecutivos.
+
+SOBRE AIF369:
+- Fundada por Erwin Daza, consultor con experiencia en transformación digital, IA y datos para corporaciones.
+- Enfoque: ROI medible, governance, seguridad y operación continua.
+- Trabajan con CIOs, CDOs, CAIOs y equipos de arquitectura.
+
+REGLAS:
+- Sé conciso, profesional y útil. Máximo 3-4 oraciones por respuesta.
+- Si el usuario pregunta algo fuera de tu alcance, redirige amablemente a agendar una conversación gratuita.
+- Siempre intenta conectar las necesidades del usuario con un servicio específico.
+- Si el usuario parece interesado, sugiere agendar una conversación gratuita o hacer el AI Readiness Scorecard.
+- No inventes datos ni estadísticas que no estén aquí.
+- Para preguntas técnicas complejas, sugiere una conversación con el equipo."""
 
 
 def send_email_notification(submission_data):
@@ -344,6 +379,159 @@ def submit_education_form():
             "error": "Internal server error",
             "message": str(e)
         }), 500
+
+
+SCORECARD_TABLE = "scorecard_submissions"
+
+@app.route("/api/scorecard", methods=["POST"])
+def submit_scorecard():
+    """
+    Endpoint para recibir resultados del AI Readiness Scorecard.
+    """
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        name = data.get("name", "")
+        email = data.get("email", "")
+        company = data.get("company", "")
+        role = data.get("role", "")
+        total_score = data.get("total_score", 0)
+        maturity_level = data.get("maturity_level", "")
+        maturity_number = data.get("maturity_number", 0)
+        dimensions_data = data.get("dimensions", {})
+        answers_data = data.get("answers", [])
+
+        if not name or not email:
+            return jsonify({"error": "Name and email are required"}), 400
+
+        submission_id = str(uuid.uuid4())
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        row = {
+            "submission_id": submission_id,
+            "timestamp": timestamp,
+            "name": name,
+            "email": email,
+            "company": company,
+            "role": role,
+            "total_score": total_score,
+            "maturity_level": maturity_level,
+            "maturity_number": maturity_number,
+            "dimensions_json": json.dumps(dimensions_data),
+            "answers_json": json.dumps(answers_data),
+            "source_page": data.get("source_page", request.referrer or ""),
+            "user_agent": request.headers.get("User-Agent", ""),
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr)
+        }
+
+        # Try to insert into scorecard table; fall back to contact table
+        try:
+            table_ref = f"{PROJECT_ID}.{DATASET_ID}.{SCORECARD_TABLE}"
+            errors = bq_client.insert_rows_json(table_ref, [row])
+            if errors:
+                print(f"Scorecard BQ insert errors: {errors}, falling back to contact table")
+                raise Exception("Scorecard table insert failed")
+        except Exception:
+            # Fallback: save as contact form submission
+            dim_summary = ", ".join(
+                f"{d.get('name','')}: {d.get('pct',0)}%"
+                for d in dimensions_data.values()
+            ) if isinstance(dimensions_data, dict) else ""
+            fallback_row = {
+                "submission_id": submission_id,
+                "timestamp": timestamp,
+                "name": name,
+                "email": email,
+                "company": company,
+                "message": f"AI Readiness Scorecard: {total_score}/100 ({maturity_level}). {dim_summary}",
+                "source_page": data.get("source_page", ""),
+                "user_agent": request.headers.get("User-Agent", ""),
+                "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+                "form_type": "scorecard",
+                "interest": f"Maturity: {maturity_level} ({total_score}/100)",
+                "team_size": None
+            }
+            table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
+            bq_client.insert_rows_json(table_ref, [fallback_row])
+
+        # Send notification email
+        dim_summary = "\n".join(
+            f"  • {d.get('name','')}: {d.get('pct',0)}%"
+            for d in dimensions_data.values()
+        ) if isinstance(dimensions_data, dict) else ""
+
+        email_data = {
+            "submission_id": submission_id,
+            "timestamp": timestamp,
+            "name": name,
+            "email": email,
+            "company": f"{company} ({role})" if role else company,
+            "message": f"AI Readiness Score: {total_score}/100\nNivel: {maturity_level} ({maturity_number}/5)\n\nDimensiones:\n{dim_summary}",
+            "source_page": data.get("source_page", ""),
+            "form_type": "scorecard"
+        }
+        send_email_notification(email_data)
+
+        return jsonify({
+            "success": True,
+            "submission_id": submission_id,
+            "message": "Scorecard submitted successfully"
+        }), 200
+
+    except Exception as e:
+        print(f"Error processing scorecard: {str(e)}")
+        return jsonify({"error": "Internal server error", "message": str(e)}), 500
+
+
+@app.route("/api/chat", methods=["POST"])
+def chat():
+    """
+    Chatbot endpoint powered by Gemini.
+    Expected JSON: { "message": "...", "history": [...] }
+    """
+    try:
+        if not GEMINI_API_KEY:
+            return jsonify({"error": "Chat not configured"}), 503
+
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        user_message = data.get("message", "").strip()
+        history = data.get("history", [])
+
+        if not user_message:
+            return jsonify({"error": "Message is required"}), 400
+
+        # Build conversation for Gemini
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash",
+            system_instruction=SYSTEM_PROMPT
+        )
+
+        # Convert history to Gemini format
+        gemini_history = []
+        for msg in history[-10:]:  # Keep last 10 messages for context
+            role = "user" if msg.get("role") == "user" else "model"
+            gemini_history.append({"role": role, "parts": [msg.get("content", "")]})
+
+        chat_session = model.start_chat(history=gemini_history)
+        response = chat_session.send_message(user_message)
+
+        return jsonify({
+            "response": response.text,
+            "success": True
+        }), 200
+
+    except Exception as e:
+        print(f"Error in chat endpoint: {str(e)}")
+        return jsonify({
+            "error": "Error processing your message",
+            "response": "Lo siento, no pude procesar tu mensaje. ¿Podrías intentar de nuevo?",
+            "success": False
+        }), 200
 
 
 if __name__ == "__main__":
