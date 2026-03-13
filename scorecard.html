@@ -434,7 +434,7 @@
     const serviceRecommendations = [
         { maxScore: 30, service: "AI Governance Starter Kit", price: "USD 890",
           desc: "Ideal para comenzar: incluye diagnóstico de madurez, plantillas de gobernanza y roadmap de 90 días.",
-          link: "product.html" },
+          link: "product.html", buyLink: "#PAYMENT_LINK" },
         { maxScore: 55, service: "Diagnóstico Express", price: "USD 1.500",
           desc: "Perfecto para su nivel: evaluación ejecutiva en 5 días con roadmap priorizado y sesiones con stakeholders.",
           link: "service-diagnostico.html" },
@@ -630,13 +630,19 @@
 
         // Recommendation
         const rec = serviceRecommendations.find(r => results.totalPct <= r.maxScore) || serviceRecommendations[serviceRecommendations.length - 1];
+        const buyBtn = rec.buyLink
+            ? `<a href="${rec.buyLink}" class="btn btn-primary" target="_blank" rel="noopener">Comprar ahora — ${rec.price}</a>`
+            : `<a href="index.html#contacto" class="btn btn-primary">Agendar conversación →</a>`;
         document.getElementById('recommendation').innerHTML = `
             <div class="recommendation-card">
                 <h3>Recomendación para su organización</h3>
                 <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">${rec.desc}</p>
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4);">
                     <span class="rec-price">${rec.price}</span>
-                    <a href="${rec.link}" class="btn btn-primary">${rec.service} →</a>
+                    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                        ${buyBtn}
+                        <a href="${rec.link}" class="btn btn-outline">Ver detalle →</a>
+                    </div>
                 </div>
             </div>
         `;
