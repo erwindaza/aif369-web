@@ -79,7 +79,9 @@ jobs:
             --set-env-vars PROJECT_ID=$PROJECT_ID \
             --update-secrets SMTP_PASSWORD=aif369-smtp-password:latest \
             --set-env-vars SMTP_USER=edaza@aif369.com \
-            --set-env-vars NOTIFICATION_EMAIL=erwin.daza@gmail.com
+            --set-env-vars NOTIFICATION_EMAIL=edaza@aif369.com \
+            --set-env-vars CC_EMAIL=erwin.daza@gmail.com \
+            --update-secrets GEMINI_API_KEY=aif369-gemini-api-key:latest
 
       - name: Verify production deployment
         run: |
