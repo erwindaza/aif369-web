@@ -5,92 +5,54 @@ document.addEventListener("DOMContentLoaded", function () {
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction ? PROD_BACKEND_URL : DEV_BACKEND_URL;
 
-    // Mobile Navigation Toggle - Optimizado para Android con pointer events
+    // Mobile Navigation Toggle - Usa click (funciona en todos los dispositivos)
     const toggle = document.querySelector(".nav-toggle");
     const navLinks = document.querySelector(".nav-links");
 
     if (toggle && navLinks) {
-        // Timestamp del último evento para evitar procesamiento duplicado
-        let lastEventTime = 0;
-        const DEBOUNCE_DELAY = 300;
-        
-        // Función para abrir/cerrar el menú
-        function toggleMenu(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const currentTime = Date.now();
-            
-            // Prevenir ejecución múltiple (debouncing)
-            if (currentTime - lastEventTime < DEBOUNCE_DELAY) {
-                return;
-            }
-            lastEventTime = currentTime;
-            
-            const isActive = navLinks.classList.contains("active");
-            
-            if (isActive) {
-                // Cerrar menú
-                navLinks.classList.remove("active");
-                toggle.classList.remove("active");
-                toggle.setAttribute("aria-expanded", "false");
-                document.body.style.overflow = "";
-            } else {
-                // Abrir menú
-                navLinks.classList.add("active");
-                toggle.classList.add("active");
-                toggle.setAttribute("aria-expanded", "true");
-                document.body.style.overflow = "hidden";
-            }
-        }
-        
-        // Usar pointer events (mejor compatibilidad con touch en Android)
-        // Solo agregar un listener - pointer events maneja mouse y touch automáticamente
-        if (window.PointerEvent) {
-            // Navegadores modernos con soporte de Pointer Events
-            toggle.addEventListener("pointerdown", toggleMenu);
-        } else {
-            // Fallback para navegadores antiguos
-            toggle.addEventListener("touchstart", toggleMenu, { passive: false });
-            toggle.addEventListener("click", toggleMenu);
-        }
-
-        // Función para cerrar el menú cuando se hace clic/tap fuera
-        function closeMenuOnOutsideInteraction(e) {
-            // Solo cerrar si el menú está abierto
-            if (!navLinks.classList.contains("active")) return;
-            
-            // No cerrar si se hace clic en el toggle o dentro del menú
-            if (toggle.contains(e.target) || navLinks.contains(e.target)) return;
-            
+        // Función para cerrar el menú
+        function closeMenu() {
             navLinks.classList.remove("active");
             toggle.classList.remove("active");
             toggle.setAttribute("aria-expanded", "false");
             document.body.style.overflow = "";
         }
 
-        // Cerrar menú cuando se hace clic/tap fuera
-        if (window.PointerEvent) {
-            document.addEventListener("pointerdown", closeMenuOnOutsideInteraction);
-        } else {
-            document.addEventListener("touchstart", closeMenuOnOutsideInteraction, { passive: true });
-            document.addEventListener("click", closeMenuOnOutsideInteraction);
+        // Función para abrir el menú
+        function openMenu() {
+            navLinks.classList.add("active");
+            toggle.classList.add("active");
+            toggle.setAttribute("aria-expanded", "true");
+            document.body.style.overflow = "hidden";
         }
 
-        // Cerrar menú cuando se hace clic en un link
-        navLinks.querySelectorAll("a, button").forEach(item => {
-            const closeMenu = function() {
-                navLinks.classList.remove("active");
-                toggle.classList.remove("active");
-                toggle.setAttribute("aria-expanded", "false");
-                document.body.style.overflow = "";
-            };
-            
-            if (window.PointerEvent) {
-                item.addEventListener("pointerdown", closeMenu);
+        // Toggle con click - funciona en desktop y móvil (iOS + Android)
+        toggle.addEventListener("click", function(e) {
+            e.stopPropagation();
+            if (navLinks.classList.contains("active")) {
+                closeMenu();
             } else {
-                item.addEventListener("touchstart", closeMenu, { passive: true });
-                item.addEventListener("click", closeMenu);
+                openMenu();
+            }
+        });
+
+        // Cerrar menú cuando se toca fuera
+        document.addEventListener("click", function(e) {
+            if (!navLinks.classList.contains("active")) return;
+            if (toggle.contains(e.target) || navLinks.contains(e.target)) return;
+            closeMenu();
+        });
+
+        // Cerrar menú cuando se hace clic en un link del nav
+        navLinks.querySelectorAll("a").forEach(function(link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        // Cerrar con tecla Escape
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape" && navLinks.classList.contains("active")) {
+                closeMenu();
+                toggle.focus();
             }
         });
     }

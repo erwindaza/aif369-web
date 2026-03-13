@@ -351,16 +351,39 @@ nav {
 .nav-toggle {
     display: none;
     flex-direction: column;
-    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
     background: none;
     border: none;
     cursor: pointer;
+    padding: 8px;
+    min-width: 44px;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .nav-toggle span {
+    display: block;
     width: 22px;
     height: 2px;
-    background-color: var(--text);
+    background: var(--text-primary, var(--text, #e0e0e0));
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* Hero */
@@ -371,15 +394,6 @@ nav {
     gap: 3rem;
     align-items: center;
     padding-top: 7rem;
-}
-
-.nav-toggle span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text-primary);
-    border-radius: 2px;
-    transition: all var(--transition-base);
 }
 
 .hero-media {
@@ -504,14 +518,6 @@ nav {
     margin-bottom: 1.5rem;
 }
 
-.nav-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.nav-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
-}
-
 .nav-links {
     display: flex;
     align-items: center;
@@ -603,25 +609,26 @@ nav {
         right: -100%;
         width: 280px;
         height: calc(100vh - 72px);
-        background: var(--bg-glass-dark);
+        background: var(--bg-glass-dark, rgba(10, 22, 40, 0.97));
         backdrop-filter: var(--blur-lg);
         -webkit-backdrop-filter: var(--blur-lg);
         flex-direction: column;
         align-items: stretch;
-        padding: var(--space-6);
-        gap: var(--space-2);
-        box-shadow: var(--shadow-xl);
-        transition: right var(--transition-slow);
-        border-left: 1px solid var(--border);
+        padding: var(--space-6, 1.5rem);
+        gap: var(--space-2, 0.5rem);
+        box-shadow: var(--shadow-xl, -4px 0 30px rgba(0,0,0,0.5));
+        transition: right 0.35s ease;
+        border-left: 1px solid var(--border, rgba(255,255,255,0.1));
         z-index: 1000;
         overflow-y: auto;
-        /* Asegurar que no sea interactuable cuando está oculto */
         pointer-events: none;
+        visibility: hidden;
     }
     
     .nav-links.active {
         right: 0;
         pointer-events: auto;
+        visibility: visible;
     }
     
     .nav-links a {
