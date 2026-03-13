@@ -90,10 +90,11 @@ def send_email_notification(submission_data):
 
         # Crear mensaje
         msg = MIMEMultipart('alternative')
-        msg['Subject'] = f'{subject_prefix}: {submission_data["name"]}'
-        msg['From'] = SMTP_USER
+        msg['Subject'] = f'{subject_prefix}: {submission_data["name"]} ({submission_data["email"]})'
+        msg['From'] = f'{submission_data["name"]} <{SMTP_USER}>'
         msg['To'] = NOTIFICATION_EMAIL
         msg['Cc'] = CC_EMAIL
+        msg['Reply-To'] = submission_data["email"]
         
         # Contenido HTML
         html = f'''
