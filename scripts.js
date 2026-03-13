@@ -44,8 +44,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Cerrar menú cuando se hace clic en un link del nav
+        // Delay para que el navegador procese la navegación antes de cerrar
         navLinks.querySelectorAll("a").forEach(function(link) {
-            link.addEventListener("click", closeMenu);
+            link.addEventListener("click", function() {
+                setTimeout(closeMenu, 150);
+            });
         });
 
         // Cerrar con tecla Escape

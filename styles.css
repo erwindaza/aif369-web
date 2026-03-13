@@ -622,13 +622,11 @@ nav {
         z-index: 1000;
         overflow-y: auto;
         pointer-events: none;
-        visibility: hidden;
     }
     
     .nav-links.active {
         right: 0;
         pointer-events: auto;
-        visibility: visible;
     }
     
     .nav-links a {
