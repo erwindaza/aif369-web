@@ -234,6 +234,13 @@ nav {
 }
 
 .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.logo-name {
     font-size: var(--text-2xl);
     font-weight: 700;
     letter-spacing: -0.03em;
@@ -241,6 +248,16 @@ nav {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.logo-tagline {
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(136, 146, 176, 0.9);
+    -webkit-text-fill-color: rgba(136, 146, 176, 0.9);
+    margin-top: 2px;
 }
 
 .lang-toggle {

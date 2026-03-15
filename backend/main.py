@@ -3,6 +3,7 @@ import json
 import uuid
 import smtplib
 import re
+import requests as http_requests
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timezone
@@ -40,6 +41,10 @@ CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
+
+# Configuración de Ollama como fallback
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://host.docker.internal:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral:7b")
 
 SYSTEM_PROMPT = """Eres el asistente virtual de AIF369, una consultora chilena especializada en IA, Datos y Cloud.
 Tu nombre es AIF369 Assistant. Responde en el mismo idioma que el usuario.
@@ -501,13 +506,10 @@ def submit_scorecard():
 @app.route("/api/chat", methods=["POST"])
 def chat():
     """
-    Chatbot endpoint powered by Gemini.
+    Chatbot endpoint. Primary: Gemini. Fallback: Ollama (local).
     Expected JSON: { "message": "...", "history": [...] }
     """
     try:
-        if not GEMINI_API_KEY:
-            return jsonify({"error": "Chat not configured"}), 503
-
         if not request.is_json:
             return jsonify({"error": "Content-Type must be application/json"}), 400
 
@@ -518,29 +520,62 @@ def chat():
         if not user_message:
             return jsonify({"error": "Message is required"}), 400
 
-        # Build conversation for Gemini (temperature=0 para respuestas deterministas)
-        model = genai.GenerativeModel(
-            model_name="gemini-2.5-flash",
-            system_instruction=SYSTEM_PROMPT,
-            generation_config=genai.types.GenerationConfig(
-                temperature=0,
-                top_p=0.1,
-                max_output_tokens=300
+        # --- Intento 1: Gemini ---
+        if GEMINI_API_KEY:
+            try:
+                model = genai.GenerativeModel(
+                    model_name="gemini-2.5-flash",
+                    system_instruction=SYSTEM_PROMPT,
+                    generation_config=genai.types.GenerationConfig(
+                        temperature=0,
+                        top_p=0.1,
+                        max_output_tokens=300
+                    )
+                )
+                gemini_history = []
+                for msg in history[-10:]:
+                    role = "user" if msg.get("role") == "user" else "model"
+                    gemini_history.append({"role": role, "parts": [msg.get("content", "")]})
+
+                chat_session = model.start_chat(history=gemini_history)
+                response = chat_session.send_message(user_message)
+                print("Chat response via Gemini")
+                return jsonify({"response": response.text, "success": True, "provider": "gemini"}), 200
+            except Exception as gemini_error:
+                print(f"Gemini failed, trying Ollama fallback: {gemini_error}")
+
+        # --- Intento 2: Ollama (fallback) ---
+        try:
+            ollama_messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+            for msg in history[-10:]:
+                role = "user" if msg.get("role") == "user" else "assistant"
+                ollama_messages.append({"role": role, "content": msg.get("content", "")})
+            ollama_messages.append({"role": "user", "content": user_message})
+
+            ollama_response = http_requests.post(
+                f"{OLLAMA_URL}/api/chat",
+                json={
+                    "model": OLLAMA_MODEL,
+                    "messages": ollama_messages,
+                    "stream": False,
+                    "options": {"temperature": 0, "num_predict": 300}
+                },
+                timeout=60
             )
-        )
+            ollama_response.raise_for_status()
+            ollama_data = ollama_response.json()
+            reply = ollama_data.get("message", {}).get("content", "")
+            if reply:
+                print(f"Chat response via Ollama ({OLLAMA_MODEL})")
+                return jsonify({"response": reply, "success": True, "provider": "ollama"}), 200
+        except Exception as ollama_error:
+            print(f"Ollama also failed: {ollama_error}")
 
-        # Convert history to Gemini format
-        gemini_history = []
-        for msg in history[-10:]:  # Keep last 10 messages for context
-            role = "user" if msg.get("role") == "user" else "model"
-            gemini_history.append({"role": role, "parts": [msg.get("content", "")]})
-
-        chat_session = model.start_chat(history=gemini_history)
-        response = chat_session.send_message(user_message)
-
+        # --- Ambos fallaron ---
         return jsonify({
-            "response": response.text,
-            "success": True
+            "response": "No pude procesar tu mensaje en este momento. Escríbenos por WhatsApp al +56 9 9754 7192 y te atendemos directamente.",
+            "success": False,
+            "provider": "none"
         }), 200
 
     except Exception as e:
