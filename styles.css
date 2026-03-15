@@ -1886,6 +1886,34 @@ nav {
     margin-top: 0.5rem;
 }
 
+/* Form loading state */
+.form-loading .btn {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.form-loading .btn .btn-text {
+    display: none;
+}
+
+.form-loading .btn .btn-spinner {
+    display: inline-block;
+}
+
+.btn .btn-spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 .contact-form textarea {
     resize: vertical;
     min-height: 120px;

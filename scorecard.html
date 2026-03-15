@@ -432,16 +432,16 @@
     ];
 
     const serviceRecommendations = [
-        { maxScore: 30, service: "AI Governance Starter Kit", price: "USD 890",
+        { maxScore: 30, service: "AI Governance Starter Kit",
           desc: "Ideal para comenzar: incluye diagnóstico de madurez, plantillas de gobernanza y roadmap de 90 días.",
-          link: "product.html", buyLink: "#PAYMENT_LINK" },
-        { maxScore: 55, service: "Diagnóstico Express", price: "USD 1.500",
+          link: "product.html" },
+        { maxScore: 55, service: "Diagnóstico Express",
           desc: "Perfecto para su nivel: evaluación ejecutiva en 5 días con roadmap priorizado y sesiones con stakeholders.",
           link: "service-diagnostico.html" },
-        { maxScore: 80, service: "Diagnóstico Ejecutivo", price: "USD 4.500",
+        { maxScore: 80, service: "Diagnóstico Ejecutivo",
           desc: "Para consolidar su madurez: deep-dive de 3-4 semanas con benchmark sectorial y plan de transformación.",
           link: "service-diagnostico.html" },
-        { maxScore: 100, service: "CAIO-as-a-Service", price: "USD 4.000/mes",
+        { maxScore: 100, service: "CAIO-as-a-Service",
           desc: "Para mantener el liderazgo: acompañamiento estratégico continuo con governance avanzado y optimización.",
           link: "service-gobierno.html" }
     ];
@@ -630,19 +630,13 @@
 
         // Recommendation
         const rec = serviceRecommendations.find(r => results.totalPct <= r.maxScore) || serviceRecommendations[serviceRecommendations.length - 1];
-        const buyBtn = rec.buyLink
-            ? `<a href="${rec.buyLink}" class="btn btn-primary" target="_blank" rel="noopener">Comprar ahora — ${rec.price}</a>`
-            : `<a href="index.html#contacto" class="btn btn-primary">Agendar conversación →</a>`;
         document.getElementById('recommendation').innerHTML = `
             <div class="recommendation-card">
                 <h3>Recomendación para su organización</h3>
                 <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">${rec.desc}</p>
-                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4);">
-                    <span class="rec-price">${rec.price}</span>
-                    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
-                        ${buyBtn}
-                        <a href="${rec.link}" class="btn btn-outline">Ver detalle →</a>
-                    </div>
+                <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                    <a href="index.html#contacto" class="btn btn-primary">Solicitar información →</a>
+                    <a href="${rec.link}" class="btn btn-outline">Ver detalle →</a>
                 </div>
             </div>
         `;

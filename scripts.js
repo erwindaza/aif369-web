@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "hero.badge": "Fábrica de IA — Datos — Cloud",
             "hero.title": "Construimos inteligencia artificial para su empresa.",
             "hero.subtitle": "Somos una fábrica de IA: diseñamos, construimos y desplegamos agentes inteligentes, plataformas de datos y arquitecturas cloud que generan ROI medible.",
-            "hero.cta.services": "Ver servicios y precios",
+            "hero.cta.services": "Ver servicios",
             "hero.cta.blog": "Agendar conversación gratuita",
             "hero.note": "De la idea al deploy. Trabajamos con su CIO, CDO, CAIO y equipos de arquitectura para llevar IA a producción.",
             "index.value.title": "Qué fabricamos",
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.cta.includes": "¿Qué incluye la conversación?",
             "index.cta.item1": "Radiografía rápida de su situación actual.",
             "index.cta.item2": "Identificación de oportunidades de alto impacto.",
-            "index.cta.item3": "Recomendación del servicio ideal: Kit ($890), Express ($1.500), Ejecutivo ($4.500).",
+            "index.cta.item3": "Recomendación del servicio ideal según su situación.",
             "index.cta.item4": "Siguiente paso claro y sin compromisos.",
             "index.cta.note": "Sin costo, sin compromiso. Si no somos los indicados, se lo diremos con honestidad.",
             "index.modal.title": "Resumen de solicitud enviada",
@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "hero.badge": "AI Factory — Data — Cloud",
             "hero.title": "We build artificial intelligence for your business.",
             "hero.subtitle": "We are an AI factory: we design, build, and deploy intelligent agents, data platforms, and cloud architectures that deliver measurable ROI.",
-            "hero.cta.services": "View services & pricing",
+            "hero.cta.services": "View services",
             "hero.cta.blog": "Book a free call",
             "hero.note": "From idea to deploy. We work with your CIO, CDO, CAIO, and architecture teams to take AI to production.",
             "index.value.title": "What we build",
@@ -420,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.cta.includes": "What you get",
             "index.cta.item1": "Quick assessment of your current AI and data capabilities.",
             "index.cta.item2": "Map of high-impact opportunities for your industry.",
-            "index.cta.item3": "Recommendation for the right service: Kit ($890), Express ($1,500), Executive ($4,500).",
+            "index.cta.item3": "Recommendation for the right service based on your situation.",
             "index.cta.item4": "Clear, no-obligation next-step proposal.",
             "index.cta.note": "No cost, no commitment. A focused session on strategic and technical clarity.",
             "index.modal.title": "Submitted request summary",
@@ -842,8 +842,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     contactForms.forEach((form) => {
+        // Add spinner markup to submit buttons
+        const submitBtn = form.querySelector('button[type="submit"], .btn[type="submit"]');
+        if (submitBtn) {
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<span class="btn-text">' + originalText + '</span><span class="btn-spinner"></span>';
+        }
+
         form.addEventListener("submit", async function (event) {
             event.preventDefault();
+
+            // Show loading state
+            form.classList.add("form-loading");
+            const successMessage = form.querySelector(".form-success");
+            const errorMessage = form.querySelector(".form-error");
+            if (successMessage) successMessage.hidden = true;
+            if (errorMessage) errorMessage.hidden = true;
+
             const formData = new FormData(form);
             const rawName = formData.get("fullName")?.toString().trim()
                 || formData.get("name")?.toString().trim()
@@ -902,8 +917,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            const successMessage = form.querySelector(".form-success");
-            const errorMessage = form.querySelector(".form-error");
+            // Remove loading state
+            form.classList.remove("form-loading");
+
             const shouldShowSuccess = backendOk || !!mailto;
             if (successMessage) {
                 successMessage.hidden = !shouldShowSuccess;
