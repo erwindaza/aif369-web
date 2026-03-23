@@ -1,0 +1,214 @@
+{
+  "brand": {
+    "name": "AIF369",
+    "tagline": "AI Factory, Governance, Risk and Business Value",
+    "website": "https://aif369.com",
+    "founder": {
+      "name": "Erwin Daza Castillo",
+      "linkedin": "https://www.linkedin.com/in/erwin-daza-castillo/",
+      "role": "CAIO Advisor | Data & AI Architect | AI Governance Strategist"
+    },
+    "positioning": {
+      "core_statement": "AIF369 ayuda a organizaciones a adoptar inteligencia artificial de forma estratégica, segura, ética y medible, conectando negocio, datos, gobierno y cumplimiento regulatorio.",
+      "differentiators": [
+        "Visión CAIO con enfoque ejecutivo y técnico",
+        "Metodología propia 369 para pasar de idea a operación gobernada",
+        "Integración de estrategia, riesgo, compliance, datos, observabilidad y adopción",
+        "Aterrizaje práctico para LATAM y Chile",
+        "Capacidad de traducir regulación en hojas de ruta ejecutables"
+      ],
+      "anti_copy_policy": {
+        "statement": "AIF369 no replica ni scrapea contenido de terceros. Observa tendencias del mercado y genera piezas editoriales originales con voz propia, metodología propia y casos adaptados al contexto del cliente.",
+        "allowed_inputs": [
+          "temas públicos del mercado",
+          "marcos regulatorios",
+          "papers y estándares",
+          "experiencia propia",
+          "casos anonimizados",
+          "insights originales"
+        ],
+        "disallowed_inputs": [
+          "copiar posts de LinkedIn de terceros",
+          "parafrasear demasiado cerca contenido ajeno",
+          "scraping no autorizado",
+          "uso de material protegido sin transformación sustantiva"
+        ]
+      }
+    }
+  },
+  "methodology_369": {
+    "name": "Método 369 de la Factory en IA",
+    "elevator_pitch": "Una metodología integral para descubrir, gobernar y escalar IA con foco en valor, riesgos y cumplimiento.",
+    "pillars": [
+      {
+        "id": "3",
+        "name": "3 Capas de Dirección",
+        "description": "La IA debe gestionarse simultáneamente desde negocio, gobernanza y ejecución técnica.",
+        "layers": [
+          {
+            "name": "Dirección Estratégica",
+            "focus": ["casos de uso priorizados", "ventaja competitiva", "alineamiento con objetivos", "modelo operativo", "sponsor ejecutivo"]
+          },
+          {
+            "name": "Dirección de Riesgo y Cumplimiento",
+            "focus": ["riesgos de IA", "privacidad", "ética", "seguridad", "compliance", "controles", "trazabilidad"]
+          },
+          {
+            "name": "Dirección de Implementación",
+            "focus": ["arquitectura", "datos", "MLOps/LLMOps", "observabilidad", "integración", "despliegue", "operación"]
+          }
+        ]
+      },
+      {
+        "id": "6",
+        "name": "6 Fases de Transformación",
+        "description": "Ruta completa desde exploración hasta escalamiento sostenido.",
+        "phases": [
+          {"phase": 1, "name": "Descubrir", "goal": "Entender negocio, dolores, madurez y oportunidades.", "deliverables": ["AI readiness assessment", "inventario inicial de casos de uso", "mapa de stakeholders", "matriz de madurez"]},
+          {"phase": 2, "name": "Diagnosticar", "goal": "Identificar datos, riesgos, restricciones legales y viabilidad.", "deliverables": ["data and AI landscape", "matriz de riesgo por caso de uso", "análisis regulatorio inicial", "gap analysis"]},
+          {"phase": 3, "name": "Diseñar", "goal": "Definir arquitectura, gobierno, controles y plan de implementación.", "deliverables": ["target operating model for AI", "blueprint de arquitectura", "marco de gobernanza", "RACI", "políticas y estándares"]},
+          {"phase": 4, "name": "Desplegar", "goal": "Construir pilotos o MVPs controlados con medición y resguardos.", "deliverables": ["PoC/MVP", "criterios de aceptación", "dashboards en tiempo real", "alertas y observabilidad", "documentación de controles"]},
+          {"phase": 5, "name": "Dominar", "goal": "Operar con disciplina, monitoreo, mejora continua y accountability.", "deliverables": ["runbooks", "KPIs/KRIs", "incidentes y gestión de cambios", "evaluaciones periódicas", "auditoría interna"]},
+          {"phase": 6, "name": "Escalar", "goal": "Expandir capacidades y replicar patrones seguros a nivel organizacional.", "deliverables": ["playbooks por dominio", "catálogo de casos reutilizables", "centro de excelencia", "roadmap 12-24 meses"]}
+        ]
+      },
+      {
+        "id": "9",
+        "name": "9 Módulos de Control CAIO",
+        "description": "Marco práctico para gobernar la IA como capacidad empresarial.",
+        "modules": [
+          {"name": "Estrategia y Portafolio", "questions": ["¿Qué problemas de negocio vale la pena resolver con IA?", "¿Qué no debemos automatizar todavía?"]},
+          {"name": "Datos y Calidad", "questions": ["¿Tenemos datos suficientes, trazables y confiables?", "¿Quién es dueño del dato?"]},
+          {"name": "Arquitectura y Integración", "questions": ["¿Cómo se integra la IA con procesos y sistemas existentes?"]},
+          {"name": "Riesgo y Seguridad", "questions": ["¿Qué daños puede generar el sistema?", "¿Qué abuso, fuga o manipulación debemos prevenir?"]},
+          {"name": "Legal, Privacidad y Compliance", "questions": ["¿Qué base legal sustenta el tratamiento de datos?", "¿Qué obligaciones regulatorias aplican?"]},
+          {"name": "Ética y Derechos Fundamentales", "questions": ["¿Existe sesgo, discriminación o impacto desproporcionado?"]},
+          {"name": "Operación y Observabilidad", "questions": ["¿Cómo monitoreamos drift, alucinaciones, desempeño y eventos?"]},
+          {"name": "Personas y Adopción", "questions": ["¿Qué capacidades necesita el negocio para operar IA con criterio?"]},
+          {"name": "Valor y ROI", "questions": ["¿Cómo medimos impacto, ahorro, revenue, experiencia y riesgo evitado?"]}
+        ]
+      }
+    ],
+    "signature_outputs": [
+      "AI Executive Brief", "AI Governance Blueprint", "AI Risk Heatmap", "AI Use Case Portfolio",
+      "AI Controls Catalog", "AI Operating Model", "AI Adoption Roadmap", "AI Compliance Readiness Pack"
+    ]
+  },
+  "service_catalog": {
+    "headline": "Asesoría Integral en IA para empresas que necesitan estrategia, control y ejecución",
+    "service_lines": [
+      {"id": "caio_advisory", "name": "CAIO Advisory as a Service", "summary": "Acompañamiento ejecutivo para definir estrategia, gobierno, riesgos y adopción de IA.", "ideal_for": ["gerencias generales", "directorios", "áreas de innovación", "transformación digital", "data offices"], "key_deliverables": ["diagnóstico de madurez", "hoja de ruta ejecutiva", "portafolio priorizado de IA", "modelo de gobernanza", "comité de IA", "políticas base"]},
+      {"id": "ai_governance", "name": "AI Governance & Responsible AI", "summary": "Diseño del marco de gobierno, accountability, políticas, controles y roles.", "ideal_for": ["organizaciones reguladas", "empresas con alto volumen de datos", "equipos que ya están usando IA sin marco formal"], "key_deliverables": ["policy pack", "RACI", "inventario de sistemas IA", "clasificación de riesgo", "controles mínimos", "proceso de aprobación de casos"]},
+      {"id": "ai_risk_compliance", "name": "AI Risk, Privacy & Compliance Readiness", "summary": "Evaluación de riesgos, privacidad y preparación para regulación local e internacional.", "ideal_for": ["legal", "compliance", "riesgo operacional", "ciberseguridad", "auditoría"], "key_deliverables": ["risk register", "heatmap", "matriz de impacto por derecho afectado", "privacy-by-design checklist", "recomendaciones de mitigación", "plan de cierre de brechas"]},
+      {"id": "ai_factory_design", "name": "AI Factory Design", "summary": "Diseño de capacidades internas para construir, operar y escalar IA.", "ideal_for": ["empresas que quieren institucionalizar IA", "equipos de data/engineering", "áreas de producto"], "key_deliverables": ["target architecture", "operating model", "MLOps/LLMOps baseline", "observabilidad", "modelo de despliegue", "guardrails"]},
+      {"id": "executive_workshops", "name": "Executive Workshops & Board Enablement", "summary": "Talleres para directorio y primera línea sobre estrategia, riesgos y decisiones en IA.", "ideal_for": ["C-level", "directores", "gerencias de negocio"], "key_deliverables": ["material ejecutivo", "casos de uso por industria", "sesión guiada", "matriz de decisiones", "roadmap inicial"]},
+      {"id": "ai_content_thought_leadership", "name": "Thought Leadership & Content Advisory", "summary": "Diseño de contenido original para posicionar marca y educar mercado en IA.", "ideal_for": ["founders", "consultoras", "escuelas corporativas", "marcas personales"], "key_deliverables": ["pilares editoriales", "calendario mensual", "ghostwriting estratégico", "assets para web y LinkedIn", "narrativa de marca"]}
+    ],
+    "packages": [
+      {"name": "Starter 369", "duration": "4-6 semanas", "outcome": "Diagnóstico ejecutivo y hoja de ruta inicial", "includes": ["assessment", "2 workshops", "mapa de casos de uso", "riesgos iniciales", "quick wins"]},
+      {"name": "Governed Pilot 369", "duration": "8-12 semanas", "outcome": "Piloto gobernado con métricas y controles", "includes": ["diseño de caso priorizado", "blueprint", "controles de riesgo", "dashboard en tiempo real", "evaluación de adopción"]},
+      {"name": "Enterprise 369", "duration": "3-6 meses", "outcome": "Modelo operativo y capacidad organizacional de IA", "includes": ["governance framework", "AI committee model", "portfolio management", "policy pack", "operating model", "roadmap de escalamiento"]}
+    ]
+  },
+  "ideal_customer_profiles": [
+    {"segment": "Mid-market companies", "pain_points": ["quieren usar IA pero sin exponerse", "no tienen gobierno formal", "hay experimentos aislados", "la gerencia pide resultados rápidos"]},
+    {"segment": "Regulated industries", "pain_points": ["riesgo reputacional", "presión regulatoria", "tratamiento intensivo de datos", "necesidad de trazabilidad"]},
+    {"segment": "Boards and C-level", "pain_points": ["falta de claridad sobre qué preguntar", "temor a aprobar IA sin controles", "necesidad de priorizar inversión"]},
+    {"segment": "Data and digital teams", "pain_points": ["tienen capacidad técnica pero no marco ejecutivo", "necesitan patrocinio", "necesitan pasar de PoC a operación"]}
+  ],
+  "problem_statements": [
+    "Muchas organizaciones están entrando a IA sin gobierno, sin claridad regulatoria y sin accountability definido.",
+    "El mayor riesgo no es usar IA, sino usarla sin criterios, controles ni observabilidad.",
+    "La mayoría de las empresas no necesita más hype; necesita un método para decidir, implementar y monitorear IA con valor real."
+  ],
+  "value_proposition_blocks": [
+    {"title": "De la experimentación al control", "text": "Transformamos iniciativas dispersas en un portafolio gobernado con prioridades, roles y métricas."},
+    {"title": "De la tecnología al negocio", "text": "Traducimos IA en impacto para operaciones, clientes, ingresos, eficiencia y mitigación de riesgo."},
+    {"title": "De la incertidumbre al cumplimiento", "text": "Ayudamos a preparar la organización para exigencias de privacidad, transparencia y responsabilidad."}
+  ],
+  "regulatory_knowledge_base": {
+    "approach": "Usar el AI Act europeo como marco de referencia principal de gobernanza basada en riesgo, combinado con el contexto normativo chileno en datos personales y proyectos de ley de IA.",
+    "eu_ai_act": {
+      "status_summary": "Marco legal europeo para IA con enfoque basado en riesgo y obligaciones diferenciadas según nivel de impacto.",
+      "key_concepts": ["prácticas prohibidas", "sistemas de alto riesgo", "transparencia para ciertos sistemas", "gobernanza y trazabilidad", "supervisión humana", "calidad de datos", "gestión de riesgos", "post-market monitoring"],
+      "business_translation": ["no toda IA se regula igual", "mayor impacto implica mayor exigencia", "se necesitan controles antes, durante y después del despliegue", "la documentación deja de ser opcional"]
+    },
+    "chile_context": {
+      "status_summary": "Chile avanza en regulación específica de IA y ya cuenta con una nueva ley integral de protección de datos personales, relevante para cualquier solución de IA que trate datos de personas.",
+      "key_concepts": ["protección de datos personales", "responsabilidad organizacional", "finalidad y proporcionalidad", "seguridad del tratamiento", "derechos de titulares", "preparación para fiscalización", "evaluación de impactos"],
+      "business_translation": ["la IA en Chile no puede diseñarse al margen de privacidad y protección de datos", "la trazabilidad y el gobierno serán ventajas competitivas", "las organizaciones que se preparen antes podrán desplegar con menos fricción"]
+    },
+    "aif369_regulatory_principles": ["risk-based by design", "privacy by design", "human accountability", "traceability by default", "minimum necessary data", "security across lifecycle", "explainability fit-for-purpose", "continuous monitoring"]
+  },
+  "ai_governance_framework": {
+    "governance_bodies": [
+      {"name": "AI Steering Committee", "mission": "Tomar decisiones estratégicas, priorizar portafolio y aprobar casos de mayor exposición."},
+      {"name": "AI Risk & Ethics Committee", "mission": "Evaluar riesgos, derechos afectados, sesgos, controles y mitigaciones."},
+      {"name": "AI Delivery Office / AI Factory", "mission": "Ejecutar, documentar, monitorear y mejorar casos de uso."}
+    ],
+    "roles": [
+      {"role": "Executive Sponsor", "responsibilities": ["alineamiento con negocio", "patrocinio político", "presupuesto", "accountability"]},
+      {"role": "CAIO / AI Lead", "responsibilities": ["estrategia de IA", "priorización", "marco de gobierno", "interacción con directorio"]},
+      {"role": "Legal & Compliance", "responsibilities": ["revisión normativa", "bases legales de tratamiento", "cláusulas y controles"]},
+      {"role": "Risk Officer", "responsibilities": ["heatmap", "KRIs", "aceptación o mitigación", "seguimiento"]},
+      {"role": "Data/ML/LLM Engineering", "responsibilities": ["diseño técnico", "controles operativos", "observabilidad", "despliegue"]},
+      {"role": "Business Owner", "responsibilities": ["definir objetivos", "aprobar decisiones funcionales", "medir valor"]}
+    ],
+    "core_artifacts": ["AI policy", "AI inventory", "use-case intake form", "risk assessment template", "data lineage summary", "model card / system card", "incident response playbook", "monitoring dashboard"]
+  },
+  "risk_model": {
+    "risk_domains": ["privacy", "security", "bias and discrimination", "hallucination and reliability", "automation error", "reputational harm", "legal non-compliance", "vendor lock-in", "lack of human oversight", "model drift", "data drift", "prompt injection / adversarial misuse", "copyright/IP misuse", "identity and deepfake risk"],
+    "heatmap_dimensions": {"impact_scale": ["low", "medium", "high", "critical"], "likelihood_scale": ["unlikely", "possible", "likely", "very_likely"]},
+    "treatment_options": ["avoid", "mitigate", "transfer", "accept with formal sign-off"],
+    "minimum_controls": ["documented owner", "approved use case", "data source validation", "human review where needed", "logging and traceability", "security baseline", "incident escalation path", "periodic review"]
+  },
+  "observability_model": {
+    "principle": "Toda solución IA debe incluir monitoreo en tiempo real, alertas y revisión periódica.",
+    "must_have_metrics": ["accuracy / relevance", "hallucination rate or factuality proxy", "latency", "cost per transaction", "drift indicators", "user feedback", "manual override rate", "incident count", "compliance exceptions"],
+    "dashboard_sections": ["business KPIs", "model/system KPIs", "risk KRIs", "audit trail", "alerts and thresholds"],
+    "alert_examples": ["caída brusca de precisión", "aumento de respuestas no confiables", "incremento de costo anómalo", "inputs fuera de distribución", "aumento de override manual"]
+  },
+  "content_engine": {
+    "purpose": "Generar contenido original y consistente para web, LinkedIn y materiales comerciales.",
+    "editorial_voice": {
+      "tone": ["ejecutivo", "claro", "estratégico", "didáctico", "práctico", "sin humo"],
+      "style_rules": ["explicar IA en lenguaje de negocio", "bajar regulación a decisiones concretas", "usar ejemplos reales o plausibles", "evitar copiar estructura o fraseo de terceros", "cerrar cada pieza con recomendación accionable"]
+    },
+    "content_pillars": [
+      {"name": "AI Governance", "angles": ["qué debe decidir un directorio", "qué debe aprobar un comité de IA", "por qué no basta con tener un chatbot"]},
+      {"name": "Risk and Compliance", "angles": ["errores comunes al desplegar IA", "cómo preparar la empresa para regulación", "cómo priorizar controles"]},
+      {"name": "Executive Strategy", "angles": ["cómo elegir casos de uso", "cómo medir ROI en IA", "cuándo no hacer IA"]},
+      {"name": "AI Factory", "angles": ["cómo institucionalizar capacidades", "MLOps/LLMOps para negocio", "observabilidad y mejora continua"]},
+      {"name": "Chile and LATAM Context", "angles": ["impacto regulatorio en Chile", "privacidad y datos personales", "madurez organizacional en LATAM"]}
+    ],
+    "post_templates": [
+      {"name": "insight_post", "structure": ["hook ejecutivo", "problema de negocio", "insight regulatorio o de riesgo", "recomendación concreta", "CTA suave"]},
+      {"name": "framework_post", "structure": ["situación", "mini-framework de 3 a 5 puntos", "error frecuente", "acción recomendada"]},
+      {"name": "opinion_post", "structure": ["tesis", "qué se está haciendo mal", "qué debería hacerse mejor", "cierre con postura"]}
+    ],
+    "calls_to_action": ["Solicita un diagnóstico 369", "Agenda una sesión ejecutiva", "Evalúa tu madurez en IA con AIF369", "Conversemos sobre gobernanza y riesgo en IA"]
+  },
+  "commercial_messages": {
+    "one_liner": "No ayudamos solo a implementar IA. Ayudamos a gobernarla, justificarla y sostenerla.",
+    "pitch_30_sec": "En AIF369 acompañamos a empresas que quieren usar inteligencia artificial sin improvisar. Combinamos estrategia ejecutiva, gobernanza, riesgo, compliance, arquitectura y observabilidad en una metodología propia, el Método 369, para pasar de experimentos aislados a capacidades reales de negocio.",
+    "pitch_90_sec": "La mayoría de las organizaciones está entrando a IA con presión por innovar, pero sin un marco claro para decidir qué hacer, qué no hacer y cómo controlar riesgos. AIF369 resuelve ese vacío. Diseñamos estrategia, portafolio de casos, gobierno, controles, arquitectura y modelos operativos para que la IA se despliegue con foco en valor, cumplimiento y confianza. Nuestro Método 369 integra tres capas de dirección, seis fases de transformación y nueve módulos de control CAIO. Eso nos permite acompañar desde un diagnóstico inicial hasta la instalación de una AI Factory con observabilidad, accountability y mejora continua."
+  },
+  "lead_magnets": [
+    {"name": "AI Readiness 369 Assessment", "format": "self-assessment", "objective": "captura de leads y diagnóstico inicial"},
+    {"name": "Checklist de Gobernanza de IA para Directorios", "format": "PDF", "objective": "educación ejecutiva"},
+    {"name": "Mapa de Riesgos de IA para Empresas en Chile", "format": "guide", "objective": "posicionamiento experto"}
+  ],
+  "discovery_questions": [
+    "¿Qué decisiones de negocio están tratando de acelerar o automatizar con IA?",
+    "¿Qué procesos ya usan IA, aunque sea informalmente?",
+    "¿Qué datos personales o sensibles están involucrados?",
+    "¿Quién responde si la IA falla o discrimina?",
+    "¿Qué métricas de éxito esperan en 6 y 12 meses?",
+    "¿Qué riesgos no están dispuestos a aceptar?"
+  ],
+  "seo_keywords": [
+    "asesoría integral en IA", "CAIO advisory Chile", "gobernanza de inteligencia artificial", "AI governance Chile",
+    "riesgo y compliance IA", "AI Act Europa Chile", "consultoría IA para empresas", "responsible AI LATAM",
+    "AI Factory consulting", "evaluación de madurez IA"
+  ]
+}

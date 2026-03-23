@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA generativa para empresas: más allá de ChatGPT — Blog AIF369</title>
+    <meta name="description" content="Cómo implementar IA generativa a nivel empresarial: casos de uso, arquitectura, riesgos y cómo ir de la experimentación a la producción.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="metodologia.html" style="color: #00D9CC;">Método 369</a>
+            <a href="services.html">Servicios</a>
+            <a href="scorecard.html">Scorecard IA</a>
+            <a href="blog.html" class="active">Insights</a>
+            <a href="author.html">Sobre Erwin</a>
+            <a href="index.html#contacto" class="btn btn-outline">Agendar llamada</a>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    <article class="section article">
+        <p class="tag">IA Generativa</p>
+        <h1>IA generativa para empresas: más allá de ChatGPT</h1>
+        <p class="blog-meta">Marzo 2026 · Lectura de 9 minutos · Por <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener">Erwin Daza</a></p>
+
+        <p>
+            El 92% de las empresas del Fortune 500 ya usan alguna forma de IA generativa. Pero la mayoría se quedó en 
+            "empleados que usan ChatGPT desde su cuenta personal". Eso no es adopción empresarial — es shadow AI.
+        </p>
+
+        <h2>El problema del shadow AI</h2>
+        <p>
+            Cuando los empleados usan herramientas de IA sin control de la empresa, surgen riesgos serios:
+        </p>
+        <ul>
+            <li><strong>Fuga de datos:</strong> Datos confidenciales enviados a APIs externas sin cifrado ni control.</li>
+            <li><strong>Inconsistencia:</strong> Cada persona usa prompts diferentes para la misma tarea.</li>
+            <li><strong>Imposibilidad de auditar:</strong> Si algo sale mal, no hay registro de qué modelo o datos se usaron.</li>
+            <li><strong>Dependencia de un proveedor:</strong> Todo atado a OpenAI, sin plan B.</li>
+        </ul>
+
+        <h2>De shadow AI a IA empresarial: 5 pasos</h2>
+
+        <h3>Paso 1: Inventario de uso actual</h3>
+        <p>
+            Mapee qué herramientas de IA están usando los equipos hoy, para qué tareas y con qué datos.
+            Le sorprenderá lo que encuentre.
+        </p>
+
+        <h3>Paso 2: Definir políticas de uso</h3>
+        <p>
+            Qué datos se pueden enviar a APIs externas, qué tareas se pueden automatizar con IA,
+            quién aprueba nuevos casos de uso. Esto es parte de la gobernanza.
+        </p>
+
+        <h3>Paso 3: Implementar una capa empresarial</h3>
+        <p>
+            En lugar de que cada persona use ChatGPT, despliegue una solución empresarial con:
+        </p>
+        <ul>
+            <li>Control de acceso por rol</li>
+            <li>Logging de todas las interacciones</li>
+            <li>Múltiples modelos (Gemini, Claude, GPT, Mistral) según el caso de uso</li>
+            <li>RAG (Retrieval Augmented Generation) con documentos internos</li>
+            <li>Costos controlados y monitoreados</li>
+        </ul>
+
+        <h3>Paso 4: Crear templates y workflows</h3>
+        <p>
+            Estandarice los prompts para tareas comunes: resumen de reuniones, análisis de documentos,
+            redacción de emails, generación de código. Un buen template vale más que un buen modelo.
+        </p>
+
+        <h3>Paso 5: Medir y escalar</h3>
+        <p>
+            Mida el impacto: horas ahorradas, calidad de output, adopción por equipo.
+            Escale los casos de uso que demuestren ROI y retire los que no.
+        </p>
+
+        <h2>La arquitectura que recomendamos</h2>
+        <p>
+            En AIF369, diseñamos arquitecturas de IA generativa empresarial con:
+        </p>
+        <ul>
+            <li><strong>API Gateway:</strong> Un punto único de entrada que enruta a diferentes modelos según el caso de uso.</li>
+            <li><strong>RAG Pipeline:</strong> Indexación de documentos internos para respuestas con contexto de la empresa.</li>
+            <li><strong>MLOps:</strong> Versionado, monitoreo y actualización de modelos en producción.</li>
+            <li><strong>Observabilidad:</strong> Dashboards de uso, costos, latencia y calidad por equipo.</li>
+        </ul>
+
+        <h2>Modelo abierto vs. propietario</h2>
+        <p>
+            No todo tiene que ser GPT-4. Para muchos casos de uso empresariales, modelos open-source como
+            Mistral, LLaMA o Gemma funcionan igual de bien, con mejor control de datos y costos predecibles.
+            Nosotros usamos Gemini como modelo principal y Mistral como fallback.
+        </p>
+
+        <h2>Nuestro enfoque</h2>
+        <p>
+            En el <a href="metodologia.html">Método 369</a>, la capacidad de <strong>Modelos</strong> evalúa si la empresa
+            tiene la madurez para seleccionar, desplegar y mantener modelos de IA en producción. No se trata de tener
+            el último modelo — se trata de tener el correcto para cada problema.
+        </p>
+
+        <div class="article-cta">
+            <p>¿Quiere implementar IA generativa de forma segura y controlada en su empresa?</p>
+            <a href="index.html#contacto" class="btn btn-primary">Agendar conversación →</a>
+        </div>
+
+        <p><a href="blog.html" class="btn btn-link">← Volver al blog</a></p>
+    </article>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text">AI Factory, Governance, Risk and Business Value.</p>
+        </div>
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="services.html">Servicios</a>
+            <a href="scorecard.html" style="color: #00D9CC;">Scorecard IA</a>
+            <a href="blog.html">Insights</a>
+            <a href="author.html">Sobre Erwin</a>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        </div>
+    </div>
+</footer>
+<script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+</body>
+</html>

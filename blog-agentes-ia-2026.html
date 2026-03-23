@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentes de IA en 2026: qué son, cómo funcionan y cuándo implementarlos — Blog AIF369</title>
+    <meta name="description" content="Guía ejecutiva sobre agentes de IA autónomos: qué son, en qué se diferencian de chatbots, casos de uso reales y cómo implementarlos en su empresa.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="metodologia.html" style="color: #00D9CC;">Método 369</a>
+            <a href="services.html">Servicios</a>
+            <a href="scorecard.html">Scorecard IA</a>
+            <a href="blog.html" class="active">Insights</a>
+            <a href="author.html">Sobre Erwin</a>
+            <a href="index.html#contacto" class="btn btn-outline">Agendar llamada</a>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    <article class="section article">
+        <p class="tag">IA Aplicada</p>
+        <h1>Agentes de IA en 2026: qué son, cómo funcionan y cuándo implementarlos</h1>
+        <p class="blog-meta">Marzo 2026 · Lectura de 8 minutos · Por <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener">Erwin Daza</a></p>
+
+        <p>
+            Los agentes de IA son la evolución más relevante del 2025-2026. Ya no hablamos de chatbots que responden preguntas —
+            hablamos de sistemas que planifican, ejecutan acciones y toman decisiones con mínima intervención humana.
+        </p>
+
+        <h2>Chatbot vs. Copiloto vs. Agente</h2>
+        <ul>
+            <li><strong>Chatbot:</strong> Responde preguntas a partir de un contexto fijo. No ejecuta acciones.</li>
+            <li><strong>Copiloto:</strong> Sugiere acciones al usuario, que las aprueba manualmente. Human-in-the-loop.</li>
+            <li><strong>Agente:</strong> Planifica y ejecuta una secuencia de acciones de forma autónoma. Usa herramientas, APIs y bases de datos.</li>
+        </ul>
+
+        <h2>Cómo funciona un agente de IA</h2>
+        <p>Un agente típico tiene 4 componentes:</p>
+        <ol>
+            <li><strong>LLM (cerebro):</strong> El modelo de lenguaje que razona y planifica (GPT-4, Gemini, Claude, Mistral).</li>
+            <li><strong>Herramientas:</strong> APIs, bases de datos, funciones que el agente puede invocar (enviar email, consultar ERP, crear ticket).</li>
+            <li><strong>Memoria:</strong> Contexto de conversación y estado de la tarea en progreso.</li>
+            <li><strong>Orquestador:</strong> La lógica que decide qué paso ejecutar, cuándo preguntar al usuario y cuándo detenerse.</li>
+        </ol>
+
+        <h2>Casos de uso reales</h2>
+
+        <h3>Atención al cliente L2</h3>
+        <p>
+            Un agente que recibe un ticket, consulta la base de conocimiento, verifica el historial del cliente en el CRM,
+            propone una solución y, si tiene suficiente confianza, la ejecuta directamente. Reduce los tiempos de resolución en un 60%.
+        </p>
+
+        <h3>Automatización de reportes financieros</h3>
+        <p>
+            Un agente que consulta el ERP, genera el reporte mensual, valida las cifras contra el período anterior,
+            escribe el resumen ejecutivo y lo envía al CFO. Lo que tomaba 3 días ahora toma 15 minutos.
+        </p>
+
+        <h3>Análisis de contratos</h3>
+        <p>
+            Un agente que lee contratos, extrae cláusulas clave, las compara con la política interna de la empresa 
+            y genera una matriz de riesgo. Ideale para legal, compliance y procurement.
+        </p>
+
+        <h2>Cuándo implementar agentes</h2>
+        <p>Antes de implementar agentes, asegúrese de que su empresa cumple estos pre-requisitos:</p>
+        <ul>
+            <li>✅ <strong>Datos accesibles:</strong> APIs o bases de datos que el agente pueda consultar.</li>
+            <li>✅ <strong>Procesos documentados:</strong> El agente necesita reglas claras sobre qué hacer y qué no.</li>
+            <li>✅ <strong>Gobernanza definida:</strong> Políticas sobre qué decisiones puede tomar el agente de forma autónoma.</li>
+            <li>✅ <strong>Monitoreo:</strong> Capacidad de auditar las acciones del agente en producción.</li>
+        </ul>
+        <p>
+            Si le faltan varios de estos pre-requisitos, empiece por la <strong>Fase 1</strong> (Diagnóstico) de nuestro 
+            <a href="metodologia.html">Método 369</a> antes de implementar agentes.
+        </p>
+
+        <h2>Riesgos a gestionar</h2>
+        <ul>
+            <li><strong>Alucinaciones:</strong> El agente puede ejecutar acciones basadas en información incorrecta.</li>
+            <li><strong>Escalamiento:</strong> Sin límites claros, un agente puede generar problemas en cascada.</li>
+            <li><strong>Seguridad:</strong> Un agente con acceso a APIs tiene una superficie de ataque amplia.</li>
+            <li><strong>Costos:</strong> Cada llamada al LLM tiene costo. Un agente mal diseñado puede generar miles de llamadas innecesarias.</li>
+        </ul>
+
+        <div class="article-cta">
+            <p>¿Su empresa está lista para implementar agentes de IA? Evalúe su madurez con nuestro scorecard gratuito.</p>
+            <a href="scorecard.html" class="btn btn-primary">Hacer el Scorecard →</a>
+        </div>
+
+        <p><a href="blog.html" class="btn btn-link">← Volver al blog</a></p>
+    </article>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text">AI Factory, Governance, Risk and Business Value.</p>
+        </div>
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="services.html">Servicios</a>
+            <a href="scorecard.html" style="color: #00D9CC;">Scorecard IA</a>
+            <a href="blog.html">Insights</a>
+            <a href="author.html">Sobre Erwin</a>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        </div>
+    </div>
+</footer>
+<script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+</body>
+</html>

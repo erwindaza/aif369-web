@@ -1,0 +1,79 @@
+{
+  "website_system_design": {
+    "design_philosophy": {
+      "name": "AIF369 Premium Advisory UI",
+      "positioning": "Diseño ejecutivo, sobrio y moderno para una firma de consultoría en IA, gobernanza, riesgo y estrategia.",
+      "design_intent": [
+        "Transmitir confianza y criterio",
+        "Evitar apariencia de startup improvisada",
+        "Evitar estética demasiado técnica o hacker",
+        "Combinar autoridad ejecutiva con innovación en IA",
+        "Priorizar claridad, jerarquía y conversión"
+      ],
+      "brand_feeling": ["high trust", "executive", "clean", "strategic", "AI-native", "premium advisory"],
+      "visual_archetype": "Boutique consulting firm especializada en AI Governance, CAIO Advisory y AI Factory Design"
+    },
+    "information_architecture": {
+      "primary_navigation": ["Inicio", "Método 369", "Servicios", "Gobernanza y Riesgo", "Insights", "Sobre Erwin", "Contacto"],
+      "footer_navigation": ["Diagnóstico 369", "Advisory Ejecutivo", "AI Governance", "Privacy y Compliance", "AI Factory", "Blog", "LinkedIn de Erwin", "AIF369"]
+    },
+    "content_design_rules": {
+      "headline_style": ["Titulares cortos y con autoridad", "No usar frases vacías de marketing", "Hablar de valor, control, riesgo, gobierno y ejecución", "Evitar clichés como revolucionar, transformar todo, cambiar el mundo"],
+      "body_style": ["Párrafos cortos", "Lenguaje ejecutivo", "Explicación clara para tomadores de decisión", "Cada bloque debe responder una pregunta concreta"],
+      "cta_style": ["Agenda un diagnóstico 369", "Conoce el método", "Solicita una sesión ejecutiva", "Explora nuestros servicios"],
+      "trust_copy_rules": ["Mostrar criterio antes que grandilocuencia", "No usar claims imposibles de probar", "Presentar metodología propia y marcos serios", "Conectar consultoría con decisiones reales"]
+    },
+    "visual_design_system": {
+      "color_strategy": {
+        "primary": {"role": "Color de autoridad y sofisticación", "suggestion": "Azul noche profundo o grafito azulado"},
+        "secondary": {"role": "Color de apoyo para superficies y contraste", "suggestion": "Slate, charcoal, steel"},
+        "accent": {"role": "Color para detalles estratégicos y CTAs", "suggestion": "Cyan elegante, teal sofisticado o violeta tecnológico moderado"},
+        "neutral": {"role": "Base editorial limpia", "suggestion": "Escala gris premium, blancos cálidos o neutros suaves"},
+        "semantic": {"success": "verde controlado", "warning": "ámbar sobrio", "danger": "rojo muy dosificado"}
+      },
+      "typography_strategy": {
+        "headline_font_style": "Sans serif premium, moderna, fuerte y limpia",
+        "body_font_style": "Sans serif altamente legible para lectura ejecutiva",
+        "rules": ["Headlines con peso visual alto", "Body con lectura cómoda", "No usar tipografías futuristas excesivas", "No sacrificar confianza por apariencia experimental"]
+      },
+      "spacing_strategy": {"principles": ["Mucho aire entre bloques", "Secciones amplias", "Cards con padding generoso", "Lectura limpia en desktop y mobile"]},
+      "shape_strategy": {"corners": "Radio medio a grande, premium pero sobrio", "shadows": "Sombras suaves, nunca exageradas", "borders": "Bordes sutiles y elegantes"},
+      "imagery_strategy": {
+        "allowed": ["abstract tech visuals sobrios", "diagramas limpios", "fondos con textura suave", "gráficos de madurez o riesgo", "patrones geométricos estratégicos"],
+        "avoid": ["robots genéricos", "cerebros de stock", "manos con hologramas cliché", "visuales demasiado cyberpunk", "estética de app cripto genérica"]
+      }
+    },
+    "premium_ui_patterns": {
+      "recommended_patterns": [
+        {"pattern": "Split Hero", "use_case": "Titular fuerte a la izquierda y visual metodológico o trust block a la derecha."},
+        {"pattern": "Trust Bar", "use_case": "Fila de pilares como Estrategia, Riesgo, Compliance, Observabilidad, AI Factory."},
+        {"pattern": "Method Timeline", "use_case": "Mostrar las 6 fases del Método 369."},
+        {"pattern": "Three-Pillar Grid", "use_case": "Mostrar las 3 capas de dirección."},
+        {"pattern": "Nine-Module Matrix", "use_case": "Visualizar los 9 módulos de control CAIO."},
+        {"pattern": "Editorial Insight Cards", "use_case": "Blog e insights con apariencia premium."},
+        {"pattern": "Sticky CTA Panel", "use_case": "Mantener llamada a acción visible en páginas largas."},
+        {"pattern": "FAQ Accordion", "use_case": "Resolver objeciones sin saturar la página."}
+      ]
+    },
+    "prompt_rules_for_ai": {
+      "instruction_set": [
+        "Construye el sitio con estética premium de consultoría en IA, no como SaaS genérico",
+        "Usa jerarquía visual fuerte y mucho whitespace",
+        "Haz que el Método 369 sea el centro visual y narrativo del sitio",
+        "Crea componentes reutilizables y content-driven",
+        "Mantén consistencia entre home, servicios, metodología e insights",
+        "Resalta el perfil de Erwin Daza Castillo con link a LinkedIn",
+        "Evita clichés visuales de inteligencia artificial",
+        "Prioriza claridad, autoridad y conversión"
+      ],
+      "hard_avoidances": [
+        "No usar estética de dashboard criptográfico",
+        "No usar colores chillones",
+        "No usar demasiados gradientes agresivos",
+        "No usar ilustraciones infantiles",
+        "No saturar con iconos o badges innecesarios",
+        "No parecer agencia de marketing tradicional"
+      ]
+    }
+  }
+}

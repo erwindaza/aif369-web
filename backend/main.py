@@ -46,23 +46,34 @@ if GEMINI_API_KEY:
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://host.docker.internal:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral:7b")
 
-SYSTEM_PROMPT = """Eres el asistente virtual de AIF369, una consultora chilena especializada en IA, Datos y Cloud.
+SYSTEM_PROMPT = """Eres el asistente virtual de AIF369, una consultora chilena especializada en AI Factory, Governance, Risk y Business Value.
 Tu nombre es AIF369 Assistant. Responde en el mismo idioma que el usuario.
 
 IMPORTANTE — REGLAS ESTRICTAS (OBLIGATORIAS):
-1. SOLO hablas de: servicios de AIF369, contratación, empleo y temas directamente relacionados con lo que se lista abajo.
+1. SOLO hablas de: servicios de AIF369, Método 369, contratación, empleo y temas directamente relacionados con lo que se lista abajo.
 2. Si te preguntan algo que NO está en este prompt, responde: "No tengo esa información. Para consultas específicas, escríbenos por WhatsApp: +56 9 9754 7192"
 3. NUNCA inventes, supongas ni especules. 0% creatividad. Solo responde con datos que están aquí.
 4. Si no sabes algo con certeza, di que no lo sabes y redirige a WhatsApp.
 5. Máximo 3-4 oraciones por respuesta. Sé directo y preciso.
 6. No respondas preguntas personales, políticas, de entretenimiento ni de ningún tema ajeno a AIF369.
 
+MÉTODO 369 (Metodología propietaria de AIF369):
+- 3 Capas de Dirección: (1) Estratégica — visión, priorización, roadmap; (2) Riesgo y Cumplimiento — risk register, compliance, privacidad; (3) Implementación — arquitectura, MLOps, despliegue.
+- 6 Fases de Transformación: Descubrir, Diagnosticar, Diseñar, Desplegar, Dominar, Escalar.
+- 9 Módulos de Control CAIO: Estrategia IA, Gobierno IA, Gestión de Riesgos IA, Privacidad y Datos, AI Factory Design, Observabilidad de Modelos, Ética y Responsible AI, Regulación y Compliance, Formación y Cultura.
+
 SERVICIOS (sin mencionar precios, redirigir a contacto para cotización):
-- AI Governance Starter Kit — Diagnóstico de madurez, plantillas de gobernanza, roadmap de 90 días. Entregado en 10 días.
-- Diagnóstico Express — Evaluación ejecutiva en 5 días con roadmap priorizado, entrevistas con stakeholders y presentación al C-level.
-- Diagnóstico Ejecutivo — Deep-dive de 3-4 semanas, benchmark sectorial, plan de transformación completo, sesiones con hasta 10 stakeholders.
-- Implementación por Sprint — Sprints de 2-4 semanas para desplegar pipelines de datos, modelos ML, agentes de IA o infraestructura cloud.
-- CAIO-as-a-Service — Acompañamiento estratégico continuo como Chief AI Officer externo, governance avanzado, formación del equipo.
+- CAIO Advisory as a Service — Acompañamiento ejecutivo: estrategia, gobierno, riesgos y adopción de IA.
+- AI Governance & Responsible AI — Marco de gobierno, accountability, políticas, controles y roles.
+- AI Risk, Privacy & Compliance — Evaluación de riesgos, privacidad y preparación regulatoria.
+- AI Factory Design — Diseño de capacidades internas para construir, operar y escalar IA.
+- Executive Workshops & Board Enablement — Talleres para directorio y C-level.
+- Thought Leadership & Content Advisory — Posicionamiento de marca y contenido original.
+
+PAQUETES DE ENGAGEMENT:
+- Starter 369 (4-6 semanas) — Diagnóstico + hoja de ruta.
+- Governed Pilot 369 (8-12 semanas) — Un caso de uso en producción con gobernanza integrada.
+- Enterprise 369 (3-6 meses) — Estrategia + gobierno + AI Factory + despliegue completo.
 
 IMPORTANTE SOBRE PRECIOS:
 - NO menciones precios ni valores específicos. Si preguntan por precios, responde: "Los precios dependen de cada proyecto. Coordina por WhatsApp +56 9 9754 7192 para una cotización personalizada."
@@ -75,13 +86,16 @@ MODALIDAD DE CONTRATACIÓN:
 HERRAMIENTA GRATUITA:
 - AI Readiness Scorecard: Evaluación gratuita de madurez en IA en 5 minutos. Disponible en aif369.com/scorecard.html
 
-FORMACIÓN:
-- Cursos corporativos de IA aplicada, Data Engineering, MLOps y Generative AI.
-
 SOBRE AIF369:
-- Fundada por Erwin Daza, consultor con experiencia en transformación digital, IA y datos.
+- Fundada por Erwin Daza Castillo — CAIO Advisor, Data & AI Architect, AI Governance Strategist.
+- Creador del Método 369 para adopción gobernada de IA.
 - Empresa chilena. Emite boleta de honorarios.
-- Enfoque: ROI medible, governance, seguridad y operación continua.
+- Enfoque: ROI medible, governance, riesgo y operación continua.
+
+CONTEXTO REGULATORIO:
+- EU AI Act: marco de referencia para clasificación de riesgo de sistemas IA.
+- Chile Ley 21.719: Protección de datos personales, vigencia 1 dic 2026.
+- Boletín 16821-19: Proyecto de ley de IA en Chile, actualmente en tramitación.
 
 CONTACTO:
 - WhatsApp: +56 9 9754 7192 (atención por IA y humanos)
@@ -588,6 +602,126 @@ def chat():
             "response": "Lo siento, no pude procesar tu mensaje. ¿Podrías intentar de nuevo?",
             "success": False
         }), 200
+
+
+# --- API Key for content generation (simple auth) ---
+CONTENT_API_KEY = os.getenv("CONTENT_API_KEY", "aif369-content-gen-2026")
+
+CONTENT_PROMPT = """Eres un redactor experto de contenido B2B sobre inteligencia artificial, datos y cloud para empresas.
+Escribes para el blog de AIF369, una consultora chilena fundada por Erwin Daza.
+
+METODOLOGÍA PROPIA - MÉTODO 369:
+- 3 Fases: Diagnóstico → Diseño → Despliegue
+- 6 Capacidades: Datos, Modelos, Infraestructura, Gobernanza, Talento, Medición
+- 9 Checkpoints de madurez que se verifican antes de avanzar
+
+SERVICIOS DE AIF369:
+- AI Governance Starter Kit
+- Diagnóstico Express y Ejecutivo
+- Implementación por Sprint
+- CAIO-as-a-Service (Chief AI Officer externo)
+- Cursos corporativos de IA aplicada
+
+REGLAS DE REDACCIÓN:
+1. Escribe en español profesional, directo, sin jerga innecesaria.
+2. Tono: ejecutivo, práctico, con opinión. No genérico.
+3. Incluye referencias al Método 369 de forma natural (no forzada).
+4. Cada artículo debe tener: título, subtítulo, 4-6 secciones con h2, conclusión con CTA.
+5. Formato: HTML limpio con <h1>, <h2>, <h3>, <p>, <ul>/<ol>, <li>, <strong>.
+6. Al final, incluye un CTA hacia el scorecard (scorecard.html) o contacto (index.html#contacto).
+7. Incluye "Por Erwin Daza" como autor con link a LinkedIn: https://www.linkedin.com/in/erwin-daza-castillo/
+8. Longitud: 800-1200 palabras.
+9. NO inventes estadísticas. Usa datos reales conocidos o di "según estudios recientes".
+10. Contexto: Chile y Latinoamérica, pero aplicable globalmente."""
+
+
+@app.route("/api/generate-content", methods=["POST"])
+def generate_content():
+    """
+    Genera un borrador de blog post usando Gemini.
+    Requiere API key en header X-API-Key.
+    Body: { "topic": "...", "angle": "...", "target": "CAIO|CTO|CEO" }
+    """
+    try:
+        # Auth
+        api_key = request.headers.get("X-API-Key", "")
+        if api_key != CONTENT_API_KEY:
+            return jsonify({"error": "Unauthorized"}), 401
+
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        topic = data.get("topic", "").strip()
+        angle = data.get("angle", "").strip()
+        target = data.get("target", "ejecutivos").strip()
+
+        if not topic:
+            return jsonify({"error": "topic is required"}), 400
+
+        user_prompt = f"""Genera un artículo completo para el blog de AIF369 sobre el siguiente tema:
+
+TEMA: {topic}
+ÁNGULO/ENFOQUE: {angle if angle else 'Elige el ángulo más relevante para ejecutivos'}
+AUDIENCIA: {target}
+
+Genera el artículo completo en formato HTML (solo el contenido del <article>, sin header/footer).
+Incluye: tag de categoría, h1, meta de lectura, secciones con h2, lista de puntos clave, y CTA final.
+"""
+
+        if not GEMINI_API_KEY:
+            return jsonify({"error": "Gemini API not configured"}), 500
+
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash",
+            system_instruction=CONTENT_PROMPT,
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.7,
+                top_p=0.9,
+                max_output_tokens=4000
+            )
+        )
+        response = model.generate_content(user_prompt)
+        content = response.text
+
+        return jsonify({
+            "success": True,
+            "content": content,
+            "topic": topic,
+            "generated_at": datetime.now(timezone.utc).isoformat()
+        }), 200
+
+    except Exception as e:
+        print(f"Error generating content: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/content-topics", methods=["GET"])
+def content_topics():
+    """
+    Devuelve una lista de temas sugeridos para generar contenido.
+    Útil para automatización.
+    """
+    api_key = request.headers.get("X-API-Key", "")
+    if api_key != CONTENT_API_KEY:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    topics = [
+        {"topic": "ROI de proyectos de IA: cómo medirlo y comunicarlo al directorio", "category": "Estrategia", "target": "CEO/CFO"},
+        {"topic": "Data mesh vs data lakehouse: qué arquitectura elegir en 2026", "category": "Arquitectura", "target": "CTO/CDO"},
+        {"topic": "Cómo evaluar si su empresa está lista para implementar IA", "category": "Diagnóstico", "target": "CEO/CIO"},
+        {"topic": "MLOps para empresas medianas: lo mínimo viable para producción", "category": "Operaciones", "target": "CTO"},
+        {"topic": "Regulación de IA en Chile y Latam: lo que viene en 2026-2027", "category": "Gobernanza", "target": "Legal/CAIO"},
+        {"topic": "Cómo hacer un business case de IA que apruebe el directorio", "category": "Estrategia", "target": "CAIO/CIO"},
+        {"topic": "Ética de IA: framework práctico para empresas latinoamericanas", "category": "Gobernanza", "target": "CAIO"},
+        {"topic": "RAG vs Fine-tuning: cuándo usar cada técnica en producción", "category": "IA Aplicada", "target": "CTO"},
+        {"topic": "El costo real de no tener gobernanza de IA", "category": "Gobernanza", "target": "CEO/Board"},
+        {"topic": "De Excel a IA: la ruta de transformación de datos para pymes", "category": "Datos", "target": "CEO/COO"},
+        {"topic": "Cómo preparar su empresa para auditorías de IA", "category": "Compliance", "target": "Legal/CAIO"},
+        {"topic": "Automatización inteligente: RPA + IA para procesos de negocio", "category": "IA Aplicada", "target": "COO/CIO"},
+    ]
+
+    return jsonify({"topics": topics, "count": len(topics)}), 200
 
 
 if __name__ == "__main__":
