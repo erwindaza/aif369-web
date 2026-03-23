@@ -781,20 +781,8 @@ nav {
     color: #F4F7FF;
 }
 
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-}
-
 .contact-form textarea {
     resize: vertical;
-}
-
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
 }
 
 .contact-form select {
@@ -807,12 +795,6 @@ nav {
     width: 100%;
 }
 
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-}
-
 .contact-form textarea {
     resize: vertical;
 }
@@ -821,12 +803,6 @@ nav {
     max-width: 420px;
 }
 
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-}
-
 /* Modal */
 .modal-open {
     overflow: hidden;
@@ -845,6 +821,7 @@ nav {
     justify-content: center;
     padding: 1.5rem;
     z-index: 200;
+    animation: fadeIn 0.15s ease;
 }
 
 .modal-card {
@@ -853,79 +830,18 @@ nav {
     padding: 2rem;
     max-width: 600px;
     width: 100%;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.15s ease;
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.modal-close {
-    background: transparent;
-    border: none;
-    color: var(--text);
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.modal-text {
-    color: var(--text-muted);
-    margin-top: 0.5rem;
-}
-
-.modal-list {
-    margin: 1.5rem 0;
-    padding-left: 1.2rem;
-    color: var(--text);
-}
-
-.modal-list li + li {
-    margin-top: 0.5rem;
-}
-
-.modal-note {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-}
-
-.modal-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-}
-
-/* Modal */
-.modal-open {
-    overflow: hidden;
-}
-
-[data-modal][hidden] {
-    display: none;
-}
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(10, 25, 47, 0.82);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    z-index: 200;
-}
-
-.modal-card {
-    background-color: var(--bg-light);
-    border-radius: 12px;
-    padding: 2rem;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .modal-header {
@@ -1138,12 +1054,6 @@ nav {
     gap: 1rem;
 }
 
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-    font-size: 1.6rem;
-    line-height: 1.35;
 }
 
 .blog-card h2 a {
@@ -1257,12 +1167,6 @@ nav {
     gap: 1rem;
 }
 
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-    font-size: 1.6rem;
-    line-height: 1.35;
 }
 
 .blog-card h2 a {
@@ -1318,150 +1222,6 @@ nav {
     border-radius: 8px;
     background: rgba(100, 255, 218, 0.12);
     color: #F0FBFF;
-}
-
-/* Modal */
-.modal-open {
-    overflow: hidden;
-}
-
-[data-modal][hidden] {
-    display: none;
-}
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(10, 25, 47, 0.82);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    z-index: 200;
-}
-
-.modal-card {
-    background-color: var(--bg-light);
-    border-radius: 12px;
-    padding: 2rem;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-}
-
-.modal-close {
-    background: transparent;
-    border: none;
-    color: var(--text);
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.modal-text {
-    color: var(--text-muted);
-    margin-top: 0.5rem;
-}
-
-.modal-list {
-    margin: 1.5rem 0;
-    padding-left: 1.2rem;
-    color: var(--text);
-}
-
-.modal-list li + li {
-    margin-top: 0.5rem;
-}
-
-.modal-note {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-}
-
-.modal-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-}
-
-/* Modal */
-.modal-open {
-    overflow: hidden;
-}
-
-[data-modal][hidden] {
-    display: none;
-}
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(10, 25, 47, 0.82);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    z-index: 200;
-}
-
-.modal-card {
-    background-color: var(--bg-light);
-    border-radius: 12px;
-    padding: 2rem;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-}
-
-.modal-close {
-    background: transparent;
-    border: none;
-    color: var(--text);
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.modal-text {
-    color: var(--text-muted);
-    margin-top: 0.5rem;
-}
-
-.modal-list {
-    margin: 1.5rem 0;
-    padding-left: 1.2rem;
-    color: var(--text);
-}
-
-.modal-list li + li {
-    margin-top: 0.5rem;
-}
-
-.modal-note {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-}
-
-.modal-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
 }
 
 /* Blog */
@@ -1874,22 +1634,85 @@ nav {
     gap: 1rem;
 }
 
-.form-success {
-    color: var(--primary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-}
-
-.form-error {
-    color: #FF7B7B;
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-}
-
 /* Form loading state */
-.form-loading .btn {
+.form-loading .btn-submit {
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.85;
+    cursor: wait;
+}
+
+.btn-submit {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-submitting {
+    background-color: var(--primary) !important;
+    opacity: 0.85;
+}
+
+.btn-success {
+    background-color: #059669 !important;
+    opacity: 1;
+}
+
+.btn-error {
+    background-color: #DC2626 !important;
+    opacity: 1;
+}
+
+.btn-submit .btn-text {
+    transition: none;
+}
+
+.btn-submit .btn-spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    flex-shrink: 0;
+}
+
+/* Status line below button */
+.form-status {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    transition: opacity 0.15s ease;
+}
+
+.form-status-pending {
+    color: var(--accent, #00D9CC);
+}
+
+/* Success message */
+.form-success {
+    color: #059669;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+/* Error message */
+.form-error {
+    color: #DC2626;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+/* Disable inputs during submit */
+.form-loading input,
+.form-loading textarea,
+.form-loading select {
+    pointer-events: none;
+    opacity: 0.7;
 }
 
 .form-loading .btn .btn-text {
@@ -1898,16 +1721,6 @@ nav {
 
 .form-loading .btn .btn-spinner {
     display: inline-block;
-}
-
-.btn .btn-spinner {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
 }
 
 @keyframes spin {

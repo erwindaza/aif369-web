@@ -842,22 +842,108 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     contactForms.forEach((form) => {
-        // Add spinner markup to submit buttons
         const submitBtn = form.querySelector('button[type="submit"], .btn[type="submit"]');
+        const statusLine = form.querySelector('.form-status');
+        const successMessage = form.querySelector('.form-success');
+        const errorMessage = form.querySelector('.form-error');
+        let isSubmitting = false;
+        let originalButtonText = '';
+        let pendingTimer = null;
+        let extendedTimer = null;
+
+        // Store original button text and add spinner markup
         if (submitBtn) {
-            const originalText = submitBtn.textContent;
-            submitBtn.innerHTML = '<span class="btn-text">' + originalText + '</span><span class="btn-spinner"></span>';
+            originalButtonText = submitBtn.textContent.trim();
+            submitBtn.innerHTML = '<span class="btn-text">' + originalButtonText + '</span><span class="btn-spinner"></span>';
+            submitBtn.style.minWidth = submitBtn.offsetWidth + 'px';
+        }
+
+        function setFormState(state, message) {
+            if (!submitBtn) return;
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnSpinner = submitBtn.querySelector('.btn-spinner');
+
+            // Clear timers
+            if (pendingTimer) { clearTimeout(pendingTimer); pendingTimer = null; }
+            if (extendedTimer) { clearTimeout(extendedTimer); extendedTimer = null; }
+
+            // Reset all state classes
+            form.classList.remove('form-loading', 'form-state-success', 'form-state-error');
+            submitBtn.classList.remove('btn-submitting', 'btn-success', 'btn-error');
+            submitBtn.removeAttribute('aria-busy');
+            if (statusLine) statusLine.hidden = true;
+            if (successMessage) successMessage.hidden = true;
+            if (errorMessage) errorMessage.hidden = true;
+
+            switch (state) {
+                case 'idle':
+                    submitBtn.disabled = false;
+                    isSubmitting = false;
+                    if (btnText) btnText.textContent = originalButtonText;
+                    if (btnSpinner) btnSpinner.style.display = 'none';
+                    break;
+
+                case 'submitting':
+                    submitBtn.disabled = true;
+                    isSubmitting = true;
+                    submitBtn.classList.add('btn-submitting');
+                    submitBtn.setAttribute('aria-busy', 'true');
+                    form.classList.add('form-loading');
+                    if (btnText) btnText.textContent = 'Enviando...';
+                    if (btnSpinner) btnSpinner.style.display = 'inline-block';
+                    if (statusLine) {
+                        statusLine.textContent = 'Enviando tu solicitud...';
+                        statusLine.hidden = false;
+                        statusLine.className = 'form-status form-status-pending';
+                    }
+                    // Progressive feedback: 1.5s extended message
+                    extendedTimer = setTimeout(() => {
+                        if (statusLine && isSubmitting) {
+                            statusLine.textContent = 'Seguimos procesando. No es necesario volver a hacer clic.';
+                        }
+                    }, 1500);
+                    break;
+
+                case 'success':
+                    submitBtn.disabled = true;
+                    isSubmitting = false;
+                    submitBtn.classList.add('btn-success');
+                    form.classList.add('form-state-success');
+                    if (btnText) btnText.textContent = 'Enviado ✓';
+                    if (btnSpinner) btnSpinner.style.display = 'none';
+                    if (successMessage) successMessage.hidden = false;
+                    if (statusLine) statusLine.hidden = true;
+                    // Re-enable form after 5 seconds
+                    setTimeout(() => {
+                        setFormState('idle');
+                        form.reset();
+                    }, 5000);
+                    break;
+
+                case 'error':
+                    submitBtn.disabled = false;
+                    isSubmitting = false;
+                    submitBtn.classList.add('btn-error');
+                    form.classList.add('form-state-error');
+                    if (btnText) btnText.textContent = 'Reintentar';
+                    if (btnSpinner) btnSpinner.style.display = 'none';
+                    if (errorMessage) {
+                        errorMessage.textContent = message || 'No pudimos enviar tu solicitud en este momento. Inténtalo nuevamente.';
+                        errorMessage.hidden = false;
+                    }
+                    if (statusLine) statusLine.hidden = true;
+                    break;
+            }
         }
 
         form.addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            // Show loading state
-            form.classList.add("form-loading");
-            const successMessage = form.querySelector(".form-success");
-            const errorMessage = form.querySelector(".form-error");
-            if (successMessage) successMessage.hidden = true;
-            if (errorMessage) errorMessage.hidden = true;
+            // Anti double-click: ignore if already submitting
+            if (isSubmitting) return;
+
+            // Instant feedback (< 100ms)
+            setFormState('submitting');
 
             const formData = new FormData(form);
             const rawName = formData.get("fullName")?.toString().trim()
@@ -876,15 +962,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 submittedAt: new Date().toISOString()
             };
 
-            const endpoint = resolveBackendEndpoint(form);
-            const backendPayload = buildBackendPayload(submission);
-            let backendOk = await postToBackend(endpoint, backendPayload);
-
+            // Populate modal summary with LOCAL data immediately
             document.querySelectorAll("[data-summary]").forEach((element) => {
                 const key = element.dataset.summary;
                 element.textContent = submission[key] || "-";
             });
 
+            // Send to backend with timeout
+            const endpoint = resolveBackendEndpoint(form);
+            const backendPayload = buildBackendPayload(submission);
+
+            let backendOk = false;
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(backendPayload),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                backendOk = response.ok;
+            } catch (err) {
+                backendOk = false;
+            }
+
+            // Prepare mailto fallback
             let mailto = null;
             if (emailLink) {
                 emailLink.hidden = true;
@@ -917,21 +1022,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            // Remove loading state
-            form.classList.remove("form-loading");
-
             const shouldShowSuccess = backendOk || !!mailto;
-            if (successMessage) {
-                successMessage.hidden = !shouldShowSuccess;
-            }
-            if (errorMessage) {
-                errorMessage.hidden = shouldShowSuccess;
-            }
 
-            if (modal) {
-                openModal();
-            } else if (!backendOk && mailto) {
-                window.location.href = mailto;
+            if (shouldShowSuccess) {
+                setFormState('success');
+                if (modal) {
+                    openModal();
+                }
+            } else {
+                setFormState('error');
             }
         });
     });

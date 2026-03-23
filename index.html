@@ -188,8 +188,10 @@
                     <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="index.form.email" autocomplete="email" required>
                     <input type="text" name="role" placeholder="Cargo o rol" data-i18n-placeholder="index.form.role" autocomplete="organization-title" required>
                     <textarea rows="4" name="context" placeholder="Contexto breve de su interés en IA, datos o cloud" data-i18n-placeholder="index.form.context" autocomplete="off"></textarea>
-                    <button type="submit" class="btn btn-primary" data-i18n="index.form.button">Solicitar conversación</button>
-                    <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos en menos de 24 horas.</p>
+                    <button type="submit" class="btn btn-primary btn-submit" data-i18n="index.form.button">Solicitar conversación</button>
+                    <p class="form-status" hidden></p>
+                    <p class="form-success" hidden data-i18n="form.success">Solicitud enviada correctamente. Nuestro equipo te contactará dentro de las próximas 24 horas.</p>
+                    <p class="form-error" hidden>No pudimos enviar tu solicitud en este momento. Inténtalo nuevamente.</p>
                 </form>
                 <div class="contact-side">
                     <h3 data-i18n="index.cta.includes">¿Qué incluye la conversación?</h3>

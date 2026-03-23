@@ -1,0 +1,201 @@
+{
+  "form_ux_fix_aif369": {
+    "goal": "Hacer que el formulario y el envío de email se sientan rápidos, claros y confiables, incluso si el backend tarda.",
+    "main_problems_detected": [
+      "El modal tarda en aparecer",
+      "El botón de envío no muestra estado inmediato",
+      "El usuario puede hacer múltiples clics",
+      "No hay feedback de progreso claro",
+      "La interfaz parece congelada durante la espera"
+    ],
+    "ux_principles": [
+      "Toda acción debe dar feedback en menos de 100 ms",
+      "Toda espera superior a 300 ms debe mostrar loading visible",
+      "Todo submit debe bloquear doble envío",
+      "Toda operación asíncrona debe tener estados claros: idle, submitting, success, error",
+      "El usuario siempre debe saber qué está pasando"
+    ],
+    "required_frontend_states": {
+      "idle": {
+        "description": "Formulario listo para ser enviado",
+        "ui_behavior": [
+          "Botón principal habilitado",
+          "Inputs editables",
+          "Sin overlay"
+        ]
+      },
+      "validating": {
+        "description": "Validación previa al envío",
+        "ui_behavior": [
+          "Validación instantánea en frontend",
+          "Errores inline por campo si corresponde"
+        ]
+      },
+      "submitting": {
+        "description": "Datos enviados al backend o servicio email",
+        "ui_behavior": [
+          "Deshabilitar botón submit inmediatamente",
+          "Cambiar texto del botón a Enviando...",
+          "Mostrar spinner dentro del botón",
+          "Bloquear doble clic",
+          "Mostrar indicador visible de progreso o espera",
+          "Mantener contexto del usuario visible"
+        ]
+      },
+      "success": {
+        "description": "Solicitud enviada correctamente",
+        "ui_behavior": [
+          "Mostrar confirmación clara",
+          "Cerrar loading state",
+          "Mostrar mensaje simple y confiable",
+          "Ofrecer siguiente paso"
+        ]
+      },
+      "error": {
+        "description": "Ocurrió error o timeout",
+        "ui_behavior": [
+          "Mostrar mensaje claro sin lenguaje técnico",
+          "Permitir reintentar",
+          "Preservar datos del formulario",
+          "No borrar inputs"
+        ]
+      }
+    },
+    "recommended_user_flow": [
+      {
+        "step": 1,
+        "name": "User completes form",
+        "frontend_rule": "Validar campos antes del submit para evitar esperas inútiles"
+      },
+      {
+        "step": 2,
+        "name": "User clicks submit",
+        "frontend_rule": "Cambiar estado del botón inmediatamente a loading en el mismo frame"
+      },
+      {
+        "step": 3,
+        "name": "Show pending feedback",
+        "frontend_rule": "Si la operación supera 300 ms, mostrar mensaje visible: Estamos enviando tu solicitud..."
+      },
+      {
+        "step": 4,
+        "name": "Prevent repeated actions",
+        "frontend_rule": "Desactivar botón y cualquier acción secundaria conflictiva"
+      },
+      {
+        "step": 5,
+        "name": "Server responds",
+        "frontend_rule": "Mostrar success o error inmediatamente"
+      }
+    ],
+    "ui_fixes_for_modal": {
+      "problem": "El modal resumen aparece tarde y se siente pesado",
+      "fixes": [
+        "No esperar respuesta del backend para abrir el modal si el resumen ya puede renderizarse desde el estado local",
+        "Renderizar el modal instantáneamente con datos locales",
+        "Separar el resumen visual del envío real",
+        "Abrir el modal primero y ejecutar el submit en segundo plano si el flujo lo requiere",
+        "Usar animación corta de 120-180 ms, no transiciones lentas",
+        "Evitar blur o sombras pesadas que ralenticen mobile"
+      ],
+      "better_pattern": "El resumen debe generarse localmente y aparecer al instante. El envío real debe tener su propio estado visual."
+    },
+    "button_behavior_spec": {
+      "default_label": "Enviar solicitud",
+      "loading_label": "Enviando...",
+      "success_label": "Enviado ✓",
+      "error_label": "Reintentar",
+      "rules": [
+        "Deshabilitar el botón al primer clic",
+        "Mostrar spinner inline",
+        "Agregar aria-busy=true durante loading",
+        "Evitar que el botón cambie de tamaño entre estados",
+        "Mantener ancho estable para evitar layout shift"
+      ]
+    },
+    "loading_feedback_patterns": {
+      "preferred_pattern": "Inline button loading + status message debajo del botón",
+      "secondary_pattern": "Mini overlay ligero si el proceso tarda más de 1 segundo",
+      "messages": [
+        "Estamos enviando tu solicitud...",
+        "Esto puede tardar unos segundos.",
+        "No cierres esta ventana.",
+        "Ya recibimos tu información."
+      ],
+      "rules": [
+        "No usar loaders ambiguos sin texto",
+        "No bloquear toda la pantalla a menos que sea necesario",
+        "No ocultar el formulario completo durante la espera",
+        "Siempre explicar qué está ocurriendo"
+      ]
+    },
+    "anti_double_click_rules": [
+      "Usar una bandera isSubmitting en frontend",
+      "Ignorar clics extra mientras isSubmitting sea true",
+      "Deshabilitar botón submit y acciones de cierre conflictivas si aplica",
+      "Generar request idempotent si backend lo soporta",
+      "Agregar debounce solo como apoyo, no como solución principal"
+    ],
+    "performance_fixes_frontend": [
+      "Validar en cliente antes del submit",
+      "Reducir re-renders innecesarios del modal",
+      "No recalcular el summary al abrir si ya está en memoria",
+      "Usar lazy render solo para contenido no crítico",
+      "Evitar efectos visuales costosos en mobile",
+      "Optimizar sombras, blur y overlays",
+      "No esperar render de componentes pesados antes de mostrar feedback"
+    ],
+    "network_resilience_rules": [
+      "Definir timeout razonable en la llamada de envío",
+      "Mostrar mensaje específico si tarda demasiado",
+      "Permitir retry controlado",
+      "Persistir datos del usuario en estado local hasta éxito",
+      "No perder el contexto si falla la red"
+    ],
+    "microcopy_recommendations": {
+      "before_submit": "Revisaremos tu solicitud y te contactaremos pronto.",
+      "during_submit": "Enviando tu solicitud. Esto puede tardar unos segundos.",
+      "success": "Solicitud enviada correctamente. Nuestro equipo te contactará dentro de las próximas 24 horas.",
+      "error": "No pudimos enviar tu solicitud en este momento. Inténtalo nuevamente."
+    },
+    "visual_ux_recommendations": [
+      "Usar spinner pequeño dentro del botón principal",
+      "Agregar una línea de estado bajo el botón",
+      "Mostrar check visual claro en success",
+      "Reducir opacidad de acciones deshabilitadas",
+      "Mantener foco visual en una sola acción principal"
+    ],
+    "frontend_logic_contract": {
+      "state_model": ["idle", "submitting", "success", "error"],
+      "required_flags": ["isSubmitting", "isSuccess", "isError", "errorMessage", "showPendingMessage"],
+      "timing_rules": {
+        "instant_feedback_ms": 100,
+        "show_pending_message_after_ms": 300,
+        "show_extended_wait_after_ms": 1500,
+        "request_timeout_ms": 10000
+      }
+    },
+    "microcopy_status_line": {
+      "idle": "",
+      "submitting": "Enviando tu solicitud...",
+      "submitting_extended": "Seguimos procesando. No es necesario volver a hacer clic.",
+      "success": "Solicitud enviada correctamente. Te contactaremos pronto.",
+      "error": "Hubo un problema al enviar. Inténtalo otra vez."
+    },
+    "do_not_do": [
+      "No dejar el botón activo mientras se envía",
+      "No mostrar solo spinner sin texto",
+      "No congelar la pantalla sin feedback",
+      "No cerrar el modal antes de confirmar success",
+      "No borrar el formulario si ocurre error",
+      "No depender únicamente del backend para mostrar el resumen"
+    ],
+    "success_criteria": [
+      "El usuario recibe feedback visual inmediato al hacer clic",
+      "No se puede enviar dos veces accidentalmente",
+      "El usuario entiende si el sistema está procesando",
+      "Si tarda, la UI comunica espera sin parecer rota",
+      "El formulario se siente confiable en mobile"
+    ]
+  }
+}
