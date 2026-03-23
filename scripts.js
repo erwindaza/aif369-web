@@ -158,19 +158,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.cta.item3": "Recomendación del servicio ideal según su situación.",
             "index.cta.item4": "Siguiente paso claro y sin compromisos.",
             "index.cta.note": "Sin costo, sin compromiso. Si no somos los indicados, se lo diremos con honestidad.",
-            "index.modal.title": "Resumen de solicitud enviada",
-            "index.modal.subtitle": "Estos son los datos enviados. Guarda este resumen y revisa dónde se almacenan.",
-            "index.modal.nameLabel": "Nombre:",
-            "index.modal.emailLabel": "Email:",
-            "index.modal.roleLabel": "Cargo:",
-            "index.modal.contextLabel": "Contexto:",
-            "index.modal.storageNote": "Tu solicitud fue enviada a nuestro equipo. Te contactaremos pronto.",
-            "index.modal.emailNote": "Si necesitas añadir detalles, escríbenos a edaza@aif369.com.",
-            "index.modal.emailButton": "Enviar email",
-            "index.modal.closeButton": "Cerrar",
-            "index.modal.closeAria": "Cerrar",
-            "index.modal.emailSubject": "Nueva solicitud de diagnóstico ejecutivo",
-            "index.modal.emailBodyIntro": "Detalles de la solicitud:",
             "index.footer.text": "Artificial Intelligence Factory. AIF369 SpA — Chile.",
             "services.title": "Servicios AIF369 - IA, Datos y Cloud",
             "services.description": "Servicios de AIF369 para implementar IA, plataformas de datos y arquitecturas cloud en empresas y corporaciones.",
@@ -423,19 +410,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "index.cta.item3": "Recommendation for the right service based on your situation.",
             "index.cta.item4": "Clear, no-obligation next-step proposal.",
             "index.cta.note": "No cost, no commitment. A focused session on strategic and technical clarity.",
-            "index.modal.title": "Submitted request summary",
-            "index.modal.subtitle": "These are the details you submitted. Save this summary and review where the data is stored.",
-            "index.modal.nameLabel": "Name:",
-            "index.modal.emailLabel": "Email:",
-            "index.modal.roleLabel": "Title:",
-            "index.modal.contextLabel": "Context:",
-            "index.modal.storageNote": "Your request was sent to our team. We will contact you soon.",
-            "index.modal.emailNote": "If you need to add details, email us at edaza@aif369.com.",
-            "index.modal.emailButton": "Send email",
-            "index.modal.closeButton": "Close",
-            "index.modal.closeAria": "Close",
-            "index.modal.emailSubject": "New executive assessment request",
-            "index.modal.emailBodyIntro": "Request details:",
             "index.footer.text": "Artificial Intelligence Factory. AIF369 SpA — Chile.",
             "services.title": "AIF369 Services - AI, Data & Cloud",
             "services.description": "AIF369 services to implement AI, data platforms, and cloud architectures for enterprises and corporations.",
@@ -734,24 +708,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const contactForms = document.querySelectorAll("[data-contact-form]");
-    const modal = document.querySelector("[data-modal]");
-    const modalCloseButtons = document.querySelectorAll("[data-modal-close]");
-    const emailLink = document.querySelector("[data-email-link]");
-    const emailNote = modal ? modal.querySelector("[data-email-note]") : null;
-
-    function closeModal() {
-        if (modal) {
-            modal.hidden = true;
-            document.body.classList.remove("modal-open");
-        }
-    }
-
-    function openModal() {
-        if (modal) {
-            modal.hidden = false;
-            document.body.classList.add("modal-open");
-        }
-    }
 
     function resolveBackendEndpoint(form, baseUrl = BACKEND_URL) {
         const endpoint = form.dataset.endpoint;
@@ -765,22 +721,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const normalized = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
         return `${baseUrl}${normalized}`;
-    }
-
-    async function postToBackend(endpoint, payload) {
-        if (!endpoint) {
-            return false;
-        }
-
-        return fetch(endpoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-        })
-            .then((response) => response.ok)
-            .catch(() => false);
     }
 
     function buildBackendPayload(submission) {
@@ -820,26 +760,6 @@ document.addEventListener("DOMContentLoaded", function () {
             source_page: window.location.href
         };
     }
-
-    closeModal();
-
-    if (modal) {
-        modal.addEventListener("click", function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
-    modalCloseButtons.forEach((button) => {
-        button.addEventListener("click", closeModal);
-    });
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-            closeModal();
-        }
-    });
 
     contactForms.forEach((form) => {
         const submitBtn = form.querySelector('button[type="submit"], .btn[type="submit"]');
@@ -962,12 +882,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 submittedAt: new Date().toISOString()
             };
 
-            // Populate modal summary with LOCAL data immediately
-            document.querySelectorAll("[data-summary]").forEach((element) => {
-                const key = element.dataset.summary;
-                element.textContent = submission[key] || "-";
-            });
-
             // Send to backend with timeout
             const endpoint = resolveBackendEndpoint(form);
             const backendPayload = buildBackendPayload(submission);
@@ -989,46 +903,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 backendOk = false;
             }
 
-            // Prepare mailto fallback
-            let mailto = null;
-            if (emailLink) {
-                emailLink.hidden = true;
-                emailLink.removeAttribute("href");
-            }
-            if (emailNote) {
-                emailNote.hidden = true;
-            }
-
-            if (!backendOk && emailLink) {
-                const lang = getCurrentLanguage();
-                const dictionary = translations[lang] || translations.en;
-                const subject = dictionary["index.modal.emailSubject"] || "Assessment request";
-                const intro = dictionary["index.modal.emailBodyIntro"] || "Request details:";
-                const bodyLines = [
-                    intro,
-                    "",
-                    `${dictionary["index.modal.nameLabel"] || "Name:"} ${submission.fullName}`,
-                    `${dictionary["index.modal.emailLabel"] || "Email:"} ${submission.email}`,
-                    `${dictionary["index.modal.roleLabel"] || "Role:"} ${submission.role}`,
-                    `${dictionary["index.modal.contextLabel"] || "Context:"} ${submission.context}`,
-                    "",
-                    `Submitted at: ${submission.submittedAt}`
-                ];
-                mailto = `mailto:edaza@aif369.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-                emailLink.setAttribute("href", mailto);
-                emailLink.hidden = false;
-                if (emailNote) {
-                    emailNote.hidden = false;
-                }
-            }
-
-            const shouldShowSuccess = backendOk || !!mailto;
-
-            if (shouldShowSuccess) {
+            if (backendOk) {
                 setFormState('success');
-                if (modal) {
-                    openModal();
-                }
             } else {
                 setFormState('error');
             }
