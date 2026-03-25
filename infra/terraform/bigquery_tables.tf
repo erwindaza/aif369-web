@@ -91,3 +91,99 @@ resource "google_bigquery_table" "contact_form" {
     app         = "aif369-web"
   }
 }
+
+# ── Tabla: chat_conversations ──
+# Guarda cada intercambio del chat widget (pregunta + respuesta) para
+# seguimiento comercial, analytics y mejora continua del asistente.
+resource "google_bigquery_table" "chat_conversations" {
+  dataset_id = google_bigquery_dataset.analytics.dataset_id
+  table_id   = "chat_conversations"
+  project    = var.project_id
+
+  schema = jsonencode([
+    {
+      name        = "message_id"
+      type        = "STRING"
+      mode        = "REQUIRED"
+      description = "UUID único del mensaje"
+    },
+    {
+      name        = "session_id"
+      type        = "STRING"
+      mode        = "REQUIRED"
+      description = "ID de sesión del chat (agrupa una conversación completa)"
+    },
+    {
+      name        = "timestamp"
+      type        = "TIMESTAMP"
+      mode        = "REQUIRED"
+      description = "Fecha y hora del intercambio"
+    },
+    {
+      name        = "user_message"
+      type        = "STRING"
+      mode        = "REQUIRED"
+      description = "Mensaje enviado por el usuario"
+    },
+    {
+      name        = "assistant_response"
+      type        = "STRING"
+      mode        = "REQUIRED"
+      description = "Respuesta generada por el asistente"
+    },
+    {
+      name        = "provider"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Proveedor de IA usado (gemini, ollama, none)"
+    },
+    {
+      name        = "turn_number"
+      type        = "INTEGER"
+      mode        = "NULLABLE"
+      description = "Número de turno dentro de la sesión"
+    },
+    {
+      name        = "source_page"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Página desde donde se abrió el chat"
+    },
+    {
+      name        = "user_agent"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "User-Agent del navegador"
+    },
+    {
+      name        = "ip_address"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Dirección IP del usuario"
+    },
+    {
+      name        = "language"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Idioma detectado (es, en)"
+    },
+    {
+      name        = "intent_detected"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Intención detectada (pricing, services, scheduling, etc.)"
+    }
+  ])
+
+  time_partitioning {
+    type  = "DAY"
+    field = "timestamp"
+  }
+
+  clustering = ["session_id", "timestamp"]
+
+  labels = {
+    environment = var.environment
+    app         = "aif369-web"
+  }
+}

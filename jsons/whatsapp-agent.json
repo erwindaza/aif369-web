@@ -1,0 +1,207 @@
+{
+  "_meta": {
+    "name": "AIF369 WhatsApp Agent",
+    "version": "1.0.0",
+    "description": "Base de conocimiento y flujos para agente automatizado de WhatsApp. Cubre pre-venta, venta y post-venta para servicios de consultoría en IA, Datos y Cloud.",
+    "whatsapp_number": "+56 9 9754 7192",
+    "website": "https://aif369.com",
+    "last_updated": "2025-07-14"
+  },
+
+  "agent_personality": {
+    "name": "AIF369 Assistant",
+    "tone": "profesional, cercano, ejecutivo, sin jerga innecesaria",
+    "language": "español (Chile), con capacidad de responder en inglés si el usuario escribe en inglés",
+    "rules": [
+      "Responder siempre en máximo 3-4 párrafos cortos",
+      "Usar viñetas cuando hay listas",
+      "Incluir CTA al final de cada respuesta",
+      "No inventar precios ni descuentos",
+      "No compartir información confidencial de clientes",
+      "Redirigir a humano cuando la consulta requiere diagnóstico profundo",
+      "Preguntar nombre y empresa al inicio si no se conoce",
+      "Siempre cerrar con una pregunta para mantener la conversación"
+    ]
+  },
+
+  "flows": {
+    "welcome": {
+      "trigger": "primer_mensaje",
+      "message": "¡Hola! 👋 Soy el asistente de AIF369. Ayudamos a empresas a implementar IA con estrategia, gobernanza y resultados medibles.\n\n¿En qué puedo ayudarte hoy?\n\n1️⃣ Conocer nuestros servicios\n2️⃣ Solicitar un diagnóstico\n3️⃣ Saber más sobre el Método 369\n4️⃣ Agendar una conversación con nuestro equipo",
+      "next_actions": ["services_menu", "diagnostic_flow", "methodology_info", "scheduling"]
+    },
+
+    "pre_sale": {
+      "qualification": {
+        "trigger": ["interesado", "servicios", "consultoría", "ayuda con IA", "necesito", "quiero saber"],
+        "questions": [
+          {
+            "id": "q1_role",
+            "text": "Para orientarte mejor, ¿cuál es tu rol en la organización?",
+            "options": ["C-Level / Gerencia General", "Director / VP", "Gerente de Área", "Líder Técnico / Data", "Otro"]
+          },
+          {
+            "id": "q2_company_size",
+            "text": "¿Cuántas personas tiene tu organización aproximadamente?",
+            "options": ["1-50", "51-200", "201-1000", "1000+"]
+          },
+          {
+            "id": "q3_ai_status",
+            "text": "¿En qué etapa está tu organización con IA?",
+            "options": [
+              "Sin nada implementado - explorando",
+              "Algunos experimentos internos",
+              "Proyectos en producción sin gobierno formal",
+              "Estrategia definida, necesitamos acelerar"
+            ]
+          },
+          {
+            "id": "q4_urgency",
+            "text": "¿Qué tan urgente es para ustedes?",
+            "options": ["Inmediato (este mes)", "Corto plazo (1-3 meses)", "Planificación (3-6 meses)", "Solo explorando"]
+          },
+          {
+            "id": "q5_pain",
+            "text": "¿Cuál es el mayor desafío que enfrentan hoy con IA?",
+            "free_text": true
+          }
+        ],
+        "scoring": {
+          "hot_lead": "C-Level + 200+ personas + urgencia inmediata → escalamiento humano inmediato",
+          "warm_lead": "Gerente + experimentos + corto plazo → enviar info + agendar",
+          "cold_lead": "Solo explorando → nutrir con contenido + scorecard"
+        }
+      },
+
+      "services_menu": {
+        "trigger": ["servicios", "qué ofrecen", "cómo ayudan", "1"],
+        "message": "Nuestros servicios principales:\n\n🔹 **CAIO Advisory as a Service** — Estrategia, gobierno, riesgos y adopción de IA con acompañamiento ejecutivo.\n\n🔹 **AI Governance & Responsible AI** — Marco de gobierno, políticas, controles y roles.\n\n🔹 **AI Risk, Privacy & Compliance** — Evaluación de riesgos, privacidad y regulación.\n\n🔹 **AI Factory Design** — Capacidades internas para construir, operar y escalar IA.\n\n🔹 **Executive Workshops** — Talleres para directorio y C-level.\n\n🔹 **Thought Leadership & Content** — Contenido original para posicionar marca.\n\n¿Cuál te interesa más? Te cuento más en detalle.",
+        "next_actions": ["service_detail", "scheduling"]
+      },
+
+      "service_details": {
+        "caio_advisory": {
+          "trigger": ["caio", "advisory", "chief ai officer", "estrategia"],
+          "message": "**CAIO Advisory as a Service**\n\nAcompañamiento ejecutivo para definir estrategia, gobierno, riesgos y adopción de IA.\n\n🎯 Ideal para: Gerencias generales, directorios, áreas de innovación y transformación digital.\n\n📋 Incluye:\n• Diagnóstico de madurez\n• Hoja de ruta ejecutiva\n• Portafolio priorizado de IA\n• Modelo de gobernanza\n• Comité de IA\n• Políticas base\n\n¿Quieres agendar una sesión para explorar cómo aplicaría en tu organización?"
+        },
+        "ai_governance": {
+          "trigger": ["governance", "gobernanza", "gobierno", "políticas"],
+          "message": "**AI Governance & Responsible AI**\n\nDiseñamos el marco de gobierno, accountability, políticas, controles y roles.\n\n🎯 Ideal para: Organizaciones reguladas, empresas con alto volumen de datos, equipos usando IA sin marco formal.\n\n📋 Incluye:\n• Policy pack completo\n• Matriz RACI\n• Inventario de sistemas IA\n• Clasificación de riesgo\n• Controles mínimos\n• Proceso de aprobación de casos\n\n¿Te gustaría evaluar el estado actual de gobierno de IA en tu organización?"
+        },
+        "ai_risk": {
+          "trigger": ["riesgo", "risk", "compliance", "privacidad", "regulación"],
+          "message": "**AI Risk, Privacy & Compliance Readiness**\n\nEvaluación de riesgos, privacidad y preparación para regulación.\n\n🎯 Ideal para: Legal, compliance, riesgo operacional, ciberseguridad, auditoría.\n\n📋 Incluye:\n• Risk register\n• Heatmap de riesgos\n• Matriz de impacto por derecho afectado\n• Privacy-by-design checklist\n• Recomendaciones de mitigación\n• Plan de cierre de brechas\n\n¿Necesitan prepararse para regulación o ya tienen incidentes que gestionar?"
+        },
+        "ai_factory": {
+          "trigger": ["factory", "fábrica", "mlops", "arquitectura", "escalar"],
+          "message": "**AI Factory Design**\n\nDiseño de capacidades internas para construir, operar y escalar IA.\n\n🎯 Ideal para: Empresas que quieren institucionalizar IA, equipos de data/engineering, áreas de producto.\n\n📋 Incluye:\n• Target architecture\n• Operating model\n• MLOps/LLMOps baseline\n• Observabilidad\n• Modelo de despliegue\n• Guardrails\n\n¿Ya tienen pipelines de ML/IA o están partiendo desde cero?"
+        },
+        "workshops": {
+          "trigger": ["taller", "workshop", "capacitación", "directorio", "board"],
+          "message": "**Executive Workshops & Board Enablement**\n\nTalleres para directorio y primera línea sobre estrategia, riesgos y decisiones en IA.\n\n🎯 Ideal para: C-level, directores, gerencias de negocio.\n\n📋 Incluye:\n• Material ejecutivo\n• Casos de uso por industria\n• Sesión guiada\n• Matriz de decisiones\n• Roadmap inicial\n\n¿Para cuántas personas sería el taller y qué nivel tienen?"
+        }
+      },
+
+      "pricing_redirect": {
+        "trigger": ["precio", "costo", "cuánto", "cotización", "presupuesto"],
+        "message": "Los proyectos de AIF369 se diseñan a medida según alcance, complejidad y duración. No tenemos precios fijos porque cada organización tiene necesidades distintas.\n\n📦 Nuestros paquetes de referencia:\n\n• **Starter 369** (4-6 semanas) — Diagnóstico ejecutivo y hoja de ruta inicial\n• **Governed Pilot 369** (8-12 semanas) — Piloto gobernado con métricas y controles\n• **Enterprise 369** (3-6 meses) — Modelo operativo y capacidad organizacional de IA\n\nPara darte una estimación concreta, ¿podemos agendar una conversación de 30 minutos? Sin compromiso."
+      }
+    },
+
+    "sale": {
+      "scheduling": {
+        "trigger": ["agendar", "reunión", "llamada", "conversar", "4"],
+        "message": "¡Perfecto! Puedes agendar directamente con Erwin Daza, fundador de AIF369:\n\n📅 Agenda una sesión: https://aif369.com/index.html#contacto\n📧 Email: edaza@aif369.com\n📱 WhatsApp: +56 9 9754 7192\n🔗 LinkedIn: https://www.linkedin.com/in/erwin-daza-castillo/\n\n¿Prefieres que Erwin te contacte directamente? Déjame tu email y horario preferido.",
+        "next_actions": ["collect_contact"]
+      },
+
+      "collect_contact": {
+        "trigger": ["mi email", "contactar", "llámame", "escríbanme"],
+        "fields_to_collect": ["nombre", "email", "empresa", "horario_preferido"],
+        "confirmation_message": "✅ Perfecto, he registrado tus datos. Erwin se pondrá en contacto contigo en las próximas 24 horas hábiles.\n\nMientras tanto, te invito a evaluar tu madurez en IA con nuestro scorecard gratuito: https://aif369.com/scorecard.html"
+      },
+
+      "diagnostic_flow": {
+        "trigger": ["diagnóstico", "evaluación", "assessment", "2"],
+        "message": "¡Excelente decisión! Ofrecemos dos opciones de diagnóstico:\n\n🔍 **Self-Assessment gratuito** — Nuestro AI Readiness Scorecard online te da una evaluación inmediata de madurez en 5 dimensiones.\n👉 https://aif369.com/scorecard.html\n\n🎯 **Diagnóstico Ejecutivo** — Sesión personalizada con análisis profundo de tu organización, incluido en el paquete Starter 369.\n\n¿Cuál prefieres?"
+      }
+    },
+
+    "post_sale": {
+      "follow_up": {
+        "trigger": ["cómo va", "avance", "entregable", "reunión pasada"],
+        "message": "Para seguimiento de proyectos activos, te sugiero comunicarte directamente con Erwin:\n\n📧 edaza@aif369.com\n📱 +56 9 9754 7192\n\n¿Hay algo más en lo que pueda ayudarte?"
+      },
+
+      "referral": {
+        "trigger": ["recomendar", "referir", "colega", "otra empresa"],
+        "message": "¡Nos encanta que pienses en recomendarnos! 🙏 Si conoces a alguien que necesita apoyo con IA, gobernanza o transformación digital, puede contactarnos directamente o darnos sus datos y nosotros nos comunicamos.\n\n¿Quieres compartirme los datos de tu referido?"
+      },
+
+      "content_nurture": {
+        "trigger": ["artículo", "blog", "contenido", "aprender más"],
+        "message": "Te comparto algunos recursos de nuestro blog:\n\n📝 Blog: https://aif369.com/blog.html\n📊 AI Readiness Scorecard: https://aif369.com/scorecard.html\n📚 Metodología 369: https://aif369.com/metodologia.html\n🔗 LinkedIn de Erwin: https://www.linkedin.com/in/erwin-daza-castillo/\n\n¿Sobre qué tema te gustaría profundizar?"
+      }
+    },
+
+    "methodology_info": {
+      "trigger": ["método 369", "metodología", "3"],
+      "message": "**El Método 369 de AIF369**\n\nNuestra metodología propietaria para implementar IA con gobierno:\n\n**3 Capas de Dirección:**\n• Estrategia de negocio\n• Gobierno y accountability\n• Tecnología y ejecución\n\n**6 Fases de Transformación:**\n1. Contexto organizacional\n2. Diagnóstico de madurez\n3. Diseño de estrategia IA\n4. Arquitectura y gobierno\n5. Implementación gobernada\n6. Monitoreo y mejora continua\n\n**9 Métricas de Control CAIO** que verificamos en cada etapa.\n\nEl método se adapta al ritmo y madurez de cada organización. ¿Te gustaría ver cómo aplicaría en tu caso?"
+    },
+
+    "faq": {
+      "what_is_caio": {
+        "trigger": ["qué es caio", "chief ai officer"],
+        "answer": "Un CAIO (Chief AI Officer) es el ejecutivo responsable de la estrategia, gobierno y adopción de IA en la organización. En AIF369 ofrecemos este rol como servicio externo, sin que la empresa necesite contratar un ejecutivo a tiempo completo."
+      },
+      "how_long": {
+        "trigger": ["cuánto demora", "tiempo", "duración", "plazo"],
+        "answer": "Depende del alcance:\n• Starter 369: 4-6 semanas\n• Governed Pilot 369: 8-12 semanas\n• Enterprise 369: 3-6 meses\n\nSiempre empezamos con un kickoff rápido y entregamos valor incremental."
+      },
+      "who_is_erwin": {
+        "trigger": ["quién es Erwin", "fundador", "equipo"],
+        "answer": "Erwin Daza es el fundador y CAIO de AIF369. Es ingeniero con más de 15 años de experiencia en tecnología, datos e IA. Ha liderado proyectos de transformación digital en múltiples industrias y es referente en gobernanza de IA en Chile y Latinoamérica.\n\n🔗 LinkedIn: https://www.linkedin.com/in/erwin-daza-castillo/"
+      },
+      "industries": {
+        "trigger": ["industria", "sector", "vertical", "para quién"],
+        "answer": "Trabajamos con empresas de distintas industrias, especialmente:\n• Servicios financieros y banca\n• Retail y consumo\n• Salud y pharma\n• Energía y minería\n• Sector público\n• Tecnología y SaaS\n\nNuestro enfoque es metodológico, no vertical, por lo que se adapta a cualquier industria que use o quiera usar IA."
+      },
+      "remote_or_onsite": {
+        "trigger": ["remoto", "presencial", "ubicación", "dónde"],
+        "answer": "Trabajamos principalmente de forma remota, con sesiones presenciales cuando el proyecto lo requiere (especialmente workshops y talleres ejecutivos). Atendemos clientes en Chile, LATAM y cualquier zona horaria compatible."
+      }
+    },
+
+    "escalation": {
+      "trigger": ["hablar con alguien", "humano", "persona real", "queja", "problema"],
+      "message": "Entiendo, te conecto con nuestro equipo directamente:\n\n📧 edaza@aif369.com\n📱 WhatsApp: +56 9 9754 7192\n\nErwin te responder á en horario laboral (Lunes a Viernes, 9:00-18:00 Chile). ¿Hay algo que pueda adelantarle sobre tu consulta?"
+    },
+
+    "fallback": {
+      "message": "No estoy seguro de entender tu consulta. ¿Podrías reformularla? También puedo ayudarte con:\n\n1️⃣ Información sobre servicios\n2️⃣ Agendar una conversación\n3️⃣ Conocer el Método 369\n4️⃣ Evaluar tu madurez en IA (scorecard)\n\nO si prefieres, puedo conectarte directamente con nuestro equipo."
+    }
+  },
+
+  "templates": {
+    "greeting_morning": "¡Buenos días! 👋 Soy el asistente de AIF369. ¿En qué puedo ayudarte hoy?",
+    "greeting_afternoon": "¡Buenas tardes! 👋 Soy el asistente de AIF369. ¿En qué puedo ayudarte?",
+    "greeting_evening": "¡Buenas noches! 👋 Soy el asistente de AIF369. Deja tu consulta y te respondemos a primera hora.",
+    "out_of_hours": "Gracias por escribir. Nuestro horario de atención es Lunes a Viernes, 9:00-18:00 (Chile). Te responderemos a primera hora. ¿Quieres dejar tu consulta?",
+    "thank_you": "¡Gracias por tu interés en AIF369! Si necesitas algo más, aquí estaremos. 🙌",
+    "closing": "Ha sido un gusto conversar contigo. Si necesitas algo más, no dudes en escribirnos. ¡Éxito! 🚀"
+  },
+
+  "analytics_tags": {
+    "funnel_stages": ["awareness", "interest", "consideration", "intent", "evaluation", "purchase"],
+    "lead_sources": ["whatsapp_organic", "whatsapp_ad", "whatsapp_referral", "whatsapp_website"],
+    "conversion_events": ["contact_collected", "meeting_scheduled", "scorecard_sent", "proposal_requested", "service_selected"]
+  },
+
+  "integration_notes": {
+    "crm": "Las conversaciones se guardan en BigQuery (tabla: chat_conversations) para seguimiento y análisis.",
+    "notifications": "Al detectar hot_lead, enviar notificación inmediata por email a edaza@aif369.com",
+    "scorecard_link": "https://aif369.com/scorecard.html",
+    "contact_form": "https://aif369.com/index.html#contacto",
+    "api_endpoint": "https://aif369-backend-api-830685315001.us-central1.run.app/api/chat"
+  }
+}

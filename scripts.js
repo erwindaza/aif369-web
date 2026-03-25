@@ -1,11 +1,31 @@
+/**
+ * ════════════════════════════════════════════════════════════
+ * AIF369 — scripts.js
+ * ────────────────────────────────────────────────────────────
+ * Lógica principal del sitio web AIF369.
+ * 
+ * Qué hace este archivo:
+ * 1. Menú hamburguesa (☰) — abrir/cerrar en celulares
+ * 2. Efecto de scroll en la barra de navegación
+ * 3. Animaciones al hacer scroll (elementos aparecen suavemente)
+ * 4. Formularios de contacto — envío al backend + feedback visual
+ * 5. Scorecard IA — cuestionario interactivo de madurez
+ * 6. Internacionalización (i18n) — cambio ES ↔ EN
+ * 
+ * Backend: Cloud Run en GCP (aif369-backend-api)
+ * Datos: Se guardan en BigQuery para analytics y seguimiento
+ * ════════════════════════════════════════════════════════════
+ */
 document.addEventListener("DOMContentLoaded", function () {
-    // Configuración del backend según el entorno
+    // ── Configuración del backend según el entorno ──
+    // En producción (aif369.com) usa el backend real; en desarrollo usa uno de prueba
     const PROD_BACKEND_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
     const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction ? PROD_BACKEND_URL : DEV_BACKEND_URL;
 
-    // Mobile Navigation Toggle - Usa click (funciona en todos los dispositivos)
+    // ── Menú hamburguesa (☰) ──
+    // En pantallas pequeñas, el menú se colapsa. Este código lo abre y cierra.
     const toggle = document.querySelector(".nav-toggle");
     const navLinks = document.querySelector(".nav-links");
 
@@ -60,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Header scroll effect
+    // ── Efecto de scroll en la barra de navegación ──
+    // Cuando el usuario baja, la barra se vuelve más sólida (clase "scrolled")
     const header = document.querySelector(".site-header");
     let lastScroll = 0;
 
@@ -76,6 +97,12 @@ document.addEventListener("DOMContentLoaded", function () {
         lastScroll = currentScroll;
     });
 
+    // ══════════════════════════════════════════════════════
+    // TRADUCCIONES (i18n) — Español ↔ Inglés
+    // Cada clave ("nav.home", "hero.title", etc.) corresponde
+    // a un elemento HTML con atributo data-i18n.
+    // Al hacer clic en "EN" o "ES", se cambian todos los textos.
+    // ══════════════════════════════════════════════════════
     const translations = {
         es: {
             "nav.home": "Inicio",
@@ -707,6 +734,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ══════════════════════════════════════════════════════
+    // FORMULARIOS DE CONTACTO
+    // Busca todos los formularios con atributo [data-contact-form],
+    // los envía al backend (BigQuery + email) y muestra feedback:
+    //   click → "Enviando..." → "Enviado ✓" (o error)
+    // Máquina de 4 estados: idle / submitting / success / error
+    // ══════════════════════════════════════════════════════
     const contactForms = document.querySelectorAll("[data-contact-form]");
 
     function resolveBackendEndpoint(form, baseUrl = BACKEND_URL) {

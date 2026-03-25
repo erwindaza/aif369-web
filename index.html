@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- ═══ METADATOS: Configuración técnica (SEO, título, descripción) ═══ -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n-title="index.title">AIF369 — AI Factory, Governance, Risk and Business Value</title>
     <meta name="description" data-i18n-content="index.description" content="AIF369 ayuda a organizaciones a adoptar inteligencia artificial de forma estratégica, segura, ética y medible, conectando negocio, datos, gobierno y cumplimiento regulatorio.">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <!-- ═══ ESTILOS: Hoja de estilos principal + fuente Inter ═══ -->
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVEGACIÓN PRINCIPAL
+     Barra superior fija con logo, menú y selector de idioma.
+     En celulares se colapsa en menú hamburguesa (☰).
+     ═══════════════════════════════════════════════════════════ -->
 <header class="site-header">
     <nav class="nav container">
         <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
@@ -32,7 +40,11 @@
 </header>
 
 <main>
-    <!-- HERO -->
+    <!-- ═══════════════════════════════════════════════════
+         HERO — Banner principal
+         Lo primero que ve el visitante al entrar al sitio.
+         Contiene: título, descripción, botones de acción y foto.
+         ═══════════════════════════════════════════════════ -->
     <section class="hero container">
         <div class="hero-content">
             <p class="badge" data-i18n="hero.badge">AI Factory · Governance · Risk · Business Value</p>
@@ -53,6 +65,11 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════
+         PROPUESTA DE VALOR
+         3 tarjetas que explican por qué elegir AIF369:
+         control, negocio y cumplimiento.
+         ═══════════════════════════════════════════════════ -->
     <!-- VALUE PROPOSITION -->
     <section class="section container">
         <header class="section-header">
@@ -75,6 +92,10 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════
+         BARRA DE CONFIANZA
+         Etiquetas que muestran las áreas de expertise.
+         ═══════════════════════════════════════════════════ -->
     <!-- TRUST BAR -->
     <section class="section">
         <div class="container">
@@ -89,6 +110,11 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════
+         MÉTODO 369 — Resumen de la metodología
+         3 Capas, 6 Fases, 9 Métricas. Con link a la
+         página completa y descarga de PDF.
+         ═══════════════════════════════════════════════════ -->
     <!-- METHODOLOGY OVERVIEW -->
     <section class="section section-alt">
         <div class="container">
@@ -120,6 +146,11 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════
+         CLIENTES IDEALES
+         4 tarjetas con los perfiles que más se
+         benefician de la consultoría AIF369.
+         ═══════════════════════════════════════════════════ -->
     <!-- IDEAL CLIENTS -->
     <section class="section">
         <div class="container">
@@ -148,6 +179,11 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════
+         THOUGHT LEADERSHIP
+         Links al blog y a la metodología. Posiciona
+         a Erwin como referente en IA.
+         ═══════════════════════════════════════════════════ -->
     <!-- THOUGHT LEADERSHIP -->
     <section class="section section-alt">
         <div class="container">
@@ -173,6 +209,11 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════
+         FORMULARIO DE CONTACTO (#contacto)
+         Formulario principal para agendar llamada.
+         Los datos se guardan en BigQuery + envían email.
+         ═══════════════════════════════════════════════════ -->
     <!-- CALL TO ACTION -->
     <section id="contacto" class="section section-alt">
         <div class="container">
@@ -207,6 +248,11 @@
     </section>
 </main>
 
+<!-- ═════════════════════════════════════════════════════
+     PIE DE PÁGINA
+     Logo, links de navegación, link a LinkedIn.
+     Aparece en todas las páginas.
+     ═════════════════════════════════════════════════════ -->
 <footer class="site-footer">
     <div class="container footer-layout">
         <div>
@@ -226,6 +272,7 @@
 </div>
 </footer>
 
+<!-- ═══ SCRIPTS: Lógica del sitio + Chat widget con IA ═══ -->
 <script src="scripts.js"></script>
 <script src="chat-widget.js"></script>
 </body>

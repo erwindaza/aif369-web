@@ -417,6 +417,50 @@ def submit_education_form():
 
 
 SCORECARD_TABLE = "scorecard_submissions"
+CHAT_TABLE_ID = "chat_conversations"
+
+# ── Palabras clave para detección de intención en el chat ──
+INTENT_KEYWORDS = {
+    "pricing": ["precio", "costo", "cuánto", "cuanto", "tarifa", "cotización", "cotizar", "presupuesto", "inversión"],
+    "services": ["servicio", "ofrecen", "consultoría", "diagnóstico", "governance", "gobernanza", "factory", "taller", "workshop"],
+    "scheduling": ["agendar", "reunión", "llamada", "cita", "agenda", "conversar", "contactar"],
+    "scorecard": ["scorecard", "evaluación", "madurez", "readiness", "assessment", "diagnóstico"],
+    "methodology": ["método", "369", "metodología", "fases", "capas", "métricas"],
+    "education": ["curso", "formación", "capacitación", "taller", "aprender", "certificación"],
+    "regulation": ["regulación", "ley", "normativa", "compliance", "ai act", "datos personales"],
+}
+
+
+def detect_intent(message):
+    """Detecta la intención del usuario basándose en palabras clave."""
+    msg_lower = message.lower()
+    for intent, keywords in INTENT_KEYWORDS.items():
+        if any(kw in msg_lower for kw in keywords):
+            return intent
+    return "general"
+
+
+def detect_language(message):
+    """Detección simple de idioma basada en palabras comunes."""
+    en_words = ["the", "what", "how", "can", "you", "your", "about", "services", "pricing", "help"]
+    msg_lower = message.lower().split()
+    en_count = sum(1 for w in msg_lower if w in en_words)
+    return "en" if en_count >= 2 else "es"
+
+
+def save_chat_to_bigquery(message_data):
+    """Guarda un intercambio de chat en BigQuery para seguimiento y analytics."""
+    try:
+        table_ref = f"{PROJECT_ID}.{DATASET_ID}.{CHAT_TABLE_ID}"
+        errors = bq_client.insert_rows_json(table_ref, [message_data])
+        if errors:
+            print(f"Chat BQ insert errors: {errors}")
+            return False
+        print(f"Chat saved to BQ: session={message_data.get('session_id', '?')}, turn={message_data.get('turn_number', '?')}")
+        return True
+    except Exception as e:
+        print(f"Error saving chat to BigQuery: {e}")
+        return False
 
 @app.route("/api/scorecard", methods=["POST"])
 def submit_scorecard():
@@ -524,7 +568,8 @@ def submit_scorecard():
 def chat():
     """
     Chatbot endpoint. Primary: Gemini. Fallback: Ollama (local).
-    Expected JSON: { "message": "...", "history": [...] }
+    Expected JSON: { "message": "...", "history": [...], "session_id": "...", "turn_number": 1, "source_page": "..." }
+    Persiste cada intercambio en BigQuery para seguimiento y analytics.
     """
     try:
         if not request.is_json:
@@ -533,9 +578,19 @@ def chat():
         data = request.get_json()
         user_message = data.get("message", "").strip()
         history = data.get("history", [])
+        session_id = data.get("session_id", str(uuid.uuid4()))
+        turn_number = data.get("turn_number", len(history) // 2 + 1)
+        source_page = data.get("source_page", request.referrer or "")
 
         if not user_message:
             return jsonify({"error": "Message is required"}), 400
+
+        # Detectar intención e idioma para analytics
+        intent = detect_intent(user_message)
+        language = detect_language(user_message)
+
+        reply = None
+        provider = "none"
 
         # --- Intento 1: Gemini ---
         if GEMINI_API_KEY:
@@ -556,43 +611,69 @@ def chat():
 
                 chat_session = model.start_chat(history=gemini_history)
                 response = chat_session.send_message(user_message)
+                reply = response.text
+                provider = "gemini"
                 print("Chat response via Gemini")
-                return jsonify({"response": response.text, "success": True, "provider": "gemini"}), 200
             except Exception as gemini_error:
                 print(f"Gemini failed, trying Ollama fallback: {gemini_error}")
 
         # --- Intento 2: Ollama (fallback) ---
+        if reply is None:
+            try:
+                ollama_messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+                for msg in history[-10:]:
+                    role = "user" if msg.get("role") == "user" else "assistant"
+                    ollama_messages.append({"role": role, "content": msg.get("content", "")})
+                ollama_messages.append({"role": "user", "content": user_message})
+
+                ollama_response = http_requests.post(
+                    f"{OLLAMA_URL}/api/chat",
+                    json={
+                        "model": OLLAMA_MODEL,
+                        "messages": ollama_messages,
+                        "stream": False,
+                        "options": {"temperature": 0, "num_predict": 300}
+                    },
+                    timeout=60
+                )
+                ollama_response.raise_for_status()
+                ollama_data = ollama_response.json()
+                reply = ollama_data.get("message", {}).get("content", "")
+                if reply:
+                    provider = "ollama"
+                    print(f"Chat response via Ollama ({OLLAMA_MODEL})")
+            except Exception as ollama_error:
+                print(f"Ollama also failed: {ollama_error}")
+
+        # --- Fallback message ---
+        if not reply:
+            reply = "No pude procesar tu mensaje en este momento. Escríbenos por WhatsApp al +56 9 9754 7192 y te atendemos directamente."
+
+        # --- Persistir conversación en BigQuery (async-safe, no bloquea respuesta) ---
         try:
-            ollama_messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-            for msg in history[-10:]:
-                role = "user" if msg.get("role") == "user" else "assistant"
-                ollama_messages.append({"role": role, "content": msg.get("content", "")})
-            ollama_messages.append({"role": "user", "content": user_message})
+            chat_row = {
+                "message_id": str(uuid.uuid4()),
+                "session_id": session_id,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "user_message": user_message[:5000],       # Limitar tamaño
+                "assistant_response": reply[:5000],
+                "provider": provider,
+                "turn_number": turn_number,
+                "source_page": source_page,
+                "user_agent": request.headers.get("User-Agent", ""),
+                "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+                "language": language,
+                "intent_detected": intent
+            }
+            save_chat_to_bigquery(chat_row)
+        except Exception as bq_err:
+            print(f"Non-blocking BQ save error: {bq_err}")
 
-            ollama_response = http_requests.post(
-                f"{OLLAMA_URL}/api/chat",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "messages": ollama_messages,
-                    "stream": False,
-                    "options": {"temperature": 0, "num_predict": 300}
-                },
-                timeout=60
-            )
-            ollama_response.raise_for_status()
-            ollama_data = ollama_response.json()
-            reply = ollama_data.get("message", {}).get("content", "")
-            if reply:
-                print(f"Chat response via Ollama ({OLLAMA_MODEL})")
-                return jsonify({"response": reply, "success": True, "provider": "ollama"}), 200
-        except Exception as ollama_error:
-            print(f"Ollama also failed: {ollama_error}")
-
-        # --- Ambos fallaron ---
         return jsonify({
-            "response": "No pude procesar tu mensaje en este momento. Escríbenos por WhatsApp al +56 9 9754 7192 y te atendemos directamente.",
-            "success": False,
-            "provider": "none"
+            "response": reply,
+            "success": provider != "none",
+            "provider": provider,
+            "session_id": session_id
         }), 200
 
     except Exception as e:

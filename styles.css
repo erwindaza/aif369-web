@@ -1,10 +1,37 @@
 /* ========================================
    AIF369 Premium Design System
-   Inspired by Linear.app + Stripe.com
-   Built for CTOs & VPs of Technology
+   ─────────────────────────────
+   Hoja de estilos principal del sitio web AIF369.
+   Define colores, tipografía, botones, tarjetas,
+   formularios, navegación y todo lo visual.
+   
+   Inspirado en: Linear.app + Stripe.com
+   Público: CTOs, VPs de Tecnología, C-level
+   
+   Cómo está organizado:
+   1. Variables de color y espaciado (CSS Custom Properties)
+   2. Reset — normalización entre navegadores
+   3. Secciones y contenedores
+   4. Tipografía (títulos, textos)
+   5. Navegación y menú
+   6. Tarjetas de contenido
+   7. Botones
+   8. Blog y artículos
+   9. Hero (banner principal)
+   10. Grids (cuadrículas)
+   11. Formularios
+   12. Páginas específicas (producto, autor, servicios, educación)
+   13. Footer (pie de página)
+   14. Animaciones
+   15. Utilidades y accesibilidad
+   16. Responsive (ajustes para celular/tablet)
    ======================================== */
 
-/* ========== CSS CUSTOM PROPERTIES ========== */
+/* ========== 1. CSS CUSTOM PROPERTIES (Variables de diseño) ==========
+   Aquí se definen TODOS los colores, tamaños, sombras y espacios
+   que se usan en todo el sitio. Cambiar un valor aquí lo actualiza
+   en todas las páginas automáticamente.
+   ================================================================ */
 :root {
     /* Brand Colors - Dark Navy + Blue/Cyan Accents */
     --primary: #0088FF;
@@ -86,7 +113,10 @@
     --text-6xl: 3.75rem;    /* 60px */
 }
 
-/* ========== RESET ========== */
+/* ========== 2. RESET (Normalización) ==========
+   Elimina los estilos por defecto de cada navegador para que
+   el sitio se vea igual en Chrome, Safari, Firefox, etc.
+   ================================================= */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -116,7 +146,11 @@ main {
     min-height: 100vh;
 }
 
-/* ========== SECTIONS - Spacing & Rhythm ========== */
+/* ========== 3. SECCIONES (Bloques de contenido) ==========
+   Cada bloque grande de la página (hero, servicios, contacto)
+   usa .section para tener espaciado uniforme. .section-alt agrega
+   un fondo diferente para separar visualmente las secciones.
+   =========================================================== */
 .section {
     padding: var(--space-12) 0;
 }
@@ -161,7 +195,11 @@ a {
     color: inherit;
 }
 
-/* ========== TYPOGRAPHY ========== */
+/* ========== 4. TIPOGRAFÍA (Títulos y textos) ==========
+   Tamaños de letra para h1 (título principal), h2 (subtítulos),
+   h3 (sub-subtítulos), párrafos y texto en general.
+   Fuente: Inter — moderna, legible, profesional.
+   ======================================================= */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
@@ -195,7 +233,11 @@ p {
     }
 }
 
-/* ========== HEADER - Linear style ========== */
+/* ========== 5. NAVEGACIÓN (Menú superior) ==========
+   La barra de navegación fija que se ve en la parte superior
+   de todas las páginas. Incluye el logo, los links del menú,
+   el selector de idioma (ES/EN) y el menú hamburguesa en celulares.
+   ============================================================= */
 .site-header {
     position: fixed;
     top: 0;
@@ -334,7 +376,11 @@ nav {
     font-style: italic;
 }
 
-/* ========== CARDS ========== */
+/* ========== 6. TARJETAS (Cards) ==========
+   Los recuadros con borde que muestran servicios, cursos,
+   métricas, etc. Se iluminan al pasar el mouse por encima.
+   Usadas en: servicios, educación, blog, metodología.
+   ============================================= */
 .card {
     background: var(--bg-tertiary);
     border: 1px solid var(--border);
@@ -462,7 +508,14 @@ nav {
     }
 }
 
-/* ========== BUTTONS - Pill style with glow ========== */
+/* ========== 7. BOTONES ==========
+   .btn = botón genérico
+   .btn-primary = botón azul principal (CTA, "Solicitar diagnóstico")
+   .btn-secondary = botón de borde transparente
+   .btn-outline = botón solo con borde
+   .btn-link = botón que parece un enlace
+   Todos tienen animación de brillo al pasar el mouse.
+   ==================================================== */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -553,7 +606,10 @@ nav {
     max-width: 420px;
 }
 
-/* ========== BLOG ========== */
+/* ========== 8. BLOG (Listado de artículos) ==========
+   Estilos para la página de blog: grid de tarjetas de posts,
+   etiquetas de categoría,fechas, y previews de artículos.
+   ====================================================== */
 .blog-layout {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -581,7 +637,10 @@ nav {
     margin-bottom: 0.75rem;
 }
 
-/* ========== ARTICLE ========== */
+/* ========== 9. ARTÍCULO (Página de un post individual) ==========
+   Ancho máximo de lectura, tipografía optimizada para lectura
+   larga, estilos de listas, enlaces dentro del texto, etc.
+   ================================================================ */
 .article {
     max-width: 800px;
     margin: 0 auto;
@@ -621,7 +680,11 @@ nav {
     color: var(--text-primary);
 }
 
-/* ========== HERO CONTENT ========== */
+/* ========== 10. HERO (Banner principal) ==========
+   La primera sección grande que se ve al entrar a cada página.
+   Contiene el título principal, descripción, botones de acción
+   y elementos visuales como stats o gradientes.
+   ==================================================== */
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
@@ -684,7 +747,11 @@ nav {
     line-height: 1.2;
 }
 
-/* ========== GRIDS ========== */
+/* ========== 11. GRIDS (Cuadrículas de contenido) ==========
+   Sistemas de columnas para organizar tarjetas, servicios, etc.
+   .grid-3 = 3 columnas, .grid-2 = 2 columnas.
+   Se adaptan automáticamente a 1 columna en celulares.
+   ============================================================ */
 .grid-2,
 .grid-3 {
     display: grid;
@@ -707,7 +774,10 @@ nav {
     }
 }
 
-/* ========== INDUSTRIES - Pills ========== */
+/* ========== 12. INDUSTRIAS (Badges / Etiquetas) ==========
+   Las etiquetas tipo "píldora" que muestran industrias,
+   tecnologías, o categorías. Se ven como chips redondeados.
+   =========================================================== */
 .industries-grid {
     display: flex;
     flex-wrap: wrap;
@@ -735,7 +805,11 @@ nav {
     transform: translateY(-2px);
 }
 
-/* ========== FORMS - Modern inputs ========== */
+/* ========== 13. FORMULARIOS (Contacto, Scorecard, etc.) ==========
+   Estilos de campos de texto, selects, textareas,
+   botón de envío, estados de error/éxito, y el spinner
+   de carga que aparece al enviar un formulario.
+   ================================================================= */
 .contact-layout {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
@@ -933,7 +1007,10 @@ nav {
     min-height: 120px;
 }
 
-/* ========== PRODUCT PAGE ========== */
+/* ========== 14. PÁGINA DE PRODUCTO (Detalle de servicio) ==========
+   Layout de 2 columnas: imagen/demo a la izquierda,
+   descripción y CTA a la derecha. Con tabs de features.
+   ================================================================== */
 .product-hero .section-header {
     text-align: left;
     max-width: 820px;
@@ -1001,7 +1078,10 @@ nav {
     text-align: center;
 }
 
-/* ========== AUTHOR PAGE ========== */
+/* ========== 15. PÁGINA DE AUTOR (Perfil de Erwin Daza) ==========
+   Avatar circular, bio, links sociales, timeline profesional,
+   áreas de expertise y tarjeta de contacto.
+   ================================================================ */
 .author-hero .section-header {
     text-align: left;
     max-width: 720px;
@@ -1076,7 +1156,10 @@ nav {
     }
 }
 
-/* ========== SERVICES - MLOPS ========= */
+/* ========== 16. SERVICIOS (Página de servicios) ==========
+   Estilos específicos para la página de servicios:
+   grids de cards, íconos, descripciones y CTAs.
+   ======================================================== */
 .mlops-section .section-header {
     text-align: left;
     max-width: 960px;
@@ -1095,7 +1178,10 @@ nav {
     margin-top: var(--space-5);
 }
 
-/* ========== FOOTER ========== */
+/* ========== 17. FOOTER (Pie de página) ==========
+   Sección final de todas las páginas: logo, links útiles,
+   información legal, redes sociales, copyright.
+   =================================================== */
 .site-footer {
     background: var(--bg-secondary);
     border-top: 1px solid var(--border);
@@ -1147,7 +1233,11 @@ nav {
     }
 }
 
-/* ========== SCROLL ANIMATIONS ========== */
+/* ========== 18. ANIMACIONES (Efectos al hacer scroll) ==========
+   Los elementos aparecen con un efecto suave (fade-in)
+   cuando el usuario baja por la página. Usa IntersectionObserver
+   en scripts.js para activar la clase .visible.
+   ================================================================ */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -1175,7 +1265,10 @@ nav {
 .hero-content .hero-actions { animation-delay: 0.4s; }
 .hero-content .hero-note { animation-delay: 0.5s; }
 
-/* ========== UTILITIES ========== */
+/* ========== 19. UTILIDADES (Clases auxiliares) ==========
+   Clases de ayuda rápida: centrar texto, ocultar en desktop,
+   mostrar solo en mobile, separadores, etc.
+   ========================================================= */
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
@@ -1185,7 +1278,12 @@ nav {
 .mb-4 { margin-bottom: var(--space-4); }
 .mb-6 { margin-bottom: var(--space-6); }
 
-/* ========== ACCESSIBILITY ========== */
+/* ========== 20. ACCESIBILIDAD ==========
+   Estilos para personas con discapacidad:
+   - Lectores de pantalla (.sr-only)
+   - Navegación por teclado (focus-visible)
+   - Reducción de movimiento (prefers-reduced-motion)
+   ============================================ */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -1207,7 +1305,11 @@ nav {
     border-radius: var(--radius-sm);
 }
 
-/* ========== EDUCATION PAGE SPECIFIC STYLES ========== */
+/* ========== 21. EDUCACIÓN (Página de cursos) ==========
+   Estilos específicos para cursos corporativos:
+   tarjetas de curso, badges de nivel, módulos,
+   audiencia objetivo y botones de inscripción.
+   ======================================================= */
 .education-section {
     margin-top: var(--space-12);
     margin-bottom: var(--space-12);
@@ -1338,7 +1440,10 @@ nav {
     }
 }
 
-/* ========== PRICING TIER CARDS ========== */
+/* ========== 22. PRICING (Tarjetas de paquetes) ==========
+   Las tarjetas que muestran los paquetes Starter 369,
+   Governed Pilot 369 y Enterprise 369 con sus detalles.
+   ======================================================== */
 .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1367,7 +1472,10 @@ nav {
     }
 }
 
-/* ========== FORM GROUPS ========== */
+/* ========== 23. FORM GROUPS (Agrupación de campos) ==========
+   Agrupa campos de formulario en filas de 2 columnas
+   (nombre + email, empresa + tamaño, etc.).
+   ============================================================= */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -1403,7 +1511,10 @@ nav {
     box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
 }
 
-/* ========== TRUST SIGNALS ========== */
+/* ========== 24. TRUST SIGNALS (Señales de confianza) ==========
+   Barra con logos/números que muestran credibilidad:
+   "15+ años", "50+ proyectos", "GCP Partner", etc.
+   ============================================================== */
 .contact-note {
     font-size: var(--text-sm);
     color: var(--text-tertiary);
@@ -1424,7 +1535,10 @@ nav {
     font-weight: 600;
 }
 
-/* ========== MOBILE FORM ADJUSTMENTS ========== */
+/* ========== 25. RESPONSIVE — FORMULARIOS MOBILE ==========
+   Ajustes específicos para que los formularios se vean
+   bien en pantallas pequeñas (celulares y tablets).
+   =========================================================== */
 @media (max-width: 768px) {
     .contact-form input,
     .contact-form textarea,

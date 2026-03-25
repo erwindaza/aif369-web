@@ -1,6 +1,21 @@
 /**
+ * ════════════════════════════════════════════════════════════
  * AIF369 Chat Widget — Powered by Gemini 2.5
- * Drop <script src="chat-widget.js"></script> before </body>
+ * ────────────────────────────────────────────────────────────
+ * Widget de chat flotante que aparece en la esquina inferior
+ * derecha de todas las páginas. Permite al visitante hacer
+ * preguntas sobre servicios, precios, metodología, etc.
+ * 
+ * Funcionalidad:
+ * - Botón flotante (FAB) para abrir/cerrar el chat
+ * - Botones rápidos predefinidos (Servicios, Precios, etc.)
+ * - Historial de conversación por sesión
+ * - Persistencia en BigQuery (backend guarda cada intercambio)
+ * - session_id único por sesión de navegador
+ * 
+ * Backend: /api/chat en Cloud Run (Gemini 2.5 + fallback Ollama)
+ * Drop: <script src="chat-widget.js"></script> antes de </body>
+ * ════════════════════════════════════════════════════════════
  */
 (function () {
     'use strict';
@@ -13,6 +28,10 @@
 
     let history = [];
     let isOpen = false;
+    let turnNumber = 0;
+
+    // Generar session_id único por sesión de navegador
+    const sessionId = 'chat-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
 
     // ===== Inject CSS =====
     const style = document.createElement('style');
@@ -220,6 +239,7 @@
 
         addMessage('user', text);
         history.push({ role: 'user', content: text });
+        turnNumber++;
 
         input.value = '';
         sendBtn.disabled = true;
@@ -229,7 +249,13 @@
             const res = await fetch(`${BASE}/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: text, history: history })
+                body: JSON.stringify({
+                    message: text,
+                    history: history,
+                    session_id: sessionId,
+                    turn_number: turnNumber,
+                    source_page: window.location.pathname
+                })
             });
             const data = await res.json();
             hideTyping();
