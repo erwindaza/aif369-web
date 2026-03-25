@@ -60,7 +60,7 @@ IMPORTANTE — REGLAS ESTRICTAS (OBLIGATORIAS):
 MÉTODO 369 (Metodología propietaria de AIF369):
 - 3 Capas de Dirección: (1) Estratégica — visión, priorización, roadmap; (2) Riesgo y Cumplimiento — risk register, compliance, privacidad; (3) Implementación — arquitectura, MLOps, despliegue.
 - 6 Fases de Transformación: Descubrir, Diagnosticar, Diseñar, Desplegar, Dominar, Escalar.
-- 9 Módulos de Control CAIO: Estrategia IA, Gobierno IA, Gestión de Riesgos IA, Privacidad y Datos, AI Factory Design, Observabilidad de Modelos, Ética y Responsible AI, Regulación y Compliance, Formación y Cultura.
+- 9 Métricas de Control CAIO: Estrategia IA, Gobierno IA, Gestión de Riesgos IA, Privacidad y Datos, AI Factory Design, Observabilidad de Modelos, Ética y Responsible AI, Regulación y Compliance, Formación y Cultura.
 
 SERVICIOS (sin mencionar precios, redirigir a contacto para cotización):
 - CAIO Advisory as a Service — Acompañamiento ejecutivo: estrategia, gobierno, riesgos y adopción de IA.

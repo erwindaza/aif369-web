@@ -74,7 +74,7 @@
       },
       {
         "id": "9",
-        "name": "9 Módulos de Control CAIO",
+        "name": "9 Métricas de Control CAIO",
         "description": "Marco práctico para gobernar la IA como capacidad empresarial.",
         "modules": [
           {"name": "Estrategia y Portafolio", "questions": ["¿Qué problemas de negocio vale la pena resolver con IA?", "¿Qué no debemos automatizar todavía?"]},
@@ -191,7 +191,7 @@
   "commercial_messages": {
     "one_liner": "No ayudamos solo a implementar IA. Ayudamos a gobernarla, justificarla y sostenerla.",
     "pitch_30_sec": "En AIF369 acompañamos a empresas que quieren usar inteligencia artificial sin improvisar. Combinamos estrategia ejecutiva, gobernanza, riesgo, compliance, arquitectura y observabilidad en una metodología propia, el Método 369, para pasar de experimentos aislados a capacidades reales de negocio.",
-    "pitch_90_sec": "La mayoría de las organizaciones está entrando a IA con presión por innovar, pero sin un marco claro para decidir qué hacer, qué no hacer y cómo controlar riesgos. AIF369 resuelve ese vacío. Diseñamos estrategia, portafolio de casos, gobierno, controles, arquitectura y modelos operativos para que la IA se despliegue con foco en valor, cumplimiento y confianza. Nuestro Método 369 integra tres capas de dirección, seis fases de transformación y nueve módulos de control CAIO. Eso nos permite acompañar desde un diagnóstico inicial hasta la instalación de una AI Factory con observabilidad, accountability y mejora continua."
+    "pitch_90_sec": "La mayoría de las organizaciones está entrando a IA con presión por innovar, pero sin un marco claro para decidir qué hacer, qué no hacer y cómo controlar riesgos. AIF369 resuelve ese vacío. Diseñamos estrategia, portafolio de casos, gobierno, controles, arquitectura y modelos operativos para que la IA se despliegue con foco en valor, cumplimiento y confianza. Nuestro Método 369 integra tres capas de dirección, seis fases de transformación y nueve métricas de control CAIO. Eso nos permite acompañar desde un diagnóstico inicial hasta la instalación de una AI Factory con observabilidad, accountability y mejora continua."
   },
   "lead_magnets": [
     {"name": "AI Readiness 369 Assessment", "format": "self-assessment", "objective": "captura de leads y diagnóstico inicial"},

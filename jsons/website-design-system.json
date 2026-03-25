@@ -49,7 +49,7 @@
         {"pattern": "Trust Bar", "use_case": "Fila de pilares como Estrategia, Riesgo, Compliance, Observabilidad, AI Factory."},
         {"pattern": "Method Timeline", "use_case": "Mostrar las 6 fases del Método 369."},
         {"pattern": "Three-Pillar Grid", "use_case": "Mostrar las 3 capas de dirección."},
-        {"pattern": "Nine-Module Matrix", "use_case": "Visualizar los 9 módulos de control CAIO."},
+        {"pattern": "Nine-Metric Matrix", "use_case": "Visualizar las 9 métricas de control CAIO."},
         {"pattern": "Editorial Insight Cards", "use_case": "Blog e insights con apariencia premium."},
         {"pattern": "Sticky CTA Panel", "use_case": "Mantener llamada a acción visible en páginas largas."},
         {"pattern": "FAQ Accordion", "use_case": "Resolver objeciones sin saturar la página."}
