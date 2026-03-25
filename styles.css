@@ -370,6 +370,40 @@ nav {
     margin-bottom: var(--space-6);
 }
 
+/* ── Método 369: número circular + título en línea ── */
+.method-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+.method-heading--center {
+    justify-content: center;
+    margin-bottom: var(--space-4);
+}
+.method-heading h2,
+.method-heading h3 {
+    margin: 0;
+}
+.method-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.method-circle--lg {
+    width: 52px;
+    height: 52px;
+    font-size: var(--text-xl);
+}
+
 .hero-note {
     color: var(--text-tertiary);
     font-size: var(--text-sm);
