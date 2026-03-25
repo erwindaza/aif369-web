@@ -24,7 +24,8 @@ CORS(app, origins=[
 
 # Cliente de BigQuery
 PROJECT_ID = os.getenv("PROJECT_ID", "aif369-backend")
-DATASET_ID = "aif369_analytics"
+DATASET_ID = os.getenv("DATASET_ID", "aif369_analytics")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 TABLE_ID = "contact_form_submissions"
 
 bq_client = bigquery.Client(project=PROJECT_ID)
@@ -166,52 +167,127 @@ def send_email_notification(submission_data):
 
 
 def send_confirmation_email(submission_data):
-    """Envía email de confirmación al cliente"""
+    """Envía email de confirmación profesional al cliente con branding AIF369"""
     if not SMTP_PASSWORD:
         return False
     
     try:
-        optional_lines = ""
-        if submission_data.get("interest"):
-            optional_lines += f'<p><strong>Interés:</strong> {submission_data["interest"]}</p>'
-        if submission_data.get("team_size"):
-            optional_lines += f'<p><strong>Tamaño del equipo:</strong> {submission_data["team_size"]}</p>'
+        name = submission_data.get("name", "")
+        first_name = name.split()[0] if name else "estimado/a"
 
         # Crear mensaje
         msg = MIMEMultipart('alternative')
-        msg['Subject'] = '✓ Hemos recibido tu solicitud - AIF369'
-        msg['From'] = SMTP_USER
+        msg['Subject'] = 'Hemos recibido tu solicitud — AIF369'
+        msg['From'] = f'AIF369 <{SMTP_USER}>'
         msg['To'] = submission_data["email"]
         
-        # Contenido HTML
-        html = f'''
-        <html>
-          <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-              <h2 style="color: #2563eb;">¡Gracias por contactarnos!</h2>
-              <p>Hola <strong>{submission_data["name"]}</strong>,</p>
-              <p>Hemos recibido tu solicitud y te contactaremos en las próximas 24 horas.</p>
-              
-              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0; color: #1f2937;">Resumen de tu solicitud:</h3>
-                <p><strong>Email:</strong> {submission_data["email"]}</p>
-                <p><strong>Empresa/Cargo:</strong> {submission_data["company"]}</p>
-                {optional_lines}
-                <p><strong>Mensaje:</strong> {submission_data["message"]}</p>
-              </div>
-              
-              <p>Mientras tanto, puedes explorar más sobre nuestros servicios en <a href="https://aif369.com" style="color: #2563eb;">aif369.com</a></p>
-              
-              <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
-              
-              <p style="font-size: 12px; color: #6b7280;">
-                AIF369 - IA, Datos y Cloud para la empresa moderna<br>
-                <a href="https://aif369.com" style="color: #2563eb;">aif369.com</a>
-              </p>
-            </div>
-          </body>
-        </html>
-        '''
+        # Email profesional con branding AIF369
+        html = f'''<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0B1120;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0B1120;padding:32px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+        
+        <!-- Header con gradiente -->
+        <tr><td style="background:linear-gradient(135deg,#0088FF,#00D9CC);padding:32px 40px;border-radius:16px 16px 0 0;">
+          <table width="100%"><tr>
+            <td style="color:#fff;font-size:28px;font-weight:700;letter-spacing:-0.5px;">AIF369</td>
+            <td align="right" style="color:rgba(255,255,255,0.8);font-size:13px;">IA &bull; Datos &bull; Cloud</td>
+          </tr></table>
+        </td></tr>
+        
+        <!-- Body -->
+        <tr><td style="background:#0F1F35;padding:40px;border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);">
+          
+          <p style="color:#E2E8F0;font-size:18px;margin:0 0 8px;font-weight:600;">Hola {first_name},</p>
+          <p style="color:#A8B8D8;font-size:15px;line-height:1.7;margin:0 0 24px;">
+            Gracias por contactarnos. Hemos recibido tu solicitud y nuestro equipo la revisará en las próximas <strong style="color:#E2E8F0;">24 horas hábiles</strong>.
+          </p>
+          
+          <!-- Resumen de solicitud -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#162B45;border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin:0 0 28px;">
+            <tr><td style="padding:20px 24px 8px;">
+              <p style="color:#0088FF;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px;">Resumen de tu solicitud</p>
+            </td></tr>
+            <tr><td style="padding:0 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="color:#7B8BA8;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);width:120px;">Nombre</td>
+                  <td style="color:#E2E8F0;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">{submission_data.get("name","")}</td>
+                </tr>
+                <tr>
+                  <td style="color:#7B8BA8;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">Email</td>
+                  <td style="color:#E2E8F0;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">{submission_data.get("email","")}</td>
+                </tr>
+                <tr>
+                  <td style="color:#7B8BA8;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">Empresa</td>
+                  <td style="color:#E2E8F0;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">{submission_data.get("company","—")}</td>
+                </tr>
+                <tr>
+                  <td style="color:#7B8BA8;font-size:13px;padding:6px 0;vertical-align:top;">Mensaje</td>
+                  <td style="color:#E2E8F0;font-size:13px;padding:6px 0;line-height:1.5;">{submission_data.get("message","")}</td>
+                </tr>
+              </table>
+            </td></tr>
+            <tr><td style="padding:8px 24px 16px;"></td></tr>
+          </table>
+          
+          <!-- CTA: Scorecard -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+            <tr><td style="color:#A8B8D8;font-size:14px;line-height:1.6;margin:0 0 16px;">
+              <p style="margin:0 0 16px;">Mientras preparamos tu respuesta, te invitamos a evaluar la madurez de IA de tu organización con nuestro <strong style="color:#E2E8F0;">AI Readiness Scorecard</strong> gratuito:</p>
+            </td></tr>
+            <tr><td align="center" style="padding:0 0 8px;">
+              <a href="https://aif369.com/scorecard.html" style="display:inline-block;background:linear-gradient(135deg,#0088FF,#00D9CC);color:#fff;font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none;letter-spacing:0.3px;">
+                Hacer el Scorecard gratuito
+              </a>
+            </td></tr>
+          </table>
+          
+          <!-- Servicios -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid rgba(255,255,255,0.06);padding:24px 0 0;">
+            <tr><td style="color:#7B8BA8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:0 0 12px;">Nuestros servicios</td></tr>
+            <tr><td>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="50%" style="padding:4px 8px 4px 0;color:#A8B8D8;font-size:13px;">&#x2022; CAIO Advisory as a Service</td>
+                  <td width="50%" style="padding:4px 0 4px 8px;color:#A8B8D8;font-size:13px;">&#x2022; AI Governance &amp; Responsible AI</td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 8px 4px 0;color:#A8B8D8;font-size:13px;">&#x2022; AI Risk, Privacy &amp; Compliance</td>
+                  <td style="padding:4px 0 4px 8px;color:#A8B8D8;font-size:13px;">&#x2022; AI Factory Design</td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 8px 4px 0;color:#A8B8D8;font-size:13px;">&#x2022; Executive Workshops</td>
+                  <td style="padding:4px 0 4px 8px;color:#A8B8D8;font-size:13px;">&#x2022; Thought Leadership</td>
+                </tr>
+              </table>
+            </td></tr>
+          </table>
+          
+        </td></tr>
+        
+        <!-- Footer -->
+        <tr><td style="background:#0A1628;padding:24px 40px;border-radius:0 0 16px 16px;border:1px solid rgba(255,255,255,0.04);border-top:none;">
+          <table width="100%"><tr>
+            <td style="color:#4A5E7A;font-size:12px;line-height:1.6;">
+              <strong style="color:#7B8BA8;">AIF369</strong> — IA, Datos y Cloud para la empresa moderna<br>
+              <a href="https://aif369.com" style="color:#0088FF;text-decoration:none;">aif369.com</a>
+              &nbsp;&bull;&nbsp;
+              <a href="https://wa.me/56997547192" style="color:#0088FF;text-decoration:none;">WhatsApp +56 9 9754 7192</a>
+              &nbsp;&bull;&nbsp;
+              <a href="mailto:edaza@aif369.com" style="color:#0088FF;text-decoration:none;">edaza@aif369.com</a>
+            </td>
+          </tr></table>
+        </td></tr>
+        
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>'''
         
         part = MIMEText(html, 'html')
         msg.attach(part)

@@ -1,17 +1,12 @@
-project_id  = "aif369-backend"
-region      = "us-central1"
-environment = "dev"
+project_id             = "aif369-backend"
+region                 = "us-central1"
+environment            = "dev"
 
 # Cloud Run
-backend_service_name = "aif369-backend-api-dev"
-backend_image = "gcr.io/aif369-backend/aif369-backend-dev:latest"
+cloud_run_service_name = "aif369-backend-api-dev"
 
-# BigQuery
-dataset_id = "aif369_analytics_dev"
-table_id = "contact_form_submissions"
-
-# Storage
-bucket_prefix = "aif369-dev"
+# BigQuery (cada entorno tiene su propio dataset)
+dataset_id             = "aif369_analytics_dev"
 
 # URLs
 frontend_url = "https://aif369-web.vercel.app"

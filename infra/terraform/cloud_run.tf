@@ -1,25 +1,35 @@
 # Cloud Run service para el backend de AIF369
 resource "google_cloud_run_service" "backend" {
-  name     = "aif369-backend-api"
+  name     = var.cloud_run_service_name
   location = var.region
   project  = var.project_id
 
   template {
     spec {
       service_account_name = google_service_account.backend.email
-      
+
       containers {
         image = "gcr.io/${var.project_id}/aif369-backend:latest"
-        
+
         ports {
           container_port = 8080
         }
-        
+
         env {
           name  = "PROJECT_ID"
           value = var.project_id
         }
-        
+
+        env {
+          name  = "DATASET_ID"
+          value = var.dataset_id
+        }
+
+        env {
+          name  = "ENVIRONMENT"
+          value = var.environment
+        }
+
         resources {
           limits = {
             cpu    = "1"
@@ -28,7 +38,7 @@ resource "google_cloud_run_service" "backend" {
         }
       }
     }
-    
+
     metadata {
       annotations = {
         "autoscaling.knative.dev/maxScale" = "10"

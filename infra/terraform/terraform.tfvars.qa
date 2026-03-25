@@ -1,0 +1,9 @@
+project_id             = "aif369-backend"
+region                 = "us-central1"
+environment            = "qa"
+
+# Cloud Run
+cloud_run_service_name = "aif369-backend-api-qa"
+
+# BigQuery (QA tiene su propio dataset aislado)
+dataset_id             = "aif369_analytics_qa"

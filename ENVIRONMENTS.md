@@ -1,187 +1,179 @@
 # AIF369 Multi-Environment Setup
 
-## Estructura de Ramas
+## Arquitectura de Entornos (DevOps)
 
-### `main` (Producción)
-- **Frontend**: https://aif369.com (Vercel deployment automático)
-- **Backend**: https://aif369-backend-api-830685315001.us-central1.run.app
-- **BigQuery Dataset**: `aif369_analytics`
-- **Terraform Config**: `infra/terraform/terraform.tfvars` → `environment = "production"`
+```
+dev ──► qa ──► main (producción)
+ │       │       │
+ ▼       ▼       ▼
+BQ dev  BQ qa   BQ prod
+CR dev  CR qa   CR prod
+```
 
-### `dev` (Desarrollo)
-- **Frontend**: https://aif369-web.vercel.app (Vercel preview automático)
-- **Backend**: https://aif369-backend-api-dev-830685315001.us-central1.run.app (por crear)
-- **BigQuery Dataset**: `aif369_analytics_dev` (por crear)
-- **Terraform Config**: `infra/terraform/terraform.tfvars` → `environment = "dev"`
+**Regla de oro**: nada llega a producción sin pasar antes por QA.
 
-## Flujo de Trabajo
+---
 
-### Trabajando en Development
+## Ramas y Entornos
+
+| Rama   | Entorno    | Cloud Run Service         | BigQuery Dataset       | Frontend               |
+|--------|------------|---------------------------|-----------------------|------------------------|
+| `dev`  | Desarrollo | `aif369-backend-api-dev`  | `aif369_analytics_dev` | Vercel preview         |
+| `qa`   | QA         | `aif369-backend-api-qa`   | `aif369_analytics_qa`  | Vercel preview (qa)    |
+| `main` | Producción | `aif369-backend-api`      | `aif369_analytics`     | https://aif369.com     |
+
+---
+
+## Flujo de Trabajo (CI/CD)
+
+### 1. Desarrollo (rama `dev`)
 ```bash
-# Cambiar a rama dev
 git checkout dev
-
-# Verificar configuración
-cat infra/terraform/terraform.tfvars
-# Debe mostrar: environment = "dev"
-
-# Hacer cambios y probar
-# ... commits ...
-
-# Desplegar backend dev (cuando esté configurado)
-cd backend
-gcloud run deploy aif369-backend-api-dev \
-  --source . \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated \
-  --project aif369-backend \
-  --set-env-vars "SMTP_USERNAME=edaza@aif369.com,SMTP_PASSWORD=CK8rvsq7HSSw,SMTP_FROM=edaza@aif369.com,NOTIFICATION_EMAIL=erwin.daza@gmail.com"
-
-# Push a dev (trigger Vercel preview)
+# Hacer cambios, commits...
 git push origin dev
+# → GitHub Action ci-dev.yml:
+#   ✅ Lint HTML
+#   ✅ Tests backend (pytest)
+#   ✅ Terraform validate
+#   ✅ Build + deploy a Cloud Run DEV
+#   ✅ Terraform apply DEV (si hay cambios en infra/)
 ```
 
-### Promover a Producción
+### 2. Promoción a QA (PR dev → qa)
 ```bash
-# Cambiar a main
-git checkout main
-
-# Merge desde dev
-git merge dev
-
-# Verificar configuración
-cat infra/terraform/terraform.tfvars
-# Debe mostrar: environment = "production"
-
-# Desplegar backend prod
-cd backend
-gcloud run deploy aif369-backend-api \
-  --source . \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated \
-  --project aif369-backend \
-  --set-env-vars "SMTP_USERNAME=edaza@aif369.com,SMTP_PASSWORD=CK8rvsq7HSSw,SMTP_FROM=edaza@aif369.com,NOTIFICATION_EMAIL=erwin.daza@gmail.com"
-
-# Push a main (trigger Vercel production)
-git push origin main
+# Crear PR desde dev hacia qa en GitHub
+# Revisar cambios, aprobar PR
+# Al hacer merge → GitHub Action deploy-qa.yml:
+#   ✅ Tests backend (QA gate)
+#   ✅ Terraform apply QA (crea dataset + tablas en QA)
+#   ✅ Build + deploy a Cloud Run QA
+#   ✅ Health check QA
 ```
 
-## Detección Automática de Entorno
-
-El archivo `scripts.js` detecta automáticamente el entorno basándose en el hostname:
-
-```javascript
-const isProduction = window.location.hostname === 'aif369.com' 
-    || window.location.hostname === 'www.aif369.com';
-    
-const BACKEND_URL = isProduction 
-    ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
-    : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
+### 3. Promoción a Producción (PR qa → main)
+```bash
+# Crear PR desde qa hacia main en GitHub
+# Solo después de validar en QA
+# Al hacer merge → GitHub Action deploy-production.yml:
+#   ✅ Tests backend (production gate)
+#   ✅ Terraform apply PRODUCTION
+#   ✅ Build + deploy a Cloud Run PROD
+#   ✅ Health check PROD
+#   ✅ Vercel auto-deploy frontend
 ```
 
-- **Producción**: `aif369.com` → backend prod
-- **Dev/Preview**: `aif369-web.vercel.app` o `*.vercel.app` → backend dev
+---
 
 ## Terraform por Entorno
 
-### Aplicar cambios en DEV
+Cada entorno usa su propio archivo `.tfvars`:
+
+| Archivo                      | Entorno    | Dataset                | Service Name              |
+|------------------------------|------------|------------------------|---------------------------|
+| `terraform.tfvars.dev`       | dev        | `aif369_analytics_dev` | `aif369-backend-api-dev`  |
+| `terraform.tfvars.qa`        | qa         | `aif369_analytics_qa`  | `aif369-backend-api-qa`   |
+| `terraform.tfvars.production`| production | `aif369_analytics`     | `aif369-backend-api`      |
+
+### Aplicar manualmente (si necesario):
 ```bash
 cd infra/terraform
 terraform init
-terraform plan   # usa terraform.tfvars de rama dev
-terraform apply
+
+# DEV
+terraform plan -var-file=terraform.tfvars.dev
+terraform apply -var-file=terraform.tfvars.dev
+
+# QA
+terraform plan -var-file=terraform.tfvars.qa
+terraform apply -var-file=terraform.tfvars.qa
+
+# PRODUCCIÓN
+terraform plan -var-file=terraform.tfvars.production
+terraform apply -var-file=terraform.tfvars.production
 ```
 
-### Aplicar cambios en PROD
-```bash
-git checkout main
-cd infra/terraform
-terraform init
-terraform plan   # usa terraform.tfvars de rama main
-terraform apply
-```
-
-### Usar archivos específicos (alternativa)
-```bash
-# Prod
-terraform apply -var-file="terraform.tfvars.production"
-
-# Dev
-terraform apply -var-file="terraform.tfvars.dev"
-```
-
-## Pendientes para Completar Setup Dev
-
-1. **Crear Cloud Run Dev**:
-   ```bash
-   cd backend
-   gcloud run deploy aif369-backend-api-dev \
-     --source . \
-     --region us-central1 \
-     --project aif369-backend
-   ```
-
-2. **Crear BigQuery Dataset Dev**:
-   ```bash
-   # Actualizar infra/terraform con condicional para dataset_id según environment
-   # O crear manualmente:
-   bq mk --dataset --location=us-central1 aif369-backend:aif369_analytics_dev
-   ```
-
-3. **Configurar CI/CD en GitHub Actions** (opcional):
-   - Auto-deploy backend dev cuando se push a `dev`
-   - Auto-deploy backend prod cuando se push a `main`
-
-## Formularios Disponibles
-
-### 1. Formulario de Contacto (`/api/contact`)
-- Ubicación: `index.html#contacto`
-- Campos: name, email, company, message
-- Storage: BigQuery `contact_form_submissions` con `form_type = null` o ausente
-
-### 2. Formulario de Educación (`/api/education`)
-- Ubicación: `education.html#contacto-educacion`
-- Campos: name, email, company, interest, team_size, message
-- Storage: BigQuery `contact_form_submissions` con `form_type = "education"`
-
-Ambos formularios envían:
-- Email de notificación a `erwin.daza@gmail.com`
-- Email de confirmación al cliente
+---
 
 ## Variables de Entorno del Backend
 
-Requeridas en Cloud Run:
-- `SMTP_USERNAME`: edaza@aif369.com
-- `SMTP_PASSWORD`: [App-specific password de Zoho]
-- `SMTP_FROM`: edaza@aif369.com
-- `NOTIFICATION_EMAIL`: erwin.daza@gmail.com
-- `PROJECT_ID`: aif369-backend (auto-detectado)
+Configuradas automáticamente por GitHub Actions en cada Cloud Run:
+
+| Variable           | Valor                          |
+|--------------------|--------------------------------|
+| `PROJECT_ID`       | `aif369-backend`               |
+| `DATASET_ID`       | Según entorno (ver tabla)      |
+| `ENVIRONMENT`      | `dev` / `qa` / `production`    |
+| `SMTP_USER`        | `edaza@aif369.com`             |
+| `SMTP_PASSWORD`    | Secret Manager                 |
+| `GEMINI_API_KEY`   | Secret Manager                 |
+| `NOTIFICATION_EMAIL` | `edaza@aif369.com`           |
+| `CC_EMAIL`         | `erwin.daza@gmail.com`         |
+
+---
+
+## BigQuery: Tablas por Entorno
+
+Cada dataset contiene las mismas tablas:
+
+1. **`contact_form_submissions`** — Formularios de contacto y educación
+2. **`chat_conversations`** — Conversaciones del chat widget
+
+Terraform crea ambas tablas automáticamente al hacer `apply` por entorno.
+
+---
+
+## GitHub Actions (Workflows)
+
+| Workflow              | Trigger          | Qué hace                                    |
+|-----------------------|------------------|----------------------------------------------|
+| `ci-dev.yml`          | push a `dev`     | Tests + deploy DEV + TF apply DEV            |
+| `deploy-qa.yml`       | push a `qa`      | Tests + TF apply QA + deploy QA              |
+| `deploy-production.yml` | push a `main` | Tests + TF apply PROD + deploy PROD          |
+
+---
+
+## Detección Automática de Entorno (Frontend)
+
+`chat-widget.js` y `scripts.js` detectan automáticamente:
+
+```javascript
+const isProd = location.hostname === 'aif369.com' || location.hostname === 'www.aif369.com';
+const BASE = isProd
+    ? 'https://aif369-backend-api-830685315001.us-central1.run.app'    // PROD
+    : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'; // DEV
+```
+
+---
+
+## Secrets de GitHub (requeridos)
+
+Configurar en GitHub → Settings → Secrets and variables → Actions:
+
+- `GCP_SA_KEY` — JSON key de la Service Account con roles:
+  - `roles/run.admin`
+  - `roles/bigquery.dataEditor`
+  - `roles/storage.admin`
+  - `roles/iam.serviceAccountUser`
+  - `roles/cloudbuild.builds.editor`
+
+---
 
 ## Troubleshooting
 
-### Frontend muestra código viejo
+### Verificar entorno del backend
 ```bash
-# Hard refresh en el navegador
-Cmd + Shift + R (Mac)
-Ctrl + Shift + R (Windows/Linux)
-
-# O forzar redeploy en Vercel
-git commit --allow-empty -m "chore: force redeploy"
-git push
+curl https://[SERVICE_URL]/ | jq .
+# Debe retornar: {"status": "ok", "service": "aif369-backend"}
 ```
 
-### Backend no recibe requests
+### Ver logs de Cloud Run
 ```bash
-# Verificar logs
-gcloud run services logs read aif369-backend-api --project=aif369-backend --region=us-central1
-
-# Verificar que el servicio está up
-gcloud run services describe aif369-backend-api --project=aif369-backend --region=us-central1
+CLOUDSDK_CONFIG=~/.gcloud-aif369 gcloud run services logs read aif369-backend-api-dev --region=us-central1
 ```
 
-### Emails no llegan
-- Verificar variables de entorno en Cloud Run
-- Revisar logs del backend para errores SMTP
-- Confirmar que la app-specific password de Zoho es válida
+### Verificar tablas BQ por entorno
+```bash
+echo Y | CLOUDSDK_CONFIG=~/.gcloud-aif369 bq ls --project_id=aif369-backend aif369_analytics_dev
+echo Y | CLOUDSDK_CONFIG=~/.gcloud-aif369 bq ls --project_id=aif369-backend aif369_analytics_qa
+echo Y | CLOUDSDK_CONFIG=~/.gcloud-aif369 bq ls --project_id=aif369-backend aif369_analytics
+```

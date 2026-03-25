@@ -208,10 +208,16 @@
     function addMessage(role, text) {
         const div = document.createElement('div');
         div.className = `aif-msg ${role}`;
-        // Simple markdown-like formatting
-        div.innerHTML = text
+        // Format text: bold, newlines, and clickable links
+        let formatted = text
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\n/g, '<br>');
+        // Convert URLs to clickable links (strip trailing punctuation like . , ; from URL)
+        formatted = formatted.replace(
+            /(https?:\/\/[^\s<>"']+?)([.,;:!?)\]]*(?:\s|<br>|$))/gi,
+            '<a href="$1" target="_blank" rel="noopener" style="color:#3AA0FF;text-decoration:underline;">$1</a>$2'
+        );
+        div.innerHTML = formatted;
         messages.appendChild(div);
         messages.scrollTop = messages.scrollHeight;
         return div;

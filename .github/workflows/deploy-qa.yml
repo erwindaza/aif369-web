@@ -1,24 +1,24 @@
 # ============================================================
-# CD Pipeline: Deploy to PRODUCTION
-# Triggered ONLY on push to main (after merge from qa)
-# Gate: must pass all tests + health check before going live
+# QA Pipeline: deploy to QA environment
+# Triggered on push to qa branch (promotion from dev via PR)
+# Nothing goes to production without passing QA first.
 # ============================================================
-name: deploy-production
+name: deploy-qa
 
 on:
   push:
-    branches: [main]
+    branches: [qa]
 
 env:
   PROJECT_ID: aif369-backend
   REGION: us-central1
-  ENVIRONMENT: production
-  DATASET_ID: aif369_analytics
-  SERVICE_NAME: aif369-backend-api
+  ENVIRONMENT: qa
+  DATASET_ID: aif369_analytics_qa
+  SERVICE_NAME: aif369-backend-api-qa
 
 jobs:
-  # ── Gate: run full test suite ────────────────────────────
-  verify:
+  # ── Run full test suite ──────────────────────────────────
+  tests:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,7 +36,7 @@ jobs:
           pip install -r requirements.txt
           pip install pytest httpx
 
-      - name: Run tests (production gate)
+      - name: Run tests (QA gate)
         run: pytest tests/ -v --tb=short
         env:
           PROJECT_ID: ${{ env.PROJECT_ID }}
@@ -44,11 +44,10 @@ jobs:
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
           SMTP_PASSWORD: ""
 
-  # ── Terraform apply PRODUCTION ───────────────────────────
-  terraform-apply-prod:
-    needs: [verify]
+  # ── Terraform apply QA ──────────────────────────────────
+  terraform-apply-qa:
+    needs: [tests]
     runs-on: ubuntu-latest
-    environment: production
     permissions:
       contents: read
       id-token: write
@@ -71,17 +70,16 @@ jobs:
       - name: Terraform init
         run: terraform init
 
-      - name: Terraform plan (PRODUCTION)
-        run: terraform plan -var-file=terraform.tfvars.production -out=tfplan
+      - name: Terraform plan (QA)
+        run: terraform plan -var-file=terraform.tfvars.qa -out=tfplan
 
-      - name: Terraform apply (PRODUCTION)
+      - name: Terraform apply (QA)
         run: terraform apply -auto-approve tfplan
 
-  # ── Deploy backend to PRODUCTION ─────────────────────────
-  deploy-backend-prod:
-    needs: [verify, terraform-apply-prod]
+  # ── Deploy backend to QA ─────────────────────────────────
+  deploy-backend-qa:
+    needs: [tests, terraform-apply-qa]
     runs-on: ubuntu-latest
-    environment: production
     permissions:
       contents: read
       id-token: write
@@ -102,16 +100,16 @@ jobs:
         run: |
           gcloud auth configure-docker gcr.io --quiet
           docker build --platform linux/amd64 \
-            -t gcr.io/$PROJECT_ID/aif369-backend:${{ github.sha }} \
-            -t gcr.io/$PROJECT_ID/aif369-backend:latest \
+            -t gcr.io/$PROJECT_ID/aif369-backend-qa:${{ github.sha }} \
+            -t gcr.io/$PROJECT_ID/aif369-backend-qa:latest \
             backend/
-          docker push gcr.io/$PROJECT_ID/aif369-backend:${{ github.sha }}
-          docker push gcr.io/$PROJECT_ID/aif369-backend:latest
+          docker push gcr.io/$PROJECT_ID/aif369-backend-qa:${{ github.sha }}
+          docker push gcr.io/$PROJECT_ID/aif369-backend-qa:latest
 
-      - name: Deploy to Cloud Run (PRODUCTION)
+      - name: Deploy to Cloud Run (QA)
         run: |
           gcloud run deploy $SERVICE_NAME \
-            --image gcr.io/$PROJECT_ID/aif369-backend:${{ github.sha }} \
+            --image gcr.io/$PROJECT_ID/aif369-backend-qa:${{ github.sha }} \
             --platform managed \
             --region $REGION \
             --project $PROJECT_ID \
@@ -119,25 +117,29 @@ jobs:
             --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
             --set-env-vars "PROJECT_ID=$PROJECT_ID,DATASET_ID=$DATASET_ID,ENVIRONMENT=$ENVIRONMENT" \
             --set-env-vars "SMTP_USER=edaza@aif369.com,NOTIFICATION_EMAIL=edaza@aif369.com,CC_EMAIL=erwin.daza@gmail.com" \
-            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest"
+            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest" \
+            --tag qa
 
-      - name: Verify production deployment
+      - name: Health check (QA)
         run: |
-          PROD_URL=$(gcloud run services describe $SERVICE_NAME \
+          QA_URL=$(gcloud run services describe $SERVICE_NAME \
             --region $REGION --project $PROJECT_ID \
             --format='value(status.url)')
-          echo "Production URL: $PROD_URL"
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$PROD_URL")
+          echo "QA URL: $QA_URL"
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$QA_URL")
           if [ "$HTTP_CODE" -ne 200 ]; then
-            echo "❌ Health check failed: HTTP $HTTP_CODE"; exit 1
+            echo "❌ QA health check failed: HTTP $HTTP_CODE"; exit 1
           fi
-          echo "✅ Production health check passed"
+          echo "✅ QA health check passed"
 
-      - name: Production deployment summary
+      - name: QA deployment summary
         run: |
           echo "╔══════════════════════════════════════════╗"
-          echo "║  PRODUCTION Deployment Complete          ║"
-          echo "║  Environment: production                 ║"
+          echo "║  ✅ QA Deployment Complete               ║"
+          echo "║  Environment: QA                         ║"
           echo "║  Dataset: $DATASET_ID                    ║"
           echo "║  Service: $SERVICE_NAME                  ║"
+          echo "║                                          ║"
+          echo "║  Next step: Create PR from qa → main     ║"
+          echo "║  to promote to PRODUCTION.               ║"
           echo "╚══════════════════════════════════════════╝"

@@ -19,8 +19,8 @@ resource "google_project_service" "services" {
 
   project                    = var.project_id
   service                    = each.key
-  disable_dependent_services  = false
-  disable_on_destroy          = false
+  disable_dependent_services = false
+  disable_on_destroy         = false
 }
 
 resource "google_storage_bucket" "buckets" {
@@ -35,11 +35,16 @@ resource "google_storage_bucket" "buckets" {
 }
 
 resource "google_bigquery_dataset" "analytics" {
-  dataset_id                  = "aif369_analytics"
-  friendly_name               = "AIF369 Analytics"
-  description                 = "Dataset de eventos y formularios del sitio AIF369."
-  location                    = var.location
-  project                     = var.project_id
+  dataset_id    = var.dataset_id
+  friendly_name = "AIF369 Analytics (${var.environment})"
+  description   = "Dataset de eventos y formularios – entorno ${var.environment}."
+  location      = var.location
+  project       = var.project_id
+
+  labels = {
+    environment = var.environment
+    app         = "aif369-web"
+  }
 
   depends_on = [google_project_service.services]
 }

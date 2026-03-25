@@ -16,7 +16,24 @@ variable "location" {
 }
 
 variable "environment" {
-  description = "Environment name (dev/prod)"
+  description = "Environment name (dev/qa/production)"
   type        = string
   default     = "dev"
+
+  validation {
+    condition     = contains(["dev", "qa", "production"], var.environment)
+    error_message = "Environment must be one of: dev, qa, production."
+  }
+}
+
+variable "dataset_id" {
+  description = "BigQuery dataset ID (varies per environment)"
+  type        = string
+  default     = "aif369_analytics"
+}
+
+variable "cloud_run_service_name" {
+  description = "Cloud Run service name (varies per environment)"
+  type        = string
+  default     = "aif369-backend-api"
 }

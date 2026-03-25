@@ -1,3 +1,5 @@
-project_id  = "aif369-backend"
-region      = "us-central1"
-environment = "dev"
+project_id             = "aif369-backend"
+region                 = "us-central1"
+environment            = "dev"
+cloud_run_service_name = "aif369-backend-api-dev"
+dataset_id             = "aif369_analytics_dev"
