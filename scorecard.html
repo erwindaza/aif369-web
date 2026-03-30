@@ -3,32 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Readiness Scorecard - AIF369</title>
-    <meta name="description" content="Evalúe la madurez de IA de su organización en 5 minutos. Obtenga un diagnóstico gratuito con recomendaciones personalizadas.">
+    <title>AI Readiness Scorecard 369 - AIF369</title>
+    <meta name="description" content="Evalúe la madurez de IA de su organización con el Método 369: 3 preguntas rápidas, 6 de profundidad, 9 métricas de resultado. Diagnóstico gratuito.">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Scorecard-specific styles */
+        /* ── Scorecard 369 Styles ──────────────────────────── */
         .scorecard-container { max-width: 720px; margin: 0 auto; }
 
-        .scorecard-progress { display: flex; gap: 6px; margin-bottom: var(--space-8); }
-        .scorecard-progress .step {
-            flex: 1; height: 4px; border-radius: 2px;
-            background: var(--border-strong); transition: background var(--transition-base);
+        /* 369 Phase Indicator */
+        .phase-indicator { display: flex; justify-content: center; gap: var(--space-6); margin-bottom: var(--space-8); }
+        .phase-dot {
+            width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: var(--text-xl); font-weight: 700; color: var(--text-tertiary);
+            background: var(--bg-tertiary); border: 2px solid var(--border); transition: all 0.4s ease; position: relative;
         }
-        .scorecard-progress .step.active { background: var(--primary); }
-        .scorecard-progress .step.done { background: var(--secondary); }
+        .phase-dot.active { border-color: var(--primary); color: var(--primary); background: rgba(0,136,255,0.1); transform: scale(1.15); }
+        .phase-dot.done { border-color: var(--secondary); color: white; background: var(--secondary); }
+        .phase-dot .phase-label {
+            position: absolute; bottom: -22px; font-size: 11px; font-weight: 500;
+            color: var(--text-tertiary); white-space: nowrap; letter-spacing: 0.05em;
+        }
+        .phase-dot.active .phase-label { color: var(--primary); }
+        .phase-dot.done .phase-label { color: var(--secondary); }
+        .phase-connector { width: 60px; height: 2px; background: var(--border); align-self: center; transition: background 0.4s ease; }
+        .phase-connector.done { background: var(--secondary); }
 
+        /* Progress mini bar */
+        .mini-progress { display: flex; gap: 4px; margin-bottom: var(--space-6); }
+        .mini-progress .pip {
+            flex: 1; height: 4px; border-radius: 2px;
+            background: var(--border-strong); transition: background 0.3s ease;
+        }
+        .mini-progress .pip.done { background: var(--secondary); }
+        .mini-progress .pip.active { background: var(--primary); }
+
+        /* Round header */
+        .round-header {
+            text-align: center; margin-bottom: var(--space-6); padding: var(--space-4) var(--space-6);
+            background: var(--bg-secondary); border-radius: var(--radius-lg); border: 1px solid var(--border);
+        }
+        .round-tag {
+            display: inline-block; padding: 2px 12px; border-radius: var(--radius-full);
+            font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-2);
+        }
+        .round-tag-1 { background: rgba(0,217,204,0.2); color: #00D9CC; }
+        .round-tag-2 { background: rgba(124,58,237,0.2); color: #A855F7; }
+        .round-header h3 { font-size: var(--text-lg); color: var(--text-primary); margin: 0; }
+        .round-header p { font-size: var(--text-sm); color: var(--text-tertiary); margin: var(--space-1) 0 0; }
+
+        /* Question step */
         .scorecard-step { display: none; animation: fadeIn 0.3s ease; }
         .scorecard-step.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        .scorecard-category {
-            font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.1em;
+        .q-dimension-tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.1em;
             color: var(--primary-light); margin-bottom: var(--space-2); font-weight: 600;
         }
+        .q-dimension-tag .q-icon { font-size: 16px; }
         .scorecard-question {
             font-size: var(--text-xl); font-weight: 600; color: var(--text-primary);
             margin-bottom: var(--space-6); line-height: 1.4;
@@ -39,25 +75,46 @@
             padding: var(--space-4) var(--space-5);
             background: var(--bg-secondary); border: 1px solid var(--border);
             border-radius: var(--radius-md); cursor: pointer;
-            transition: all var(--transition-base); color: var(--text-secondary);
-            font-size: var(--text-base);
+            transition: all 0.2s ease; color: var(--text-secondary); font-size: var(--text-base);
         }
-        .scorecard-option:hover { border-color: var(--primary); color: var(--text-primary); background: var(--bg-tertiary); }
+        .scorecard-option:hover { border-color: var(--primary); color: var(--text-primary); background: var(--bg-tertiary); transform: translateX(4px); }
         .scorecard-option.selected { border-color: var(--primary); background: rgba(0,136,255,0.1); color: var(--text-primary); }
-        .scorecard-option .option-score {
-            width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            background: var(--bg-tertiary); font-weight: 600; font-size: var(--text-sm); color: var(--text-tertiary);
-            flex-shrink: 0; border: 1px solid var(--border);
+        .scorecard-option .option-letter {
+            width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            background: var(--bg-tertiary); font-weight: 700; font-size: var(--text-sm); color: var(--text-tertiary);
+            flex-shrink: 0; border: 1px solid var(--border); transition: all 0.2s ease;
         }
-        .scorecard-option.selected .option-score { background: var(--primary); color: white; border-color: var(--primary); }
+        .scorecard-option.selected .option-letter { background: var(--primary); color: white; border-color: var(--primary); }
 
+        .scorecard-counter {
+            text-align: center; color: var(--text-tertiary); font-size: var(--text-sm); margin-bottom: var(--space-2);
+        }
         .scorecard-nav { display: flex; justify-content: space-between; margin-top: var(--space-8); }
         .scorecard-nav .btn { min-width: 140px; }
 
-        .scorecard-counter {
-            text-align: center; color: var(--text-tertiary); font-size: var(--text-sm);
-            margin-bottom: var(--space-4);
+        /* Gate (between rounds) */
+        .gate-screen {
+            display: none; animation: fadeIn 0.5s ease; text-align: center;
+            padding: var(--space-8) var(--space-6);
         }
+        .gate-screen.active { display: block; }
+        .gate-preview-score {
+            font-size: 72px; font-weight: 700; color: var(--primary);
+            line-height: 1; margin: var(--space-4) 0;
+        }
+        .gate-preview-label { color: var(--text-tertiary); font-size: var(--text-sm); }
+        .gate-preview-bars { max-width: 360px; margin: var(--space-6) auto; }
+        .gate-bar-item { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); }
+        .gate-bar-label { font-size: var(--text-sm); color: var(--text-secondary); width: 140px; text-align: right; }
+        .gate-bar-track { flex: 1; height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden; }
+        .gate-bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+        .gate-message {
+            margin: var(--space-6) 0; padding: var(--space-5);
+            background: var(--bg-secondary); border-radius: var(--radius-lg); border: 1px solid var(--border);
+        }
+        .gate-message h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); color: var(--text-primary); }
+        .gate-message p { color: var(--text-secondary); font-size: var(--text-sm); margin: 0; }
+        .gate-actions { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; margin-top: var(--space-6); }
 
         /* Results */
         .results-hidden { display: none; }
@@ -97,25 +154,30 @@
         .level-4 .level-tag { background: rgba(34,197,94,0.2); color: #22c55e; }
         .level-5 .level-tag { background: rgba(0,136,255,0.2); color: var(--primary-light); }
 
-        .dimension-scores { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-8); }
-        @media (max-width: 640px) { .dimension-scores { grid-template-columns: 1fr; } }
-        .dimension-card {
+        /* 9 Metrics Grid */
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-8); }
+        @media (max-width: 640px) { .metrics-grid { grid-template-columns: 1fr; } }
+        .metric-card {
             padding: var(--space-5); background: var(--bg-secondary); border-radius: var(--radius-md);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border); position: relative; overflow: hidden;
         }
-        .dimension-card h4 { font-size: var(--text-base); margin-bottom: var(--space-2); color: var(--text-primary); }
-        .dimension-bar { height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden; margin-bottom: var(--space-2); }
-        .dimension-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-        .dimension-card .dim-score { font-size: var(--text-sm); color: var(--text-tertiary); }
+        .metric-card .metric-number {
+            position: absolute; top: 8px; right: 12px; font-size: 36px; font-weight: 800;
+            opacity: 0.08; line-height: 1;
+        }
+        .metric-card h4 { font-size: var(--text-sm); margin-bottom: var(--space-3); color: var(--text-primary); line-height: 1.3; }
+        .metric-bar { height: 6px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden; margin-bottom: var(--space-2); }
+        .metric-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+        .metric-score { font-size: var(--text-xs); color: var(--text-tertiary); }
+        .metric-tip { font-size: var(--text-xs); color: var(--text-secondary); margin-top: var(--space-2); line-height: 1.4; }
 
         .recommendation-card {
             padding: var(--space-6); background: var(--bg-secondary); border-radius: var(--radius-lg);
             border: 1px solid var(--primary); margin-bottom: var(--space-6);
         }
         .recommendation-card h3 { color: var(--primary-light); margin-bottom: var(--space-3); }
-        .recommendation-card .rec-price { font-size: var(--text-2xl); font-weight: 700; color: var(--text-primary); }
 
-        /* Lead capture step */
+        /* Lead capture */
         .lead-form { max-width: 480px; margin: 0 auto; }
         .lead-form input {
             width: 100%; padding: var(--space-4); margin-bottom: var(--space-3);
@@ -126,6 +188,9 @@
         .lead-form input::placeholder { color: var(--text-tertiary); }
         .lead-form input:focus { outline: none; border-color: var(--primary); }
     </style>
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 <header class="site-header">
@@ -141,7 +206,7 @@
             <a href="metodologia.html">Método 369</a>
             <a href="blog.html" data-i18n="nav.blog">Insights</a>
             <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
-            <a href="index.html#contacto" class="btn btn-outline" data-i18n="nav.cta">Agendar llamada</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch">EN</button>
         </div>
     </nav>
@@ -149,17 +214,30 @@
 
 <main class="container">
     <!-- HERO -->
-    <section class="section" style="padding-bottom: var(--space-6);">
+    <section class="section" style="padding-bottom: var(--space-4);">
         <header class="section-header">
-            <p class="badge">Herramienta gratuita</p>
-            <h1>AI Readiness Scorecard</h1>
-            <p>Evalúe la madurez de IA de su organización en 5 minutos.<br>Reciba un diagnóstico con recomendaciones personalizadas.</p>
+            <p class="badge">Método 369 · Herramienta gratuita</p>
+            <h1>AI Readiness Scorecard <span style="color: var(--accent);">369</span></h1>
+            <p>Descubra la madurez de IA de su organización en 3 rondas.<br>
+            <strong>3</strong> preguntas rápidas · <strong>6</strong> de profundidad · <strong>9</strong> métricas de resultado.</p>
         </header>
     </section>
 
+    <!-- 369 PHASE INDICATOR -->
+    <div class="scorecard-container" id="phase-indicator-wrapper">
+        <div class="phase-indicator" id="phase-indicator">
+            <div class="phase-dot active" id="phase-dot-3">3<span class="phase-label">Dirección</span></div>
+            <div class="phase-connector" id="conn-1"></div>
+            <div class="phase-dot" id="phase-dot-6">6<span class="phase-label">Fases</span></div>
+            <div class="phase-connector" id="conn-2"></div>
+            <div class="phase-dot" id="phase-dot-9">9<span class="phase-label">Métricas</span></div>
+        </div>
+    </div>
+
     <!-- QUESTIONNAIRE -->
-    <section class="section scorecard-container" id="scorecard-quiz">
-        <div class="scorecard-progress" id="progress-bar"></div>
+    <section class="section scorecard-container" id="scorecard-quiz" style="padding-top: 0;">
+        <div id="round-header"></div>
+        <div class="mini-progress" id="mini-progress"></div>
         <div class="scorecard-counter" id="question-counter"></div>
         <div id="scorecard-steps"></div>
         <div class="scorecard-nav">
@@ -168,11 +246,28 @@
         </div>
     </section>
 
-    <!-- LEAD CAPTURE (before results) -->
+    <!-- GATE: Between round 1 and round 2 -->
+    <section class="section scorecard-container gate-screen" id="gate-screen">
+        <h2 style="margin-bottom: var(--space-2);">📊 Tu pulso rápido</h2>
+        <p class="gate-preview-label">Basado en las 3 Capas de Dirección</p>
+        <div class="gate-preview-score" id="gate-score">0</div>
+        <p class="gate-preview-label">de 100 puntos</p>
+        <div class="gate-preview-bars" id="gate-bars"></div>
+        <div class="gate-message">
+            <h3>¿Quieres el diagnóstico completo?</h3>
+            <p>6 preguntas más, alineadas con las <strong>6 Fases de Transformación</strong> del Método 369. Al terminar verás tus <strong>9 métricas CAIO</strong> con recomendaciones personalizadas.</p>
+        </div>
+        <div class="gate-actions">
+            <button class="btn btn-primary" id="btn-continue-deep">Sí, quiero el diagnóstico completo →</button>
+            <button class="btn btn-outline" id="btn-skip-to-results">Ver resultado básico</button>
+        </div>
+    </section>
+
+    <!-- LEAD CAPTURE -->
     <section class="section scorecard-container results-hidden" id="lead-capture">
         <header class="section-header">
-            <h2>Su resultado está listo</h2>
-            <p>Ingrese sus datos para ver su diagnóstico completo.</p>
+            <h2>🎯 Tu diagnóstico está listo</h2>
+            <p>Ingresa tus datos para ver tus 9 métricas CAIO con recomendaciones.</p>
         </header>
         <div class="lead-form">
             <input type="text" id="lead-name" placeholder="Nombre y apellido" required>
@@ -180,7 +275,7 @@
             <input type="text" id="lead-company" placeholder="Empresa" required>
             <input type="text" id="lead-role" placeholder="Cargo (ej: CTO, VP Data, CAIO)">
             <button class="btn btn-primary" id="btn-show-results" style="width:100%; margin-top: var(--space-4);">
-                Ver mi diagnóstico →
+                Ver mis 9 métricas →
             </button>
         </div>
     </section>
@@ -192,11 +287,15 @@
             <span class="score-label">de 100</span>
         </div>
         <div class="maturity-level" id="maturity-level"></div>
-        <h3 style="margin-bottom: var(--space-4);">Resultados por dimensión</h3>
-        <div class="dimension-scores" id="dimension-scores"></div>
+
+        <h3 style="margin-bottom: var(--space-2);">Las 9 métricas de control CAIO</h3>
+        <p style="color: var(--text-tertiary); font-size: var(--text-sm); margin-bottom: var(--space-6);">Cada métrica refleja una dimensión clave del <a href="metodologia.html" style="color: var(--primary-light);">Método 369</a>.</p>
+        <div class="metrics-grid" id="metrics-grid"></div>
+
         <div id="recommendation"></div>
+
         <div style="text-align:center; margin-top: var(--space-8);">
-            <a href="index.html#contacto" class="btn btn-primary">Agendar conversación gratuita</a>
+            <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar conversación gratuita</a>
             <p style="margin-top: var(--space-3); color: var(--text-tertiary); font-size: var(--text-sm);">
                 Conversemos sobre cómo llevar su organización al siguiente nivel de madurez en IA.
             </p>
@@ -226,252 +325,244 @@
 <script src="chat-widget.js"></script>
 <script>
 (function() {
-    // ===== QUESTIONS DATABASE =====
+    // ===== QUESTIONS DATABASE — Método 369 =====
+    // RONDA 1: 3 preguntas → 3 Capas de Dirección (rápido, ~30 seg)
+    // RONDA 2: 6 preguntas → 6 Fases de Transformación (profundidad, ~2 min)
+    // Cada pregunta mapea a 1 de las 9 métricas CAIO
+
     const questions = [
-        // ESTRATEGIA (4 preguntas)
+        // ── RONDA 1: 3 CAPAS DE DIRECCIÓN ──────────────────
         {
-            category: "Estrategia",
-            dimension: "strategy",
+            round: 1,
+            metric: 1,
+            metricName: "Estrategia y Portafolio",
+            layer: "Dirección Estratégica",
+            icon: "🎯",
+            color: "#0088FF",
             question: "¿Su organización tiene una estrategia formal de IA alineada con los objetivos de negocio?",
             options: [
-                { text: "No hemos considerado IA como parte de la estrategia", score: 1 },
-                { text: "Hay interés pero no está documentado", score: 2 },
-                { text: "Existe un plan inicial pero sin presupuesto asignado", score: 3 },
-                { text: "Tenemos estrategia documentada con presupuesto y sponsors", score: 4 },
-                { text: "Estrategia integrada con KPIs, revisión trimestral y governance", score: 5 }
-            ]
+                { letter: "A", text: "No hemos considerado IA como parte de la estrategia", score: 1 },
+                { letter: "B", text: "Hay interés pero no está documentado", score: 2 },
+                { letter: "C", text: "Existe un plan inicial pero sin presupuesto asignado", score: 3 },
+                { letter: "D", text: "Estrategia documentada con presupuesto y sponsors", score: 4 },
+                { letter: "E", text: "Estrategia integrada con KPIs, revisión trimestral y governance", score: 5 }
+            ],
+            tip: "Sin estrategia clara, los proyectos de IA se convierten en experimentos sin impacto."
         },
         {
-            category: "Estrategia",
-            dimension: "strategy",
-            question: "¿Hay un responsable ejecutivo (CAIO, CDO, VP de IA) liderando las iniciativas de IA?",
-            options: [
-                { text: "Nadie tiene ese rol", score: 1 },
-                { text: "Alguien lo hace informalmente además de su rol principal", score: 2 },
-                { text: "Hay un responsable designado pero sin equipo dedicado", score: 3 },
-                { text: "Responsable con equipo pequeño y presupuesto propio", score: 4 },
-                { text: "C-level dedicado con equipo, presupuesto y reporte al board", score: 5 }
-            ]
-        },
-        {
-            category: "Estrategia",
-            dimension: "strategy",
-            question: "¿Cómo miden el ROI de las iniciativas de IA?",
-            options: [
-                { text: "No lo medimos", score: 1 },
-                { text: "Medimos de forma anecdótica o informal", score: 2 },
-                { text: "Tenemos métricas pero no son consistentes entre proyectos", score: 3 },
-                { text: "Framework de ROI estandarizado para todos los proyectos de IA", score: 4 },
-                { text: "Dashboard en tiempo real con impacto en negocio y tracking continuo", score: 5 }
-            ]
-        },
-        // DATOS (3 preguntas)
-        {
-            category: "Datos",
-            dimension: "data",
-            question: "¿Cuál es el estado de la infraestructura de datos de su organización?",
-            options: [
-                { text: "Datos en silos, sin catálogo ni estándares de calidad", score: 1 },
-                { text: "Algunos datos centralizados pero con problemas de calidad", score: 2 },
-                { text: "Data warehouse/lake funcional con procesos de ETL básicos", score: 3 },
-                { text: "Plataforma moderna con catálogo, linaje y calidad automatizada", score: 4 },
-                { text: "Data mesh o plataforma self-service con governance integrado", score: 5 }
-            ]
-        },
-        {
-            category: "Datos",
-            dimension: "data",
-            question: "¿Qué tan accesibles son los datos para los equipos que los necesitan?",
-            options: [
-                { text: "Requiere solicitudes manuales que toman semanas", score: 1 },
-                { text: "Acceso limitado, depende de IT para cada consulta", score: 2 },
-                { text: "Herramientas de BI disponibles para algunos equipos", score: 3 },
-                { text: "Acceso self-service con controles de seguridad", score: 4 },
-                { text: "Data marketplace con datos curados y APIs documentadas", score: 5 }
-            ]
-        },
-        {
-            category: "Datos",
-            dimension: "data",
-            question: "¿Tienen políticas de privacidad y protección de datos implementadas?",
-            options: [
-                { text: "No tenemos políticas formales", score: 1 },
-                { text: "Políticas básicas pero sin enforcement técnico", score: 2 },
-                { text: "Cumplimos regulaciones mínimas (GDPR, etc.)", score: 3 },
-                { text: "Marco completo con clasificación de datos y auditoría", score: 4 },
-                { text: "Privacy by design con automatización y monitoreo continuo", score: 5 }
-            ]
-        },
-        // TALENTO (3 preguntas)
-        {
-            category: "Talento",
-            dimension: "talent",
-            question: "¿Cómo es la capacidad técnica de su equipo en IA/ML?",
-            options: [
-                { text: "No tenemos personas con conocimiento en IA/ML", score: 1 },
-                { text: "1-2 personas con conocimiento básico o autodidacta", score: 2 },
-                { text: "Equipo pequeño de data science con proyectos piloto", score: 3 },
-                { text: "Equipo establecido con ML engineers y data scientists", score: 4 },
-                { text: "Centro de excelencia de IA con investigación y producción", score: 5 }
-            ]
-        },
-        {
-            category: "Talento",
-            dimension: "talent",
-            question: "¿Existe un programa de formación en IA para el resto de la organización?",
-            options: [
-                { text: "No existe formación en IA", score: 1 },
-                { text: "Algunos cursos voluntarios sin estructura", score: 2 },
-                { text: "Programa de AI literacy para líderes de negocio", score: 3 },
-                { text: "Plan de formación por niveles: awareness, user, builder", score: 4 },
-                { text: "Academia interna con certificaciones y comunidad activa", score: 5 }
-            ]
-        },
-        {
-            category: "Talento",
-            dimension: "talent",
-            question: "¿Cómo gestionan el conocimiento y las mejores prácticas de IA?",
-            options: [
-                { text: "No hay documentación ni procesos compartidos", score: 1 },
-                { text: "Conocimiento en la cabeza de pocas personas", score: 2 },
-                { text: "Documentación básica en wikis o drives compartidos", score: 3 },
-                { text: "Playbooks estandarizados y templates reutilizables", score: 4 },
-                { text: "Inner-source con repositorios compartidos y peer review", score: 5 }
-            ]
-        },
-        // TECNOLOGÍA (3 preguntas)
-        {
-            category: "Tecnología",
-            dimension: "technology",
-            question: "¿Cuál es el estado de su infraestructura cloud y MLOps?",
-            options: [
-                { text: "Solo on-premise, sin cloud", score: 1 },
-                { text: "Cloud básico (email, storage) sin uso para ML", score: 2 },
-                { text: "Cloud con algunos modelos desplegados manualmente", score: 3 },
-                { text: "Pipeline de MLOps con CI/CD, monitoring y versionado", score: 4 },
-                { text: "Plataforma de ML completa con feature store, A/B testing y auto-scaling", score: 5 }
-            ]
-        },
-        {
-            category: "Tecnología",
-            dimension: "technology",
-            question: "¿Cómo integran los modelos de IA con los sistemas de negocio existentes?",
-            options: [
-                { text: "No tenemos modelos en producción", score: 1 },
-                { text: "Modelos aislados sin integración real", score: 2 },
-                { text: "Integración manual en 1-2 procesos de negocio", score: 3 },
-                { text: "APIs y microservicios para integración automatizada", score: 4 },
-                { text: "Plataforma de decisiones con IA embebida en flujos core", score: 5 }
-            ]
-        },
-        {
-            category: "Tecnología",
-            dimension: "technology",
-            question: "¿Utilizan IA Generativa (LLMs, copilots) en la organización?",
-            options: [
-                { text: "No hemos explorado IA generativa", score: 1 },
-                { text: "Uso individual no regulado (ChatGPT personal)", score: 2 },
-                { text: "Piloto controlado en 1-2 áreas con guidelines básicos", score: 3 },
-                { text: "Despliegue corporativo con governance y uso aprobado", score: 4 },
-                { text: "Agentes de IA integrados en procesos core con RAG y fine-tuning", score: 5 }
-            ]
-        },
-        // GOBERNANZA (3 preguntas)
-        {
-            category: "Gobernanza",
-            dimension: "governance",
+            round: 1,
+            metric: 4,
+            metricName: "Riesgo y Seguridad",
+            layer: "Dirección de Riesgo",
+            icon: "🛡️",
+            color: "#E11D48",
             question: "¿Tienen un marco de gobernanza y ética para el uso de IA?",
             options: [
-                { text: "No hemos considerado gobernanza de IA", score: 1 },
-                { text: "Discusiones informales sin políticas escritas", score: 2 },
-                { text: "Principios éticos documentados pero sin enforcement", score: 3 },
-                { text: "Framework de gobernanza con comité, políticas y auditoría", score: 4 },
-                { text: "Responsible AI integrado en el ciclo de vida con monitoreo continuo", score: 5 }
-            ]
+                { letter: "A", text: "No hemos considerado gobernanza de IA", score: 1 },
+                { letter: "B", text: "Discusiones informales sin políticas escritas", score: 2 },
+                { letter: "C", text: "Principios éticos documentados pero sin enforcement", score: 3 },
+                { letter: "D", text: "Framework de gobernanza con comité, políticas y auditoría", score: 4 },
+                { letter: "E", text: "Responsible AI integrado en el ciclo de vida con monitoreo continuo", score: 5 }
+            ],
+            tip: "La gobernanza no frena la innovación: la protege y la escala."
         },
         {
-            category: "Gobernanza",
-            dimension: "governance",
-            question: "¿Cómo gestionan los riesgos asociados a los modelos de IA?",
+            round: 1,
+            metric: 3,
+            metricName: "Arquitectura e Integración",
+            layer: "Dirección de Implementación",
+            icon: "⚙️",
+            color: "#8B5CF6",
+            question: "¿Cuál es el estado de su infraestructura cloud y MLOps?",
             options: [
-                { text: "No evaluamos riesgos de IA", score: 1 },
-                { text: "Evaluación ad-hoc cuando surge un problema", score: 2 },
-                { text: "Checklist básico antes de desplegar modelos", score: 3 },
-                { text: "Marco de riesgos con clasificación, mitigación y seguimiento", score: 4 },
-                { text: "Model risk management completo con monitoreo de drift y bias", score: 5 }
-            ]
+                { letter: "A", text: "Solo on-premise, sin cloud", score: 1 },
+                { letter: "B", text: "Cloud básico (email, storage) sin uso para ML", score: 2 },
+                { letter: "C", text: "Cloud con algunos modelos desplegados manualmente", score: 3 },
+                { letter: "D", text: "Pipeline de MLOps con CI/CD, monitoring y versionado", score: 4 },
+                { letter: "E", text: "Plataforma de ML completa con feature store, A/B testing y auto-scaling", score: 5 }
+            ],
+            tip: "La infraestructura define qué tan rápido puedes pasar de idea a producción."
+        },
+
+        // ── RONDA 2: 6 FASES DE TRANSFORMACIÓN ─────────────
+        {
+            round: 2,
+            metric: 2,
+            metricName: "Datos y Calidad",
+            phase: "Fase 1 · Descubrir",
+            icon: "🔍",
+            color: "#00D9CC",
+            question: "¿Cuál es el estado de la infraestructura de datos de su organización?",
+            options: [
+                { letter: "A", text: "Datos en silos, sin catálogo ni estándares de calidad", score: 1 },
+                { letter: "B", text: "Algunos datos centralizados pero con problemas de calidad", score: 2 },
+                { letter: "C", text: "Data warehouse funcional con procesos de ETL básicos", score: 3 },
+                { letter: "D", text: "Plataforma moderna con catálogo, linaje y calidad automatizada", score: 4 },
+                { letter: "E", text: "Data mesh o plataforma self-service con governance integrado", score: 5 }
+            ],
+            tip: "Sin datos confiables, cualquier modelo de IA es una apuesta."
         },
         {
-            category: "Gobernanza",
-            dimension: "governance",
-            question: "¿Existe un inventario de todos los modelos y sistemas de IA en uso?",
+            round: 2,
+            metric: 5,
+            metricName: "Legal, Privacidad y Compliance",
+            phase: "Fase 2 · Diagnosticar",
+            icon: "📋",
+            color: "#F97316",
+            question: "¿Tienen políticas de privacidad y protección de datos implementadas?",
             options: [
-                { text: "No tenemos visibilidad de qué IA se usa", score: 1 },
-                { text: "Algunos equipos saben qué usan, pero no hay registro central", score: 2 },
-                { text: "Lista o spreadsheet con los modelos principales", score: 3 },
-                { text: "Model registry con metadata, ownership y estado", score: 4 },
-                { text: "Model catalog completo con linaje, performance y compliance tracking", score: 5 }
-            ]
+                { letter: "A", text: "No tenemos políticas formales", score: 1 },
+                { letter: "B", text: "Políticas básicas pero sin enforcement técnico", score: 2 },
+                { letter: "C", text: "Cumplimos regulaciones mínimas (GDPR, ley chilena)", score: 3 },
+                { letter: "D", text: "Marco completo con clasificación de datos y auditoría", score: 4 },
+                { letter: "E", text: "Privacy by design con automatización y monitoreo continuo", score: 5 }
+            ],
+            tip: "La Ley 21.719 en Chile entra en vigor dic 2026. Prepararse ahora es ventaja."
+        },
+        {
+            round: 2,
+            metric: 8,
+            metricName: "Personas y Adopción",
+            phase: "Fase 3 · Diseñar",
+            icon: "👥",
+            color: "#22C55E",
+            question: "¿Cómo es la capacidad técnica de su equipo en IA/ML?",
+            options: [
+                { letter: "A", text: "No tenemos personas con conocimiento en IA/ML", score: 1 },
+                { letter: "B", text: "1-2 personas con conocimiento básico o autodidacta", score: 2 },
+                { letter: "C", text: "Equipo pequeño de data science con proyectos piloto", score: 3 },
+                { letter: "D", text: "Equipo establecido con ML engineers y data scientists", score: 4 },
+                { letter: "E", text: "Centro de excelencia de IA con investigación y producción", score: 5 }
+            ],
+            tip: "El talento es el multiplicador: sin personas preparadas, la tecnología no escala."
+        },
+        {
+            round: 2,
+            metric: 7,
+            metricName: "Operación y Observabilidad",
+            phase: "Fase 4 · Desplegar",
+            icon: "📡",
+            color: "#0088FF",
+            question: "¿Cómo integran los modelos de IA con los sistemas de negocio existentes?",
+            options: [
+                { letter: "A", text: "No tenemos modelos en producción", score: 1 },
+                { letter: "B", text: "Modelos aislados sin integración real", score: 2 },
+                { letter: "C", text: "Integración manual en 1-2 procesos de negocio", score: 3 },
+                { letter: "D", text: "APIs y microservicios para integración automatizada", score: 4 },
+                { letter: "E", text: "Plataforma de decisiones con IA embebida en flujos core", score: 5 }
+            ],
+            tip: "Un modelo en un notebook no es IA en producción. La integración es clave."
+        },
+        {
+            round: 2,
+            metric: 6,
+            metricName: "Ética y Derechos Fundamentales",
+            phase: "Fase 5 · Dominar",
+            icon: "⚖️",
+            color: "#A855F7",
+            question: "¿Cómo gestionan los riesgos de sesgo, equidad y transparencia en IA?",
+            options: [
+                { letter: "A", text: "No evaluamos esos riesgos", score: 1 },
+                { letter: "B", text: "Evaluación ad-hoc cuando surge un problema", score: 2 },
+                { letter: "C", text: "Checklist básico antes de desplegar modelos", score: 3 },
+                { letter: "D", text: "Marco de fairness con clasificación, mitigación y seguimiento", score: 4 },
+                { letter: "E", text: "Model risk management completo con monitoreo de drift y bias", score: 5 }
+            ],
+            tip: "La IA sin ética genera riesgo reputacional y legal. La confianza se construye."
+        },
+        {
+            round: 2,
+            metric: 9,
+            metricName: "Valor y ROI",
+            phase: "Fase 6 · Escalar",
+            icon: "💰",
+            color: "#EAB308",
+            question: "¿Cómo miden el retorno de las iniciativas de IA?",
+            options: [
+                { letter: "A", text: "No lo medimos", score: 1 },
+                { letter: "B", text: "Medimos de forma anecdótica o informal", score: 2 },
+                { letter: "C", text: "Tenemos métricas pero no son consistentes entre proyectos", score: 3 },
+                { letter: "D", text: "Framework de ROI estandarizado para todos los proyectos de IA", score: 4 },
+                { letter: "E", text: "Dashboard en tiempo real con impacto en negocio y tracking continuo", score: 5 }
+            ],
+            tip: "Si no puedes medir el valor, no puedes justificar la inversión."
         }
     ];
 
-    const dimensions = {
-        strategy: { name: "Estrategia", color: "#0088FF", count: 0, total: 0 },
-        data: { name: "Datos", color: "#00D9CC", count: 0, total: 0 },
-        talent: { name: "Talento", color: "#F97316", count: 0, total: 0 },
-        technology: { name: "Tecnología", color: "#8B5CF6", count: 0, total: 0 },
-        governance: { name: "Gobernanza", color: "#22C55E", count: 0, total: 0 }
-    };
+    // 9 metric definitions (for results even if only 3 answered)
+    const allMetrics = [
+        { id: 1, name: "Estrategia y Portafolio", icon: "🎯", color: "#0088FF",
+          ask: "¿Qué problemas de negocio vale la pena resolver con IA?" },
+        { id: 2, name: "Datos y Calidad", icon: "🔍", color: "#00D9CC",
+          ask: "¿Tenemos datos suficientes, trazables y confiables?" },
+        { id: 3, name: "Arquitectura e Integración", icon: "⚙️", color: "#8B5CF6",
+          ask: "¿Cómo se integra la IA con procesos y sistemas existentes?" },
+        { id: 4, name: "Riesgo y Seguridad", icon: "🛡️", color: "#E11D48",
+          ask: "¿Qué daños puede generar el sistema y cómo los prevenimos?" },
+        { id: 5, name: "Legal, Privacidad y Compliance", icon: "📋", color: "#F97316",
+          ask: "¿Qué base legal sustenta el tratamiento de datos?" },
+        { id: 6, name: "Ética y Derechos Fundamentales", icon: "⚖️", color: "#A855F7",
+          ask: "¿Existe sesgo, discriminación o impacto desproporcionado?" },
+        { id: 7, name: "Operación y Observabilidad", icon: "📡", color: "#0088FF",
+          ask: "¿Cómo monitoreamos drift, alucinaciones y desempeño?" },
+        { id: 8, name: "Personas y Adopción", icon: "👥", color: "#22C55E",
+          ask: "¿Qué capacidades necesita el negocio para operar IA?" },
+        { id: 9, name: "Valor y ROI", icon: "💰", color: "#EAB308",
+          ask: "¿Cómo medimos impacto, ahorro y riesgo evitado?" }
+    ];
 
     const maturityLevels = [
-        { min: 0,  max: 20,  level: 1, name: "Inicial",        desc: "Su organización está en la etapa inicial de exploración de IA. Hay oportunidad significativa de construir bases sólidas." },
-        { min: 21, max: 40,  level: 2, name: "Exploratorio",   desc: "Hay iniciativas aisladas pero falta estructura. Con un roadmap claro, puede acelerar significativamente." },
+        { min: 0,  max: 20,  level: 1, name: "Inicial",         desc: "Su organización está en la etapa inicial de exploración de IA. Hay oportunidad significativa de construir bases sólidas." },
+        { min: 21, max: 40,  level: 2, name: "Exploratorio",    desc: "Hay iniciativas aisladas pero falta estructura. Con un roadmap claro, puede acelerar significativamente." },
         { min: 41, max: 60,  level: 3, name: "Experimentación", desc: "Tiene pilotos y capacidad básica. El reto ahora es escalar, gobernar y conectar IA con el valor de negocio." },
-        { min: 61, max: 80,  level: 4, name: "Escalamiento",   desc: "Operación madura con múltiples proyectos en producción. El foco debe estar en optimización y governance avanzado." },
-        { min: 81, max: 100, level: 5, name: "Líder en IA",    desc: "Su organización es referente en IA. El siguiente paso es innovación continua, investigación aplicada y influencia en el ecosistema." }
+        { min: 61, max: 80,  level: 4, name: "Escalamiento",    desc: "Operación madura con múltiples proyectos en producción. El foco debe estar en optimización y governance avanzado." },
+        { min: 81, max: 100, level: 5, name: "Líder en IA",     desc: "Su organización es referente en IA. El siguiente paso es innovación continua, investigación aplicada y liderazgo en el ecosistema." }
     ];
 
     const serviceRecommendations = [
-        { maxScore: 30, service: "AI Governance Starter Kit",
-          desc: "Ideal para comenzar: incluye diagnóstico de madurez, plantillas de gobernanza y roadmap de 90 días.",
-          link: "product.html" },
+        { maxScore: 30, service: "Starter 369",
+          desc: "Ideal para comenzar: diagnóstico ejecutivo de madurez, workshops, mapa de casos de uso y quick wins identificados en 4-6 semanas.",
+          link: "metodologia.html" },
         { maxScore: 55, service: "Diagnóstico Express",
           desc: "Perfecto para su nivel: evaluación ejecutiva en 5 días con roadmap priorizado y sesiones con stakeholders.",
           link: "service-diagnostico.html" },
-        { maxScore: 80, service: "Diagnóstico Ejecutivo",
-          desc: "Para consolidar su madurez: deep-dive de 3-4 semanas con benchmark sectorial y plan de transformación.",
-          link: "service-diagnostico.html" },
-        { maxScore: 100, service: "CAIO-as-a-Service",
-          desc: "Para mantener el liderazgo: acompañamiento estratégico continuo con governance avanzado y optimización.",
-          link: "service-gobierno.html" }
+        { maxScore: 80, service: "Governed Pilot 369",
+          desc: "Para consolidar su madurez: piloto gobernado con métricas, controles de riesgo y dashboard en tiempo real.",
+          link: "metodologia.html" },
+        { maxScore: 100, service: "Enterprise 369",
+          desc: "Para mantener el liderazgo: modelo operativo completo, governance framework, policy pack y roadmap de escalamiento.",
+          link: "metodologia.html" }
     ];
 
     // ===== STATE =====
     let currentStep = 0;
-    const answers = new Array(questions.length).fill(null);
+    let completedDeep = false;  // true if user did round 2
+    const round1Count = questions.filter(q => q.round === 1).length; // 3
+    const totalCount = questions.length; // 9
+    const answers = new Array(totalCount).fill(null);
 
-    // ===== RENDER =====
+    // ===== DOM REFS =====
     const stepsContainer = document.getElementById('scorecard-steps');
-    const progressBar = document.getElementById('progress-bar');
+    const miniProgress = document.getElementById('mini-progress');
     const counter = document.getElementById('question-counter');
+    const roundHeader = document.getElementById('round-header');
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
 
+    // ===== INIT =====
     function init() {
-        // Build progress bar
-        progressBar.innerHTML = questions.map((_, i) =>
-            `<div class="step" data-step="${i}"></div>`
-        ).join('');
-
         // Build question steps
         stepsContainer.innerHTML = questions.map((q, i) =>
             `<div class="scorecard-step" data-step="${i}">
-                <div class="scorecard-category">${q.category}</div>
+                <div class="q-dimension-tag">
+                    <span class="q-icon">${q.icon}</span>
+                    ${q.round === 1 ? q.layer : q.phase} · Métrica ${q.metric}
+                </div>
                 <div class="scorecard-question">${q.question}</div>
                 <div class="scorecard-options">
                     ${q.options.map((opt, oi) =>
                         `<div class="scorecard-option" data-question="${i}" data-option="${oi}" data-score="${opt.score}">
-                            <span class="option-score">${opt.score}</span>
+                            <span class="option-letter">${opt.letter}</span>
                             <span>${opt.text}</span>
                         </div>`
                     ).join('')}
@@ -479,7 +570,7 @@
             </div>`
         ).join('');
 
-        // Event delegation for option clicks
+        // Option click handler
         stepsContainer.addEventListener('click', function(e) {
             const option = e.target.closest('.scorecard-option');
             if (!option) return;
@@ -487,56 +578,171 @@
             const oi = parseInt(option.dataset.option);
             answers[qi] = { optionIndex: oi, score: questions[qi].options[oi].score };
 
-            // Update UI
-            stepsContainer.querySelectorAll(`.scorecard-option[data-question="${qi}"]`).forEach(el => el.classList.remove('selected'));
+            stepsContainer.querySelectorAll(`.scorecard-option[data-question="${qi}"]`)
+                .forEach(el => el.classList.remove('selected'));
             option.classList.add('selected');
             btnNext.disabled = false;
 
-            // Auto-advance after a short delay
-            setTimeout(() => { if (currentStep < questions.length - 1) goToStep(currentStep + 1); }, 400);
+            // Auto-advance after brief pause
+            setTimeout(() => {
+                if (currentStep < round1Count - 1 && !completedDeep) {
+                    goToStep(currentStep + 1);
+                } else if (completedDeep && currentStep < totalCount - 1) {
+                    goToStep(currentStep + 1);
+                }
+            }, 400);
         });
 
         goToStep(0);
     }
 
+    function getCurrentRoundQuestions() {
+        if (!completedDeep) return questions.slice(0, round1Count);
+        return questions;
+    }
+
     function goToStep(step) {
         currentStep = step;
-        // Update steps visibility
+        const inRound2 = step >= round1Count;
+        const roundQuestions = inRound2 ? questions.slice(round1Count) : questions.slice(0, round1Count);
+        const localIndex = inRound2 ? step - round1Count : step;
+        const roundTotal = roundQuestions.length;
+
+        // Update phase indicator
+        updatePhaseIndicator(inRound2 ? 2 : 1);
+
+        // Round header
+        if (inRound2) {
+            roundHeader.innerHTML = `<div class="round-header">
+                <span class="round-tag round-tag-2">Ronda 2 de 2</span>
+                <h3>6 Fases de Transformación</h3>
+                <p>Profundicemos en cada fase del Método 369</p>
+            </div>`;
+        } else {
+            roundHeader.innerHTML = `<div class="round-header">
+                <span class="round-tag round-tag-1">Ronda 1 de 2</span>
+                <h3>3 Capas de Dirección</h3>
+                <p>Una pregunta por cada capa — toma 30 segundos</p>
+            </div>`;
+        }
+
+        // Mini progress
+        miniProgress.innerHTML = roundQuestions.map((_, i) => {
+            const globalI = inRound2 ? i + round1Count : i;
+            const cls = answers[globalI] !== null ? 'done' : (i === localIndex ? 'active' : '');
+            return `<div class="pip ${cls}"></div>`;
+        }).join('');
+
+        // Counter
+        counter.textContent = `Pregunta ${localIndex + 1} de ${roundTotal}`;
+
+        // Show/hide steps
         stepsContainer.querySelectorAll('.scorecard-step').forEach((el, i) => {
             el.classList.toggle('active', i === step);
         });
-        // Update progress bar
-        progressBar.querySelectorAll('.step').forEach((el, i) => {
-            el.classList.toggle('done', answers[i] !== null);
-            el.classList.toggle('active', i === step);
-        });
-        // Update counter
-        counter.textContent = `Pregunta ${step + 1} de ${questions.length}`;
-        // Update nav buttons
-        btnPrev.style.visibility = step === 0 ? 'hidden' : 'visible';
-        if (step === questions.length - 1) {
-            btnNext.textContent = 'Ver resultados →';
-        } else {
-            btnNext.textContent = 'Siguiente →';
-        }
+
+        // Nav buttons
+        btnPrev.style.visibility = step === 0 || (step === round1Count) ? 'hidden' : 'visible';
+        const isLastInRound = inRound2
+            ? step === totalCount - 1
+            : step === round1Count - 1;
+        btnNext.textContent = isLastInRound
+            ? (inRound2 ? 'Ver mis 9 métricas →' : 'Ver mi pulso rápido →')
+            : 'Siguiente →';
         btnNext.disabled = answers[step] === null;
     }
 
+    function updatePhaseIndicator(round) {
+        const dot3 = document.getElementById('phase-dot-3');
+        const dot6 = document.getElementById('phase-dot-6');
+        const dot9 = document.getElementById('phase-dot-9');
+        const conn1 = document.getElementById('conn-1');
+
+        dot3.className = 'phase-dot ' + (round === 1 ? 'active' : 'done');
+        dot6.className = 'phase-dot ' + (round === 2 ? 'active' : '');
+        conn1.className = 'phase-connector ' + (round >= 2 ? 'done' : '');
+    }
+
+    // ===== NAVIGATION =====
     btnNext.addEventListener('click', function() {
         if (answers[currentStep] === null) return;
-        if (currentStep < questions.length - 1) {
-            goToStep(currentStep + 1);
-        } else {
+
+        if (!completedDeep && currentStep === round1Count - 1) {
+            // End of round 1 → show gate
+            showGate();
+        } else if (completedDeep && currentStep === totalCount - 1) {
+            // End of round 2 → lead capture
             showLeadCapture();
+        } else {
+            goToStep(currentStep + 1);
         }
     });
 
     btnPrev.addEventListener('click', function() {
-        if (currentStep > 0) goToStep(currentStep - 1);
+        if (currentStep > 0 && !(currentStep === round1Count && completedDeep)) {
+            goToStep(currentStep - 1);
+        }
     });
 
+    // ===== GATE SCREEN =====
+    function showGate() {
+        document.getElementById('scorecard-quiz').style.display = 'none';
+        const gate = document.getElementById('gate-screen');
+        gate.classList.add('active');
+
+        // Calculate round 1 preview
+        const r1Score = answers.slice(0, round1Count).reduce((s, a) => s + (a ? a.score : 0), 0);
+        const r1Pct = Math.round((r1Score / (round1Count * 5)) * 100);
+        document.getElementById('gate-score').textContent = r1Pct;
+
+        // Preview bars for 3 layers
+        const layerData = [
+            { name: "Estrategia", score: answers[0]?.score || 0, color: "#0088FF" },
+            { name: "Riesgo", score: answers[1]?.score || 0, color: "#E11D48" },
+            { name: "Implementación", score: answers[2]?.score || 0, color: "#8B5CF6" }
+        ];
+        document.getElementById('gate-bars').innerHTML = layerData.map(l => `
+            <div class="gate-bar-item">
+                <span class="gate-bar-label">${l.name}</span>
+                <div class="gate-bar-track">
+                    <div class="gate-bar-fill" style="width: ${(l.score / 5) * 100}%; background: ${l.color};"></div>
+                </div>
+            </div>
+        `).join('');
+
+        // Animate bars
+        setTimeout(() => {
+            gate.querySelectorAll('.gate-bar-fill').forEach(bar => {
+                bar.style.width = bar.style.width; // trigger reflow
+            });
+        }, 100);
+
+        // Update phase indicator
+        document.getElementById('phase-dot-3').className = 'phase-dot done';
+        document.getElementById('phase-dot-6').className = 'phase-dot active';
+        document.getElementById('conn-1').className = 'phase-connector done';
+    }
+
+    // Continue to deep dive
+    document.getElementById('btn-continue-deep').addEventListener('click', function() {
+        completedDeep = true;
+        document.getElementById('gate-screen').classList.remove('active');
+        document.getElementById('gate-screen').style.display = 'none';
+        document.getElementById('scorecard-quiz').style.display = 'block';
+        goToStep(round1Count); // Start round 2
+    });
+
+    // Skip to results with only 3 answers
+    document.getElementById('btn-skip-to-results').addEventListener('click', function() {
+        document.getElementById('gate-screen').classList.remove('active');
+        document.getElementById('gate-screen').style.display = 'none';
+        showLeadCapture();
+    });
+
+    // ===== LEAD CAPTURE =====
     function showLeadCapture() {
         document.getElementById('scorecard-quiz').style.display = 'none';
+        document.getElementById('phase-indicator-wrapper').style.display = 'none';
         document.getElementById('lead-capture').classList.remove('results-hidden');
         document.getElementById('lead-capture').classList.add('results-visible');
     }
@@ -552,59 +758,52 @@
             return;
         }
 
-        // Calculate and show results
         const results = calculateResults();
-
-        // Send to backend
         sendScorecardData(name, email, company, role, results);
-
-        // Show results
         renderResults(results);
+
         document.getElementById('lead-capture').style.display = 'none';
         document.getElementById('scorecard-results').classList.remove('results-hidden');
         document.getElementById('scorecard-results').classList.add('results-visible');
 
-        // Animate score circle
+        // Animate score
         setTimeout(() => {
             document.getElementById('score-circle').style.setProperty('--score-pct', results.totalPct);
         }, 100);
     });
 
+    // ===== CALCULATE =====
     function calculateResults() {
-        // Reset dimensions
-        Object.values(dimensions).forEach(d => { d.count = 0; d.total = 0; });
+        // Build metric scores: for answered questions, use score. For unanswered, estimate from average.
+        const answeredQuestions = answers.filter(a => a !== null);
+        const answeredCount = answeredQuestions.length;
+        const avgScore = answeredCount > 0
+            ? answeredQuestions.reduce((s, a) => s + a.score, 0) / answeredCount
+            : 2.5;
 
-        answers.forEach((a, i) => {
-            if (a) {
-                const dim = questions[i].dimension;
-                dimensions[dim].count++;
-                dimensions[dim].total += a.score;
-            }
-        });
-
-        const maxPossible = questions.length * 5;
-        const totalScore = answers.reduce((sum, a) => sum + (a ? a.score : 0), 0);
-        const totalPct = Math.round((totalScore / maxPossible) * 100);
-
-        const dimResults = {};
-        Object.entries(dimensions).forEach(([key, dim]) => {
-            const maxDim = dim.count * 5;
-            dimResults[key] = {
-                name: dim.name,
-                color: dim.color,
-                score: dim.total,
-                max: maxDim,
-                pct: maxDim > 0 ? Math.round((dim.total / maxDim) * 100) : 0
+        const metricScores = {};
+        allMetrics.forEach(m => {
+            const qIdx = questions.findIndex(q => q.metric === m.id);
+            const answer = answers[qIdx];
+            metricScores[m.id] = {
+                ...m,
+                score: answer ? answer.score : Math.round(avgScore),
+                answered: !!answer,
+                pct: ((answer ? answer.score : Math.round(avgScore)) / 5) * 100,
+                tip: questions[qIdx]?.tip || ''
             };
         });
 
+        const totalScore = Object.values(metricScores).reduce((s, m) => s + m.score, 0);
+        const maxPossible = 9 * 5;
+        const totalPct = Math.round((totalScore / maxPossible) * 100);
         const level = maturityLevels.find(l => totalPct >= l.min && totalPct <= l.max) || maturityLevels[0];
 
-        return { totalScore, totalPct, dimResults, level };
+        return { totalScore, totalPct, metricScores, level, answeredCount, completedDeep };
     }
 
+    // ===== RENDER RESULTS =====
     function renderResults(results) {
-        // Score value
         document.getElementById('score-value').textContent = results.totalPct;
 
         // Maturity level
@@ -616,40 +815,58 @@
             <p style="color: var(--text-secondary);">${results.level.desc}</p>
         `;
 
-        // Dimension scores
-        const dimContainer = document.getElementById('dimension-scores');
-        dimContainer.innerHTML = Object.entries(results.dimResults).map(([key, dim]) => `
-            <div class="dimension-card">
-                <h4>${dim.name}</h4>
-                <div class="dimension-bar">
-                    <div class="dimension-bar-fill" style="width: ${dim.pct}%; background: ${dim.color};"></div>
+        // 9 Metrics grid
+        const grid = document.getElementById('metrics-grid');
+        grid.innerHTML = Object.values(results.metricScores)
+            .sort((a, b) => a.id - b.id)
+            .map(m => `
+                <div class="metric-card">
+                    <span class="metric-number">${m.id}</span>
+                    <h4>${m.icon} ${m.name}</h4>
+                    <div class="metric-bar">
+                        <div class="metric-bar-fill" style="width: 0%; background: ${m.color};" data-target="${m.pct}"></div>
+                    </div>
+                    <span class="metric-score">${m.score}/5 ${!m.answered ? '(estimado)' : ''}</span>
+                    ${m.tip ? `<p class="metric-tip">${m.tip}</p>` : ''}
                 </div>
-                <span class="dim-score">${dim.pct}%</span>
-            </div>
-        `).join('');
+            `).join('');
+
+        // Animate bars
+        setTimeout(() => {
+            grid.querySelectorAll('.metric-bar-fill').forEach(bar => {
+                bar.style.width = bar.dataset.target + '%';
+            });
+        }, 200);
 
         // Recommendation
         const rec = serviceRecommendations.find(r => results.totalPct <= r.maxScore) || serviceRecommendations[serviceRecommendations.length - 1];
         document.getElementById('recommendation').innerHTML = `
             <div class="recommendation-card">
-                <h3>Recomendación para su organización</h3>
+                <h3>Recomendación: ${rec.service}</h3>
                 <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">${rec.desc}</p>
+                ${!results.completedDeep ? '<p style="color: var(--text-tertiary); font-size: var(--text-xs); margin-bottom: var(--space-4);">💡 Las métricas no evaluadas fueron estimadas. Para un diagnóstico preciso, <a href="scorecard.html" style="color: var(--primary-light);">repite el scorecard completo</a>.</p>' : ''}
                 <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
                     <a href="index.html#contacto" class="btn btn-primary">Solicitar información →</a>
-                    <a href="${rec.link}" class="btn btn-outline">Ver detalle →</a>
+                    <a href="${rec.link}" class="btn btn-outline">Ver Método 369 →</a>
                 </div>
             </div>
         `;
+
+        // Update phase indicator to show 9 done
+        document.getElementById('phase-indicator-wrapper').style.display = 'block';
+        document.getElementById('phase-dot-3').className = 'phase-dot done';
+        document.getElementById('phase-dot-6').className = 'phase-dot done';
+        document.getElementById('phase-dot-9').className = 'phase-dot active';
+        document.getElementById('conn-1').className = 'phase-connector done';
+        document.getElementById('conn-2').className = 'phase-connector done';
     }
 
+    // ===== SEND DATA =====
     async function sendScorecardData(name, email, company, role, results) {
         const PROD_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
         const DEV_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
         const isProd = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
         const BASE = isProd ? PROD_URL : DEV_URL;
-
-        const dimSummary = Object.entries(results.dimResults)
-            .map(([k, d]) => `${d.name}: ${d.pct}%`).join(', ');
 
         try {
             await fetch(`${BASE}/api/scorecard`, {
@@ -660,11 +877,16 @@
                     total_score: results.totalPct,
                     maturity_level: results.level.name,
                     maturity_number: results.level.level,
-                    dimensions: results.dimResults,
+                    completed_deep: results.completedDeep,
+                    answered_count: results.answeredCount,
+                    metrics: results.metricScores,
                     answers: answers.map((a, i) => ({
                         question: questions[i].question,
-                        dimension: questions[i].dimension,
-                        score: a ? a.score : 0
+                        metric: questions[i].metricName,
+                        metric_number: questions[i].metric,
+                        round: questions[i].round,
+                        score: a ? a.score : 0,
+                        answered: !!a
                     })),
                     source_page: window.location.href
                 })

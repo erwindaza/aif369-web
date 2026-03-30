@@ -12,3 +12,13 @@ output "bigquery_dataset" {
   description = "BigQuery dataset ID"
   value       = google_bigquery_dataset.analytics.dataset_id
 }
+
+output "billing_budget_name" {
+  description = "Billing budget resource name"
+  value       = google_billing_budget.monthly.display_name
+}
+
+output "billing_alert_email" {
+  description = "Email receiving billing alerts"
+  value       = var.alert_email
+}

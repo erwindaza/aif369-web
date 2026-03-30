@@ -1,0 +1,101 @@
+{
+  "project": {
+    "brand": "AIF369.com",
+    "tagline": "Aprende IA y encuentra empleo real",
+    "secondary_tagline": "Cursos prácticos de Inteligencia Artificial, Big Data y Automatización de Datos",
+    "employment_message": "Encuentra Empleo en BeJoby.com por AIF369.com"
+  },
+  "catalog": {
+    "site_domain": "https://aif369.com",
+    "employment_partner_domain": "https://bejoby.com",
+    "primary_goal": "Construir el catálogo comercial y educativo de productos de AIF369.com con foco en cursos, coaching y empleabilidad",
+    "target_audience": [
+      "personas que quieren aprender IA",
+      "profesionales de datos",
+      "ingenieros de datos",
+      "analistas",
+      "personas que buscan empleo en tecnología",
+      "personas que quieren reconvertirse hacia IA y Big Data"
+    ]
+  },
+  "navigation": [
+    { "id": "home", "label": "Inicio", "path": "/" },
+    { "id": "courses_ai", "label": "Cursos de IA", "path": "/cursos-ia.html" },
+    { "id": "courses_bigdata_ai", "label": "Big Data + IA", "path": "/big-data-ia.html" },
+    { "id": "courses_airflow", "label": "Automatización con Airflow", "path": "/automatizacion-airflow.html" },
+    { "id": "advanced_airflow_ai", "label": "Airflow + IA Avanzada", "path": "/airflow-ia-avanzada.html" },
+    { "id": "real_examples", "label": "Ejemplos Reales", "path": "/ejemplos-reales.html" },
+    { "id": "real_stories", "label": "Historias Reales", "path": "/historias-reales.html" },
+    { "id": "expert_coaching", "label": "Coaching Experto en Data", "path": "/coaching-data.html" },
+    { "id": "find_job", "label": "Encuentra Empleo", "path": "/encuentra-empleo.html", "external_cta": { "label": "Ir a BeJoby.com", "url": "https://bejoby.com" } }
+  ],
+  "products": [
+    {
+      "id": "curso_ia_fundamentos",
+      "type": "course",
+      "title": "Curso de Inteligencia Artificial",
+      "short_title": "Aprende IA",
+      "category": "IA",
+      "level": "fundamentos",
+      "file": "cursos-ia.html"
+    },
+    {
+      "id": "curso_bigdata_ia",
+      "type": "course",
+      "title": "Big Data + Inteligencia Artificial",
+      "short_title": "Big Data + IA",
+      "category": "Big Data",
+      "level": "intermedio",
+      "file": "big-data-ia.html"
+    },
+    {
+      "id": "curso_airflow_datos",
+      "type": "course",
+      "title": "IA y Automatización de Datos con Airflow",
+      "short_title": "IA + Airflow",
+      "category": "Automatización",
+      "level": "intermedio",
+      "file": "automatizacion-airflow.html"
+    },
+    {
+      "id": "curso_airflow_ia_avanzada",
+      "type": "course",
+      "title": "Flujos Airflow enriqueciendo datos con IA",
+      "short_title": "Airflow + IA Avanzada",
+      "category": "Avanzado",
+      "level": "avanzado",
+      "file": "airflow-ia-avanzada.html"
+    },
+    {
+      "id": "coaching_experto_data",
+      "type": "service",
+      "title": "Coaching Experto en Data",
+      "short_title": "Coaching Experto",
+      "file": "coaching-data.html"
+    },
+    {
+      "id": "encuentra_empleo_bejoby",
+      "type": "employment_section",
+      "title": "Encuentra Empleo en BeJoby.com por AIF369.com",
+      "short_title": "Encuentra Empleo",
+      "file": "encuentra-empleo.html"
+    }
+  ],
+  "marketing_copy": {
+    "main_headlines": ["Aprende IA", "IA + Big Data", "IA y Automatización de Datos", "Curso Completo", "Flujos Airflow con IA", "Encuentra Empleo"],
+    "employment_banner": "Encuentra Empleo en BeJoby.com por AIF369.com",
+    "social_proof": "Historias reales. Coaching experto. Resultados reales.",
+    "cta_labels": ["Ver Cursos", "Explorar Programas", "Ver Ejemplos Reales", "Conocer Historias", "Solicitar Coaching", "Ir a BeJoby.com"]
+  },
+  "seo": {
+    "site_title": "AIF369.com | Cursos de IA, Big Data y Automatización de Datos",
+    "site_description": "Cursos prácticos de Inteligencia Artificial, Big Data y Automatización de Datos con Airflow. Aprende con proyectos reales, coaching experto e integración con BeJoby.com para empleabilidad.",
+    "keywords": ["IA", "Inteligencia Artificial", "Big Data", "Airflow", "Automatización de Datos", "Curso IA", "Curso Big Data", "Empleabilidad Data", "Coaching Data", "AIF369", "BeJoby"]
+  },
+  "stories": [
+    { "name": "Nicolas", "status": "historia real" },
+    { "name": "Diego", "status": "historia real" },
+    { "name": "Cristina", "status": "historia real" },
+    { "name": "Jaime", "status": "próximo caso" }
+  ]
+}

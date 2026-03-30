@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIF369 — Cost Monitor</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0B1120;
+            --bg-secondary: #0F1F35;
+            --bg-card: #162B45;
+            --border: rgba(255,255,255,0.08);
+            --text-primary: #E2E8F0;
+            --text-secondary: #A8B8D8;
+            --text-muted: #7B8BA8;
+            --accent-blue: #0088FF;
+            --accent-cyan: #00D9CC;
+            --accent-green: #10B981;
+            --accent-yellow: #F59E0B;
+            --accent-red: #EF4444;
+            --gradient: linear-gradient(135deg, #0088FF, #00D9CC);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* ── Auth Overlay ── */
+        #auth-overlay {
+            position: fixed; inset: 0; z-index: 1000;
+            background: var(--bg-primary);
+            display: flex; align-items: center; justify-content: center;
+        }
+        #auth-overlay.hidden { display: none; }
+        .auth-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .auth-box h2 {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .auth-box p { color: var(--text-muted); margin-bottom: 24px; font-size: 14px; }
+        .auth-box input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 15px;
+            margin-bottom: 16px;
+            outline: none;
+        }
+        .auth-box input:focus { border-color: var(--accent-blue); }
+        .auth-box button {
+            width: 100%;
+            padding: 12px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .auth-box button:hover { opacity: 0.9; }
+        .auth-error { color: var(--accent-red); font-size: 13px; margin-top: 8px; display: none; }
+
+        /* ── Header ── */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .header h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-ok { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+        .badge-warning { background: rgba(245,158,11,0.15); color: var(--accent-yellow); }
+        .badge-critical { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-estimated { background: rgba(0,136,255,0.15); color: var(--accent-blue); }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .header-right .last-update { color: var(--text-muted); font-size: 12px; }
+        .btn-refresh {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-refresh:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* ── Grid Layout ── */
+        .dashboard {
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .grid-top {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .grid-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .grid-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .card-value {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* ── Stat Cards ── */
+        .stat-card .card-value.green { color: var(--accent-green); }
+        .stat-card .card-value.yellow { color: var(--accent-yellow); }
+        .stat-card .card-value.red { color: var(--accent-red); }
+        .stat-card .card-value.blue { color: var(--accent-cyan); }
+
+        /* ── Budget Bar ── */
+        .budget-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+            margin-top: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .budget-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+        .budget-fill.green { background: var(--accent-green); }
+        .budget-fill.yellow { background: var(--accent-yellow); }
+        .budget-fill.red { background: var(--accent-red); }
+        .budget-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+        .budget-markers span {
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        /* ── Chart containers ── */
+        .chart-container {
+            position: relative;
+            height: 280px;
+        }
+
+        /* ── Service List ── */
+        .service-list { list-style: none; }
+        .service-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .service-item:last-child { border-bottom: none; }
+        .service-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .service-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .service-cost {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .service-pct {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        /* ── Alerts ── */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .alert:last-child { margin-bottom: 0; }
+        .alert-ok { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); }
+        .alert-info { background: rgba(0,136,255,0.08); border: 1px solid rgba(0,136,255,0.2); }
+        .alert-warning { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+        .alert-critical { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+        .alert-message { flex: 1; }
+        .alert-action {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        /* ── Setup Banner ── */
+        .setup-banner {
+            background: rgba(0,136,255,0.08);
+            border: 1px solid rgba(0,136,255,0.2);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .setup-banner.hidden { display: none; }
+        .setup-banner-text h3 { font-size: 15px; margin-bottom: 4px; }
+        .setup-banner-text p { color: var(--text-muted); font-size: 13px; }
+        .setup-banner a {
+            padding: 8px 20px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ── Loading ── */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+        .spinner {
+            width: 24px; height: 24px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .grid-top { grid-template-columns: repeat(2, 1fr); }
+            .grid-main { grid-template-columns: 1fr; }
+            .grid-bottom { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .grid-top { grid-template-columns: 1fr; }
+            .header { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Auth Overlay -->
+<div id="auth-overlay">
+    <div class="auth-box">
+        <h2>AIF369 Cost Monitor</h2>
+        <p>Ingresa tu API Key para acceder al dashboard de costos</p>
+        <input type="password" id="api-key-input" placeholder="API Key" autocomplete="off">
+        <button onclick="authenticate()">Acceder</button>
+        <div class="auth-error" id="auth-error">API Key inválida</div>
+    </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-left">
+        <h1><span>AIF369</span> Cost Monitor</h1>
+        <span class="badge badge-estimated" id="data-source-badge">Cargando...</span>
+    </div>
+    <div class="header-right">
+        <span class="last-update" id="last-update">—</span>
+        <button class="btn-refresh" onclick="loadAllData()">↻ Actualizar</button>
+    </div>
+</header>
+
+<!-- Dashboard -->
+<main class="dashboard" id="dashboard" style="display:none;">
+
+    <!-- Setup Banner (shown when billing export not configured) -->
+    <div class="setup-banner hidden" id="setup-banner">
+        <div class="setup-banner-text">
+            <h3>📊 Habilita Billing Export para datos reales</h3>
+            <p>Los datos actuales son estimaciones. Habilita el export para ver costos reales por servicio, día y SKU.</p>
+        </div>
+        <a href="" id="setup-link" target="_blank">Configurar →</a>
+    </div>
+
+    <!-- Top Stats -->
+    <div class="grid-top">
+        <div class="card stat-card">
+            <div class="card-title">Costo Actual del Mes</div>
+            <div class="card-value" id="current-cost">—</div>
+            <div class="card-subtitle" id="current-period">—</div>
+        </div>
+        <div class="card stat-card">
+            <div class="card-title">Presupuesto Usado</div>
+            <div class="card-value" id="budget-pct">—</div>
+            <div class="budget-bar">
+                <div class="budget-fill green" id="budget-bar-fill" style="width:0%"></div>
+            </div>
+            <div class="budget-markers">
+                <span>0%</span><span>50%</span><span>80%</span><span>100%</span>
+            </div>
+        </div>
+        <div class="card stat-card">
+            <div class="card-title">Proyección Mensual</div>
+            <div class="card-value" id="projected-cost">—</div>
+            <div class="card-subtitle" id="projected-pct">—</div>
+        </div>
+        <div class="card stat-card">
+            <div class="card-title">Promedio Diario</div>
+            <div class="card-value blue" id="daily-avg">—</div>
+            <div class="card-subtitle" id="active-days">—</div>
+        </div>
+    </div>
+
+    <!-- Main Grid: Daily Chart + Service Breakdown -->
+    <div class="grid-main">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Costos Diarios (Acumulado)</div>
+            </div>
+            <div class="chart-container">
+                <canvas id="daily-chart"></canvas>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Por Servicio</div>
+            </div>
+            <div class="chart-container" style="height:180px;">
+                <canvas id="service-chart"></canvas>
+            </div>
+            <ul class="service-list" id="service-list"></ul>
+        </div>
+    </div>
+
+    <!-- Bottom Grid: Alerts + Top SKUs -->
+    <div class="grid-bottom">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Alertas de Presupuesto</div>
+            </div>
+            <div id="alerts-container">
+                <div class="loading"><div class="spinner"></div>Cargando alertas...</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Health Check</div>
+            </div>
+            <div id="health-container">
+                <div class="loading"><div class="spinner"></div>Verificando sistema...</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+// ── Config ──
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8080'
+    : 'https://aif369-backend-api-830685315001.us-central1.run.app';
+
+let API_KEY = '';
+let dailyChart = null;
+let serviceChart = null;
+
+const COLORS = [
+    '#0088FF', '#00D9CC', '#10B981', '#F59E0B', '#EF4444',
+    '#8B5CF6', '#EC4899', '#6366F1', '#14B8A6', '#F97316'
+];
+
+// ── Auth ──
+function authenticate() {
+    API_KEY = document.getElementById('api-key-input').value.trim();
+    if (!API_KEY) {
+        showAuthError('Ingresa una API Key');
+        return;
+    }
+    // Test the key with health endpoint
+    fetchAPI('/api/costs/health')
+        .then(data => {
+            if (data.error === 'Unauthorized') {
+                showAuthError('API Key inválida');
+                return;
+            }
+            document.getElementById('auth-overlay').classList.add('hidden');
+            document.getElementById('dashboard').style.display = 'block';
+            localStorage.setItem('aif369_cost_key', API_KEY);
+            loadAllData();
+        })
+        .catch(() => {
+            showAuthError('Error de conexión');
+        });
+}
+
+function showAuthError(msg) {
+    const el = document.getElementById('auth-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+
+// Check saved key
+(function() {
+    const saved = localStorage.getItem('aif369_cost_key');
+    if (saved) {
+        API_KEY = saved;
+        document.getElementById('api-key-input').value = saved;
+        authenticate();
+    }
+    // Enter key
+    document.getElementById('api-key-input').addEventListener('keypress', e => {
+        if (e.key === 'Enter') authenticate();
+    });
+})();
+
+// ── API Fetcher ──
+async function fetchAPI(path) {
+    const url = `${API_BASE}${path}`;
+    const res = await fetch(url, {
+        headers: { 'X-API-Key': API_KEY }
+    });
+    return res.json();
+}
+
+// ── Load All Data ──
+async function loadAllData() {
+    document.getElementById('last-update').textContent = `Actualizando...`;
+    
+    try {
+        const [summary, services, daily, budget, health] = await Promise.all([
+            fetchAPI('/api/costs/summary'),
+            fetchAPI('/api/costs/by-service'),
+            fetchAPI('/api/costs/daily'),
+            fetchAPI('/api/costs/budget'),
+            fetchAPI('/api/costs/health'),
+        ]);
+
+        renderSummary(summary);
+        renderServices(services);
+        renderDailyChart(daily);
+        renderAlerts(budget);
+        renderHealth(health);
+
+        // Data source badge
+        const badge = document.getElementById('data-source-badge');
+        if (summary.source === 'billing_export') {
+            badge.textContent = 'Datos Reales';
+            badge.className = 'badge badge-ok';
+            document.getElementById('setup-banner').classList.add('hidden');
+        } else {
+            badge.textContent = 'Estimaciones';
+            badge.className = 'badge badge-estimated';
+            const banner = document.getElementById('setup-banner');
+            banner.classList.remove('hidden');
+            if (summary.setup_url) {
+                document.getElementById('setup-link').href = summary.setup_url;
+            }
+        }
+
+        document.getElementById('last-update').textContent = 
+            `Última actualización: ${new Date().toLocaleTimeString('es-CL')}`;
+    } catch (err) {
+        console.error('Error loading data:', err);
+        document.getElementById('last-update').textContent = `Error al cargar datos`;
+    }
+}
+
+// ── Render Summary ──
+function renderSummary(data) {
+    const currency = data.currency || 'USD';
+    const symbol = currency === 'CLP' ? 'CLP ' : '$';
+    const decimals = currency === 'CLP' ? 0 : 4;
+
+    document.getElementById('current-cost').textContent = 
+        `${symbol}${data.net_cost?.toFixed(decimals) ?? '—'}`;
+    document.getElementById('current-period').textContent = 
+        `${data.period} · Día ${data.day_of_month}/${data.days_in_month} · ${data.num_services} servicios`;
+
+    // Budget
+    const pct = data.budget_pct || 0;
+    const pctEl = document.getElementById('budget-pct');
+    pctEl.textContent = `${pct.toFixed(1)}%`;
+    pctEl.className = `card-value ${pct >= 100 ? 'red' : pct >= 80 ? 'yellow' : 'green'}`;
+
+    const fill = document.getElementById('budget-bar-fill');
+    fill.style.width = `${Math.min(pct, 100)}%`;
+    fill.className = `budget-fill ${pct >= 100 ? 'red' : pct >= 80 ? 'yellow' : 'green'}`;
+
+    // Projected
+    const projEl = document.getElementById('projected-cost');
+    projEl.textContent = `${symbol}${data.projected_monthly?.toFixed(decimals) ?? '—'}`;
+    const projPct = data.projected_budget_pct || 0;
+    projEl.className = `card-value ${projPct >= 100 ? 'red' : projPct >= 80 ? 'yellow' : 'green'}`;
+    document.getElementById('projected-pct').textContent = 
+        `${projPct.toFixed(1)}% del presupuesto (${symbol}${data.budget_amount})`;
+
+    // Daily avg
+    document.getElementById('daily-avg').textContent = 
+        `${symbol}${data.daily_average?.toFixed(decimals) ?? '—'}`;
+    document.getElementById('active-days').textContent = 
+        `${data.active_days} días activos de ${data.days_in_month}`;
+}
+
+// ── Render Services ──
+function renderServices(data) {
+    const list = document.getElementById('service-list');
+    list.innerHTML = '';
+    const services = data.services || [];
+    const currency = services[0]?.currency || 'USD';
+    const symbol = currency === 'CLP' ? 'CLP ' : '$';
+    const decimals = currency === 'CLP' ? 0 : 4;
+
+    services.forEach((svc, i) => {
+        const li = document.createElement('li');
+        li.className = 'service-item';
+        li.innerHTML = `
+            <span class="service-name">
+                <span class="service-dot" style="background:${COLORS[i % COLORS.length]}"></span>
+                ${svc.service_name}
+            </span>
+            <span>
+                <span class="service-cost">${symbol}${svc.net_cost.toFixed(decimals)}</span>
+                <span class="service-pct">${svc.pct_of_total.toFixed(1)}%</span>
+            </span>
+        `;
+        list.appendChild(li);
+    });
+
+    // Donut chart
+    if (serviceChart) serviceChart.destroy();
+    const ctx = document.getElementById('service-chart').getContext('2d');
+    serviceChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: services.map(s => s.service_name),
+            datasets: [{
+                data: services.map(s => s.net_cost),
+                backgroundColor: services.map((_, i) => COLORS[i % COLORS.length]),
+                borderWidth: 0,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.label}: ${symbol}${ctx.parsed.toFixed(decimals)} (${((ctx.parsed / data.total_cost) * 100).toFixed(1)}%)`
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ── Render Daily Chart ──
+function renderDailyChart(data) {
+    const daily = data.daily || [];
+    if (daily.length === 0) return;
+    
+    const currency = daily[0]?.currency || 'USD';
+    const symbol = currency === 'CLP' ? 'CLP ' : '$';
+
+    if (dailyChart) dailyChart.destroy();
+    const ctx = document.getElementById('daily-chart').getContext('2d');
+    dailyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: daily.map(d => d.date.slice(5)),  // MM-DD
+            datasets: [
+                {
+                    label: 'Costo diario',
+                    data: daily.map(d => d.net_cost),
+                    borderColor: '#0088FF',
+                    backgroundColor: 'rgba(0,136,255,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    yAxisID: 'y',
+                },
+                {
+                    label: 'Acumulado',
+                    data: daily.map(d => d.cumulative),
+                    borderColor: '#00D9CC',
+                    borderDash: [5, 3],
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 2,
+                    yAxisID: 'y1',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255,255,255,0.04)' },
+                    ticks: { color: '#7B8BA8', font: { size: 11 } }
+                },
+                y: {
+                    position: 'left',
+                    grid: { color: 'rgba(255,255,255,0.04)' },
+                    ticks: {
+                        color: '#7B8BA8',
+                        callback: v => `${symbol}${v.toFixed(4)}`
+                    },
+                    title: { display: true, text: 'Diario', color: '#7B8BA8' }
+                },
+                y1: {
+                    position: 'right',
+                    grid: { display: false },
+                    ticks: {
+                        color: '#00D9CC',
+                        callback: v => `${symbol}${v.toFixed(2)}`
+                    },
+                    title: { display: true, text: 'Acumulado', color: '#00D9CC' }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: { color: '#A8B8D8', usePointStyle: true, padding: 16 }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.dataset.label}: ${symbol}${ctx.parsed.y.toFixed(4)}`
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ── Render Alerts ──
+function renderAlerts(data) {
+    const container = document.getElementById('alerts-container');
+    const alerts = data.alerts || [];
+    
+    if (alerts.length === 0) {
+        container.innerHTML = '<div class="alert alert-ok">✅ Sin alertas activas</div>';
+        return;
+    }
+
+    container.innerHTML = alerts.map(a => `
+        <div class="alert alert-${a.level}">
+            <div>
+                <div class="alert-message">${a.message}</div>
+                <div class="alert-action">${a.action}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ── Render Health ──
+function renderHealth(data) {
+    const container = document.getElementById('health-container');
+    const checks = data.checks || {};
+    
+    const items = [
+        { label: 'BigQuery Client', value: checks.bigquery_client },
+        { label: 'Billing Dataset', value: checks.billing_export_dataset },
+        { label: 'Billing Table', value: checks.billing_export_table },
+        { label: 'Data Freshness', value: checks.data_freshness },
+    ];
+
+    container.innerHTML = `
+        <div style="margin-bottom:12px;">
+            <span class="badge ${data.status === 'ok' ? 'badge-ok' : 'badge-warning'}">${data.status?.toUpperCase()}</span>
+        </div>
+        ${items.map(item => {
+            let status, label;
+            if (item.value === true) {
+                status = '✅';
+                label = 'OK';
+            } else if (item.value === false) {
+                status = '❌';
+                label = 'No configurado';
+            } else if (typeof item.value === 'object' && item.value?.status) {
+                status = item.value.status === 'ok' ? '✅' : '⚠️';
+                label = item.value.latest_export 
+                    ? `Hace ${item.value.age_hours}h` 
+                    : item.value.status;
+            } else {
+                status = '⚪';
+                label = String(item.value || 'N/A');
+            }
+            return `
+                <div class="service-item">
+                    <span class="service-name">${status} ${item.label}</span>
+                    <span style="color:var(--text-muted);font-size:13px">${label}</span>
+                </div>
+            `;
+        }).join('')}
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.04);">
+            <div style="color:var(--text-muted);font-size:12px;">
+                Proyecto: ${data.project_id || '—'}<br>
+                Tabla: ${data.billing_table || '—'}<br>
+                Budget: CLP ${data.budget_clp?.toLocaleString() || '—'} / USD ${data.budget_usd || '—'}
+            </div>
+        </div>
+    `;
+}
+</script>
+</body>
+</html>

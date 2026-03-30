@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 <header class="site-header">
@@ -22,7 +25,7 @@
             <a href="scorecard.html">Scorecard IA</a>
             <a href="blog.html" class="active">Insights</a>
             <a href="author.html">Sobre Erwin</a>
-            <a href="index.html#contacto" class="btn btn-outline">Agendar llamada</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
         </div>
     </nav>
 </header>
@@ -87,7 +90,7 @@
 
         <div class="article-cta">
             <p>¿Necesita liderazgo de IA sin contratar un ejecutivo full-time? Conozca nuestro servicio CAIO-as-a-Service.</p>
-            <a href="index.html#contacto" class="btn btn-primary">Agendar conversación →</a>
+            <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar conversación →</a>
         </div>
 
         <p><a href="blog.html" class="btn btn-link">← Volver al blog</a></p>

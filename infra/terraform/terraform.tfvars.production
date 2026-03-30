@@ -10,3 +10,8 @@ dataset_id             = "aif369_analytics"
 
 # URLs
 frontend_url = "https://aif369.com"
+
+# Billing Alerts
+billing_account_id = "0174A7-3C06E7-A99F49"
+alert_email        = "erwin.daza@gmail.com"
+monthly_budget_usd = 10

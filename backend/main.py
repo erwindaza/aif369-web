@@ -12,6 +12,16 @@ from flask_cors import CORS
 from google.cloud import bigquery
 import google.generativeai as genai
 
+# Cost Monitor module
+import cost_monitor
+
+# Load .env file for local development (ignored in production)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv not installed (production uses Secret Manager)
+
 app = Flask(__name__)
 
 # Configurar CORS para permitir requests desde Vercel
@@ -98,12 +108,18 @@ CONTEXTO REGULATORIO:
 - Chile Ley 21.719: Protección de datos personales, vigencia 1 dic 2026.
 - Boletín 16821-19: Proyecto de ley de IA en Chile, actualmente en tramitación.
 
+AGENDAR ASESORÍA:
+- Los usuarios pueden agendar una asesoría gratuita de 30 minutos directamente en: https://calendly.com/edaza-aif369/30min
+- Cuando alguien quiera agendar, coordinar, cotizar o hablar con alguien, SIEMPRE incluye el link de agendamiento: https://calendly.com/edaza-aif369/30min
+- También pueden escribir por WhatsApp: +56 9 9754 7192
+
 CONTACTO:
+- Agendar asesoría: https://calendly.com/edaza-aif369/30min
 - WhatsApp: +56 9 9754 7192 (atención por IA y humanos)
 - Web: aif369.com
 - Email: edaza@aif369.com
 
-Si el usuario parece interesado en contratar, indícale que puede coordinar por WhatsApp +56 9 9754 7192 o hacer el Scorecard gratuito en aif369.com/scorecard.html"""
+Si el usuario parece interesado en contratar, indícale que puede agendar una asesoría gratuita en https://calendly.com/edaza-aif369/30min, escribir por WhatsApp +56 9 9754 7192, o hacer el Scorecard gratuito en aif369.com/scorecard.html"""
 
 
 def send_email_notification(submission_data):
@@ -762,7 +778,7 @@ def chat():
 
 
 # --- API Key for content generation (simple auth) ---
-CONTENT_API_KEY = os.getenv("CONTENT_API_KEY", "aif369-content-gen-2026")
+CONTENT_API_KEY = os.getenv("CONTENT_API_KEY", "")
 
 CONTENT_PROMPT = """Eres un redactor experto de contenido B2B sobre inteligencia artificial, datos y cloud para empresas.
 Escribes para el blog de AIF369, una consultora chilena fundada por Erwin Daza.
@@ -879,6 +895,135 @@ def content_topics():
     ]
 
     return jsonify({"topics": topics, "count": len(topics)}), 200
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ── Cost Monitoring Endpoints ────────────────────────────────────
+# Dashboard de costos GCP: datos reales (billing export) o estimaciones
+# Protegidos por CONTENT_API_KEY (header X-API-Key)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+def _require_api_key():
+    """Valida el API key para endpoints de costos."""
+    api_key = request.headers.get("X-API-Key", "")
+    if not CONTENT_API_KEY or api_key != CONTENT_API_KEY:
+        return False
+    return True
+
+
+@app.route("/api/costs/summary", methods=["GET"])
+def costs_summary():
+    """
+    Resumen mensual de costos.
+    Query params: year (int), month (int) — opcionales, default mes actual.
+    """
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        year = request.args.get("year", type=int)
+        month = request.args.get("month", type=int)
+        data = cost_monitor.get_monthly_summary(year=year, month=month)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/costs/by-service", methods=["GET"])
+def costs_by_service():
+    """
+    Desglose de costos por servicio GCP.
+    Query params: year, month — opcionales.
+    """
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        year = request.args.get("year", type=int)
+        month = request.args.get("month", type=int)
+        data = cost_monitor.get_cost_by_service(year=year, month=month)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/costs/daily", methods=["GET"])
+def costs_daily():
+    """
+    Costos diarios del mes para gráficos de tendencia.
+    Query params: year, month — opcionales.
+    """
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        year = request.args.get("year", type=int)
+        month = request.args.get("month", type=int)
+        data = cost_monitor.get_daily_costs(year=year, month=month)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/costs/budget", methods=["GET"])
+def costs_budget():
+    """
+    Estado del presupuesto con alertas y proyecciones.
+    """
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        data = cost_monitor.get_budget_status()
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/costs/top-skus", methods=["GET"])
+def costs_top_skus():
+    """
+    Top SKUs por costo — muestra qué operaciones específicas cuestan más.
+    Query params: year, month, limit (default 20).
+    """
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        year = request.args.get("year", type=int)
+        month = request.args.get("month", type=int)
+        limit = request.args.get("limit", 20, type=int)
+        data = cost_monitor.get_top_skus(year=year, month=month, limit=limit)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/costs/trend", methods=["GET"])
+def costs_trend():
+    """
+    Tendencia de costos mensuales (últimos N meses).
+    Query params: months (default 6).
+    """
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        months = request.args.get("months", 6, type=int)
+        data = cost_monitor.get_cost_trend(months=months)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/costs/health", methods=["GET"])
+def costs_health():
+    """
+    Health check del sistema de monitoreo de costos.
+    Verifica: BigQuery client, billing dataset, billing table, data freshness.
+    """
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        data = cost_monitor.check_monitoring_health()
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

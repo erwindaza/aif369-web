@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 
@@ -30,10 +33,11 @@
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="metodologia.html" style="color: #00D9CC;">Método 369</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="education.html">Cursos</a>
             <a href="scorecard.html">Scorecard IA</a>
             <a href="blog.html" data-i18n="nav.blog">Insights</a>
             <a href="author.html">Sobre Erwin</a>
-            <a href="#contacto" class="btn btn-outline" data-i18n="nav.cta">Agendar llamada</a>
+            <a href="" class="btn btn-outline" data-i18n="nav.cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
@@ -53,7 +57,7 @@
                 Estrategia, gobernanza, riesgo, compliance y arquitectura para organizaciones que quieren usar inteligencia artificial en serio.
             </p>
             <div class="hero-actions">
-                <a href="#contacto" class="btn btn-primary">Agenda un diagnóstico 369</a>
+                <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agenda un diagnóstico 369</a>
                 <a href="metodologia.html" class="btn btn-link">Conoce la metodología →</a>
             </div>
             <p class="hero-note" data-i18n="hero.note">

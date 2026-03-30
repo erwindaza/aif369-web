@@ -23,10 +23,8 @@ gcloud run deploy ${SERVICE_NAME} \
   --project ${PROJECT_ID} \
   --allow-unauthenticated \
   --service-account aif369-backend-sa@${PROJECT_ID}.iam.gserviceaccount.com \
-  --set-env-vars PROJECT_ID=${PROJECT_ID} \
-  --update-secrets SMTP_PASSWORD=aif369-smtp-password:latest \
-  --set-env-vars SMTP_USER=edaza@aif369.com \
-  --set-env-vars NOTIFICATION_EMAIL=erwin.daza@gmail.com
+  --set-env-vars "PROJECT_ID=${PROJECT_ID},DATASET_ID=aif369_analytics,ENVIRONMENT=production" \
+  --update-secrets "GEMINI_API_KEY=aif369-gemini-api-key:latest,SMTP_PASSWORD=aif369-smtp-password:latest,CONTENT_API_KEY=aif369-content-api-key:latest"
 
 echo "✅ Despliegue completado!"
 gcloud run services describe ${SERVICE_NAME} \
