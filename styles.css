@@ -2071,3 +2071,188 @@ nav {
 .bw-card-price .bw-new {
     font-size: 20px;
 }
+
+/* ═══ ENROLLMENT FORM ═══ */
+.enrollment-wrapper {
+    margin-top: var(--space-6);
+}
+
+.enrollment-steps {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: var(--space-5);
+}
+
+.enrollment-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.enrollment-step.active {
+    color: #00D9CC;
+    opacity: 1;
+}
+
+.enrollment-step.completed {
+    color: #10B981;
+    opacity: 1;
+}
+
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 2px solid currentColor;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.enrollment-step.active .step-num {
+    background: #00D9CC;
+    border-color: #00D9CC;
+    color: #0A1628;
+}
+
+.enrollment-step.completed .step-num {
+    background: #10B981;
+    border-color: #10B981;
+    color: #fff;
+}
+
+.enrollment-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.enrollment-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.enrollment-form label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.enrollment-form input,
+.enrollment-form select {
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: var(--text-base);
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.enrollment-form input:focus,
+.enrollment-form select:focus {
+    outline: none;
+    border-color: #00D9CC;
+    box-shadow: 0 0 0 3px rgba(0,217,204,0.15);
+}
+
+.enrollment-form input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.enrollment-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394A3B8' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+}
+
+.enrollment-form input.invalid,
+.enrollment-form select.invalid {
+    border-color: #EF4444;
+    box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+}
+
+.enrollment-summary {
+    text-align: left;
+    padding: 20px;
+    margin-bottom: var(--space-4);
+}
+
+.enrollment-summary p {
+    margin-bottom: 6px;
+    font-size: var(--text-sm);
+}
+
+.enrollment-success h3 {
+    color: #10B981;
+    margin-bottom: var(--space-3);
+}
+
+.enrollment-back {
+    color: var(--text-muted) !important;
+    font-size: var(--text-sm) !important;
+}
+
+.enrollment-back:hover {
+    color: var(--text-primary) !important;
+}
+
+/* ═══ Job Board Cards ═══ */
+.job-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: border-color 0.2s, transform 0.2s;
+}
+.job-card:hover {
+    border-color: #10B981;
+    transform: translateY(-2px);
+}
+.job-card h3 { margin-bottom: var(--space-2); font-size: var(--text-xl); }
+.job-card .job-meta {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-3);
+}
+.job-card .job-desc {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+    line-height: 1.6;
+}
+.job-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-4); }
+.job-tag {
+    background: rgba(16,185,129,0.12);
+    color: #10B981;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+.job-card .btn-apply {
+    display: inline-block;
+    background: #10B981;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: background 0.2s;
+}
+.job-card .btn-apply:hover { background: #059669; }

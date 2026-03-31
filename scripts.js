@@ -947,3 +947,248 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setLanguage(getInitialLanguage());
 });
+
+/* ═══════════════════════════════════════════════════════════
+   ENROLLMENT FORM + PAYPAL SMART BUTTONS
+   Flow: Fill form → Validate → Show PayPal → Pay $10 → Success
+   ═══════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function () {
+    var wrappers = document.querySelectorAll('.enrollment-wrapper');
+    if (!wrappers.length) return;
+
+    wrappers.forEach(function (wrapper) {
+        var courseName = wrapper.getAttribute('data-course') || 'Curso AIF369';
+        var form = wrapper.querySelector('.enrollment-form');
+        var paymentDiv = wrapper.querySelector('.enrollment-payment');
+        var successDiv = wrapper.querySelector('.enrollment-success');
+        var backBtn = wrapper.querySelector('.enrollment-back');
+        var steps = wrapper.querySelectorAll('.enrollment-step');
+        var paypalContainer = wrapper.querySelector('.paypal-btn-container');
+        var enrollmentData = {};
+        var paypalRendered = false;
+
+        function setStep(num) {
+            steps.forEach(function (s) {
+                var sNum = parseInt(s.getAttribute('data-step'));
+                s.classList.remove('active', 'completed');
+                if (sNum < num) s.classList.add('completed');
+                if (sNum === num) s.classList.add('active');
+            });
+        }
+
+        // Step 1 → Step 2: Form submit
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Clear previous invalid states
+            form.querySelectorAll('.invalid').forEach(function (el) { el.classList.remove('invalid'); });
+
+            var name = form.querySelector('[name="name"]');
+            var email = form.querySelector('[name="email"]');
+            var phone = form.querySelector('[name="phone"]');
+            var country = form.querySelector('[name="country"]');
+            var valid = true;
+
+            if (!name.value.trim()) { name.classList.add('invalid'); valid = false; }
+            if (!email.value.trim() || !email.validity.valid) { email.classList.add('invalid'); valid = false; }
+            if (!phone.value.trim()) { phone.classList.add('invalid'); valid = false; }
+            if (!country.value) { country.classList.add('invalid'); valid = false; }
+
+            if (!valid) return;
+
+            enrollmentData = {
+                name: name.value.trim(),
+                email: email.value.trim(),
+                phone: phone.value.trim(),
+                country: country.value,
+                course: courseName,
+                source_page: window.location.pathname
+            };
+
+            // Show payment step
+            wrapper.querySelector('.summary-name').textContent = enrollmentData.name;
+            wrapper.querySelector('.summary-email').textContent = enrollmentData.email;
+            form.style.display = 'none';
+            paymentDiv.style.display = 'block';
+            setStep(2);
+
+            // Render PayPal buttons (only once)
+            if (!paypalRendered && typeof paypal !== 'undefined' && paypal.Buttons) {
+                paypalRendered = true;
+                paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color: 'gold',
+                        shape: 'rect',
+                        label: 'pay',
+                        height: 45
+                    },
+                    createOrder: function (data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                description: courseName + ' — AIF369',
+                                amount: {
+                                    currency_code: 'USD',
+                                    value: '10.00'
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function (data, actions) {
+                        return actions.order.capture().then(function (details) {
+                            // Payment successful — send enrollment to backend
+                            enrollmentData.paypal_order_id = data.orderID;
+                            enrollmentData.payer_email = details.payer && details.payer.email_address ? details.payer.email_address : '';
+                            enrollmentData.payment_status = 'completed';
+
+                            sendEnrollment(enrollmentData);
+
+                            // Show success
+                            paymentDiv.style.display = 'none';
+                            successDiv.style.display = 'block';
+                            wrapper.querySelector('.enrollment-steps').style.display = 'none';
+                        });
+                    },
+                    onError: function (err) {
+                        console.error('PayPal error:', err);
+                        alert('Hubo un error con el pago. Por favor intenta de nuevo o contáctanos por WhatsApp.');
+                    }
+                }).render(paypalContainer);
+            }
+
+            // Scroll to payment section
+            paymentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // Back button: payment → form
+        if (backBtn) {
+            backBtn.addEventListener('click', function () {
+                paymentDiv.style.display = 'none';
+                form.style.display = 'flex';
+                setStep(1);
+            });
+        }
+    });
+
+    // Send enrollment data to backend
+    function sendEnrollment(data) {
+        var BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'https://aif369-backend-api-dev-944757324945.us-central1.run.app'
+            : 'https://aif369-backend-api-production-944757324945.us-central1.run.app';
+
+        fetch(BACKEND_URL + '/api/enrollment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(function (err) {
+            console.warn('Enrollment backend notification failed (payment was successful):', err);
+        });
+    }
+});
+
+/* ═══ Job Board — encuentra-empleo.html ═══ */
+(function () {
+    var container = document.getElementById('job-listings');
+    var searchInput = document.getElementById('job-search');
+    if (!container || !searchInput) return;
+
+    var jobs = [
+        {
+            id: 'BJ-2026-001',
+            title: 'Fullstack Cloud Engineer',
+            company: 'Empresa confidencial — Sector Tecnología',
+            location: 'LATAM (Remoto)',
+            modality: 'Remoto | Full-time | Contrato',
+            description: 'Desarrollo y mantenimiento de aplicaciones cloud-native. Microservicios, APIs REST/GraphQL, CI/CD pipelines, e integración con servicios cloud (AWS/GCP/Azure). Participación en arquitectura de soluciones escalables.',
+            tags: ['React', 'Node.js', 'TypeScript', 'Python', 'AWS', 'GCP', 'Docker', 'Kubernetes', 'Terraform', 'CI/CD', 'PostgreSQL', 'MongoDB', 'GraphQL', 'REST API'],
+            requirements: [
+                '+4 años de experiencia fullstack',
+                'React / Next.js + Node.js / Python',
+                'Cloud: AWS o GCP (certificación deseable)',
+                'Docker, Kubernetes, IaC (Terraform)',
+                'Inglés intermedio-avanzado'
+            ],
+            excludes: ['Sin experiencia cloud', 'Solo frontend o solo backend sin interés en fullstack'],
+            applyUrl: 'https://bejoby.com'
+        },
+        {
+            id: 'BJ-2026-002',
+            title: 'Backend Developer',
+            company: 'Empresa confidencial — Sector Tecnología',
+            location: 'LATAM (Remoto)',
+            modality: 'Remoto | Full-time | Contrato',
+            description: 'Diseño e implementación de APIs escalables, microservicios y sistemas distribuidos. Integración con bases de datos relacionales y NoSQL, mensajería asíncrona, y pipelines de datos. Colaboración con equipos de producto y DevOps.',
+            tags: ['Java', 'Spring Boot', 'Python', 'FastAPI', 'Node.js', 'PostgreSQL', 'Redis', 'Kafka', 'RabbitMQ', 'Docker', 'AWS', 'GCP', 'REST API', 'Microservicios'],
+            requirements: [
+                '+3 años de experiencia backend',
+                'Java (Spring Boot) o Python (FastAPI/Django)',
+                'SQL avanzado + NoSQL (Redis, MongoDB)',
+                'Mensajería: Kafka o RabbitMQ',
+                'Docker, CI/CD, testing automatizado',
+                'Inglés intermedio'
+            ],
+            excludes: ['Sin experiencia en APIs', 'Solo scripts o automatización sin arquitectura'],
+            applyUrl: 'https://bejoby.com'
+        }
+    ];
+
+    function normalize(str) {
+        return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function renderJobs(filtered) {
+        container.innerHTML = '';
+        var noResults = document.getElementById('job-no-results');
+
+        if (filtered.length === 0) {
+            if (noResults) noResults.style.display = 'block';
+            return;
+        }
+        if (noResults) noResults.style.display = 'none';
+
+        filtered.forEach(function (job) {
+            var card = document.createElement('div');
+            card.className = 'job-card';
+
+            var tagsHtml = job.tags.map(function (t) {
+                return '<span class="job-tag">' + t + '</span>';
+            }).join('');
+
+            var reqsHtml = job.requirements.map(function (r) {
+                return '<li>' + r + '</li>';
+            }).join('');
+
+            card.innerHTML =
+                '<h3>' + job.title + '</h3>' +
+                '<p class="job-meta">' + job.company + ' · ' + job.modality + ' · ' + job.location + '</p>' +
+                '<p class="job-desc">' + job.description + '</p>' +
+                '<div class="job-tags">' + tagsHtml + '</div>' +
+                '<ul style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:var(--space-4);padding-left:20px;line-height:1.8;">' + reqsHtml + '</ul>' +
+                '<a href="' + encodeURI(job.applyUrl) + '" target="_blank" rel="noopener" class="btn-apply">Postularme →</a>';
+
+            container.appendChild(card);
+        });
+    }
+
+    function buildSearchStr(job) {
+        return normalize(
+            [job.title, job.company, job.location, job.modality, job.description]
+                .concat(job.tags)
+                .concat(job.requirements)
+                .join(' ')
+        );
+    }
+
+    searchInput.addEventListener('input', function () {
+        var query = normalize(searchInput.value.trim());
+        if (!query) { renderJobs(jobs); return; }
+
+        var terms = query.split(/\s+/);
+        var filtered = jobs.filter(function (job) {
+            var haystack = buildSearchStr(job);
+            return terms.every(function (term) { return haystack.indexOf(term) !== -1; });
+        });
+        renderJobs(filtered);
+    });
+
+    renderJobs(jobs);
+})();

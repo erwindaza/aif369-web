@@ -1,0 +1,270 @@
+{
+  "_meta": {
+    "name": "BeJoby Job Listings",
+    "version": "1.0.0",
+    "description": "Base de datos de ofertas laborales para BeJoby.com. Usar como fuente de verdad para el bot/agente de empleo.",
+    "platform": "bejoby.com",
+    "managed_by": "AIF369",
+    "last_updated": "2026-03-31",
+    "confidentiality_rules": {
+      "CRITICAL": "NUNCA revelar el nombre de la empresa contratante ni la consultora intermediaria. Usar siempre 'Empresa confidencial del sector tecnológico' o 'Importante empresa de tecnología'.",
+      "forbidden_disclosures": [
+        "Nombre de la empresa cliente",
+        "Nombre de la consultora o staffing intermediario",
+        "Datos internos del proceso de selección",
+        "Rangos salariales exactos si no están autorizados"
+      ],
+      "allowed_responses": [
+        "Empresa confidencial del sector tecnológico",
+        "Importante empresa de tecnología con presencia en LATAM",
+        "Proyecto cloud-native de alto impacto",
+        "Equipo de ingeniería senior"
+      ]
+    }
+  },
+
+  "jobs": [
+    {
+      "id": "BJ-2026-001",
+      "status": "active",
+      "published_date": "2026-03-31",
+      "title": "Fullstack Cloud Engineer",
+      "subtitle": "Go / Node.js / React — LATAM Remoto",
+      "slug": "fullstack-cloud-engineer-latam",
+      "company_display": "Empresa confidencial — Sector Tecnología",
+      "location": {
+        "type": "remote",
+        "region": "LATAM",
+        "timezone_preference": "GMT-3 a GMT-6"
+      },
+      "contract": {
+        "type": "contractor",
+        "modality": "100% remoto",
+        "duration": "Indefinido"
+      },
+      "seniority": "Semi-Senior / Senior",
+      "experience_years": "3+",
+      "description": "Buscamos Fullstack Cloud Engineers para sumarse a proyectos cloud-native de alto impacto, trabajando con tecnología moderna y buenas prácticas de arquitectura.",
+      "stack": {
+        "frontend": ["React 18", "TypeScript", "NextJS", "Diseño responsivo", "WCAG (Accesibilidad)"],
+        "backend": ["Go (Gin / Echo / Fiber)", "Node.js (NestJS / Fastify / Express)"],
+        "apis": ["REST", "GraphQL"],
+        "databases": ["PostgreSQL", "MySQL", "Cloud SQL"],
+        "cloud": ["GCP (GKE, Pub/Sub, Cloud SQL, Cloud Run)"],
+        "devops": ["Docker", "Kubernetes", "Terraform", "CI/CD"],
+        "architecture": ["Hexagonal", "DDD", "Microservicios"]
+      },
+      "requirements": {
+        "mandatory": [
+          "3+ años de experiencia en desarrollo de software con enfoque en front-end y back-end",
+          "Conocimientos sólidos de frameworks modernos: React.js",
+          "Conocimiento sólido en diseño responsivo y accesibilidad (WCAG)",
+          "Implementar y mantener APIs RESTful y GraphQL, utilizando frameworks como NestJS, Gin, Echo o Fiber para Go",
+          "Experiencia probada en desarrollo backend, con especial énfasis y dominio en Go y NestJS/Node.js",
+          "Experiencia con bases de datos: PostgreSQL, MySQL o Cloud SQL",
+          "Infraestructura como código: Terraform y servicios en la nube GCP",
+          "Experiencia en microservicios, contenedores con Docker + Kubernetes",
+          "Conocimiento de los principios de Arquitectura Hexagonal y DDD",
+          "Habilidad para implementar interfaces intuitivas y soluciones técnicas robustas con visión estratégica alineada a objetivos de negocio"
+        ],
+        "mandatory_exclusions": [
+          "NodeJS (Fastify, Express, NestJS)",
+          "NextJS + React",
+          "Pruebas unitarias con Jest",
+          "Design Patterns"
+        ],
+        "nice_to_have": [
+          "Atomic Design",
+          "CI/CD pipelines",
+          "Experiencia con GKE y Pub/Sub"
+        ],
+        "exclusionary_note": "Familiaridad con otros lenguajes y frameworks como Java (Spring Boot) es excluyente — se requiere foco en Go y/o Node.js"
+      },
+      "what_we_offer": [
+        "Modalidad 100% remota (LATAM)",
+        "Proyectos reales en producción, no POCs",
+        "Equipos senior y cultura técnica",
+        "Stack moderno y foco en buenas prácticas",
+        "Crecimiento profesional y aprendizaje continuo"
+      ],
+      "tags": ["Fullstack", "Go", "Golang", "Node.js", "NestJS", "React", "TypeScript", "GCP", "Kubernetes", "Docker", "Terraform", "Cloud", "Remote", "LATAM", "GraphQL", "PostgreSQL", "Microservicios"],
+      "apply_url": "https://bejoby.com/jobs/fullstack-cloud-engineer-latam",
+      "linkedin_post": {
+        "ready": true,
+        "text": "🚀 Estamos contratando\nFullstack Cloud Engineer (Go / Node.js / React) – LATAM (Remoto)\n\nSeguimos creciendo y buscamos Fullstack Cloud Engineers para sumarse a proyectos cloud-native de alto impacto, trabajando con tecnología moderna y buenas prácticas de arquitectura.\n\n🔧 Stack principal\nFrontend: React 18 + TypeScript\nBackend: Go (Gin / Echo / Fiber) y/o Node.js (NestJS)\nAPIs: REST & GraphQL\nBase de datos: PostgreSQL / MySQL / Cloud SQL\nCloud: GCP (GKE, Pub/Sub, etc.)\nDevOps: Docker, Kubernetes, Terraform\nArquitectura: Hexagonal, DDD\n\n🎯 Qué buscamos\n+3 años de experiencia en desarrollo fullstack\nExperiencia sólida en Go y/o Node.js\nExperiencia real en React + TypeScript\nConocimiento en microservicios y entornos cloud\nExperiencia desplegando en Kubernetes\n\n✨ Qué ofrecemos\nModalidad 100% remota (LATAM)\nProyectos reales en producción, no POCs\nEquipos senior y cultura técnica\nStack moderno y foco en buenas prácticas\nCrecimiento profesional y aprendizaje continuo\n\nPostula → https://bejoby.com/jobs/fullstack-cloud-engineer-latam\n\n🔁 Agradecemos compartir con tu red tech.\n\n#Hiring #FullstackDeveloper #GoLang #NodeJS #React #Cloud #GCP #Kubernetes #LATAMJobs #RemoteJobs #TechCareers",
+        "hashtags": ["#Hiring", "#FullstackDeveloper", "#GoLang", "#NodeJS", "#React", "#Cloud", "#GCP", "#Kubernetes", "#LATAMJobs", "#RemoteJobs", "#TechCareers"]
+      }
+    },
+    {
+      "id": "BJ-2026-002",
+      "status": "active",
+      "published_date": "2026-03-31",
+      "title": "Backend Developer",
+      "subtitle": "Java Spring Boot / Node.js — LATAM Remoto",
+      "slug": "backend-developer-java-node-latam",
+      "company_display": "Empresa confidencial — Sector Tecnología",
+      "location": {
+        "type": "remote",
+        "region": "LATAM",
+        "timezone_preference": "GMT-3 a GMT-6"
+      },
+      "contract": {
+        "type": "contractor",
+        "modality": "100% remoto",
+        "duration": "Indefinido"
+      },
+      "seniority": "Semi-Senior / Senior",
+      "experience_years": "3+",
+      "description": "Buscamos Backend Developers con experiencia en Java Spring Boot y/o Node.js para participar en el desarrollo de microservicios backend en entornos cloud, con foco en calidad, rendimiento y arquitectura limpia.",
+      "stack": {
+        "backend": ["Java Spring Boot", "Node.js (NestJS / Fastify)"],
+        "databases": ["PostgreSQL", "MySQL"],
+        "cloud": ["GCP", "OCI (Oracle Cloud)"],
+        "devops": ["Docker", "CI/CD", "Git"],
+        "architecture": ["Microservicios", "Design Patterns", "BPM"],
+        "methodologies": ["Scrum", "Kanban"]
+      },
+      "responsibilities": [
+        "Participar en el desarrollo, mantenimiento y mejora continua de microservicios backend",
+        "Aplicar buenas prácticas de desarrollo, incluyendo pruebas unitarias, control de versiones con Git y CI/CD",
+        "Colaborar con equipos multidisciplinarios bajo metodologías Scrum o Kanban",
+        "Aportar ideas sobre arquitectura, patrones de diseño y optimización de rendimiento",
+        "Integrar y desplegar soluciones en entornos cloud (GCP u OCI)"
+      ],
+      "requirements": {
+        "mandatory": [
+          "Experiencia en desarrollo y práctica con Java Spring Boot y/o Node.js (NestJS / Fastify)",
+          "Experiencia o conocimientos en BPM y soluciones orientadas a procesos de negocio",
+          "Conocimiento en pruebas unitarias y control de versiones con Git",
+          "Experiencia trabajando con metodologías ágiles (Scrum o Kanban)",
+          "Experiencia con alguna nube pública (GCP u OCI)",
+          "Manejo de conceptos de CI/CD y principios de diseño/arquitectura de software",
+          "Enfoque en calidad, rendimiento y mantenibilidad del código",
+          "Conocimiento en microservicios"
+        ],
+        "nice_to_have": [
+          "Inglés deseable (nivel lectura técnica)",
+          "Experiencia previa en proyectos críticos o de logística",
+          "Experiencia con Docker y contenedores"
+        ]
+      },
+      "what_we_offer": [
+        "Modalidad 100% remota (LATAM)",
+        "Proyectos reales en producción con impacto",
+        "Equipos multidisciplinarios y cultura técnica",
+        "Metodologías ágiles y stack moderno",
+        "Crecimiento profesional y aprendizaje continuo"
+      ],
+      "tags": ["Backend", "Java", "Spring Boot", "Node.js", "NestJS", "Fastify", "GCP", "OCI", "Microservicios", "BPM", "Docker", "CI/CD", "Remote", "LATAM", "Scrum", "Kanban"],
+      "apply_url": "https://bejoby.com/jobs/backend-developer-java-node-latam",
+      "linkedin_post": {
+        "ready": true,
+        "text": "🚀 Estamos contratando\nBackend Developer (Java Spring Boot / Node.js) – LATAM (Remoto)\n\nBuscamos Backend Developers para sumarse a equipos de ingeniería trabajando en microservicios de alto impacto con stack moderno y enfoque en calidad.\n\n🔧 Stack principal\nBackend: Java Spring Boot y/o Node.js (NestJS / Fastify)\nCloud: GCP / OCI\nDevOps: Docker, CI/CD, Git\nArquitectura: Microservicios, Design Patterns, BPM\nMetodologías: Scrum, Kanban\n\n🎯 Qué buscamos\nExperiencia en Java Spring Boot y/o Node.js\nConocimiento en BPM y procesos de negocio\nPruebas unitarias + Git + CI/CD\nExperiencia con nube pública (GCP u OCI)\nFoco en calidad y mantenibilidad del código\nMicroservicios en producción\n\n✨ Qué ofrecemos\nModalidad 100% remota (LATAM)\nProyectos reales en producción con impacto\nEquipos multidisciplinarios y cultura técnica\nMetodologías ágiles y stack moderno\nCrecimiento profesional y aprendizaje continuo\n\nPostula → https://bejoby.com/jobs/backend-developer-java-node-latam\n\n🔁 Agradecemos compartir con tu red tech.\n\n#Hiring #BackendDeveloper #Java #SpringBoot #NodeJS #GCP #Microservices #LATAMJobs #RemoteJobs #TechCareers",
+        "hashtags": ["#Hiring", "#BackendDeveloper", "#Java", "#SpringBoot", "#NodeJS", "#GCP", "#Microservices", "#LATAMJobs", "#RemoteJobs", "#TechCareers"]
+      }
+    }
+  ],
+
+  "search_index": {
+    "description": "Índice invertido para búsqueda por keywords. El bot debe buscar en este índice para responder consultas de empleo.",
+    "keywords": {
+      "fullstack": ["BJ-2026-001"],
+      "frontend": ["BJ-2026-001"],
+      "react": ["BJ-2026-001"],
+      "typescript": ["BJ-2026-001"],
+      "nextjs": ["BJ-2026-001"],
+      "go": ["BJ-2026-001"],
+      "golang": ["BJ-2026-001"],
+      "gin": ["BJ-2026-001"],
+      "echo": ["BJ-2026-001"],
+      "fiber": ["BJ-2026-001"],
+      "node": ["BJ-2026-001", "BJ-2026-002"],
+      "nodejs": ["BJ-2026-001", "BJ-2026-002"],
+      "nestjs": ["BJ-2026-001", "BJ-2026-002"],
+      "fastify": ["BJ-2026-001", "BJ-2026-002"],
+      "express": ["BJ-2026-001"],
+      "graphql": ["BJ-2026-001"],
+      "rest": ["BJ-2026-001"],
+      "api": ["BJ-2026-001"],
+      "postgresql": ["BJ-2026-001", "BJ-2026-002"],
+      "mysql": ["BJ-2026-001", "BJ-2026-002"],
+      "cloud sql": ["BJ-2026-001"],
+      "gcp": ["BJ-2026-001", "BJ-2026-002"],
+      "google cloud": ["BJ-2026-001", "BJ-2026-002"],
+      "oci": ["BJ-2026-002"],
+      "oracle": ["BJ-2026-002"],
+      "kubernetes": ["BJ-2026-001"],
+      "k8s": ["BJ-2026-001"],
+      "gke": ["BJ-2026-001"],
+      "docker": ["BJ-2026-001", "BJ-2026-002"],
+      "terraform": ["BJ-2026-001"],
+      "microservicios": ["BJ-2026-001", "BJ-2026-002"],
+      "microservices": ["BJ-2026-001", "BJ-2026-002"],
+      "hexagonal": ["BJ-2026-001"],
+      "ddd": ["BJ-2026-001"],
+      "java": ["BJ-2026-002"],
+      "spring boot": ["BJ-2026-002"],
+      "spring": ["BJ-2026-002"],
+      "bpm": ["BJ-2026-002"],
+      "scrum": ["BJ-2026-002"],
+      "kanban": ["BJ-2026-002"],
+      "ci/cd": ["BJ-2026-001", "BJ-2026-002"],
+      "cicd": ["BJ-2026-001", "BJ-2026-002"],
+      "git": ["BJ-2026-002"],
+      "jest": ["BJ-2026-001"],
+      "backend": ["BJ-2026-001", "BJ-2026-002"],
+      "remoto": ["BJ-2026-001", "BJ-2026-002"],
+      "remote": ["BJ-2026-001", "BJ-2026-002"],
+      "latam": ["BJ-2026-001", "BJ-2026-002"],
+      "wcag": ["BJ-2026-001"],
+      "accesibilidad": ["BJ-2026-001"],
+      "atomic design": ["BJ-2026-001"],
+      "design patterns": ["BJ-2026-001", "BJ-2026-002"],
+      "ingeniero": ["BJ-2026-001", "BJ-2026-002"],
+      "engineer": ["BJ-2026-001", "BJ-2026-002"],
+      "developer": ["BJ-2026-001", "BJ-2026-002"],
+      "desarrollador": ["BJ-2026-001", "BJ-2026-002"],
+      "cloud": ["BJ-2026-001", "BJ-2026-002"],
+      "nube": ["BJ-2026-001", "BJ-2026-002"],
+      "trabajo": ["BJ-2026-001", "BJ-2026-002"],
+      "empleo": ["BJ-2026-001", "BJ-2026-002"]
+    }
+  },
+
+  "agent_instructions": {
+    "search_behavior": {
+      "description": "Instrucciones para que el bot filtre correctamente las ofertas cuando el usuario busca empleo.",
+      "rules": [
+        "Tokenizar la consulta del usuario en palabras individuales (lowercase, sin acentos)",
+        "Buscar cada token en search_index.keywords",
+        "Retornar los jobs que hagan match con AL MENOS un token",
+        "Si el usuario busca un stack específico (ej: 'Go + React'), retornar solo jobs que matcheen TODOS los tokens",
+        "Si no hay resultados, sugerir revisar las ofertas activas o registrarse para alertas",
+        "NUNCA revelar nombre de empresa ni consultora intermediaria"
+      ],
+      "example_queries": [
+        {"query": "trabajo react", "expected": ["BJ-2026-001"]},
+        {"query": "backend java", "expected": ["BJ-2026-002"]},
+        {"query": "remoto latam", "expected": ["BJ-2026-001", "BJ-2026-002"]},
+        {"query": "node.js", "expected": ["BJ-2026-001", "BJ-2026-002"]},
+        {"query": "go kubernetes", "expected": ["BJ-2026-001"]},
+        {"query": "spring boot", "expected": ["BJ-2026-002"]},
+        {"query": "fullstack cloud", "expected": ["BJ-2026-001"]},
+        {"query": "data engineer", "expected": []}
+      ]
+    },
+    "response_format": {
+      "when_jobs_found": "Mostrar: título, ubicación, stack principal, link de postulación. Máximo 2-3 líneas por job.",
+      "when_no_jobs_found": "Decir: 'No tenemos ofertas que coincidan con tu búsqueda en este momento. Te invitamos a revisar todas las ofertas activas en bejoby.com o registrarte para recibir alertas.'",
+      "confidentiality_reminder": "NUNCA mencionar el nombre real de la empresa. Siempre decir 'Empresa confidencial del sector tecnológico'."
+    },
+    "apply_flow": {
+      "steps": [
+        "Usuario ve la oferta y dice querer postular",
+        "Bot solicita: nombre completo, email, teléfono, LinkedIn URL, CV (archivo o link)",
+        "Bot confirma datos y envía a la URL de postulación",
+        "Bot cierra con: '¡Listo! Tus datos han sido enviados. Te contactaremos pronto. ¿Puedo ayudarte con algo más?'"
+      ]
+    }
+  }
+}

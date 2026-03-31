@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=BAANUYwNGYfaASXdJEVNswSOTPqtQUpjqBifJ0i6HhpiM-MV9ReWI30T_89pkKw5IY1yt_aqgF5yd0fRts&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=BAANUYwNGYfaASXdJEVNswSOTPqtQUpjqBifJ0i6HhpiM-MV9ReWI30T_89pkKw5IY1yt_aqgF5yd0fRts&components=buttons&disable-funding=venmo&currency=USD"></script>
 </head>
 <body>
 
@@ -48,15 +48,11 @@
                 <span class="catalog-card-badge" style="display:inline-block;margin-bottom:16px;">Fundamentos</span>
                 <h1>Curso de Inteligencia Artificial</h1>
                 <p>Conceptos fundamentales, aplicaciones reales y casos de negocio. Tu puerta de entrada al mundo de la IA.</p>
-                <!-- BLACK WEEK BANNER -->
                 <div class="bw-banner">
-                    <span class="bw-tag">⚡ BLACK WEEK — Oferta limitada</span>
+                    <span class="bw-tag">🎓 Precio especial de lanzamiento</span>
                     <div class="bw-pricing">
-                        <span class="bw-old">USD $3,000</span>
-                        <span class="bw-arrow">→</span>
-                        <span class="bw-new">USD $500</span>
+                        <span class="bw-new">USD $10</span>
                     </div>
-                    <p class="bw-save">Ahorras USD $2,500 — 83% de descuento</p>
                 </div>
                 <picture style="margin-top:var(--space-5);">
                     <source srcset="assets/img/curso-hero-1.webp" type="image/webp">
@@ -198,35 +194,90 @@
         </div>
     </section>
 
-    <!-- BLACK WEEK — COMPRA -->
+    <!-- INSCRIPCIÓN -->
     <section class="section" id="comprar">
-        <div class="container">
+        <div class="container" style="max-width:640px;">
             <header class="section-header">
-                <div class="bw-banner bw-banner-lg">
-                    <span class="bw-tag">⚡ BLACK WEEK — Oferta limitada</span>
-                    <h2 style="margin:16px 0 8px;">Curso de Inteligencia Artificial</h2>
-                    <p style="color:var(--text-secondary);margin-bottom:20px;">Acceso completo: 6 módulos, proyecto final, certificación AIF369, comunidad y acceso a BeJoby.com</p>
-                    <div class="bw-pricing bw-pricing-lg">
-                        <span class="bw-old">USD $3,000</span>
-                        <span class="bw-arrow">→</span>
-                        <span class="bw-new">USD $500</span>
-                    </div>
-                    <p class="bw-save">Ahorras USD $2,500 — 83% de descuento</p>
-                    <div style="margin-top:24px;max-width:400px;margin-left:auto;margin-right:auto;">
-                        <div id="paypal-container-YJX3BT86XLQEY"></div>
-                        <script>
-                            paypal.HostedButtons({
-                                hostedButtonId: "YJX3BT86XLQEY",
-                            }).render("#paypal-container-YJX3BT86XLQEY")
-                        </script>
-                    </div>
-                    <p style="margin-top:16px;font-size:13px;color:var(--text-muted);">Pago seguro con PayPal · Tarjeta de crédito/débito aceptada</p>
-                    <div style="margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                        <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 ¿Dudas? Conversemos</a>
-                        <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20inscribirme%20al%20Curso%20de%20IA%20Black%20Week" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#25D366;color:#25D366;">💬 WhatsApp</a>
-                    </div>
+                <h2>Inscríbete — Curso de Inteligencia Artificial</h2>
+                <p style="color:var(--text-secondary);">Acceso completo: 6 módulos, proyecto final, certificación AIF369, comunidad y acceso a BeJoby.com</p>
+                <div class="bw-pricing" style="margin:16px 0;">
+                    <span class="bw-new" style="font-size:2rem;">USD $10</span>
                 </div>
             </header>
+
+            <div class="enrollment-wrapper" data-course="Curso de Inteligencia Artificial">
+                <div class="enrollment-steps">
+                    <div class="enrollment-step active" data-step="1"><span class="step-num">1</span> Tus datos</div>
+                    <div class="enrollment-step" data-step="2"><span class="step-num">2</span> Pago</div>
+                </div>
+
+                <form class="enrollment-form">
+                    <div class="form-group">
+                        <label>Nombre completo *</label>
+                        <input type="text" name="name" required autocomplete="name" placeholder="Tu nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label>Correo electrónico *</label>
+                        <input type="email" name="email" required autocomplete="email" placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono / WhatsApp *</label>
+                        <input type="tel" name="phone" required autocomplete="tel" placeholder="+56 9 1234 5678">
+                    </div>
+                    <div class="form-group">
+                        <label>País *</label>
+                        <select name="country" required>
+                            <option value="">Selecciona tu país</option>
+                            <option value="CL">Chile</option>
+                            <option value="CO">Colombia</option>
+                            <option value="MX">México</option>
+                            <option value="AR">Argentina</option>
+                            <option value="PE">Perú</option>
+                            <option value="EC">Ecuador</option>
+                            <option value="BO">Bolivia</option>
+                            <option value="VE">Venezuela</option>
+                            <option value="UY">Uruguay</option>
+                            <option value="PY">Paraguay</option>
+                            <option value="CR">Costa Rica</option>
+                            <option value="PA">Panamá</option>
+                            <option value="GT">Guatemala</option>
+                            <option value="DO">Rep. Dominicana</option>
+                            <option value="HN">Honduras</option>
+                            <option value="SV">El Salvador</option>
+                            <option value="NI">Nicaragua</option>
+                            <option value="ES">España</option>
+                            <option value="US">Estados Unidos</option>
+                            <option value="BR">Brasil</option>
+                            <option value="OTHER">Otro</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;font-size:var(--text-lg);padding:14px 28px;">Continuar al pago →</button>
+                </form>
+
+                <div class="enrollment-payment" style="display:none;">
+                    <div class="enrollment-summary card">
+                        <p><strong>Alumno:</strong> <span class="summary-name"></span></p>
+                        <p><strong>Email:</strong> <span class="summary-email"></span></p>
+                        <p><strong>Curso:</strong> Curso de Inteligencia Artificial</p>
+                        <p style="font-size:1.25rem;margin-top:8px;"><strong>Total:</strong> <span style="color:#00D9CC;">USD $10</span></p>
+                    </div>
+                    <div class="paypal-btn-container" style="margin-top:20px;"></div>
+                    <p style="margin-top:12px;font-size:13px;color:var(--text-muted);text-align:center;">Pago seguro con PayPal · Tarjeta de crédito/débito aceptada</p>
+                    <button type="button" class="btn btn-link enrollment-back" style="width:100%;margin-top:8px;">← Volver a editar datos</button>
+                </div>
+
+                <div class="enrollment-success" style="display:none;text-align:center;padding:40px 0;">
+                    <div style="font-size:3rem;margin-bottom:16px;">✅</div>
+                    <h3>¡Inscripción exitosa!</h3>
+                    <p>Gracias por inscribirte en <strong>Curso de Inteligencia Artificial</strong>.</p>
+                    <p style="color:var(--text-muted);margin-top:8px;">Te enviaremos los detalles de acceso a tu correo electrónico.</p>
+                </div>
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 ¿Dudas? Conversemos</a>
+                <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20inscribirme%20al%20Curso%20de%20IA" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#25D366;color:#25D366;">💬 WhatsApp</a>
+            </div>
         </div>
     </section>
 </main>

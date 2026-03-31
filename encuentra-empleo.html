@@ -127,6 +127,28 @@
         </div>
     </section>
 
+    <!-- ═══ OFERTAS LABORALES ACTIVAS ═══ -->
+    <section class="section" id="ofertas">
+        <div class="container">
+            <header class="section-header">
+                <h2>Ofertas Laborales Activas</h2>
+                <p>Oportunidades reales para profesionales de tecnología. Filtra por habilidad, rol o tecnología.</p>
+            </header>
+
+            <div style="max-width:500px;margin:0 auto var(--space-6);">
+                <input type="text" id="job-search" placeholder="Buscar por tecnología, rol o keyword… ej: React, Java, backend" style="width:100%;padding:14px 20px;background:var(--bg-card);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-md);color:var(--text-primary);font-size:var(--text-base);font-family:inherit;transition:border-color 0.2s;" onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+            </div>
+
+            <div id="job-listings" class="grid-2">
+                <!-- Jobs rendered by JS -->
+            </div>
+
+            <p id="job-no-results" style="display:none;text-align:center;color:var(--text-muted);padding:var(--space-6) 0;font-size:var(--text-lg);">
+                No encontramos ofertas para tu búsqueda. Prueba con otros términos o revisa todas las ofertas disponibles.
+            </p>
+        </div>
+    </section>
+
     <!-- CTA -->
     <section class="section">
         <header class="section-header">
