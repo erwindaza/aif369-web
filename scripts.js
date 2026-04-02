@@ -758,39 +758,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function buildBackendPayload(submission) {
-        const messageParts = [];
-
-        if (submission.message) {
-            messageParts.push(submission.message);
-        }
-
-        if (submission.role) {
-            messageParts.push(`Cargo/rol: ${submission.role}`);
-        }
-
-        if (submission.context) {
-            messageParts.push(`Contexto: ${submission.context}`);
-        }
-
-        if (submission.interest) {
-            messageParts.push(`Interés: ${submission.interest}`);
-        }
-
-        if (submission.teamSize) {
-            messageParts.push(`Tamaño del equipo: ${submission.teamSize}`);
-        }
-
-        if (messageParts.length === 0) {
-            messageParts.push("Solicitud enviada desde el sitio web.");
-        }
-
         return {
             name: submission.fullName || submission.name || "",
             email: submission.email || "",
             company: submission.company || "",
+            role: submission.role || "",
             interest: submission.interest || "",
             team_size: submission.teamSize || "",
-            message: messageParts.join("\n"),
+            message: submission.message || submission.context || "Solicitud enviada desde el sitio web.",
             source_page: window.location.href
         };
     }

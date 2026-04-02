@@ -154,7 +154,8 @@ def send_email_notification(submission_data):
             <h2>Nuevo formulario de contacto recibido</h2>
             <p><strong>Nombre:</strong> {submission_data["name"]}</p>
             <p><strong>Email:</strong> {submission_data["email"]}</p>
-            <p><strong>Empresa/Cargo:</strong> {submission_data["company"]}</p>
+            <p><strong>Empresa:</strong> {submission_data.get("company", "—")}</p>
+            <p><strong>Cargo/Rol:</strong> {submission_data.get("role", "—")}</p>
             {optional_lines}
             <p><strong>Mensaje:</strong></p>
             <p>{submission_data["message"]}</p>
@@ -240,6 +241,10 @@ def send_confirmation_email(submission_data):
                 <tr>
                   <td style="color:#7B8BA8;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">Empresa</td>
                   <td style="color:#E2E8F0;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">{submission_data.get("company","—")}</td>
+                </tr>
+                <tr>
+                  <td style="color:#7B8BA8;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">Cargo/Rol</td>
+                  <td style="color:#E2E8F0;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">{submission_data.get("role","—")}</td>
                 </tr>
                 <tr>
                   <td style="color:#7B8BA8;font-size:13px;padding:6px 0;vertical-align:top;">Mensaje</td>
@@ -357,7 +362,8 @@ def submit_contact_form():
         data = request.get_json()
         name = data.get("name") or data.get("fullName") or ""
         email = data.get("email") or ""
-        company = data.get("company") or data.get("role") or ""
+        company = data.get("company") or ""
+        role = data.get("role") or ""
         message = data.get("message") or data.get("context") or ""
         interest = data.get("interest") or ""
         team_size = data.get("team_size") or data.get("teamSize") or ""
@@ -385,6 +391,7 @@ def submit_contact_form():
             "name": name,
             "email": email,
             "company": company,
+            "role": role,
             "message": message,
             "source_page": data.get("source_page", request.referrer or ""),
             "user_agent": request.headers.get("User-Agent", ""),
