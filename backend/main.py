@@ -327,6 +327,15 @@ def health_check():
     return jsonify({"status": "ok", "service": "aif369-backend"}), 200
 
 
+@app.route("/api/config/paypal", methods=["GET"])
+def get_paypal_config():
+    """Return PayPal client-id from environment (Secret Manager in production)."""
+    client_id = os.getenv("PAYPAL_CLIENT_ID", "")
+    if not client_id:
+        return jsonify({"error": "PayPal not configured"}), 503
+    return jsonify({"client_id": client_id}), 200
+
+
 @app.route("/api/contact", methods=["POST"])
 def submit_contact_form():
     """

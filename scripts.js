@@ -952,9 +952,38 @@ document.addEventListener("DOMContentLoaded", function () {
    ENROLLMENT FORM + PAYPAL SMART BUTTONS
    Flow: Fill form → Validate → Show PayPal → Pay $10 → Success
    ═══════════════════════════════════════════════════════════ */
+/* ═══ PayPal SDK Loader (client-id from backend, never hardcoded) ═══ */
+var _paypalSDKReady = null; // resolved promise once SDK is loaded
+
+function loadPayPalSDK() {
+    if (_paypalSDKReady) return _paypalSDKReady;
+
+    var BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'https://aif369-backend-api-dev-944757324945.us-central1.run.app'
+        : 'https://aif369-backend-api-production-944757324945.us-central1.run.app';
+
+    _paypalSDKReady = fetch(BACKEND_URL + '/api/config/paypal')
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            if (!data.client_id) throw new Error('No PayPal client_id');
+            return new Promise(function (resolve, reject) {
+                var script = document.createElement('script');
+                script.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(data.client_id) + '&components=buttons&disable-funding=venmo&currency=USD';
+                script.onload = resolve;
+                script.onerror = function () { reject(new Error('PayPal SDK failed to load')); };
+                document.head.appendChild(script);
+            });
+        });
+
+    return _paypalSDKReady;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     var wrappers = document.querySelectorAll('.enrollment-wrapper');
     if (!wrappers.length) return;
+
+    // Pre-fetch PayPal SDK so it's ready when user finishes the form
+    loadPayPalSDK().catch(function (err) { console.warn('PayPal pre-load failed, will retry:', err); });
 
     wrappers.forEach(function (wrapper) {
         var courseName = wrapper.getAttribute('data-course') || 'Curso AIF369';
@@ -1011,10 +1040,12 @@ document.addEventListener('DOMContentLoaded', function () {
             paymentDiv.style.display = 'block';
             setStep(2);
 
-            // Render PayPal buttons (only once)
-            if (!paypalRendered && typeof paypal !== 'undefined' && paypal.Buttons) {
+            // Render PayPal buttons (only once, after SDK loaded)
+            if (!paypalRendered) {
                 paypalRendered = true;
-                paypal.Buttons({
+                loadPayPalSDK().then(function () {
+                    if (typeof paypal === 'undefined' || !paypal.Buttons) return;
+                    paypal.Buttons({
                     style: {
                         layout: 'vertical',
                         color: 'gold',
@@ -1053,6 +1084,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         alert('Hubo un error con el pago. Por favor intenta de nuevo o contáctanos por WhatsApp.');
                     }
                 }).render(paypalContainer);
+                }); // end loadPayPalSDK.then
             }
 
             // Scroll to payment section
