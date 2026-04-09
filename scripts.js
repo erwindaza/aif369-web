@@ -934,8 +934,8 @@ function loadPayPalSDK() {
     if (_paypalSDKReady) return _paypalSDKReady;
 
     var BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'https://aif369-backend-api-dev-944757324945.us-central1.run.app'
-        : 'https://aif369-backend-api-production-944757324945.us-central1.run.app';
+        ? 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'
+        : 'https://aif369-backend-api-830685315001.us-central1.run.app';
 
     _paypalSDKReady = fetch(BACKEND_URL + '/api/config/paypal')
         .then(function (res) { return res.json(); })
@@ -1079,8 +1079,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Send enrollment data to backend
     function sendEnrollment(data) {
         var BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'https://aif369-backend-api-dev-944757324945.us-central1.run.app'
-            : 'https://aif369-backend-api-production-944757324945.us-central1.run.app';
+            ? 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'
+            : 'https://aif369-backend-api-830685315001.us-central1.run.app';
 
         fetch(BACKEND_URL + '/api/enrollment', {
             method: 'POST',
@@ -1156,21 +1156,46 @@ document.addEventListener('DOMContentLoaded', function () {
             var card = document.createElement('div');
             card.className = 'job-card';
 
-            var tagsHtml = job.tags.map(function (t) {
-                return '<span class="job-tag">' + t + '</span>';
-            }).join('');
+            var h3 = document.createElement('h3');
+            h3.textContent = job.title;
+            card.appendChild(h3);
 
-            var reqsHtml = job.requirements.map(function (r) {
-                return '<li>' + r + '</li>';
-            }).join('');
+            var meta = document.createElement('p');
+            meta.className = 'job-meta';
+            meta.textContent = job.company + ' · ' + job.modality + ' · ' + job.location;
+            card.appendChild(meta);
 
-            card.innerHTML =
-                '<h3>' + job.title + '</h3>' +
-                '<p class="job-meta">' + job.company + ' · ' + job.modality + ' · ' + job.location + '</p>' +
-                '<p class="job-desc">' + job.description + '</p>' +
-                '<div class="job-tags">' + tagsHtml + '</div>' +
-                '<ul style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:var(--space-4);padding-left:20px;line-height:1.8;">' + reqsHtml + '</ul>' +
-                '<a href="' + encodeURI(job.applyUrl) + '" target="_blank" rel="noopener" class="btn-apply">Postularme →</a>';
+            var desc = document.createElement('p');
+            desc.className = 'job-desc';
+            desc.textContent = job.description;
+            card.appendChild(desc);
+
+            var tagsDiv = document.createElement('div');
+            tagsDiv.className = 'job-tags';
+            job.tags.forEach(function (t) {
+                var span = document.createElement('span');
+                span.className = 'job-tag';
+                span.textContent = t;
+                tagsDiv.appendChild(span);
+            });
+            card.appendChild(tagsDiv);
+
+            var ul = document.createElement('ul');
+            ul.style.cssText = 'font-size:0.85rem;color:var(--text-secondary);margin-bottom:var(--space-4);padding-left:20px;line-height:1.8;';
+            job.requirements.forEach(function (r) {
+                var li = document.createElement('li');
+                li.textContent = r;
+                ul.appendChild(li);
+            });
+            card.appendChild(ul);
+
+            var a = document.createElement('a');
+            a.href = job.applyUrl;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.className = 'btn-apply';
+            a.textContent = 'Postularme →';
+            card.appendChild(a);
 
             container.appendChild(card);
         });
