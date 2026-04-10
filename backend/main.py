@@ -583,7 +583,7 @@ def submit_scorecard():
         total_score = data.get("total_score", 0)
         maturity_level = data.get("maturity_level", "")
         maturity_number = data.get("maturity_number", 0)
-        dimensions_data = data.get("dimensions", {})
+        dimensions_data = data.get("metrics") or data.get("dimensions") or {}
         answers_data = data.get("answers", [])
 
         if not name or not email:
