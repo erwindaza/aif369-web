@@ -424,8 +424,8 @@ class TestContentTopics:
 # ══════════════════════════════════════════════════════════
 
 class TestBigQueryErrors:
-    def test_bq_insert_error_returns_500(self, client):
-        """When BigQuery insert fails, return 500."""
+    def test_bq_insert_error_is_non_fatal(self, client):
+        """When BigQuery insert fails, form still succeeds (BQ is analytics, not critical)."""
         with patch("main.bq_client") as mock_bq:
             mock_bq.insert_rows_json.return_value = [{"errors": ["insert failed"]}]
             payload = {
@@ -434,7 +434,9 @@ class TestBigQueryErrors:
                 "message": "Test"
             }
             response = _post_json(client, "/api/contact", payload)
-            assert response.status_code == 500
+            assert response.status_code == 200
+            data = response.get_json()
+            assert data["success"] is True
 
 
 # ══════════════════════════════════════════════════════════

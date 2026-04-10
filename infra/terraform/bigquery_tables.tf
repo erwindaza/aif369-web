@@ -36,6 +36,12 @@ resource "google_bigquery_table" "contact_form" {
       description = "Empresa del contacto"
     },
     {
+      name        = "role"
+      type        = "STRING"
+      mode        = "NULLABLE"
+      description = "Cargo o rol del contacto"
+    },
+    {
       name        = "message"
       type        = "STRING"
       mode        = "REQUIRED"

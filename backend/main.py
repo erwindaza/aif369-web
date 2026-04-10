@@ -401,16 +401,14 @@ def submit_contact_form():
             "team_size": team_size or None
         }
         
-        # Insertar en BigQuery
+        # Insertar en BigQuery (non-blocking — analytics shouldn't break user flow)
         table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
-        errors = bq_client.insert_rows_json(table_ref, [row])
-        
-        if errors:
-            print(f"BigQuery insert errors: {errors}")
-            return jsonify({
-                "error": "Failed to save submission",
-                "details": errors
-            }), 500
+        try:
+            errors = bq_client.insert_rows_json(table_ref, [row])
+            if errors:
+                print(f"BigQuery insert errors (non-fatal): {errors}")
+        except Exception as bq_err:
+            print(f"BigQuery insert failed (non-fatal): {bq_err}")
         
         # Enviar notificaciones por email
         email_data = {
@@ -494,14 +492,12 @@ def submit_education_form():
         }
 
         table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
-        errors = bq_client.insert_rows_json(table_ref, [row])
-
-        if errors:
-            print(f"BigQuery insert errors: {errors}")
-            return jsonify({
-                "error": "Failed to save submission",
-                "details": errors
-            }), 500
+        try:
+            errors = bq_client.insert_rows_json(table_ref, [row])
+            if errors:
+                print(f"BigQuery insert errors (non-fatal): {errors}")
+        except Exception as bq_err:
+            print(f"BigQuery insert failed (non-fatal): {bq_err}")
 
         email_data = {
             **row,
