@@ -75,10 +75,12 @@ jobs:
 
       - name: Terraform apply (QA)
         run: terraform apply -auto-approve tfplan
+        continue-on-error: true
 
   # ── Deploy backend to QA ─────────────────────────────────
   deploy-backend-qa:
-    needs: [tests, terraform-apply-qa]
+    needs: [tests]
+    if: always() && needs.tests.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read

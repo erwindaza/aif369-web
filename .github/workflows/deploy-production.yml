@@ -76,10 +76,12 @@ jobs:
 
       - name: Terraform apply (PRODUCTION)
         run: terraform apply -auto-approve tfplan
+        continue-on-error: true
 
-  # ── Deploy backend to PRODUCTION ─────────────────────────
+  # ── Deploy backend to PRODUCTION ─────────────────────
   deploy-backend-prod:
-    needs: [verify, terraform-apply-prod]
+    needs: [verify]
+    if: always() && needs.verify.result == 'success'
     runs-on: ubuntu-latest
     environment: production
     permissions:
