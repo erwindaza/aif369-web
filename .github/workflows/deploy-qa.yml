@@ -117,7 +117,7 @@ jobs:
             --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
             --set-env-vars "PROJECT_ID=$PROJECT_ID,DATASET_ID=$DATASET_ID,ENVIRONMENT=$ENVIRONMENT" \
             --set-env-vars "SMTP_USER=edaza@aif369.com,NOTIFICATION_EMAIL=edaza@aif369.com,CC_EMAIL=erwin.daza@gmail.com" \
-            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest,CONTENT_API_KEY=aif369-content-api-key:latest" \
+            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest,CONTENT_API_KEY=aif369-content-api-key:latest,PAYPAL_CLIENT_ID=aif369-paypal-client-id:latest" \
             --tag qa
 
       - name: Health check (QA)
@@ -143,3 +143,30 @@ jobs:
           echo "║  Next step: Create PR from qa → main     ║"
           echo "║  to promote to PRODUCTION.               ║"
           echo "╚══════════════════════════════════════════╝"
+
+  # ── Post-deploy QA Agent (automated smoke tests) ─────────
+  qa-agent:
+    needs: [deploy-backend-qa]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install test dependencies
+        run: pip install requests
+
+      - name: Run QA Agent against deployed QA
+        run: python backend/tests/qa_agent.py --env=qa --fix-report
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+
+      - name: Upload QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-report
+          path: qa-report-*.json

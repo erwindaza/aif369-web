@@ -58,3 +58,4 @@ Thumbs.db
 # Image originals (pre-QR backups)
 assets/img/originals/
 assets/img/build_images.py
+qa-report-*.json

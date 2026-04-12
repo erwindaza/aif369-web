@@ -119,7 +119,7 @@ jobs:
             --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
             --set-env-vars "PROJECT_ID=$PROJECT_ID,DATASET_ID=$DATASET_ID,ENVIRONMENT=$ENVIRONMENT" \
             --set-env-vars "SMTP_USER=edaza@aif369.com,NOTIFICATION_EMAIL=edaza@aif369.com,CC_EMAIL=erwin.daza@gmail.com" \
-            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest"
+            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest,CONTENT_API_KEY=aif369-content-api-key:latest,PAYPAL_CLIENT_ID=aif369-paypal-client-id:latest"
 
       - name: Verify production deployment
         run: |
