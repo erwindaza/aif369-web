@@ -38,7 +38,13 @@ DATASET_ID = os.getenv("DATASET_ID", "aif369_analytics")
 ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 TABLE_ID = "contact_form_submissions"
 
-bq_client = bigquery.Client(project=PROJECT_ID)
+_bq_client = None
+
+def get_bq_client():
+    global _bq_client
+    if _bq_client is None:
+        _bq_client = bigquery.Client(project=PROJECT_ID)
+    return _bq_client
 
 # Configuración SMTP de Zoho Mail
 SMTP_HOST = "smtp.zoho.com"
@@ -404,7 +410,7 @@ def submit_contact_form():
         # Insertar en BigQuery (non-blocking — analytics shouldn't break user flow)
         table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
         try:
-            errors = bq_client.insert_rows_json(table_ref, [row])
+            errors = get_bq_client().insert_rows_json(table_ref, [row])
             if errors:
                 print(f"BigQuery insert errors (non-fatal): {errors}")
         except Exception as bq_err:
@@ -493,7 +499,7 @@ def submit_education_form():
 
         table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
         try:
-            errors = bq_client.insert_rows_json(table_ref, [row])
+            errors = get_bq_client().insert_rows_json(table_ref, [row])
             if errors:
                 print(f"BigQuery insert errors (non-fatal): {errors}")
         except Exception as bq_err:
@@ -556,7 +562,7 @@ def save_chat_to_bigquery(message_data):
     """Guarda un intercambio de chat en BigQuery para seguimiento y analytics."""
     try:
         table_ref = f"{PROJECT_ID}.{DATASET_ID}.{CHAT_TABLE_ID}"
-        errors = bq_client.insert_rows_json(table_ref, [message_data])
+        errors = get_bq_client().insert_rows_json(table_ref, [message_data])
         if errors:
             print(f"Chat BQ insert errors: {errors}")
             return False
@@ -612,7 +618,7 @@ def submit_scorecard():
         # Try to insert into scorecard table; fall back to contact table
         try:
             table_ref = f"{PROJECT_ID}.{DATASET_ID}.{SCORECARD_TABLE}"
-            errors = bq_client.insert_rows_json(table_ref, [row])
+            errors = get_bq_client().insert_rows_json(table_ref, [row])
             if errors:
                 print(f"Scorecard BQ insert errors: {errors}, falling back to contact table")
                 raise Exception("Scorecard table insert failed")
@@ -637,7 +643,7 @@ def submit_scorecard():
                 "team_size": None
             }
             table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
-            bq_client.insert_rows_json(table_ref, [fallback_row])
+            get_bq_client().insert_rows_json(table_ref, [fallback_row])
 
         # Send notification email
         dim_summary = "\n".join(

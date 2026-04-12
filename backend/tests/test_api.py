@@ -33,9 +33,16 @@ def app():
         mock_client.insert_rows_json.return_value = []  # No errors
         mock_bq.return_value = mock_client
 
+        # Reset the lazy BQ client so the mock takes effect
+        import main
+        main._bq_client = None
+
         from main import app as flask_app
         flask_app.config["TESTING"] = True
         yield flask_app
+
+        # Clean up: reset lazy client after test
+        main._bq_client = None
 
 
 @pytest.fixture
@@ -231,7 +238,9 @@ class TestScorecard:
 
     def test_scorecard_bq_fallback(self, client, valid_scorecard_payload):
         """When scorecard table insert fails, it falls back to contact table."""
-        with patch("main.bq_client") as mock_bq:
+        with patch("main.get_bq_client") as mock_get_bq:
+            mock_bq = MagicMock()
+            mock_get_bq.return_value = mock_bq
             # First call fails (scorecard table), second succeeds (contact table)
             mock_bq.insert_rows_json.side_effect = [
                 [{"errors": ["table not found"]}],
@@ -426,7 +435,9 @@ class TestContentTopics:
 class TestBigQueryErrors:
     def test_bq_insert_error_is_non_fatal(self, client):
         """When BigQuery insert fails, form still succeeds (BQ is analytics, not critical)."""
-        with patch("main.bq_client") as mock_bq:
+        with patch("main.get_bq_client") as mock_get_bq:
+            mock_bq = MagicMock()
+            mock_get_bq.return_value = mock_bq
             mock_bq.insert_rows_json.return_value = [{"errors": ["insert failed"]}]
             payload = {
                 "name": "Test",
