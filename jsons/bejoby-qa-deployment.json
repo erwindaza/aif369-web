@@ -1,0 +1,265 @@
+{
+  "metadata": {
+    "title": "BeJoby — QA & Deployment Best Practices",
+    "source": "AIF369 Production QA Framework",
+    "version": "1.0",
+    "date": "2026-04-12",
+    "context": "BeJoby presenta Internal Server Error en login/email verification. Se requiere implementar un sistema de QA y despliegue controlado para evitar errores en produccion."
+  },
+
+  "bug_report": {
+    "issue": "Internal Server Error en flujo de login",
+    "screen": "Pantalla 'Inicia sesion' — al ingresar email y hacer clic en 'Enviar codigo'",
+    "input_tested": "ERWIN.DAZA@GMAIL.COM",
+    "error_shown": "Internal server error (texto rojo bajo el campo email)",
+    "probable_causes": [
+      "El endpoint de envio de codigo de verificacion no valida el email antes de intentar enviarlo",
+      "SMTP/email service mal configurado o sin credenciales en produccion",
+      "El servidor no maneja excepciones del servicio de email — crash sin catch",
+      "La normalizacion del email (mayusculas) puede causar problemas si el backend es case-sensitive",
+      "Falta health check del servicio de email al arrancar el servidor",
+      "El rate limiter puede estar bloqueando sin mensaje claro"
+    ],
+    "fix_checklist": [
+      "1. Revisar logs del backend para el endpoint POST /auth/send-code o equivalente",
+      "2. Verificar que las credenciales SMTP/SendGrid/SES estan correctamente configuradas en produccion",
+      "3. Agregar try/catch al envio de email con mensaje de error descriptivo al usuario",
+      "4. Normalizar email a lowercase antes de procesar: email = email.strip().lower()",
+      "5. Validar formato de email con regex antes de intentar enviar",
+      "6. Agregar health check del servicio de email en /health o /ready"
+    ]
+  },
+
+  "qa_framework": {
+    "description": "Framework de QA usado en AIF369 que BeJoby deberia adoptar. 3 capas: unit tests, integration tests, post-deploy QA agent.",
+
+    "layer_1_unit_tests": {
+      "description": "Tests unitarios que corren en CI antes de cualquier deploy",
+      "tool": "pytest (Python) o jest/vitest (Node.js)",
+      "minimum_coverage": [
+        "Todos los endpoints API retornan status code esperado",
+        "Validacion de inputs: emails invalidos, campos vacios, payloads malformados",
+        "Flujo de autenticacion: login, signup, verificacion, refresh token",
+        "Manejo de errores: servicios externos caidos (SMTP, DB, cache)",
+        "Casos edge: email con mayusculas, espacios, caracteres especiales"
+      ],
+      "example_test_login": {
+        "test_send_code_valid_email": "POST /auth/send-code con email valido -> 200 + email enviado",
+        "test_send_code_invalid_email": "POST /auth/send-code con 'not-an-email' -> 400 + error descriptivo",
+        "test_send_code_empty_email": "POST /auth/send-code con email vacio -> 400",
+        "test_send_code_uppercase_email": "POST /auth/send-code con 'USER@GMAIL.COM' -> 200 (normaliza a lowercase)",
+        "test_send_code_smtp_failure": "Mock SMTP falla -> 500 con mensaje 'No pudimos enviar el codigo, intenta en unos minutos'",
+        "test_send_code_rate_limit": "5+ requests en 1 minuto -> 429 con mensaje claro",
+        "test_verify_code_valid": "POST /auth/verify con codigo correcto -> 200 + token",
+        "test_verify_code_expired": "POST /auth/verify con codigo expirado -> 400 + 'Codigo expirado'",
+        "test_verify_code_invalid": "POST /auth/verify con codigo incorrecto -> 400 + 'Codigo invalido'"
+      },
+      "ci_config": {
+        "trigger": "Cada push a cualquier branch",
+        "blocking": true,
+        "command": "pytest tests/ -v --tb=short",
+        "env_vars": {
+          "SMTP_PASSWORD": "",
+          "DATABASE_URL": "sqlite:///:memory: o mock",
+          "ENVIRONMENT": "test"
+        },
+        "notes": "NUNCA usar credenciales reales en tests. Mockear todos los servicios externos."
+      }
+    },
+
+    "layer_2_integration_tests": {
+      "description": "Tests que verifican la integracion entre componentes despues del deploy a QA",
+      "what_to_test": [
+        "Health check del backend: GET /health -> 200",
+        "Conexion a base de datos: el health check debe verificar DB connection",
+        "Servicio de email: verificar que SMTP/API credentials son validas",
+        "CORS: verificar que el frontend puede hacer requests al backend",
+        "SSL/TLS: verificar que los certificados son validos",
+        "Environment variables: todas las requeridas estan presentes"
+      ],
+      "health_check_example": {
+        "endpoint": "GET /health",
+        "response_should_include": {
+          "status": "ok",
+          "database": "connected",
+          "email_service": "configured",
+          "environment": "qa|production",
+          "version": "git_sha_or_version"
+        },
+        "notes": "Si email_service es 'error', el deploy debe fallar automaticamente"
+      }
+    },
+
+    "layer_3_qa_agent": {
+      "description": "Agente automatizado que corre POST-DEPLOY contra el entorno real. Detecta errores que los unit tests no pueden ver.",
+      "implementation": "Script Python (~600 lineas) que hace requests reales contra la URL desplegada",
+      "what_it_tests": [
+        {
+          "category": "Backend API",
+          "tests": [
+            "GET /health retorna 200",
+            "CORS headers presentes para dominios permitidos",
+            "POST /auth/send-code con email valido no retorna 500",
+            "POST /auth/send-code con email invalido retorna 400",
+            "Rate limiting funciona correctamente",
+            "Endpoints protegidos retornan 401 sin token"
+          ]
+        },
+        {
+          "category": "Frontend Pages",
+          "tests": [
+            "Todas las paginas retornan 200",
+            "Cada pagina contiene keyword esperado en el HTML",
+            "No hay links rotos (404)",
+            "Meta tags SEO presentes (title, description, og:image)",
+            "Formularios tienen action o JS handler configurado"
+          ]
+        },
+        {
+          "category": "Security",
+          "tests": [
+            "Headers de seguridad presentes: X-Content-Type-Options, X-Frame-Options",
+            "No hay API keys expuestas en el HTML",
+            "HTTPS enforced (HTTP redirige a HTTPS)",
+            "Cookies tienen flags Secure y HttpOnly"
+          ]
+        },
+        {
+          "category": "Email/Auth Flow",
+          "tests": [
+            "El flujo login -> send code -> verify code funciona end-to-end",
+            "Emails con formato edge case (uppercase, espacios) se manejan",
+            "Errores de SMTP muestran mensaje amigable, no 500 generico"
+          ]
+        }
+      ],
+      "output": "JSON report con PASS/FAIL por cada test, upload como artifact en CI",
+      "blocking": "Si algun test critico falla, el deploy a produccion se bloquea"
+    }
+  },
+
+  "deployment_pipeline": {
+    "description": "Pipeline de despliegue controlado con 3 ambientes y gates de calidad",
+
+    "branch_strategy": {
+      "dev": "Branch principal de desarrollo. Cada push ejecuta tests unitarios + deploy a DEV.",
+      "qa": "Branch de pre-produccion. Solo se llega via merge de dev. Ejecuta tests + deploy + QA agent.",
+      "main": "Branch de produccion. Solo se llega via merge de qa. Deploy automatico si QA paso."
+    },
+
+    "promotion_flow": [
+      "1. Developer pushea a dev → CI corre tests unitarios",
+      "2. Tests pasan → deploy automatico a entorno DEV",
+      "3. Developer crea PR de dev → qa",
+      "4. Merge a qa → CI corre tests + deploy a QA + QA Agent post-deploy",
+      "5. QA Agent pasa → developer crea PR de qa → main",
+      "6. Merge a main → CI corre tests + deploy a PRODUCTION",
+      "7. Health check post-deploy en produccion"
+    ],
+
+    "github_actions_structure": {
+      "ci-dev.yml": {
+        "trigger": "push to dev",
+        "jobs": ["tests", "deploy-dev", "health-check-dev"]
+      },
+      "deploy-qa.yml": {
+        "trigger": "push to qa",
+        "jobs": ["tests", "deploy-qa", "health-check-qa", "qa-agent"],
+        "notes": "qa-agent es el agente automatizado que verifica TODO post-deploy"
+      },
+      "deploy-production.yml": {
+        "trigger": "push to main",
+        "jobs": ["tests", "deploy-production", "health-check-production"],
+        "notes": "Solo llega codigo que ya paso por QA agent"
+      }
+    },
+
+    "critical_rules": [
+      "NUNCA hacer deploy directo a produccion sin pasar por QA",
+      "NUNCA hacer force push a main o qa",
+      "NUNCA poner --no-verify en git push",
+      "Cada deploy lleva el git SHA como tag de la imagen Docker",
+      "Si health check falla post-deploy, el pipeline falla y alerta al equipo",
+      "Secrets van en Secret Manager (GCP) o equivalente, NUNCA en codigo",
+      "Variables de entorno de produccion se configuran en el pipeline, no manualmente"
+    ]
+  },
+
+  "error_handling_standards": {
+    "description": "Estandares para que NUNCA se muestre 'Internal Server Error' al usuario",
+
+    "backend_rules": [
+      {
+        "rule": "Todo endpoint debe tener try/except global",
+        "example": "try: ... except SMTPException: return {'error': 'No pudimos enviar el codigo'}, 503 except Exception: return {'error': 'Error interno, intenta de nuevo'}, 500"
+      },
+      {
+        "rule": "Validar inputs ANTES de procesarlos",
+        "example": "if not email or not re.match(r'^[^@]+@[^@]+\\.[^@]+$', email): return {'error': 'Email invalido'}, 400"
+      },
+      {
+        "rule": "Normalizar emails siempre",
+        "example": "email = data.get('email', '').strip().lower()"
+      },
+      {
+        "rule": "Health check debe verificar dependencias",
+        "example": "GET /health verifica DB connection + email service + redis + cualquier dependencia externa"
+      },
+      {
+        "rule": "Logs estructurados para debugging",
+        "example": "logger.error('send_code_failed', email=masked_email, error=str(e), request_id=req_id)"
+      },
+      {
+        "rule": "Rate limiting con mensaje claro",
+        "example": "return {'error': 'Demasiados intentos. Espera 60 segundos.'}, 429"
+      }
+    ],
+
+    "frontend_rules": [
+      "Mostrar mensajes de error especificos, NUNCA el error raw del backend",
+      "Si el backend retorna 500, mostrar: 'Algo salio mal. Intenta de nuevo en unos minutos.'",
+      "Si el backend retorna 400, mostrar el mensaje de error del backend",
+      "Si el backend retorna 429, mostrar: 'Demasiados intentos. Espera un momento.'",
+      "Si hay timeout (no response), mostrar: 'No pudimos conectar con el servidor.'",
+      "Siempre tener un fallback visual — nunca dejar la UI en estado roto"
+    ]
+  },
+
+  "immediate_action_items": {
+    "priority_1_fix_login_bug": [
+      "Revisar logs del servidor para el endpoint de envio de codigo",
+      "Identificar si es: SMTP mal configurado, DB error, o excepcion no manejada",
+      "Agregar try/except al handler de envio de codigo",
+      "Normalizar email a lowercase antes de procesar",
+      "Re-deploy y verificar manualmente"
+    ],
+    "priority_2_add_tests": [
+      "Crear test suite basica para el flujo de autenticacion (login, send-code, verify)",
+      "Agregar tests para validacion de inputs (email invalido, vacio, con espacios)",
+      "Agregar test que mockea SMTP failure y verifica que retorna error amigable",
+      "Configurar CI para correr tests en cada push"
+    ],
+    "priority_3_add_qa_agent": [
+      "Crear script qa_agent.py que haga requests reales contra la URL desplegada",
+      "Minimo: health check, login flow, pages 200, security headers",
+      "Integrarlo en CI como job post-deploy",
+      "Que bloquee la promocion a produccion si falla"
+    ],
+    "priority_4_controlled_deploys": [
+      "Crear branches dev/qa/main con proteccion",
+      "Configurar GitHub Actions para deploy automatico por branch",
+      "Agregar health check post-deploy en cada pipeline",
+      "Nunca mas deploy manual directo a produccion"
+    ]
+  },
+
+  "reference_files_aif369": {
+    "note": "Archivos de referencia del proyecto AIF369 que pueden servir como modelo",
+    "unit_tests": "backend/tests/test_api.py — 36 tests cubriendo todos los endpoints",
+    "test_config": "backend/tests/conftest.py — Fixtures de pytest con mocks",
+    "qa_agent": "backend/tests/qa_agent.py — 600+ lineas, corre contra URL real post-deploy",
+    "ci_dev": ".github/workflows/ci-dev.yml — Pipeline CI para branch dev",
+    "deploy_qa": ".github/workflows/deploy-qa.yml — Pipeline QA con 4 jobs: tests, terraform, deploy, qa-agent",
+    "deploy_prod": ".github/workflows/deploy-production.yml — Pipeline produccion con health check"
+  }
+}

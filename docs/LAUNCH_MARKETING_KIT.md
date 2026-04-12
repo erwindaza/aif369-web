@@ -21,12 +21,11 @@ Codigo funcionando. Pipelines operando. Contenido generandose a escala.
 
 Esto es lo que hicimos:
 
-→ 45+ DAGs de IA en produccion
-→ 4 paises operando en paralelo (CL, PE, CO, MX)
-→ 12 versiones iteradas de un mismo pipeline de titulos
-→ 6 tipos de contenido generado por LLMs gobernados
+→ Pipelines de IA operando en produccion a escala regional
+→ Multiples versiones iteradas con mejora continua
+→ Contenido de marketing generado por LLMs gobernados
 → Observabilidad end-to-end con Langfuse
-→ Framework de deteccion de 6 tipos de sesgo
+→ Framework de deteccion de sesgos
 → Compliance con Ley IA Chile y EU AI Act
 
 Y lo mas importante: gobernanza integrada desde el dia uno.
@@ -58,36 +57,35 @@ Nosotros ayudamos a corregir eso.
 **Objetivo:** Engagement + leads calificados
 
 ```
-"45+ DAGs de IA en produccion" suena impresionante.
+"Pipelines de IA en produccion" suena impresionante.
 
 Pero lo que realmente importa es lo que esta detras.
 
 Compartimos el caso de estudio completo de una AI Content Factory a escala regional.
 
 Slide 1: El problema
-- Miles de registros sin contenido optimizado
+- Alto volumen de contenido sin optimizar
 - Proceso manual insostenible
-- Calidad inconsistente entre 4 paises
+- Calidad inconsistente entre equipos y mercados
 - Cero trazabilidad
 
 Slide 2: La solucion
-- Generacion automatica: titulos, descripciones, atributos, URLs
-- 3 clusters con prompts especializados por categoria
+- Generacion automatica de contenido de marketing
+- Prompts especializados por segmento
 - Seleccion automatica del mejor candidato
 - LLM-as-judge para validacion semantica
 
 Slide 3: La gobernanza
-- System Prompt corporativo con 7 secciones de compliance
-- 6 tipos de sesgo controlados (genero, regional, marca, precio, alucinacion, seleccion)
-- Metadata de trazabilidad por cada registro
+- System Prompt corporativo con compliance integrado
+- Deteccion de sesgos (genero, regional, alucinacion, seleccion)
+- Metadata de trazabilidad por cada pieza generada
 - Clasificacion de riesgo alineada con EU AI Act
 
 Slide 4: Los numeros
-- 45+ DAGs en produccion
-- 4 paises (CL, PE, CO, MX)
-- 12+ versiones iteradas
-- 3 modelos LLM (Gemini 1.5, 2.0-Flash, 2.5-Flash-Lite)
-- 5+ pipelines con Langfuse tracing
+- Pipelines de IA en produccion a escala regional
+- Multiples versiones iteradas con mejora continua
+- Multiples modelos LLM en produccion
+- Observabilidad con Langfuse tracing
 - Compliance: Ley IA Chile + EU AI Act
 
 Slide 5: CTA
@@ -117,13 +115,13 @@ Tienen un problema de gobernanza.
 Pueden generar contenido.
 No pueden demostrar que es confiable.
 
-Pueden procesar miles de registros.
+Pueden procesar grandes volumenes de datos.
 No pueden rastrear de donde viene cada resultado.
 
 Pueden usar Gemini, GPT o Claude.
 No pueden garantizar que no hay sesgos.
 
-En un proyecto real con 45+ pipelines de IA en produccion,
+En un proyecto real con pipelines de IA en produccion,
 aprendimos que la gobernanza no es un documento.
 
 Es:
@@ -168,7 +166,7 @@ Y los que llegan... no tienen gobernanza."
 [EVIDENCIA - 10 seg]
 (Mostrar pantalla de aif369.com/services.html scrolleando)
 "Publicamos 8 servicios de IA probados en produccion real.
-45 DAGs. 4 paises. 12 versiones iteradas.
+Pipelines operando a escala regional.
 Con deteccion de sesgos y compliance integrado."
 
 [CTA - 5 seg]
@@ -199,8 +197,8 @@ GUION:
 2. Sesgo regional: favorecer vocabulario de un pais sobre otro
 3. Sesgo de marca: dar mejor contenido a marcas conocidas
 4. Sesgo de precio: inferir calidad a partir del precio
-5. Alucinacion: inventar atributos que no existen
-6. Sesgo de seleccion: calidad desigual entre grupos de registros
+5. Alucinacion: inventar informacion que no existe
+6. Sesgo de seleccion: calidad desigual entre segmentos
 
 (Screen recording mostrando la seccion de bias en el caso de estudio)
 
@@ -231,7 +229,7 @@ Texto: "Lo que esperan"
 (Clip 2 - 5 seg)  
 Texto: "La realidad"
 → Scroll rapido por la pagina de servicios mostrando:
-  45+ DAGs, 4 paises, 12 versiones, 6 tipos de sesgo, compliance...
+  Pipelines de IA, escala regional, deteccion de sesgos, compliance...
 
 (Clip 3 - 5 seg)
 Texto: "IA en produccion no es un prompt. Es ingenieria."

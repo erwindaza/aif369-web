@@ -1,0 +1,211 @@
+{
+  "metadata": {
+    "title": "AIF369 — Plan de Onboarding de Socios",
+    "version": "1.0",
+    "date": "2026-04-12",
+    "owner": "erwindaza"
+  },
+
+  "current_state": {
+    "repo": "erwindaza/aif369-web (publico)",
+    "collaborators": ["erwindaza"],
+    "branches": {
+      "dev": "desarrollo — sin proteccion",
+      "qa": "pre-produccion — CI gate obligatorio",
+      "main": "produccion — branch protection activa, enforce_admins=true, no force push"
+    },
+    "hosting": {
+      "frontend": "Vercel (auto-deploy desde main)",
+      "backend": "Google Cloud Run (3 entornos: dev, qa, prod)",
+      "email": "Zoho Mail — edaza@aif369.com"
+    }
+  },
+
+  "partner_access_levels": {
+    "nivel_1_contributor_dev": {
+      "description": "Acceso a desarrollar SOLO en dev. No puede tocar qa ni main.",
+      "github": {
+        "role": "Write (collaborator)",
+        "branch_rules": {
+          "dev": "Push directo permitido",
+          "qa": "Solo via PR aprobado por erwindaza",
+          "main": "Solo via PR aprobado por erwindaza — NUNCA push directo"
+        },
+        "commands_to_setup": [
+          "# 1. Agregar collaborator",
+          "gh api repos/erwindaza/aif369-web/collaborators/USERNAME -X PUT -f permission=push",
+          "",
+          "# 2. Proteger branch qa (solo PRs, requiere aprobacion)",
+          "gh api repos/erwindaza/aif369-web/branches/qa/protection -X PUT -H 'Accept: application/vnd.github+json' -f 'required_pull_request_reviews[required_approving_review_count]=1' -f 'required_pull_request_reviews[dismiss_stale_reviews]=true' -f 'enforce_admins=true' -f 'restrictions=null' -f 'required_status_checks=null'",
+          "",
+          "# 3. Proteger branch main (ya tiene proteccion, agregar PR requirement)",
+          "gh api repos/erwindaza/aif369-web/branches/main/protection -X PUT -H 'Accept: application/vnd.github+json' -f 'required_pull_request_reviews[required_approving_review_count]=1' -f 'required_pull_request_reviews[dismiss_stale_reviews]=true' -f 'enforce_admins=true' -f 'restrictions=null' -f 'required_status_checks[strict]=true' -f 'required_status_checks[contexts][]=tests'"
+        ]
+      },
+      "gcp": {
+        "project": "aif369-backend",
+        "roles": [
+          "roles/run.viewer (ver logs de Cloud Run dev)",
+          "roles/logging.viewer (ver logs)",
+          "roles/bigquery.dataViewer (leer datos analytics dev)"
+        ],
+        "NO_access": [
+          "Secret Manager",
+          "IAM admin",
+          "Cloud Run deploy (solo via CI)",
+          "Billing",
+          "Terraform state"
+        ],
+        "command": "gcloud projects add-iam-policy-binding aif369-backend --member='user:PARTNER_EMAIL' --role='roles/run.viewer' --condition='expression=resource.name.contains(\"dev\"),title=dev-only'"
+      }
+    },
+    "nivel_2_trusted_partner": {
+      "description": "Puede hacer PRs a qa. Despues de demostrar buen trabajo en dev.",
+      "criteria_to_promote": [
+        "5+ PRs mergeados sin issues",
+        "Demuestra que entiende el pipeline CI/CD",
+        "Respeta la confidencialidad (CRITICO)"
+      ],
+      "additional_access": [
+        "Puede crear PRs de dev → qa",
+        "Acceso a logs de QA en Cloud Run",
+        "Acceso a BigQuery QA dataset"
+      ]
+    }
+  },
+
+  "email_for_partner": {
+    "platform": "Zoho Mail (mismo que edaza@aif369.com)",
+    "plan_actual": "Zoho Mail Free — permite hasta 5 usuarios",
+    "steps_to_create": [
+      "1. Ir a https://mail.zoho.com/cpanel (admin panel)",
+      "2. Users → Add User",
+      "3. Crear: nombre@aif369.com (ej: dev@aif369.com o nombre.apellido@aif369.com)",
+      "4. Asignar password temporal y enviar por canal seguro",
+      "5. El socio cambia password en primer login"
+    ],
+    "suggested_emails": {
+      "generico_dev": "dev@aif369.com — para el equipo de desarrollo",
+      "marketing": "marketing@aif369.com — para el socio de marketing/growth",
+      "nominal": "nombre@aif369.com — email personal del socio"
+    },
+    "security_notes": [
+      "Habilitar 2FA obligatorio para todas las cuentas",
+      "No compartir acceso de edaza@aif369.com — crear cuentas separadas",
+      "El socio NO debe tener acceso admin del panel Zoho"
+    ]
+  },
+
+  "ideal_partner_profile": {
+    "titulo": "Growth Marketing Lead / Co-founder de Contenido",
+    "why": "AIF369 tiene un producto tecnico solido (servicios, cursos, plataforma). Lo que falta es traccion: publicar contenido, vender cursos, generar leads. Erwin es el cerebro tecnico. El socio ideal es el motor comercial.",
+
+    "perfil_recomendado": {
+      "rol": "CMO / Growth Lead / Content Strategist",
+      "responsabilidades": [
+        "Publicar y gestionar contenido LinkedIn (3 posts/semana minimo)",
+        "Crear y publicar videos TikTok/Reels (2/semana)",
+        "Gestionar embudos de conversion: visitante → lead → curso → advisory",
+        "Manejar la estrategia de email marketing (newsletters, nurturing)",
+        "Administrar campanas pagadas si se invierte (LinkedIn Ads, Google Ads)",
+        "Gestionar comunidad y responder DMs/comentarios",
+        "Coordinar lanzamientos de nuevos cursos y servicios"
+      ],
+      "skills_obligatorios": [
+        "Experiencia publicando contenido B2B en LinkedIn (idealmente tech/AI)",
+        "Sabe crear videos cortos con CapCut o herramientas similares",
+        "Entiende SEO basico y analytics (Google Analytics, LinkedIn Analytics)",
+        "Manejo de Canva o herramientas de diseno para posts",
+        "Espanol nativo + ingles intermedio minimo",
+        "Disponibilidad LATAM timezone"
+      ],
+      "skills_deseables": [
+        "Experiencia en venta de cursos online o infoproductos",
+        "Conocimiento basico de IA/tech (no necesita programar)",
+        "Experiencia con CRM o herramientas de leads (HubSpot, Notion)",
+        "Red de contactos en el ecosistema tech LATAM",
+        "Experiencia con WhatsApp Business para ventas"
+      ],
+      "NO_necesita": [
+        "No necesita saber programar",
+        "No necesita acceso a produccion",
+        "No necesita entender Cloud Run ni Terraform",
+        "No necesita acceso a codigo fuente (salvo contenido HTML basico)"
+      ]
+    },
+
+    "modelo_de_equity": {
+      "opciones": [
+        {
+          "modelo": "Revenue share",
+          "descripcion": "X% de cada venta de curso o advisory que genere",
+          "pro": "Bajo riesgo, alinea incentivos",
+          "contra": "Puede desmotivar si el volumen es bajo al inicio"
+        },
+        {
+          "modelo": "Equity vesting",
+          "descripcion": "Y% de AIF369 con vesting 4 anos, cliff 1 ano",
+          "pro": "Compromiso a largo plazo",
+          "contra": "Requiere estructura legal (SPA o similar)"
+        },
+        {
+          "modelo": "Hibrido",
+          "descripcion": "Pago base bajo + revenue share + equity menor",
+          "pro": "Equilibra riesgo y motivacion",
+          "contra": "Mas complejo de estructurar"
+        }
+      ],
+      "recomendacion": "Empezar con revenue share 3-6 meses. Si funciona, formalizar con equity."
+    },
+
+    "where_to_find": [
+      "LinkedIn: buscar 'Growth Marketing' + 'B2B' + 'LATAM' + 'AI/tech'",
+      "Comunidades: Platzi, Indie Hackers LATAM, StartupChile alumni",
+      "Twitter/X: buscar perfiles que publican sobre marketing tech en espanol",
+      "Referidos: preguntar en red de contactos de Erwin",
+      "Freelance first: probar con un contrato de 3 meses antes de formalizar sociedad"
+    ],
+
+    "red_flags": [
+      "Quiere equity desde el dia 1 sin demostrar resultados",
+      "No tiene portfolio o ejemplos de contenido publicado",
+      "Solo sabe teoria de marketing pero nunca ha ejecutado",
+      "No entiende o no respeta la confidencialidad del contenido",
+      "Quiere acceso admin a todo desde el inicio"
+    ]
+  },
+
+  "onboarding_checklist": {
+    "dia_1": [
+      "Firmar NDA simple (confidencialidad de clientes y proyectos)",
+      "Crear cuenta GitHub y agregar como collaborator (dev only)",
+      "Crear email nombre@aif369.com en Zoho",
+      "Compartir acceso a Google Analytics (viewer)",
+      "Compartir el LAUNCH_MARKETING_KIT.md como primer entregable",
+      "Explicar las reglas de confidencialidad (NUNCA mencionar clientes)"
+    ],
+    "semana_1": [
+      "Publicar Post 1 de LinkedIn (del marketing kit)",
+      "Crear cuenta TikTok @aif369 si no existe",
+      "Configurar Linktree con URLs clave",
+      "Familiarizarse con el sitio: services, cursos, scorecard, blog",
+      "Primer video TikTok (script del marketing kit)"
+    ],
+    "mes_1": [
+      "12+ posts LinkedIn publicados",
+      "8+ videos TikTok/Reels",
+      "Primer embudo funcionando: LinkedIn → aif369.com → curso o advisory",
+      "Reporte de metricas: views, clicks, leads, conversiones",
+      "Revision de rendimiento y decision de continuar"
+    ]
+  },
+
+  "confidentiality_rules_for_partner": [
+    "NUNCA mencionar nombres de clientes o ex-clientes",
+    "NUNCA mencionar industria especifica de casos de estudio",
+    "NUNCA compartir codigo fuente o arquitectura interna",
+    "NUNCA publicar numeros reales de metricas de proyectos (DAGs, paises, versiones)",
+    "Todo contenido debe ser revisado por Erwin antes de publicar (primeros 30 dias)",
+    "Si hay duda sobre si algo es confidencial, NO publicar y preguntar primero"
+  ]
+}
