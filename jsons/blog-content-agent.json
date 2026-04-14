@@ -1,0 +1,227 @@
+{
+  "agent": "blog-content-agent",
+  "version": "1.0",
+  "description": "Agente de contenido editorial para AIF369 Insights. Genera artículos estilo HBR/Deloitte/McKinsey para audiencia C-level (CTO, CDO, CAIO, VP Engineering). Cada artículo debe posicionar a AIF369 como autoridad en IA empresarial.",
+  "target_audience": {
+    "primary": "C-level executives (CTO, CDO, CAIO, VP Engineering, CEO)",
+    "secondary": "Senior managers evaluating AI investments",
+    "geography": ["LATAM", "US", "EU"],
+    "languages": ["es", "en"]
+  },
+  "editorial_guidelines": {
+    "tone": "Authoritative, data-driven, executive. Never salesy. Think Harvard Business Review meets Deloitte AI Institute.",
+    "structure": "Problem → Data/Evidence → Framework → Actionable Takeaway → AIF369 positioning",
+    "length": {
+      "short": "800-1200 words (blog post)",
+      "long": "2000-3500 words (research brief / white paper style)"
+    },
+    "mandatory_elements": [
+      "Opening hook with a provocative question or surprising data point",
+      "At least 2 citations from reputable sources (Gartner, McKinsey, Deloitte, Stanford HAI, MIT Sloan, World Economic Forum)",
+      "One original framework, matrix, or decision model",
+      "Concrete numbers: %, $, timeline, ROI",
+      "3-5 actionable takeaways for executives",
+      "Closing CTA that links to AIF369 service (subtle, not salesy)"
+    ],
+    "forbidden": [
+      "Generic AI hype ('AI will change everything')",
+      "Vendor-specific promotion (no 'use AWS/GCP/Azure')",
+      "Code snippets or technical tutorials",
+      "Mentioning specific client names, industries in identifying detail",
+      "Clickbait titles",
+      "Lists without analysis ('Top 10 AI tools')"
+    ],
+    "style_references": [
+      "Harvard Business Review — AI articles (hbr.org/topic/ai)",
+      "Deloitte AI Institute — State of AI reports",
+      "McKinsey Digital — AI adoption research",
+      "MIT Sloan Management Review — AI & Strategy",
+      "Stanford HAI — AI Index Report"
+    ]
+  },
+  "content_calendar": {
+    "frequency": "2 articles per month (1 ES + 1 EN, or 1 bilingual)",
+    "categories": [
+      {
+        "id": "strategy",
+        "name": "AI Strategy & Governance",
+        "weight": 0.30,
+        "description": "Board-level AI decisions, CAIO role, governance frameworks, EU AI Act, Chile AI bill"
+      },
+      {
+        "id": "implementation",
+        "name": "AI Implementation & Operations",
+        "weight": 0.25,
+        "description": "MLOps, LLMOps, AI in production, observability, cost management, scaling"
+      },
+      {
+        "id": "roi",
+        "name": "ROI & Business Impact",
+        "weight": 0.20,
+        "description": "Measuring AI ROI, J-curve, failed projects analysis, TCO, value realization"
+      },
+      {
+        "id": "data",
+        "name": "Data Architecture & Quality",
+        "weight": 0.15,
+        "description": "Data governance, data products, lakehouse, data mesh, quality frameworks"
+      },
+      {
+        "id": "trends",
+        "name": "Emerging Trends & Analysis",
+        "weight": 0.10,
+        "description": "Agentic AI, multimodal, reasoning models, regulatory shifts, market analysis"
+      }
+    ]
+  },
+  "article_queue": [
+    {
+      "id": "BLOG-008",
+      "slug": "blog-roi-ia-j-curve",
+      "title_es": "La curva J de la IA: por qué el ROI tarda y cómo acelerar el punto de inflexión",
+      "title_en": "The AI J-Curve: Why ROI Takes Time and How to Accelerate the Inflection Point",
+      "category": "roi",
+      "priority": 1,
+      "hook": "El 72% de los proyectos de IA no alcanzan ROI en los primeros 18 meses (Gartner, 2025). Pero el problema no es la tecnología — es la secuencia de inversión.",
+      "framework": "Modelo de 7 Factores de ROI en IA (basado en investigación Deloitte)",
+      "key_data_points": [
+        "Gartner: 72% fail to reach ROI in 18 months",
+        "McKinsey: companies with AI governance see 2.3x faster value realization",
+        "Deloitte: 7 factors that drive AI investment returns"
+      ],
+      "cta_target": "assessment-caio.html",
+      "estimated_length": "long"
+    },
+    {
+      "id": "BLOG-009",
+      "slug": "blog-ia-regulacion-latam-2026",
+      "title_es": "Regulación de IA en LATAM 2026: lo que todo CTO debe saber antes de que sea demasiado tarde",
+      "title_en": "AI Regulation in LATAM 2026: What Every CTO Must Know Before It's Too Late",
+      "category": "strategy",
+      "priority": 2,
+      "hook": "Chile aprobó su marco regulatorio de IA. Colombia, México y Brasil están en proceso. Si su empresa opera en LATAM y usa IA, el reloj ya está corriendo.",
+      "framework": "Matriz de riesgo regulatorio por país × tipo de IA (alto riesgo vs general purpose)",
+      "key_data_points": [
+        "Chile AI Bill: key provisions and timelines",
+        "EU AI Act: extraterritorial reach into LATAM",
+        "Brazil AI framework: LGPD + AI convergence",
+        "Compliance cost estimates by company size"
+      ],
+      "cta_target": "services.html",
+      "estimated_length": "long"
+    },
+    {
+      "id": "BLOG-010",
+      "slug": "blog-caio-vs-cto-quien-decide",
+      "title_es": "CAIO vs CTO: quién toma las decisiones de IA en 2026 y por qué importa",
+      "title_en": "CAIO vs CTO: Who Makes AI Decisions in 2026 and Why It Matters",
+      "category": "strategy",
+      "priority": 3,
+      "hook": "El 58% de las empresas Fortune 500 ahora tienen un CAIO (IBM, 2026). Pero en la mayoría, el rol colisiona con el CTO. El resultado: parálisis estratégica.",
+      "framework": "Modelo RACI para decisiones de IA entre CAIO/CTO/CDO/CEO",
+      "key_data_points": [
+        "IBM: 58% of Fortune 500 have CAIO role",
+        "Deloitte: only 23% have clear decision authority between CTO and CAIO",
+        "Average time to resolve AI strategy disagreements: 4.7 months"
+      ],
+      "cta_target": "assessment-caio.html",
+      "estimated_length": "short"
+    },
+    {
+      "id": "BLOG-011",
+      "slug": "blog-data-quality-ai-production",
+      "title_es": "Sin datos limpios no hay IA en producción: guía ejecutiva de calidad de datos",
+      "title_en": "No Clean Data, No Production AI: Executive Guide to Data Quality",
+      "category": "data",
+      "priority": 4,
+      "hook": "El costo de mala calidad de datos en proyectos de IA es 5-10x mayor que en analytics tradicional. Y la mayoría de las empresas lo descubren demasiado tarde.",
+      "framework": "Framework DQ-369: 3 dimensiones de calidad × 6 controles × 9 métricas de monitoreo",
+      "key_data_points": [
+        "Gartner: poor data quality costs organizations $12.9M annually",
+        "MIT: 3.1% error rate in structured data at Fortune 1000 companies",
+        "McKinsey: data quality issues cause 60% of AI project delays"
+      ],
+      "cta_target": "scorecard.html",
+      "estimated_length": "long"
+    },
+    {
+      "id": "BLOG-012",
+      "slug": "blog-agentic-ai-enterprise-2026",
+      "title_es": "IA Agéntica en la empresa: más allá del chatbot, hacia la autonomía supervisada",
+      "title_en": "Agentic AI in the Enterprise: Beyond Chatbots, Toward Supervised Autonomy",
+      "category": "trends",
+      "priority": 5,
+      "hook": "Los agentes de IA ya no son ciencia ficción. Gartner predice que para 2028, el 33% de las aplicaciones empresariales tendrán IA agéntica. La pregunta no es si, sino quién supervisa al agente.",
+      "framework": "Modelo de 4 niveles de autonomía de IA (Asistida → Supervisada → Delegada → Autónoma)",
+      "key_data_points": [
+        "Gartner: 33% enterprise apps with agentic AI by 2028",
+        "Deloitte: agent orchestration market $12B by 2027",
+        "Top 3 enterprise use cases: procurement, customer service, code review"
+      ],
+      "cta_target": "catalogo-soluciones-ia.html",
+      "estimated_length": "short"
+    },
+    {
+      "id": "BLOG-013",
+      "slug": "blog-costo-real-llm-produccion",
+      "title_es": "El costo real de LLMs en producción: lo que nadie te dice sobre la factura de inferencia",
+      "title_en": "The Real Cost of LLMs in Production: What No One Tells You About the Inference Bill",
+      "category": "implementation",
+      "priority": 6,
+      "hook": "Una POC con GPT-4 cuesta $50/mes. En producción con 10K usuarios diarios, la factura sube a $15K-$50K/mes. Y eso antes de contar observabilidad, guardrails y fallbacks.",
+      "framework": "Calculadora de TCO para LLM en producción: tokens × latency × uptime × safety",
+      "key_data_points": [
+        "a16z: inference costs 10-100x higher than training for enterprise deployments",
+        "Typical production LLM stack: 7 components beyond the model itself",
+        "Cost optimization strategies: caching (40% savings), routing (25%), quantization (50%)"
+      ],
+      "cta_target": "services.html",
+      "estimated_length": "long"
+    }
+  ],
+  "seo_requirements": {
+    "title_format": "{Keyword} — {Benefit/Insight} | AIF369 Blog",
+    "meta_description_length": "150-160 chars",
+    "target_keywords_per_article": 3,
+    "internal_links": {
+      "minimum": 3,
+      "targets": ["assessment-caio.html", "scorecard.html", "services.html", "catalogo-soluciones-ia.html", "metodologia.html"]
+    },
+    "schema_markup": "Article (BlogPosting)"
+  },
+  "html_template": {
+    "base": "post-template.html",
+    "required_elements": [
+      "data-i18n attributes on all translatable text",
+      "lang-toggle button in nav",
+      "Structured data (JSON-LD) for BlogPosting",
+      "Open Graph meta tags",
+      "Twitter Card meta tags",
+      "Canonical URL",
+      "Author link to author.html",
+      "Category tag",
+      "Publish date",
+      "Reading time estimate"
+    ]
+  },
+  "distribution": {
+    "channels": [
+      {"platform": "LinkedIn", "format": "Executive summary (3 paragraphs) + link", "cadence": "Same day as publish"},
+      {"platform": "Email newsletter", "format": "Key insight + link", "cadence": "Weekly digest"},
+      {"platform": "Twitter/X", "format": "Thread: 1 hook + 3 key points + CTA", "cadence": "Same day + 3 days later"},
+      {"platform": "WhatsApp Business", "format": "1-liner + link", "cadence": "Same week"}
+    ]
+  },
+  "quality_checklist": [
+    "Does the title promise a specific insight (not generic)?",
+    "Is there at least one data point in the first 100 words?",
+    "Does every section build toward actionable advice?",
+    "Would a CTO share this on LinkedIn?",
+    "Is the CTA natural and relevant (not forced)?",
+    "Are all claims backed by citations?",
+    "Is the language executive-level (not tutorial)?",
+    "Does it pass the 'so what?' test for every paragraph?",
+    "Are both ES and EN versions culturally adapted (not just translated)?",
+    "Does it link to at least 2 internal AIF369 pages?"
+  ]
+}
