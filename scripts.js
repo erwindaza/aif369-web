@@ -470,7 +470,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //   chat_start, cta_click, language_toggle,
     //   calendly_open, assessment_interest
     // ══════════════════════════════════════════════════════
-    const GA_MEASUREMENT_ID = 'G-VV325VBQYV';
+    const GA_MEASUREMENT_ID = window.__AIF369_CONFIG__?.GA_MEASUREMENT_ID || '';
 
     if (GA_MEASUREMENT_ID && GA_MEASUREMENT_ID !== 'G-PLACEHOLDER') {
         // Load gtag.js script

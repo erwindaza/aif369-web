@@ -59,3 +59,6 @@ Thumbs.db
 assets/img/originals/
 assets/img/build_images.py
 qa-report-*.json
+
+# Build-time generated config (contains env vars)
+_config.js

@@ -1,0 +1,5 @@
+// Local dev fallback — Vercel build overwrites this with real env vars
+window.__AIF369_CONFIG__ = {
+  GA_MEASUREMENT_ID: "",
+  ENVIRONMENT: "development"
+};
