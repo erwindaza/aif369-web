@@ -28,15 +28,16 @@
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="metodologia.html" style="color: #00D9CC;">Método 369</a>
-            <a href="services.html" class="active">Servicios</a>
+            <a href="services.html" class="active" data-i18n="nav.services">Servicios</a>
             <a href="scorecard.html">Scorecard IA</a>
-            <a href="blog.html">Insights</a>
-            <a href="author.html">Sobre Erwin</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
             <a href="encuentra-empleo.html">💼 Empleo</a>
             <a href="education.html" class="btn btn-primary">🎓 Cursos IA</a>
-            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -45,8 +46,8 @@
     <!-- HEADER -->
     <section class="section">
         <header class="section-header">
-            <h1>Servicios de Asesoria Integral en IA</h1>
-            <p>Advisory ejecutivo, AI Governance, Risk & Compliance, AI Factory Design y capacidades demostradas en produccion.</p>
+            <h1 data-i18n="svc.heading1">Servicios de Asesoria Integral en IA</h1>
+            <p data-i18n="svc.text2">Advisory ejecutivo, AI Governance, Risk & Compliance, AI Factory Design y capacidades demostradas en produccion.</p>
             <p class="small-text" style="margin-top: 0.75rem;"><a href="#produccion" style="color: var(--color-secondary);">Ver capacidades en produccion ↓</a></p>
         </header>
     </section>
@@ -54,92 +55,92 @@
     <!-- SERVICE LINES -->
     <section class="section section-alt">
         <header class="section-header">
-            <h2>Líneas de servicio</h2>
-            <p>Cada línea puede contratarse independientemente según las necesidades de su organización.</p>
+            <h2 data-i18n="svc.heading3">Líneas de servicio</h2>
+            <p data-i18n="svc.text4">Cada línea puede contratarse independientemente según las necesidades de su organización.</p>
         </header>
 
         <div class="grid-3">
             <article class="card card-highlight">
-                <p class="tag">⭐ Advisory</p>
-                <h3>CAIO Advisory as a Service</h3>
-                <p>Acompañamiento ejecutivo para definir estrategia, gobierno, riesgos y adopción de IA.</p>
-                <p class="small-text"><strong>Ideal para:</strong> gerencias generales, directorios, áreas de innovación, data offices.</p>
+                <p class="tag" data-i18n="svc.text5">⭐ Advisory</p>
+                <h3 data-i18n="svc.subheading6">CAIO Advisory as a Service</h3>
+                <p data-i18n="svc.text7">Acompañamiento ejecutivo para definir estrategia, gobierno, riesgos y adopción de IA.</p>
+                <p class="small-text"><strong data-i18n="svc.bold48">Ideal para:</strong> gerencias generales, directorios, áreas de innovación, data offices.</p>
                 <ul class="simple-list">
-                    <li>Diagnóstico de madurez</li>
-                    <li>Hoja de ruta ejecutiva</li>
-                    <li>Portafolio priorizado de IA</li>
-                    <li>Modelo de gobernanza + Comité de IA</li>
+                    <li data-i18n="svc.item9">Diagnóstico de madurez</li>
+                    <li data-i18n="svc.item10">Hoja de ruta ejecutiva</li>
+                    <li data-i18n="svc.item11">Portafolio priorizado de IA</li>
+                    <li data-i18n="svc.item12">Modelo de gobernanza + Comité de IA</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar información →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Governance</p>
-                <h3>AI Governance & Responsible AI</h3>
-                <p>Diseño del marco de gobierno, accountability, políticas, controles y roles.</p>
-                <p class="small-text"><strong>Ideal para:</strong> organizaciones reguladas, empresas con alto volumen de datos.</p>
+                <p class="tag" data-i18n="svc.text65">Governance</p>
+                <h3 data-i18n="svc.subheading14">AI Governance & Responsible AI</h3>
+                <p data-i18n="svc.text15">Diseño del marco de gobierno, accountability, políticas, controles y roles.</p>
+                <p class="small-text"><strong data-i18n="svc.bold40">Ideal para:</strong> organizaciones reguladas, empresas con alto volumen de datos.</p>
                 <ul class="simple-list">
-                    <li>Policy pack y RACI</li>
-                    <li>Inventario de sistemas IA</li>
-                    <li>Clasificación de riesgo</li>
-                    <li>Controles mínimos y aprobación</li>
+                    <li data-i18n="svc.item17">Policy pack y RACI</li>
+                    <li data-i18n="svc.item18">Inventario de sistemas IA</li>
+                    <li data-i18n="svc.item19">Clasificación de riesgo</li>
+                    <li data-i18n="svc.item20">Controles mínimos y aprobación</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar información →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Risk & Compliance</p>
-                <h3>AI Risk, Privacy & Compliance</h3>
-                <p>Evaluación de riesgos, privacidad y preparación para regulación local e internacional.</p>
-                <p class="small-text"><strong>Ideal para:</strong> legal, compliance, riesgo operacional, ciberseguridad, auditoría.</p>
+                <p class="tag" data-i18n="svc.text21">Risk & Compliance</p>
+                <h3 data-i18n="svc.subheading22">AI Risk, Privacy & Compliance</h3>
+                <p data-i18n="svc.text23">Evaluación de riesgos, privacidad y preparación para regulación local e internacional.</p>
+                <p class="small-text"><strong data-i18n="svc.bold32">Ideal para:</strong> legal, compliance, riesgo operacional, ciberseguridad, auditoría.</p>
                 <ul class="simple-list">
-                    <li>Risk register + heatmap</li>
-                    <li>Privacy-by-design checklist</li>
-                    <li>Matriz de impacto por derecho</li>
-                    <li>Plan de cierre de brechas</li>
+                    <li data-i18n="svc.item25">Risk register + heatmap</li>
+                    <li data-i18n="svc.item26">Privacy-by-design checklist</li>
+                    <li data-i18n="svc.item27">Matriz de impacto por derecho</li>
+                    <li data-i18n="svc.item28">Plan de cierre de brechas</li>
                 </ul>
                 <a href="resources/proyecto-ley-ia-chile-boletin-16821-19.pdf" target="_blank" rel="noopener" class="btn btn-link" style="font-size: 0.85rem;">📄 Descargar Proyecto de Ley IA Chile →</a>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar información →</a>
             </article>
 
             <article class="card">
-                <p class="tag">AI Factory</p>
-                <h3>AI Factory Design</h3>
-                <p>Diseño de capacidades internas para construir, operar y escalar IA.</p>
-                <p class="small-text"><strong>Ideal para:</strong> equipos de data/engineering, áreas de producto.</p>
+                <p class="tag" data-i18n="svc.text29">AI Factory</p>
+                <h3 data-i18n="svc.subheading30">AI Factory Design</h3>
+                <p data-i18n="svc.text31">Diseño de capacidades internas para construir, operar y escalar IA.</p>
+                <p class="small-text"><strong data-i18n="svc.bold24">Ideal para:</strong> equipos de data/engineering, áreas de producto.</p>
                 <ul class="simple-list">
-                    <li>Target architecture</li>
-                    <li>Operating model + guardrails</li>
-                    <li>MLOps/LLMOps baseline</li>
-                    <li>Observabilidad y despliegue</li>
+                    <li data-i18n="svc.item33">Target architecture</li>
+                    <li data-i18n="svc.item34">Operating model + guardrails</li>
+                    <li data-i18n="svc.item35">MLOps/LLMOps baseline</li>
+                    <li data-i18n="svc.item36">Observabilidad y despliegue</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar información →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Workshops</p>
-                <h3>Executive Workshops & Board Enablement</h3>
-                <p>Talleres para directorio y primera línea sobre estrategia, riesgos y decisiones en IA.</p>
-                <p class="small-text"><strong>Ideal para:</strong> C-level, directores, gerencias de negocio.</p>
+                <p class="tag" data-i18n="svc.text37">Workshops</p>
+                <h3 data-i18n="svc.subheading38">Executive Workshops & Board Enablement</h3>
+                <p data-i18n="svc.text39">Talleres para directorio y primera línea sobre estrategia, riesgos y decisiones en IA.</p>
+                <p class="small-text"><strong data-i18n="svc.bold16">Ideal para:</strong> C-level, directores, gerencias de negocio.</p>
                 <ul class="simple-list">
-                    <li>Material ejecutivo + casos por industria</li>
-                    <li>Sesión guiada</li>
-                    <li>Matriz de decisiones</li>
-                    <li>Roadmap inicial</li>
+                    <li data-i18n="svc.item41">Material ejecutivo + casos por industria</li>
+                    <li data-i18n="svc.item42">Sesión guiada</li>
+                    <li data-i18n="svc.item43">Matriz de decisiones</li>
+                    <li data-i18n="svc.item44">Roadmap inicial</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar información →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Content</p>
-                <h3>Thought Leadership & Content Advisory</h3>
-                <p>Diseño de contenido original para posicionar marca y educar mercado en IA.</p>
-                <p class="small-text"><strong>Ideal para:</strong> founders, consultoras, marcas personales.</p>
+                <p class="tag" data-i18n="svc.text45">Content</p>
+                <h3 data-i18n="svc.subheading46">Thought Leadership & Content Advisory</h3>
+                <p data-i18n="svc.text47">Diseño de contenido original para posicionar marca y educar mercado en IA.</p>
+                <p class="small-text"><strong data-i18n="svc.bold8">Ideal para:</strong> founders, consultoras, marcas personales.</p>
                 <ul class="simple-list">
-                    <li>Pilares editoriales + calendario</li>
-                    <li>Ghostwriting estratégico</li>
-                    <li>Assets para web y LinkedIn</li>
-                    <li>Narrativa de marca</li>
+                    <li data-i18n="svc.item49">Pilares editoriales + calendario</li>
+                    <li data-i18n="svc.item50">Ghostwriting estratégico</li>
+                    <li data-i18n="svc.item51">Assets para web y LinkedIn</li>
+                    <li data-i18n="svc.item52">Narrativa de marca</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar información →</a>
             </article>
@@ -149,134 +150,134 @@
     <!-- CAPACIDADES DEMOSTRADAS EN PRODUCCION -->
     <section class="section" id="produccion">
         <header class="section-header">
-            <h2>Capacidades demostradas en produccion</h2>
-            <p>Servicios respaldados por experiencia real en proyectos de IA generativa a escala regional. No es teoria: es codigo funcionando.</p>
+            <h2 data-i18n="svc.heading53">Capacidades demostradas en produccion</h2>
+            <p data-i18n="svc.text54">Servicios respaldados por experiencia real en proyectos de IA generativa a escala regional. No es teoria: es codigo funcionando.</p>
         </header>
 
         <div class="grid-3">
             <article class="card card-highlight">
-                <p class="tag">⭐ AI Factory</p>
-                <h3>AI Factory: Contenido de Marketing a Escala</h3>
-                <p>Generacion de contenido de marketing a escala con LLMs gobernados, evaluacion de calidad automatizada y compliance integrado.</p>
-                <p class="small-text"><strong>En produccion:</strong> Operando a escala regional con multiples versiones iteradas y mejora continua.</p>
+                <p class="tag" data-i18n="svc.text55">⭐ AI Factory</p>
+                <h3 data-i18n="svc.subheading56">AI Factory: Contenido de Marketing a Escala</h3>
+                <p data-i18n="svc.text57">Generacion de contenido de marketing a escala con LLMs gobernados, evaluacion de calidad automatizada y compliance integrado.</p>
+                <p class="small-text"><strong data-i18n="svc.bold108">En produccion:</strong> Operando a escala regional con multiples versiones iteradas y mejora continua.</p>
                 <ul class="simple-list">
-                    <li>Generacion automatica de contenido de marketing</li>
-                    <li>Evaluacion de calidad con LLM-as-judge</li>
-                    <li>Seleccion automatica de mejor candidato</li>
-                    <li>Observabilidad end-to-end con Langfuse</li>
-                    <li>Deteccion de sesgos y compliance regulatorio</li>
+                    <li data-i18n="svc.item59">Generacion automatica de contenido de marketing</li>
+                    <li data-i18n="svc.item60">Evaluacion de calidad con LLM-as-judge</li>
+                    <li data-i18n="svc.item61">Seleccion automatica de mejor candidato</li>
+                    <li data-i18n="svc.item62">Observabilidad end-to-end con Langfuse</li>
+                    <li data-i18n="svc.item63">Deteccion de sesgos y compliance regulatorio</li>
                 </ul>
-                <p class="small-text" style="margin-top: 0.75rem;"><strong>Stack:</strong> Vertex AI, Gemini, Dataproc Spark, BigQuery, Langfuse, Airflow/Composer</p>
+                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold104">Stack:</strong> Vertex AI, Gemini, Dataproc Spark, BigQuery, Langfuse, Airflow/Composer</p>
                 <a href="caso-ai-factory-ecommerce.html" class="btn btn-link">Ver caso de estudio →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Governance</p>
-                <h3>AI Governance y Compliance LATAM</h3>
-                <p>Frameworks de gobernanza AI en produccion real: system prompts con compliance, deteccion de sesgos, trazabilidad y checklist pre-deploy.</p>
-                <p class="small-text"><strong>No es un documento:</strong> es codigo, prompts y controles automaticos en cada ejecucion.</p>
+                <p class="tag" data-i18n="svc.text13">Governance</p>
+                <h3 data-i18n="svc.subheading66">AI Governance y Compliance LATAM</h3>
+                <p data-i18n="svc.text67">Frameworks de gobernanza AI en produccion real: system prompts con compliance, deteccion de sesgos, trazabilidad y checklist pre-deploy.</p>
+                <p class="small-text"><strong data-i18n="svc.bold68">No es un documento:</strong> es codigo, prompts y controles automaticos en cada ejecucion.</p>
                 <ul class="simple-list">
-                    <li>System Prompt con 7 secciones de compliance</li>
-                    <li>Framework de 6 tipos de sesgo controlados</li>
-                    <li>8 principios regulatorios implementados</li>
-                    <li>Metadata de trazabilidad por registro</li>
-                    <li>Clasificacion de riesgo (EU AI Act)</li>
+                    <li data-i18n="svc.item69">System Prompt con 7 secciones de compliance</li>
+                    <li data-i18n="svc.item70">Framework de 6 tipos de sesgo controlados</li>
+                    <li data-i18n="svc.item71">8 principios regulatorios implementados</li>
+                    <li data-i18n="svc.item72">Metadata de trazabilidad por registro</li>
+                    <li data-i18n="svc.item73">Clasificacion de riesgo (EU AI Act)</li>
                 </ul>
-                <p class="small-text" style="margin-top: 0.75rem;"><strong>Regulaciones:</strong> Ley IA Chile (16821-19), Ley 21.719, EU AI Act, Privacy by Design</p>
+                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold74">Regulaciones:</strong> Ley IA Chile (16821-19), Ley 21.719, EU AI Act, Privacy by Design</p>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Observability</p>
-                <h3>LLM Observability y Monitoreo</h3>
-                <p>Observabilidad completa para pipelines LLM: tracing de prompts, respuestas, costos, latencia y calidad con alertas automaticas.</p>
-                <p class="small-text"><strong>Regla:</strong> si Langfuse cae, el pipeline se detiene. No operamos sin trazabilidad.</p>
+                <p class="tag" data-i18n="svc.text75">Observability</p>
+                <h3 data-i18n="svc.subheading76">LLM Observability y Monitoreo</h3>
+                <p data-i18n="svc.text77">Observabilidad completa para pipelines LLM: tracing de prompts, respuestas, costos, latencia y calidad con alertas automaticas.</p>
+                <p class="small-text"><strong data-i18n="svc.bold78">Regla:</strong> si Langfuse cae, el pipeline se detiene. No operamos sin trazabilidad.</p>
                 <ul class="simple-list">
-                    <li>Langfuse en 5+ pipelines de produccion</li>
-                    <li>Prompts versionados con labels (production/staging)</li>
-                    <li>Monitoreo de costos por modelo y pipeline</li>
-                    <li>Alertas Teams con webhook en tiempo real</li>
-                    <li>Backoff exponencial en fallas</li>
+                    <li data-i18n="svc.item79">Langfuse en 5+ pipelines de produccion</li>
+                    <li data-i18n="svc.item80">Prompts versionados con labels (production/staging)</li>
+                    <li data-i18n="svc.item81">Monitoreo de costos por modelo y pipeline</li>
+                    <li data-i18n="svc.item82">Alertas Teams con webhook en tiempo real</li>
+                    <li data-i18n="svc.item83">Backoff exponencial en fallas</li>
                 </ul>
-                <p class="small-text" style="margin-top: 0.75rem;"><strong>Stack:</strong> Langfuse, Vertex AI, Teams Webhooks, GCP Monitoring</p>
+                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold84">Stack:</strong> Langfuse, Vertex AI, Teams Webhooks, GCP Monitoring</p>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
             </article>
 
             <article class="card">
-                <p class="tag">RAG / Agents</p>
-                <h3>Sistemas RAG y Agentes Inteligentes</h3>
-                <p>Arquitecturas RAG con bases vectoriales, orquestacion multi-agente e integracion con sistemas empresariales en GCP.</p>
-                <p class="small-text"><strong>En produccion:</strong> POC con GPU (Tesla T4), embeddings, matching semantico.</p>
+                <p class="tag" data-i18n="svc.text85">RAG / Agents</p>
+                <h3 data-i18n="svc.subheading86">Sistemas RAG y Agentes Inteligentes</h3>
+                <p data-i18n="svc.text87">Arquitecturas RAG con bases vectoriales, orquestacion multi-agente e integracion con sistemas empresariales en GCP.</p>
+                <p class="small-text"><strong data-i18n="svc.bold88">En produccion:</strong> POC con GPU (Tesla T4), embeddings, matching semantico.</p>
                 <ul class="simple-list">
-                    <li>RAG con GPU en Dataproc (NVIDIA Tesla T4)</li>
-                    <li>Embeddings con Word2Vec y Vertex AI</li>
-                    <li>Matching semantico entre registros (one-to-one)</li>
-                    <li>Deduplicacion inteligente de datos</li>
-                    <li>Recomendacion basada en similitud vectorial</li>
+                    <li data-i18n="svc.item89">RAG con GPU en Dataproc (NVIDIA Tesla T4)</li>
+                    <li data-i18n="svc.item90">Embeddings con Word2Vec y Vertex AI</li>
+                    <li data-i18n="svc.item91">Matching semantico entre registros (one-to-one)</li>
+                    <li data-i18n="svc.item92">Deduplicacion inteligente de datos</li>
+                    <li data-i18n="svc.item93">Recomendacion basada en similitud vectorial</li>
                 </ul>
-                <p class="small-text" style="margin-top: 0.75rem;"><strong>Roadmap:</strong> Kong AI Gateway, LangGraph multi-agente, Vector Search nativo</p>
+                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold94">Roadmap:</strong> Kong AI Gateway, LangGraph multi-agente, Vector Search nativo</p>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
             </article>
 
             <article class="card">
-                <p class="tag">ML / Training</p>
-                <h3>ML Classification y Training Pipelines</h3>
-                <p>Pipelines de entrenamiento y prediccion para clasificacion automatica de contenido y categorias. Infraestructura containerizada y config-driven.</p>
-                <p class="small-text"><strong>Diferenciador:</strong> un YAML cambia el modelo, no el codigo.</p>
+                <p class="tag" data-i18n="svc.text95">ML / Training</p>
+                <h3 data-i18n="svc.subheading96">ML Classification y Training Pipelines</h3>
+                <p data-i18n="svc.text97">Pipelines de entrenamiento y prediccion para clasificacion automatica de contenido y categorias. Infraestructura containerizada y config-driven.</p>
+                <p class="small-text"><strong data-i18n="svc.bold98">Diferenciador:</strong> un YAML cambia el modelo, no el codigo.</p>
                 <ul class="simple-list">
-                    <li>Pipeline generico de clasificacion ML</li>
-                    <li>Word2Vec para embeddings de contenido</li>
-                    <li>Clasificacion automatica de reviews</li>
-                    <li>Mapeo automatico de categorias (BTD)</li>
-                    <li>Matching y deduplicacion entre fuentes</li>
+                    <li data-i18n="svc.item99">Pipeline generico de clasificacion ML</li>
+                    <li data-i18n="svc.item100">Word2Vec para embeddings de contenido</li>
+                    <li data-i18n="svc.item101">Clasificacion automatica de reviews</li>
+                    <li data-i18n="svc.item102">Mapeo automatico de categorias (BTD)</li>
+                    <li data-i18n="svc.item103">Matching y deduplicacion entre fuentes</li>
                 </ul>
-                <p class="small-text" style="margin-top: 0.75rem;"><strong>Stack:</strong> GKE, Kubernetes, Dataproc Serverless, BigQuery ML, Word2Vec</p>
+                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold64">Stack:</strong> GKE, Kubernetes, Dataproc Serverless, BigQuery ML, Word2Vec</p>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Data</p>
-                <h3>Data Scraping y Enriquecimiento</h3>
-                <p>Integracion con proveedores de web scraping para datos externos. Orquestacion de fuentes de datos con pipelines de calidad.</p>
-                <p class="small-text"><strong>En produccion:</strong> 4 proveedores integrados, recomendaciones generadas con Gemini.</p>
+                <p class="tag" data-i18n="svc.text105">Data</p>
+                <h3 data-i18n="svc.subheading106">Data Scraping y Enriquecimiento</h3>
+                <p data-i18n="svc.text107">Integracion con proveedores de web scraping para datos externos. Orquestacion de fuentes de datos con pipelines de calidad.</p>
+                <p class="small-text"><strong data-i18n="svc.bold58">En produccion:</strong> 4 proveedores integrados, recomendaciones generadas con Gemini.</p>
                 <ul class="simple-list">
-                    <li>Web scraping a escala con proxies rotativos</li>
-                    <li>Analisis de datos de mercado multi-pais</li>
-                    <li>Recomendaciones generadas con Gemini</li>
-                    <li>Sincronizacion de reviews de terceros</li>
-                    <li>Pipeline de reprocessing de ordenes</li>
-                </ul>
-                <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
-            </article>
-
-            <article class="card">
-                <p class="tag">Bias / QA</p>
-                <h3>Bias Detection y Quality Assurance</h3>
-                <p>Agentes especializados en detectar sesgos y validar calidad de contenido generado por IA. 6 tipos de sesgo controlados.</p>
-                <p class="small-text"><strong>No es opcional:</strong> bias detection es compliance legal bajo AI Act.</p>
-                <ul class="simple-list">
-                    <li>6 tipos de sesgo: genero, regional, marca, precio, alucinacion, seleccion</li>
-                    <li>Metricas de bias post-generacion</li>
-                    <li>LLM-as-judge para validacion semantica</li>
-                    <li>Quality scoring automatizado por pais</li>
-                    <li>Pipeline AI-CONTENT vs RAW-CONTENT</li>
+                    <li data-i18n="svc.item109">Web scraping a escala con proxies rotativos</li>
+                    <li data-i18n="svc.item110">Analisis de datos de mercado multi-pais</li>
+                    <li data-i18n="svc.item111">Recomendaciones generadas con Gemini</li>
+                    <li data-i18n="svc.item112">Sincronizacion de reviews de terceros</li>
+                    <li data-i18n="svc.item113">Pipeline de reprocessing de ordenes</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Migration</p>
-                <h3>Migracion a AI Gateways Corporativos</h3>
-                <p>Planificacion y ejecucion de migracion hacia gateways corporativos con control de costos, rate limiting y failover automatico.</p>
-                <p class="small-text"><strong>Contexto:</strong> migracion sin downtime con rollback automatico.</p>
+                <p class="tag" data-i18n="svc.text114">Bias / QA</p>
+                <h3 data-i18n="svc.subheading115">Bias Detection y Quality Assurance</h3>
+                <p data-i18n="svc.text116">Agentes especializados en detectar sesgos y validar calidad de contenido generado por IA. 6 tipos de sesgo controlados.</p>
+                <p class="small-text"><strong data-i18n="svc.bold117">No es opcional:</strong> bias detection es compliance legal bajo AI Act.</p>
                 <ul class="simple-list">
-                    <li>Analisis de impacto de migracion</li>
-                    <li>Estrategia de failover y callback</li>
-                    <li>Estimacion de costos bajo nuevo modelo</li>
-                    <li>Coordinacion con arquitectos y Tech Leads</li>
-                    <li>Testing gradual de procesos criticos</li>
+                    <li data-i18n="svc.item118">6 tipos de sesgo: genero, regional, marca, precio, alucinacion, seleccion</li>
+                    <li data-i18n="svc.item119">Metricas de bias post-generacion</li>
+                    <li data-i18n="svc.item120">LLM-as-judge para validacion semantica</li>
+                    <li data-i18n="svc.item121">Quality scoring automatizado por pais</li>
+                    <li data-i18n="svc.item122">Pipeline AI-CONTENT vs RAW-CONTENT</li>
                 </ul>
-                <p class="small-text" style="margin-top: 0.75rem;"><strong>Destino:</strong> Kong AI Gateway, Kairos Agentic Platform</p>
+                <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
+            </article>
+
+            <article class="card">
+                <p class="tag" data-i18n="svc.text123">Migration</p>
+                <h3 data-i18n="svc.subheading124">Migracion a AI Gateways Corporativos</h3>
+                <p data-i18n="svc.text125">Planificacion y ejecucion de migracion hacia gateways corporativos con control de costos, rate limiting y failover automatico.</p>
+                <p class="small-text"><strong data-i18n="svc.bold126">Contexto:</strong> migracion sin downtime con rollback automatico.</p>
+                <ul class="simple-list">
+                    <li data-i18n="svc.item127">Analisis de impacto de migracion</li>
+                    <li data-i18n="svc.item128">Estrategia de failover y callback</li>
+                    <li data-i18n="svc.item129">Estimacion de costos bajo nuevo modelo</li>
+                    <li data-i18n="svc.item130">Coordinacion con arquitectos y Tech Leads</li>
+                    <li data-i18n="svc.item131">Testing gradual de procesos criticos</li>
+                </ul>
+                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold132">Destino:</strong> Kong AI Gateway, Kairos Agentic Platform</p>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar informacion →</a>
             </article>
         </div>
@@ -289,49 +290,49 @@
     <!-- ENGAGEMENT PACKAGES -->
     <section class="section section-alt">
         <header class="section-header">
-            <h2>Paquetes de Engagement</h2>
-            <p>Tres formatos de trabajo diseñados para distintos niveles de madurez y urgencia.</p>
+            <h2 data-i18n="svc.heading133">Paquetes de Engagement</h2>
+            <p data-i18n="svc.text134">Tres formatos de trabajo diseñados para distintos niveles de madurez y urgencia.</p>
         </header>
 
         <div class="grid-3">
             <article class="card">
-                <p class="tag">Quick Start</p>
-                <h3>Starter 369</h3>
-                <p><strong>4-6 semanas</strong></p>
-                <p>Diagnóstico + hoja de ruta. Ideal para empresas que quieren evaluar su posición antes de invertir.</p>
+                <p class="tag" data-i18n="svc.text135">Quick Start</p>
+                <h3 data-i18n="svc.subheading136">Starter 369</h3>
+                <p><strong data-i18n="svc.bold137">4-6 semanas</strong></p>
+                <p data-i18n="svc.text138">Diagnóstico + hoja de ruta. Ideal para empresas que quieren evaluar su posición antes de invertir.</p>
                 <ul class="simple-list">
-                    <li>AI Readiness Scorecard</li>
-                    <li>Mapa de oportunidades</li>
-                    <li>Roadmap ejecutivo 90 días</li>
-                    <li>Sesión con C-level</li>
+                    <li data-i18n="svc.item139">AI Readiness Scorecard</li>
+                    <li data-i18n="svc.item140">Mapa de oportunidades</li>
+                    <li data-i18n="svc.item141">Roadmap ejecutivo 90 días</li>
+                    <li data-i18n="svc.item142">Sesión con C-level</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar Starter →</a>
             </article>
 
             <article class="card card-highlight">
-                <p class="tag">⭐ Recomendado</p>
-                <h3>Governed Pilot 369</h3>
-                <p><strong>8-12 semanas</strong></p>
-                <p>Un caso de uso en producción con gobernanza integrada. Prueba real antes de escalar.</p>
+                <p class="tag" data-i18n="svc.text143">⭐ Recomendado</p>
+                <h3 data-i18n="svc.subheading144">Governed Pilot 369</h3>
+                <p><strong data-i18n="svc.bold145">8-12 semanas</strong></p>
+                <p data-i18n="svc.text146">Un caso de uso en producción con gobernanza integrada. Prueba real antes de escalar.</p>
                 <ul class="simple-list">
-                    <li>Selección y diseño del caso de uso</li>
-                    <li>Governance framework aplicado</li>
-                    <li>Risk assessment del piloto</li>
-                    <li>Despliegue supervisado + métricas</li>
+                    <li data-i18n="svc.item147">Selección y diseño del caso de uso</li>
+                    <li data-i18n="svc.item148">Governance framework aplicado</li>
+                    <li data-i18n="svc.item149">Risk assessment del piloto</li>
+                    <li data-i18n="svc.item150">Despliegue supervisado + métricas</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar Governed Pilot →</a>
             </article>
 
             <article class="card">
-                <p class="tag">Full Advisory</p>
-                <h3>Enterprise 369</h3>
-                <p><strong>3-6 meses</strong></p>
-                <p>Estrategia + gobierno + AI Factory + despliegue. Para organizaciones que van en serio.</p>
+                <p class="tag" data-i18n="svc.text151">Full Advisory</p>
+                <h3 data-i18n="svc.subheading152">Enterprise 369</h3>
+                <p><strong data-i18n="svc.bold153">3-6 meses</strong></p>
+                <p data-i18n="svc.text154">Estrategia + gobierno + AI Factory + despliegue. Para organizaciones que van en serio.</p>
                 <ul class="simple-list">
-                    <li>CAIO Advisory dedicado</li>
-                    <li>Governance & Compliance completo</li>
-                    <li>AI Factory Design + build</li>
-                    <li>Observabilidad y escalamiento</li>
+                    <li data-i18n="svc.item155">CAIO Advisory dedicado</li>
+                    <li data-i18n="svc.item156">Governance & Compliance completo</li>
+                    <li data-i18n="svc.item157">AI Factory Design + build</li>
+                    <li data-i18n="svc.item158">Observabilidad y escalamiento</li>
                 </ul>
                 <a href="index.html#contacto" class="btn btn-link">Solicitar Enterprise →</a>
             </article>
@@ -341,19 +342,31 @@
     <!-- METHODOLOGY -->
     <section class="section section-alt">
         <header class="section-header">
-            <h2>Todos los servicios operan bajo el Método 369</h2>
-            <p>3 Capas de Dirección · 6 Fases de Transformación · 9 Métricas de Control CAIO</p>
+            <h2 data-i18n="svc.heading159">Todos los servicios operan bajo el Método 369</h2>
+            <p data-i18n="svc.text160">3 Capas de Dirección · 6 Fases de Transformación · 9 Métricas de Control CAIO</p>
             <a href="metodologia.html" class="btn btn-outline" style="margin-top: 1rem;">Conocer la metodología completa →</a>
+        </header>
+    </section>
+
+    <!-- CATÁLOGO DE SOLUCIONES IA -->
+    <section class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="svc.heading161">¿No sabes qué datos necesitas para empezar?</h2>
+            <p data-i18n="svc.text162">Nuestro Catálogo de Soluciones IA te dice exactamente qué problema resolver, qué datos tener listos y cómo avanzar — con asesoría Gemini CAIO o consultoría personalizada.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <a href="catalogo-soluciones-ia.html" class="btn btn-primary">Ver Catálogo de Soluciones IA — $100</a>
+            </div>
         </header>
     </section>
 
     <!-- CTA -->
     <section class="section">
         <header class="section-header">
-            <h2>¿No sabe por dónde empezar?</h2>
-            <p>Agende una conversación gratuita de 30 minutos. Le ayudamos a identificar el servicio correcto para su contexto.</p>
+            <h2 data-i18n="svc.heading163">¿No sabe por dónde empezar?</h2>
+            <p data-i18n="svc.text164">Agende una conversación gratuita de 30 minutos. Le ayudamos a identificar el servicio correcto para su contexto.</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
                 <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar un diagnóstico 369</a>
+                <a href="assessment-caio.html" class="btn btn-outline">🎯 Hacer Assessment CAIO →</a>
                 <a href="metodologia.html" class="btn btn-outline">Conocer la metodología →</a>
             </div>
         </header>

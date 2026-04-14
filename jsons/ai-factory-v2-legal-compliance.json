@@ -1,0 +1,622 @@
+{
+  "project_name": "AIF369_AI_Factory",
+  "version": "2.0",
+  "language": "es",
+  "objective": "Construir una fabrica de IA orientada a negocio, con catalogo de soluciones, operacion reusable, cumplimiento regulatorio y despliegue controlado.",
+  "design_basis": {
+    "course_alignment": [
+      "La IA debe atacar problemas reales de negocio",
+      "Los proyectos de IA requieren integrar negocio, tecnica, etica y datos",
+      "La adopcion superficial no genera ROI consistente",
+      "Se requieren inversiones complementarias, gobernanza y medicion"
+    ],
+    "references_internal": [
+      "Clase_N1_1.pdf",
+      "The_ROI_AI.pdf",
+      "When_does_AI_pay_off.pdf"
+    ],
+    "references_external_current": [
+      "EU AI Act - enfoque basado en riesgo",
+      "AI literacy obligations",
+      "Chile boletin 16821-19 y proyectos relacionados sobre IA"
+    ]
+  },
+  "legal_compliance_by_design": {
+    "principle": "No desarrollar ni desplegar soluciones fuera del marco legal aplicable. La fabrica debe clasificar riesgo, imponer controles y bloquear usos prohibidos o no aprobados.",
+    "jurisdictions": {
+      "eu_ai_act": {
+        "status_note": "Aplicar enfoque conservador alineado al AI Act vigente en la UE.",
+        "mandatory_controls": [
+          "clasificacion de riesgo del sistema",
+          "registro del proposito previsto",
+          "evaluacion de impacto antes de produccion cuando aplique",
+          "human_oversight configurable",
+          "trazabilidad y logging",
+          "gestion de datos y calidad",
+          "transparencia hacia usuarios",
+          "documentacion tecnica",
+          "gestion de incidentes",
+          "programa de AI literacy para equipos internos"
+        ],
+        "prohibited_or_blocked_use_patterns": [
+          "biometria remota en tiempo real para usos no permitidos",
+          "social scoring",
+          "inferencia de atributos sensibles sin base legal y sin controles",
+          "manipulacion subliminal o explotacion de vulnerabilidades",
+          "scraping o captura de datos personales sin base legal"
+        ],
+        "high_risk_attention_areas": [
+          "salud",
+          "empleo y RRHH",
+          "credito y scoring financiero",
+          "educacion",
+          "seguridad",
+          "infraestructura critica",
+          "biometria",
+          "servicios esenciales"
+        ]
+      },
+      "chile_ai_bill_alignment": {
+        "status_note": "Adoptar un enfoque preventivo compatible con el proyecto de ley chileno en tramitacion y con iniciativas sobre derechos, voz, imagen y deepfakes.",
+        "mandatory_controls": [
+          "respeto a derechos fundamentales",
+          "trazabilidad del sistema",
+          "documentacion de datasets y modelos",
+          "gobernanza de responsables",
+          "evaluacion de riesgos",
+          "transparencia del uso de IA",
+          "control sobre imitaciones realistas y contenido sintetico"
+        ],
+        "extra_chile_controls": [
+          "marcado de contenido sintetico cuando corresponda",
+          "prohibicion de suplantacion de identidad sin consentimiento",
+          "revision legal reforzada para voz, imagen y cuerpo de personas",
+          "alineacion con normativa de proteccion de datos y ciberseguridad"
+        ]
+      }
+    },
+    "solution_approval_gates": [
+      "legal_gate",
+      "privacy_gate",
+      "risk_gate",
+      "security_gate",
+      "data_governance_gate",
+      "business_owner_gate"
+    ]
+  },
+  "business_problem_framework": {
+    "problem_types": [
+      "analisis",
+      "agrupacion",
+      "deteccion",
+      "busqueda",
+      "filtrado",
+      "estimacion",
+      "prediccion",
+      "clasificacion",
+      "evaluacion",
+      "completar",
+      "recomendar",
+      "planificacion",
+      "optimizacion",
+      "reconocimiento",
+      "automatizacion",
+      "segmentacion"
+    ],
+    "structure_levels": [
+      "estructurado",
+      "semi_estructurado",
+      "no_estructurado"
+    ]
+  },
+  "factory_operating_model": {
+    "stages": [
+      {
+        "id": "lead_intake",
+        "name": "Captura de lead",
+        "outputs": ["lead", "empresa", "dolor_de_negocio", "industria", "canal_origen"]
+      },
+      {
+        "id": "discovery",
+        "name": "Discovery de caso",
+        "outputs": ["problema_formulado", "kpis_objetivo", "datos_disponibles", "riesgos_iniciales"]
+      },
+      {
+        "id": "data_readiness",
+        "name": "Evaluacion de datos",
+        "outputs": ["inventario_datos", "brechas_de_calidad", "factibilidad", "restricciones_legales"]
+      },
+      {
+        "id": "risk_and_legal",
+        "name": "Clasificacion de riesgo y compliance",
+        "outputs": ["risk_tier", "legal_review", "required_controls", "go_no_go"]
+      },
+      {
+        "id": "solution_design",
+        "name": "Diseño funcional y tecnico",
+        "outputs": ["solution_blueprint", "arquitectura", "modelo_operativo", "estimacion_de_roi"]
+      },
+      {
+        "id": "experimentation",
+        "name": "PoC o experimento",
+        "outputs": ["baseline", "metricas", "hallazgos", "decision_mvp"]
+      },
+      {
+        "id": "mvp",
+        "name": "Producto minimo viable",
+        "outputs": ["servicio_integrado", "dashboards", "monitoreo_base", "usuarios_piloto"]
+      },
+      {
+        "id": "production",
+        "name": "Produccion",
+        "outputs": ["sistema_productivo", "logs", "alertas", "reportes_ejecutivos"]
+      },
+      {
+        "id": "monitoring",
+        "name": "Monitoreo continuo",
+        "outputs": ["quality_monitoring", "drift_monitoring", "cost_monitoring", "incident_register"]
+      }
+    ]
+  },
+  "technical_architecture": {
+    "style": "modular_api_first_event_ready",
+    "deployment_modes": [
+      "self_hosted",
+      "cloud",
+      "hybrid"
+    ],
+    "layers": [
+      {
+        "name": "experience_layer",
+        "components": [
+          "website_aif369",
+          "cliente_portal",
+          "operaciones_portal",
+          "admin_console",
+          "executive_dashboard"
+        ]
+      },
+      {
+        "name": "application_layer",
+        "components": [
+          "crm_leads_service",
+          "discovery_service",
+          "scorecard_service",
+          "catalog_service",
+          "proposal_service",
+          "project_service",
+          "workflow_orchestrator"
+        ]
+      },
+      {
+        "name": "ai_services_layer",
+        "components": [
+          "feature_store_optional",
+          "ml_model_service",
+          "llm_gateway",
+          "rag_service",
+          "agent_runtime",
+          "evaluation_service",
+          "moderation_service",
+          "content_labeling_service"
+        ]
+      },
+      {
+        "name": "data_layer",
+        "components": [
+          "raw_zone",
+          "trusted_zone",
+          "analytics_zone",
+          "vector_store_optional",
+          "metadata_catalog",
+          "dataset_registry"
+        ]
+      },
+      {
+        "name": "governance_layer",
+        "components": [
+          "risk_registry",
+          "model_registry",
+          "audit_log_service",
+          "consent_registry_optional",
+          "policy_engine",
+          "access_control"
+        ]
+      },
+      {
+        "name": "observability_layer",
+        "components": [
+          "metrics_service",
+          "tracing_service",
+          "prompt_observability",
+          "cost_monitoring",
+          "incident_management"
+        ]
+      }
+    ]
+  },
+  "microservices": [
+    {
+      "name": "lead-service",
+      "purpose": "Gestionar leads, empresas, contactos, origen, interes y pipeline comercial."
+    },
+    {
+      "name": "catalog-service",
+      "purpose": "Exponer y administrar el catalogo de soluciones IA por industria, valor y nivel de riesgo."
+    },
+    {
+      "name": "discovery-service",
+      "purpose": "Capturar problemas, objetivos, KPIs, actores, restricciones y madurez del cliente."
+    },
+    {
+      "name": "scorecard-service",
+      "purpose": "Evaluar madurez de IA, datos, gobierno, seguridad y readiness organizacional."
+    },
+    {
+      "name": "data-readiness-service",
+      "purpose": "Inventariar datasets, revisar calidad, linaje, permisos y restricciones legales."
+    },
+    {
+      "name": "risk-compliance-service",
+      "purpose": "Clasificar riesgo, aplicar politicas UE/Chile y aprobar o bloquear casos."
+    },
+    {
+      "name": "solution-design-service",
+      "purpose": "Construir blueprint tecnico-funcional y propuesta de valor."
+    },
+    {
+      "name": "model-service",
+      "purpose": "Entrenar, versionar, desplegar y servir modelos ML clasicos."
+    },
+    {
+      "name": "llm-service",
+      "purpose": "Gestionar prompts, providers, RAG, guardrails y evaluacion de respuestas."
+    },
+    {
+      "name": "agent-service",
+      "purpose": "Ejecutar agentes especializados con herramientas y permisos controlados."
+    },
+    {
+      "name": "evaluation-service",
+      "purpose": "Medir calidad, precision, seguridad, sesgo, costo y utilidad."
+    },
+    {
+      "name": "dashboard-service",
+      "purpose": "Publicar dashboards operativos y ejecutivos en tiempo real."
+    },
+    {
+      "name": "audit-service",
+      "purpose": "Mantener logs de decisiones, accesos, inferencias, cambios y aprobaciones."
+    }
+  ],
+  "core_entities": [
+    "Lead",
+    "Company",
+    "Contact",
+    "Industry",
+    "BusinessProblem",
+    "UseCase",
+    "SolutionTemplate",
+    "Project",
+    "Dataset",
+    "DataSource",
+    "RiskAssessment",
+    "LegalAssessment",
+    "ControlRequirement",
+    "Model",
+    "PromptVersion",
+    "EvaluationRun",
+    "Deployment",
+    "Dashboard",
+    "Incident",
+    "AuditEvent",
+    "ConsentRecord",
+    "User",
+    "Role",
+    "Policy"
+  ],
+  "api_domains": {
+    "public_api": [
+      "POST /leads",
+      "GET /solutions",
+      "GET /solutions/{id}",
+      "POST /scorecards",
+      "POST /discovery-sessions",
+      "POST /contact-requests"
+    ],
+    "internal_api": [
+      "POST /projects",
+      "POST /projects/{id}/risk-assessment",
+      "POST /projects/{id}/legal-assessment",
+      "POST /projects/{id}/data-readiness",
+      "POST /projects/{id}/solution-blueprint",
+      "POST /projects/{id}/poc",
+      "POST /projects/{id}/mvp",
+      "POST /projects/{id}/deployments",
+      "GET /projects/{id}/metrics",
+      "GET /projects/{id}/audit-events"
+    ],
+    "ai_api": [
+      "POST /models/train",
+      "POST /models/evaluate",
+      "POST /models/deploy",
+      "POST /llm/generate",
+      "POST /llm/evaluate",
+      "POST /rag/query",
+      "POST /agents/run",
+      "POST /moderation/check"
+    ]
+  },
+  "data_processes_required": {
+    "universal_pipeline": [
+      "ingesta",
+      "perfilamiento",
+      "clasificacion_de_datos",
+      "validacion_de_calidad",
+      "limpieza",
+      "normalizacion",
+      "anonimizacion_o_pseudonimizacion_si_aplica",
+      "feature_engineering_o_chunking",
+      "versionado",
+      "entrenamiento_o_indexacion",
+      "evaluacion",
+      "despliegue",
+      "monitoreo",
+      "reentrenamiento_o_reindexacion",
+      "retencion_y_borrado"
+    ],
+    "governance_steps": [
+      "definir_owner_del_dato",
+      "definir_owner_del_modelo",
+      "registrar_base_legal_si_hay_datos_personales",
+      "registrar_riesgo",
+      "documentar_limitaciones",
+      "establecer_supervision_humana",
+      "establecer_proceso_de_incidentes"
+    ]
+  },
+  "solution_catalog_priority": [
+    {
+      "solution_id": "sol_007",
+      "name": "Automatizacion Inteligente de Atencion",
+      "risk_profile": "medio",
+      "legal_notes": [
+        "informar que el usuario interactua con IA cuando corresponda",
+        "filtrar datos personales sensibles",
+        "escalar a humano en casos delicados",
+        "prohibido usar para manipular o discriminar"
+      ]
+    },
+    {
+      "solution_id": "sol_001",
+      "name": "Prediccion de Demanda",
+      "risk_profile": "bajo_medio",
+      "legal_notes": [
+        "tratar datos comerciales con controles de acceso",
+        "documentar supuestos y limitaciones",
+        "medir impacto en decisiones operativas"
+      ]
+    },
+    {
+      "solution_id": "sol_004",
+      "name": "Segmentacion Inteligente de Clientes",
+      "risk_profile": "medio",
+      "legal_notes": [
+        "evitar segmentacion con atributos sensibles no autorizados",
+        "documentar criterios de segmentacion",
+        "revisar sesgo y fairness"
+      ]
+    },
+    {
+      "solution_id": "sol_008",
+      "name": "Prediccion de Churn",
+      "risk_profile": "medio",
+      "legal_notes": [
+        "explicar uso interno del scoring",
+        "evitar efectos adversos no justificados",
+        "monitorear discriminacion indirecta"
+      ]
+    },
+    {
+      "solution_id": "sol_018",
+      "name": "Recomendador de Productos",
+      "risk_profile": "bajo_medio",
+      "legal_notes": [
+        "explicar personalizacion cuando sea material",
+        "respetar consentimiento y preferencias si aplica",
+        "monitorear impactos en consumo y sesgo"
+      ]
+    },
+    {
+      "solution_id": "sol_011",
+      "name": "Scoring de Credito y Riesgo",
+      "risk_profile": "alto",
+      "legal_notes": [
+        "requiere evaluacion legal reforzada",
+        "explicabilidad minima obligatoria",
+        "human_oversight obligatorio",
+        "dataset governance y evidencia de performance",
+        "no desplegar sin aprobacion legal y de riesgo"
+      ]
+    },
+    {
+      "solution_id": "sol_016",
+      "name": "Diagnostico Asistido por IA",
+      "risk_profile": "alto",
+      "legal_notes": [
+        "solo como apoyo y no sustitucion automatica sin controles",
+        "validacion clinica y regulatoria",
+        "trazabilidad y supervision profesional",
+        "manejo reforzado de datos sensibles"
+      ]
+    },
+    {
+      "solution_id": "sol_017",
+      "name": "Analisis de Productividad de Empleados",
+      "risk_profile": "alto",
+      "legal_notes": [
+        "evaluar impacto laboral y derechos fundamentales",
+        "prohibido vigilancia desproporcionada",
+        "minimizacion de datos",
+        "revision legal y de RRHH obligatoria"
+      ]
+    },
+    {
+      "solution_id": "sol_019",
+      "name": "Moderacion de Contenido",
+      "risk_profile": "medio_alto",
+      "legal_notes": [
+        "debe existir apelacion o revision humana para casos sensibles",
+        "documentar politicas de moderacion",
+        "registrar falsos positivos y falsos negativos"
+      ]
+    }
+  ],
+  "risk_classification_logic": {
+    "low": [
+      "forecasting operativo sin datos sensibles",
+      "dashboards analiticos",
+      "automatizacion interna no critica"
+    ],
+    "medium": [
+      "personalizacion comercial",
+      "chatbots generales",
+      "segmentacion no sensible",
+      "recomendadores"
+    ],
+    "high": [
+      "salud",
+      "credito",
+      "RRHH",
+      "biometria",
+      "decisiones con impacto significativo en derechos",
+      "sistemas de seguridad o cumplimiento critico"
+    ],
+    "blocked": [
+      "social_scoring",
+      "suplantacion de identidad con IA sin consentimiento",
+      "inferencia de emociones o atributos sensibles fuera de marco legal",
+      "uso de deepfakes engañosos",
+      "captura de datos sin base legal"
+    ]
+  },
+  "minimum_documentation_pack": [
+    "problem_statement",
+    "intended_purpose",
+    "stakeholder_map",
+    "dataset_card",
+    "model_card_or_prompt_card",
+    "risk_assessment",
+    "legal_assessment",
+    "human_oversight_plan",
+    "monitoring_plan",
+    "incident_response_plan",
+    "roi_baseline_and_kpis"
+  ],
+  "kpi_framework": {
+    "financial": [
+      "margen_de_contribucion",
+      "tco",
+      "cac",
+      "ltv",
+      "ahorro_operacional",
+      "uplift_de_ingresos"
+    ],
+    "operational": [
+      "tiempo_ahorrado",
+      "reduccion_de_error",
+      "tiempo_de_respuesta",
+      "precision",
+      "recall",
+      "f1_si_aplica"
+    ],
+    "adoption": [
+      "usuarios_activos",
+      "uso_por_area",
+      "porcentaje_de_casos_resueltos",
+      "ratio_handoff_humano"
+    ],
+    "risk_and_quality": [
+      "drift",
+      "sesgo_detectado",
+      "incidentes",
+      "tasa_de_alucinacion_si_hay_llm",
+      "violaciones_de_politica"
+    ]
+  },
+  "team_structure": {
+    "roles": [
+      "AI_Factory_Lead",
+      "Business_Translator",
+      "AI_Product_Manager",
+      "Data_Engineer",
+      "ML_Engineer",
+      "LLM_Engineer",
+      "Backend_Engineer",
+      "Frontend_Engineer",
+      "Security_Lead",
+      "Legal_Compliance_Advisor",
+      "Risk_Manager",
+      "Domain_Expert",
+      "QA_Evaluator",
+      "Customer_Success_Manager"
+    ],
+    "mandatory_role_for_high_risk_projects": [
+      "Legal_Compliance_Advisor",
+      "Risk_Manager",
+      "Domain_Expert",
+      "Human_Reviewer"
+    ]
+  },
+  "implementation_phases": {
+    "phase_1_foundation": [
+      "crear catalogo de soluciones",
+      "crear scorecard de madurez",
+      "crear engine de clasificacion de riesgo",
+      "crear auditoria y logging",
+      "crear dashboard ejecutivo base"
+    ],
+    "phase_2_first_products": [
+      "automatizacion_atencion",
+      "prediccion_demanda",
+      "segmentacion_clientes",
+      "churn_prediction"
+    ],
+    "phase_3_governed_scale": [
+      "model_registry",
+      "prompt_registry",
+      "policy_engine",
+      "tenant_isolation",
+      "observabilidad_avanzada"
+    ],
+    "phase_4_regulated_offers": [
+      "scoring_credito",
+      "analitica_rrhh",
+      "diagnostico_asistido",
+      "moderacion_con_revision_humana"
+    ]
+  },
+  "instructions_for_dev_agent": {
+    "must_do": [
+      "implementar una capa de risk-compliance antes del despliegue",
+      "permitir bloquear casos de uso por politica",
+      "registrar todo cambio de modelo, prompt y dataset",
+      "habilitar dashboards en tiempo real",
+      "hacer reusable cada solucion como template",
+      "permitir handoff a humano",
+      "guardar evidencia para auditoria"
+    ],
+    "must_not_do": [
+      "desplegar casos de alto riesgo sin aprobacion expresa",
+      "usar datos personales sensibles sin base legal y controles",
+      "permitir suplantacion de voz o imagen sin consentimiento",
+      "prometer precision o ROI sin evidencia medible",
+      "automatizar decisiones irreversibles sin supervision humana"
+    ]
+  },
+  "next_input_expected_from_user": {
+    "name": "data_processes_from_user",
+    "purpose": "Mapear los procesos de datos reales del negocio con la arquitectura y las soluciones del catalogo",
+    "status": "pending"
+  }
+}

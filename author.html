@@ -21,15 +21,16 @@
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="metodologia.html" style="color: #00D9CC;">Método 369</a>
-            <a href="services.html">Servicios</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
             <a href="scorecard.html">Scorecard IA</a>
-            <a href="blog.html">Insights</a>
-            <a href="author.html" class="active">Sobre Erwin</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" class="active" data-i18n="nav.author">Sobre Erwin</a>
             <a href="encuentra-empleo.html">💼 Empleo</a>
             <a href="education.html" class="btn btn-primary">🎓 Cursos IA</a>
-            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -37,8 +38,8 @@
 <main class="container">
     <section class="section author-hero">
         <header class="section-header">
-            <h1>Sobre Erwin Daza Castillo</h1>
-            <p>CAIO Advisor · Data & AI Architect · AI Governance Strategist</p>
+            <h1 data-i18n="author.heading1">Sobre Erwin Daza Castillo</h1>
+            <p data-i18n="author.text2">CAIO Advisor · Data & AI Architect · AI Governance Strategist</p>
         </header>
     </section>
 
@@ -46,22 +47,22 @@
         <div class="author-grid">
             <div class="author-card">
                 <img class="author-avatar" src="assets/author-photo.jpg" alt="Erwin Daza Castillo">
-                <h2>Erwin Daza Castillo</h2>
-                <p class="author-role">CAIO Advisor | Data & AI Architect | AI Governance Strategist</p>
+                <h2 data-i18n="author.heading3">Erwin Daza Castillo</h2>
+                <p class="author-role" data-i18n="author.text4">CAIO Advisor | Data & AI Architect | AI Governance Strategist</p>
                 <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top: 0.5rem;">Ver perfil en LinkedIn →</a>
             </div>
             <div class="author-bio">
-                <p>Fundador de AIF369 y creador del <strong>Método 369</strong>, un framework propietario que estructura la adopción de IA en 3 Capas de Dirección, 6 Fases de Transformación y 9 Métricas de Control CAIO.</p>
-                <p>Más de 15 años liderando iniciativas de datos, cloud e inteligencia artificial en empresas de Latinoamérica — desde startups hasta corporaciones reguladas. Ha diseñado y desplegado AI Factories, plataformas de datos y modelos de gobierno de IA para industrias como banca, retail, energía y salud.</p>
-                <p>Su enfoque combina visión estratégica con ejecución técnica: cada recomendación tiene un entregable concreto, un responsable y una métrica de impacto.</p>
+                <p>Fundador de AIF369 y creador del <strong data-i18n="author.bold5">Método 369</strong>, un framework propietario que estructura la adopción de IA en 3 Capas de Dirección, 6 Fases de Transformación y 9 Métricas de Control CAIO.</p>
+                <p data-i18n="author.text6">Más de 15 años liderando iniciativas de datos, cloud e inteligencia artificial en empresas de Latinoamérica — desde startups hasta corporaciones reguladas. Ha diseñado y desplegado AI Factories, plataformas de datos y modelos de gobierno de IA para industrias como banca, retail, energía y salud.</p>
+                <p data-i18n="author.text7">Su enfoque combina visión estratégica con ejecución técnica: cada recomendación tiene un entregable concreto, un responsable y una métrica de impacto.</p>
                 <div class="author-focus">
-                    <h3>Áreas de enfoque</h3>
+                    <h3 data-i18n="author.subheading8">Áreas de enfoque</h3>
                     <ul class="simple-list">
-                        <li>Estrategia y gobierno de IA con el Método 369</li>
-                        <li>AI Risk, Privacy & Compliance</li>
-                        <li>AI Factory Design: arquitectura, MLOps/LLMOps, observabilidad</li>
-                        <li>Executive advisory: CAIO as a Service</li>
-                        <li>Regulación: EU AI Act (referencia) y legislación chilena de IA</li>
+                        <li data-i18n="author.item9">Estrategia y gobierno de IA con el Método 369</li>
+                        <li data-i18n="author.item10">AI Risk, Privacy & Compliance</li>
+                        <li data-i18n="author.item11">AI Factory Design: arquitectura, MLOps/LLMOps, observabilidad</li>
+                        <li data-i18n="author.item12">Executive advisory: CAIO as a Service</li>
+                        <li data-i18n="author.item13">Regulación: EU AI Act (referencia) y legislación chilena de IA</li>
                     </ul>
                 </div>
             </div>
@@ -70,8 +71,8 @@
 
     <section class="section author-cta">
         <header class="section-header">
-            <h2>¿Quieres conversar?</h2>
-            <p>Coordina una conversación para explorar cómo el Método 369 puede ayudar a tu organización.</p>
+            <h2 data-i18n="author.heading14">¿Quieres conversar?</h2>
+            <p data-i18n="author.text15">Coordina una conversación para explorar cómo el Método 369 puede ayudar a tu organización.</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
                 <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar conversación</a>
                 <a href="metodologia.html" class="btn btn-outline">Conocer la metodología →</a>

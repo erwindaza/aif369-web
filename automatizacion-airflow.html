@@ -18,9 +18,9 @@
 <header class="site-header">
     <nav class="nav container">
         <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Aprende IA · Encuentra Empleo</span></a>
-        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle"><span></span><span></span><span></span></button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="education.html">Cursos</a>
             <a href="cursos-ia.html">IA</a>
             <a href="big-data-ia.html">Big Data</a>
@@ -28,6 +28,8 @@
             <a href="historias-reales.html">Historias</a>
             <a href="coaching-data.html">Coaching</a>
             <a href="https://bejoby.com" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#10B981;color:#10B981;">💼 BeJoby.com</a>
+
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -42,13 +44,13 @@
     <section class="section">
         <div class="container">
             <header class="section-header">
-                <span class="catalog-card-badge catalog-badge-blue" style="display:inline-block;margin-bottom:16px;">Intermedio</span>
-                <h1>IA y Automatización de Datos con Airflow</h1>
-                <p>Orquesta procesos de datos con Apache Airflow e integra IA en pipelines modernos de producción.</p>
+                <span class="catalog-card-badge catalog-badge-blue" style="display:inline-block;margin-bottom:16px;" data-i18n="airflow1.label1">Intermedio</span>
+                <h1 data-i18n="airflow1.heading2">IA y Automatización de Datos con Airflow</h1>
+                <p data-i18n="airflow1.text3">Orquesta procesos de datos con Apache Airflow e integra IA en pipelines modernos de producción.</p>
                 <div class="bw-banner">
-                    <span class="bw-tag">🎓 Precio especial de lanzamiento</span>
+                    <span class="bw-tag" data-i18n="airflow1.label4">🎓 Precio especial de lanzamiento</span>
                     <div class="bw-pricing">
-                        <span class="bw-new">USD $10</span>
+                        <span class="bw-new" data-i18n="airflow1.label5">USD $10</span>
                     </div>
                 </div>
                 <picture style="margin-top:var(--space-5);">
@@ -59,21 +61,21 @@
 
             <div class="grid-2">
                 <article class="card">
-                    <h2>⚡ ¿De qué trata este curso?</h2>
-                    <p>Apache Airflow es el estándar de la industria para orquestación de datos. Este curso te enseña a construir, programar y monitorear pipelines de datos con Airflow desde cero.</p>
-                    <p>Además, integrarás componentes de IA en tus flujos: clasificación automática, enriquecimiento de datos y validación inteligente.</p>
-                    <p style="color:var(--text-muted);font-size:var(--text-sm);margin-top:var(--space-4);">Requisito: Python intermedio y familiaridad con SQL y línea de comandos.</p>
+                    <h2 data-i18n="airflow1.heading6">⚡ ¿De qué trata este curso?</h2>
+                    <p data-i18n="airflow1.text7">Apache Airflow es el estándar de la industria para orquestación de datos. Este curso te enseña a construir, programar y monitorear pipelines de datos con Airflow desde cero.</p>
+                    <p data-i18n="airflow1.text8">Además, integrarás componentes de IA en tus flujos: clasificación automática, enriquecimiento de datos y validación inteligente.</p>
+                    <p style="color:var(--text-muted);font-size:var(--text-sm);margin-top:var(--space-4);" data-i18n="airflow1.text9">Requisito: Python intermedio y familiaridad con SQL y línea de comandos.</p>
                 </article>
 
                 <article class="card card-highlight">
-                    <h2>Detalles del curso</h2>
+                    <h2 data-i18n="airflow1.heading10">Detalles del curso</h2>
                     <ul class="simple-list">
-                        <li><strong>Nivel:</strong> Intermedio</li>
-                        <li><strong>Duración:</strong> 8 semanas (16 horas)</li>
-                        <li><strong>Modalidad:</strong> Online en vivo + grabaciones</li>
-                        <li><strong>Sesiones:</strong> 2 horas por semana</li>
-                        <li><strong>Proyecto final:</strong> Pipeline Airflow + IA en producción</li>
-                        <li><strong>Certificado:</strong> AIF369 Automatización con Airflow</li>
+                        <li><strong data-i18n="airflow1.bold11">Nivel:</strong> Intermedio</li>
+                        <li><strong data-i18n="airflow1.bold12">Duración:</strong> 8 semanas (16 horas)</li>
+                        <li><strong data-i18n="airflow1.bold13">Modalidad:</strong> Online en vivo + grabaciones</li>
+                        <li><strong data-i18n="airflow1.bold14">Sesiones:</strong> 2 horas por semana</li>
+                        <li><strong data-i18n="airflow1.bold15">Proyecto final:</strong> Pipeline Airflow + IA en producción</li>
+                        <li><strong data-i18n="airflow1.bold16">Certificado:</strong> AIF369 Automatización con Airflow</li>
                     </ul>
                 </article>
             </div>
@@ -83,88 +85,88 @@
     <section class="section section-alt">
         <div class="container">
             <header class="section-header">
-                <h2>Contenido del curso</h2>
-                <p>8 módulos con DAGs reales, configuración de entornos y despliegue.</p>
+                <h2 data-i18n="airflow1.heading17">Contenido del curso</h2>
+                <p data-i18n="airflow1.text18">8 módulos con DAGs reales, configuración de entornos y despliegue.</p>
             </header>
 
             <div class="grid-2">
                 <article class="card">
-                    <h3>Módulo 1: Introducción a Airflow</h3>
+                    <h3 data-i18n="airflow1.subheading19">Módulo 1: Introducción a Airflow</h3>
                     <ul class="simple-list">
-                        <li>¿Qué es Apache Airflow y por qué usarlo?</li>
-                        <li>Arquitectura: scheduler, webserver, workers</li>
-                        <li>Instalación y setup del entorno</li>
-                        <li>Tu primer DAG en 15 minutos</li>
+                        <li data-i18n="airflow1.item20">¿Qué es Apache Airflow y por qué usarlo?</li>
+                        <li data-i18n="airflow1.item21">Arquitectura: scheduler, webserver, workers</li>
+                        <li data-i18n="airflow1.item22">Instalación y setup del entorno</li>
+                        <li data-i18n="airflow1.item23">Tu primer DAG en 15 minutos</li>
                     </ul>
                 </article>
 
                 <article class="card">
-                    <h3>Módulo 2: DAGs y operadores</h3>
+                    <h3 data-i18n="airflow1.subheading24">Módulo 2: DAGs y operadores</h3>
                     <ul class="simple-list">
-                        <li>Estructura de un DAG: tasks, dependencies</li>
-                        <li>Operadores: Bash, Python, SQL, HTTP</li>
-                        <li>Sensores: esperar eventos y archivos</li>
-                        <li>XCom: compartir datos entre tareas</li>
+                        <li data-i18n="airflow1.item25">Estructura de un DAG: tasks, dependencies</li>
+                        <li data-i18n="airflow1.item26">Operadores: Bash, Python, SQL, HTTP</li>
+                        <li data-i18n="airflow1.item27">Sensores: esperar eventos y archivos</li>
+                        <li data-i18n="airflow1.item28">XCom: compartir datos entre tareas</li>
                     </ul>
                 </article>
 
                 <article class="card">
-                    <h3>Módulo 3: Conexiones y proveedores</h3>
+                    <h3 data-i18n="airflow1.subheading29">Módulo 3: Conexiones y proveedores</h3>
                     <ul class="simple-list">
-                        <li>Connections: bases de datos, APIs, cloud</li>
-                        <li>Google Cloud Provider (BigQuery, GCS)</li>
-                        <li>AWS Provider (S3, Redshift)</li>
-                        <li>Variables y secretos en Airflow</li>
+                        <li data-i18n="airflow1.item30">Connections: bases de datos, APIs, cloud</li>
+                        <li data-i18n="airflow1.item31">Google Cloud Provider (BigQuery, GCS)</li>
+                        <li data-i18n="airflow1.item32">AWS Provider (S3, Redshift)</li>
+                        <li data-i18n="airflow1.item33">Variables y secretos en Airflow</li>
                     </ul>
                 </article>
 
                 <article class="card">
-                    <h3>Módulo 4: Pipelines de datos reales</h3>
+                    <h3 data-i18n="airflow1.subheading34">Módulo 4: Pipelines de datos reales</h3>
                     <ul class="simple-list">
-                        <li>Ingestión de datos desde APIs</li>
-                        <li>Transformación con pandas y SQL</li>
-                        <li>Carga a data warehouse</li>
-                        <li>Caso: ETL completo con datos reales</li>
+                        <li data-i18n="airflow1.item35">Ingestión de datos desde APIs</li>
+                        <li data-i18n="airflow1.item36">Transformación con pandas y SQL</li>
+                        <li data-i18n="airflow1.item37">Carga a data warehouse</li>
+                        <li data-i18n="airflow1.item38">Caso: ETL completo con datos reales</li>
                     </ul>
                 </article>
 
                 <article class="card">
-                    <h3>Módulo 5: Airflow + IA</h3>
+                    <h3 data-i18n="airflow1.subheading39">Módulo 5: Airflow + IA</h3>
                     <ul class="simple-list">
-                        <li>Integrar modelos de ML en DAGs</li>
-                        <li>Clasificación automática de datos</li>
-                        <li>Enriquecimiento con IA generativa</li>
-                        <li>Validación inteligente de calidad de datos</li>
+                        <li data-i18n="airflow1.item40">Integrar modelos de ML en DAGs</li>
+                        <li data-i18n="airflow1.item41">Clasificación automática de datos</li>
+                        <li data-i18n="airflow1.item42">Enriquecimiento con IA generativa</li>
+                        <li data-i18n="airflow1.item43">Validación inteligente de calidad de datos</li>
                     </ul>
                 </article>
 
                 <article class="card">
-                    <h3>Módulo 6: Testing y calidad</h3>
+                    <h3 data-i18n="airflow1.subheading44">Módulo 6: Testing y calidad</h3>
                     <ul class="simple-list">
-                        <li>Testeo de DAGs con pytest</li>
-                        <li>Data quality checks integrados</li>
-                        <li>Alertas y notificaciones</li>
-                        <li>Debugging de DAGs en producción</li>
+                        <li data-i18n="airflow1.item45">Testeo de DAGs con pytest</li>
+                        <li data-i18n="airflow1.item46">Data quality checks integrados</li>
+                        <li data-i18n="airflow1.item47">Alertas y notificaciones</li>
+                        <li data-i18n="airflow1.item48">Debugging de DAGs en producción</li>
                     </ul>
                 </article>
 
                 <article class="card">
-                    <h3>Módulo 7: Deploy y producción</h3>
+                    <h3 data-i18n="airflow1.subheading49">Módulo 7: Deploy y producción</h3>
                     <ul class="simple-list">
-                        <li>Docker + Airflow: setup productivo</li>
-                        <li>Cloud Composer (GCP) / MWAA (AWS)</li>
-                        <li>CI/CD para DAGs</li>
-                        <li>Monitoreo y scaling</li>
+                        <li data-i18n="airflow1.item50">Docker + Airflow: setup productivo</li>
+                        <li data-i18n="airflow1.item51">Cloud Composer (GCP) / MWAA (AWS)</li>
+                        <li data-i18n="airflow1.item52">CI/CD para DAGs</li>
+                        <li data-i18n="airflow1.item53">Monitoreo y scaling</li>
                     </ul>
                 </article>
 
                 <article class="card">
-                    <h3>Módulo 8: Proyecto final</h3>
+                    <h3 data-i18n="airflow1.subheading54">Módulo 8: Proyecto final</h3>
                     <ul class="simple-list">
-                        <li>Pipeline end-to-end con Airflow</li>
-                        <li>Componente de IA integrado</li>
-                        <li>Desplegado en nube real</li>
-                        <li>Presentación y feedback personalizado</li>
+                        <li data-i18n="airflow1.item55">Pipeline end-to-end con Airflow</li>
+                        <li data-i18n="airflow1.item56">Componente de IA integrado</li>
+                        <li data-i18n="airflow1.item57">Desplegado en nube real</li>
+                        <li data-i18n="airflow1.item58">Presentación y feedback personalizado</li>
                     </ul>
                 </article>
             </div>
@@ -174,20 +176,20 @@
     <section class="section">
         <div class="container">
             <header class="section-header">
-                <h2>¿Para quién es este curso?</h2>
+                <h2 data-i18n="airflow1.heading59">¿Para quién es este curso?</h2>
             </header>
             <div class="grid-3">
                 <article class="card">
-                    <h3>🔧 Data Engineers</h3>
-                    <p>Que quieren dominar la orquestación con Airflow y escalar sus pipelines de datos.</p>
+                    <h3 data-i18n="airflow1.subheading60">🔧 Data Engineers</h3>
+                    <p data-i18n="airflow1.text61">Que quieren dominar la orquestación con Airflow y escalar sus pipelines de datos.</p>
                 </article>
                 <article class="card">
-                    <h3>💻 Desarrolladores</h3>
-                    <p>Con experiencia en Python que quieren construir pipelines de datos automatizados.</p>
+                    <h3 data-i18n="airflow1.subheading62">💻 Desarrolladores</h3>
+                    <p data-i18n="airflow1.text63">Con experiencia en Python que quieren construir pipelines de datos automatizados.</p>
                 </article>
                 <article class="card">
-                    <h3>📈 Analistas técnicos</h3>
-                    <p>Que trabajan con datos y quieren automatizar sus procesos manuales de extracción y transformación.</p>
+                    <h3 data-i18n="airflow1.subheading64">📈 Analistas técnicos</h3>
+                    <p data-i18n="airflow1.text65">Que trabajan con datos y quieren automatizar sus procesos manuales de extracción y transformación.</p>
                 </article>
             </div>
         </div>
@@ -197,9 +199,9 @@
         <div class="container">
             <div class="bejoby-banner">
                 <div class="bejoby-banner-content">
-                    <span class="bejoby-badge">💼 Empleabilidad</span>
-                    <h2>Airflow + IA = perfil altamente demandado en <span style="color:#10B981;">BeJoby.com</span></h2>
-                    <p>Data Engineers con Airflow + IA son los profesionales más buscados en 2026. Certifícate y conecta con empleadores.</p>
+                    <span class="bejoby-badge" data-i18n="airflow1.label66">💼 Empleabilidad</span>
+                    <h2>Airflow + IA = perfil altamente demandado en <span style="color:#10B981;" data-i18n="airflow1.label67">BeJoby.com</span></h2>
+                    <p data-i18n="airflow1.text68">Data Engineers con Airflow + IA son los profesionales más buscados en 2026. Certifícate y conecta con empleadores.</p>
                 </div>
                 <div class="bejoby-banner-actions">
                     <a href="https://bejoby.com" target="_blank" rel="noopener" class="btn btn-primary" style="background:#10B981;">Ir a BeJoby.com →</a>
@@ -212,10 +214,10 @@
     <section class="section" id="comprar">
         <div class="container" style="max-width:640px;">
             <header class="section-header">
-                <h2>Inscríbete — IA y Automatización con Airflow</h2>
-                <p style="color:var(--text-secondary);">Acceso completo: 8 módulos, pipelines en producción, proyecto final, certificación AIF369, comunidad y acceso a BeJoby.com</p>
+                <h2 data-i18n="airflow1.heading69">Inscríbete — IA y Automatización con Airflow</h2>
+                <p style="color:var(--text-secondary);" data-i18n="airflow1.text70">Acceso completo: 8 módulos, pipelines en producción, proyecto final, certificación AIF369, comunidad y acceso a BeJoby.com</p>
                 <div class="bw-pricing" style="margin:16px 0;">
-                    <span class="bw-new" style="font-size:2rem;">USD $10</span>
+                    <span class="bw-new" style="font-size:2rem;" data-i18n="airflow1.label71">USD $10</span>
                 </div>
             </header>
 
@@ -227,19 +229,19 @@
 
                 <form class="enrollment-form">
                     <div class="form-group">
-                        <label>Nombre completo *</label>
+                        <label data-i18n="airflow1.label72">Nombre completo *</label>
                         <input type="text" name="name" required autocomplete="name" placeholder="Tu nombre completo">
                     </div>
                     <div class="form-group">
-                        <label>Correo electrónico *</label>
+                        <label data-i18n="airflow1.label73">Correo electrónico *</label>
                         <input type="email" name="email" required autocomplete="email" placeholder="tu@email.com">
                     </div>
                     <div class="form-group">
-                        <label>Teléfono / WhatsApp *</label>
+                        <label data-i18n="airflow1.label74">Teléfono / WhatsApp *</label>
                         <input type="tel" name="phone" required autocomplete="tel" placeholder="+56 9 1234 5678">
                     </div>
                     <div class="form-group">
-                        <label>País *</label>
+                        <label data-i18n="airflow1.label75">País *</label>
                         <select name="country" required>
                             <option value="">Selecciona tu país</option>
                             <option value="CL">Chile</option>
@@ -270,26 +272,26 @@
 
                 <div class="enrollment-payment" style="display:none;">
                     <div class="enrollment-summary card">
-                        <p><strong>Alumno:</strong> <span class="summary-name"></span></p>
-                        <p><strong>Email:</strong> <span class="summary-email"></span></p>
-                        <p><strong>Curso:</strong> IA y Automatización con Airflow</p>
-                        <p style="font-size:1.25rem;margin-top:8px;"><strong>Total:</strong> <span style="color:#00D9CC;">USD $10</span></p>
+                        <p><strong data-i18n="airflow1.bold76">Alumno:</strong> <span class="summary-name"></span></p>
+                        <p><strong data-i18n="airflow1.bold77">Email:</strong> <span class="summary-email"></span></p>
+                        <p><strong data-i18n="airflow1.bold78">Curso:</strong> IA y Automatización con Airflow</p>
+                        <p style="font-size:1.25rem;margin-top:8px;"><strong data-i18n="airflow1.bold79">Total:</strong> <span style="color:#00D9CC;" data-i18n="airflow1.label80">USD $10</span></p>
                     </div>
                     <div class="paypal-btn-container" style="margin-top:20px;"></div>
-                    <p style="margin-top:12px;font-size:13px;color:var(--text-muted);text-align:center;">Pago seguro con PayPal · Tarjeta de crédito/débito aceptada</p>
+                    <p style="margin-top:12px;font-size:13px;color:var(--text-muted);text-align:center;" data-i18n="airflow1.text81">Pago seguro con PayPal · Tarjeta de crédito/débito aceptada</p>
                     <button type="button" class="btn btn-link enrollment-back" style="width:100%;margin-top:8px;">← Volver a editar datos</button>
                 </div>
 
                 <div class="enrollment-success" style="display:none;text-align:center;padding:40px 0;">
                     <div style="font-size:3rem;margin-bottom:16px;">✅</div>
-                    <h3>¡Inscripción exitosa!</h3>
-                    <p>Gracias por inscribirte en <strong>IA y Automatización con Airflow</strong>.</p>
-                    <p style="color:var(--text-muted);margin-top:8px;">Te enviaremos los detalles de acceso a tu correo electrónico.</p>
+                    <h3 data-i18n="airflow1.subheading82">¡Inscripción exitosa!</h3>
+                    <p>Gracias por inscribirte en <strong data-i18n="airflow1.bold83">IA y Automatización con Airflow</strong>.</p>
+                    <p style="color:var(--text-muted);margin-top:8px;" data-i18n="airflow1.text84">Te enviaremos los detalles de acceso a tu correo electrónico.</p>
                 </div>
             </div>
 
             <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 ¿Dudas? Conversemos</a>
+                <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 ¿Dudas? Conversemos</a>
                 <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20inscribirme%20a%20Automatizaci%C3%B3n%20Airflow" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#25D366;color:#25D366;">💬 WhatsApp</a>
             </div>
         </div>

@@ -1,0 +1,396 @@
+{
+  "metadata": {
+    "title": "AIF369 TikTok Content Plan",
+    "account": "@aifactory369",
+    "platform": "TikTok",
+    "date": "2026-04-12",
+    "bio_suggestion": "IA en produccion real. No slides, no PoCs.\n🎓 Cursos: aif369.com/education.html\n🔗 linktr.ee/aif369",
+    "linktree_urls": [
+      {"label": "🎓 Cursos de IA", "url": "https://aif369.com/education.html"},
+      {"label": "📊 Scorecard IA Gratis", "url": "https://aif369.com/scorecard.html"},
+      {"label": "💼 Ofertas de Empleo IA", "url": "https://aif369.com/encuentra-empleo.html"},
+      {"label": "🔧 Servicios", "url": "https://aif369.com/services.html"},
+      {"label": "📖 Caso de Estudio", "url": "https://aif369.com/caso-ai-factory-ecommerce.html"},
+      {"label": "📅 Agendar Asesoria", "url": "https://calendly.com/edaza-aif369/30min"},
+      {"label": "🌐 Web", "url": "https://aif369.com"}
+    ]
+  },
+
+  "hashtag_sets": {
+    "primary": "#IA #InteligenciaArtificial #AIF369 #TechTok #DataScience #MachineLearning",
+    "governance": "#AIGovernance #ResponsibleAI #Compliance #EticaIA #LeyIA",
+    "career": "#TrabajoIA #EmpleoTech #DataEngineer #CAIO #CarreraTech",
+    "education": "#CursosIA #AprenderIA #ProgramarIA #BigData #Python",
+    "trending": "#Tech #Programacion #Tecnologia #FuturoDelTrabajo #LATAM"
+  },
+
+  "calendar": {
+    "week_1": {
+      "lunes": "VIDEO 1 — Hook fuerte (awareness)",
+      "miercoles": "VIDEO 2 — Educativo sesgos",
+      "viernes": "VIDEO 3 — POV trending"
+    },
+    "week_2": {
+      "lunes": "VIDEO 4 — Metodo 369 explicado",
+      "miercoles": "VIDEO 5 — Scorecard en vivo",
+      "viernes": "VIDEO 6 — Empleo en IA"
+    },
+    "week_3": {
+      "lunes": "VIDEO 7 — Que es un CAIO",
+      "miercoles": "VIDEO 8 — 5 errores proyectos IA",
+      "viernes": "VIDEO 9 — Stack tecnologico"
+    },
+    "ongoing": "3 videos por semana: lunes (awareness), miercoles (educativo), viernes (trending/engagement)"
+  },
+
+  "videos": [
+    {
+      "id": 1,
+      "title": "La mayoria habla de IA. Nosotros la operamos.",
+      "format": "Cara a camara + texto overlay",
+      "duration": "30-45 seg",
+      "audio": "Voz directa o trending sound epic/motivacional",
+      "objective": "Awareness — presentar AIF369",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "Pipelines de IA en produccion",
+          "voz": "La mayoria de la gente habla de IA. Nosotros la operamos."
+        },
+        "problema_8s": {
+          "texto_overlay": "87% de proyectos de IA NUNCA llegan a produccion",
+          "voz": "El 87% de los proyectos de IA nunca llegan a produccion. Y los que llegan... no tienen gobernanza."
+        },
+        "evidencia_10s": {
+          "accion": "Mostrar pantalla de aif369.com/services.html scrolleando lento",
+          "voz": "Publicamos 8 servicios de IA probados en produccion real. Operando a escala regional. Con deteccion de sesgos y compliance integrado."
+        },
+        "cta_5s": {
+          "texto_overlay": "aif369.com — Link en bio",
+          "voz": "Todo esta en el link del bio. ¿Tu empresa genera contenido con IA sin gobernanza?"
+        }
+      },
+      "hashtags": "#IA #InteligenciaArtificial #AIF369 #TechTok #AIGovernance #Programacion #LATAM",
+      "caption": "8 servicios de IA en produccion real. No slides. No PoCs abandonados. Codigo funcionando. 🔗 Link en bio #IA #TechTok #AIF369",
+      "tips": [
+        "Grabar con buena luz natural (ventana al frente)",
+        "Mirar directo a la camara en el hook",
+        "El screen recording debe tener zoom-in en las secciones clave",
+        "Usar transicion rapida entre cara y pantalla"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Tu IA tiene sesgos y no lo sabes",
+      "format": "Screen recording + voz en off",
+      "duration": "45-60 seg",
+      "audio": "Voz en off (grabar con audifonos para calidad)",
+      "objective": "Educativo — posicionar expertise en bias detection",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "Tu IA tiene sesgos. Te muestro cuales.",
+          "voz": "Tu IA esta generando sesgos y probablemente no lo sabes."
+        },
+        "contenido_40s": {
+          "accion": "Screen recording mostrando la seccion de bias en caso-ai-factory-ecommerce.html",
+          "voz": "En un proyecto real de IA a escala, controlamos 4 tipos de sesgo:",
+          "puntos": [
+            {"numero": 1, "texto_overlay": "Sesgo de genero", "voz": "Asociar contenido a un genero sin justificacion"},
+            {"numero": 2, "texto_overlay": "Sesgo regional", "voz": "Favorecer vocabulario de un mercado sobre otro"},
+            {"numero": 3, "texto_overlay": "Alucinacion", "voz": "Inventar informacion que no existe"},
+            {"numero": 4, "texto_overlay": "Sesgo de seleccion", "voz": "Calidad desigual entre segmentos"}
+          ],
+          "cierre_voz": "Y esto no es opcional. Bajo la Ley de IA de Chile y el EU AI Act, detectar sesgos es una obligacion legal."
+        },
+        "cta_5s": {
+          "texto_overlay": "Framework completo en aif369.com",
+          "voz": "El framework completo esta en el link del bio."
+        }
+      },
+      "hashtags": "#IA #Sesgos #AIGovernance #ResponsibleAI #EticaIA #TechTok #Compliance #AIF369",
+      "caption": "4 sesgos que tu IA esta generando ahora mismo. El #4 es el mas peligroso 👇 #IA #Sesgos #ResponsibleAI #AIF369",
+      "tips": [
+        "Usar CapCut para agregar numeros grandes (1, 2, 3, 4) como texto overlay",
+        "Hacer zoom-in en cada tipo de sesgo cuando lo menciones",
+        "Velocidad: 1.1x para mantener ritmo dinamico",
+        "Agregar sonido sutil de 'ding' en cada punto"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "POV: Tu jefe te pide implementar IA en 2 semanas",
+      "format": "POV / Expectativa vs Realidad",
+      "duration": "15-20 seg",
+      "audio": "Trending sound (buscar 'oh no' o 'dramatic reveal')",
+      "objective": "Engagement + viralidad",
+      "script": {
+        "clip1_5s": {
+          "texto_overlay": "Lo que esperan 😊",
+          "contenido": "Texto: 'Instalar ChatGPT y listo'",
+          "visual": "Persona sonriendo confiada o meme de alguien relajado"
+        },
+        "clip2_5s": {
+          "texto_overlay": "La realidad 😰",
+          "contenido": "Scroll RAPIDO por aif369.com/services.html mostrando pipelines, compliance, observabilidad...",
+          "visual": "Screen recording a velocidad 3x scrolleando la pagina de servicios"
+        },
+        "clip3_5s": {
+          "texto_overlay": "IA en produccion no es un prompt. Es ingenieria.",
+          "contenido": "Logo AIF369 + aif369.com",
+          "visual": "Fondo oscuro, texto blanco, logo centrado"
+        }
+      },
+      "hashtags": "#POV #IA #TechTok #Programacion #Tecnologia #MachineLearning #TrabajoTech #AIF369",
+      "caption": "POV: Tu jefe te pide implementar IA en 2 semanas 💀 #POV #IA #TechTok #Programacion",
+      "tips": [
+        "Este video es el mas facil de grabar — solo necesitas screen recording + texto",
+        "Buscar trending sound en TikTok: 'oh no' o 'dramatic music reveal'",
+        "El scroll rapido es el efecto visual clave — que se vea abrumador",
+        "Duracion corta = mas replay = mas alcance"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "El Metodo 369 explicado en 60 segundos",
+      "format": "Cara a camara + graficos overlay",
+      "duration": "45-60 seg",
+      "audio": "Voz directa",
+      "objective": "Educativo — posicionar metodologia propietaria",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "Metodo 369: Como gobernamos IA",
+          "voz": "Te explico en 60 segundos como gobernamos IA en produccion."
+        },
+        "contenido_3_capas_15s": {
+          "texto_overlay": "3 Capas de Direccion",
+          "voz": "Primero, 3 capas de direccion.",
+          "puntos": [
+            "1. Estrategica: vision, priorizacion, roadmap",
+            "2. Riesgo y cumplimiento: compliance, privacidad",
+            "3. Implementacion: arquitectura, MLOps, despliegue"
+          ]
+        },
+        "contenido_6_fases_15s": {
+          "texto_overlay": "6 Fases de Transformacion",
+          "voz": "Luego, 6 fases de transformacion.",
+          "puntos": ["Descubrir, Diagnosticar, Disenar, Desplegar, Dominar, Escalar"],
+          "visual": "Mostrar pantalla de aif369.com/metodologia.html"
+        },
+        "contenido_9_metricas_10s": {
+          "texto_overlay": "9 Metricas de Control CAIO",
+          "voz": "Y 9 metricas de control. Desde estrategia IA hasta etica y regulacion.",
+          "visual": "Mostrar scorecard en aif369.com/scorecard.html"
+        },
+        "cta_5s": {
+          "texto_overlay": "Mide tu madurez IA GRATIS",
+          "voz": "El scorecard es gratuito. Link en bio."
+        }
+      },
+      "hashtags": "#Metodo369 #IA #AIGovernance #Estrategia #CAIO #TechTok #AIF369 #GobernanzaIA",
+      "caption": "3 capas. 6 fases. 9 metricas. Asi gobernamos IA en produccion real. Scorecard GRATIS en bio 👇 #Metodo369 #IA #AIF369",
+      "tips": [
+        "Usar dedos para contar: 3... luego 6... luego 9",
+        "Transicion visual entre cada bloque",
+        "Mostrar la web real al final (proof of concept)",
+        "Texto grande y limpio en cada overlay"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Mide la madurez IA de tu empresa EN VIVO",
+      "format": "Screen recording en vivo + reaccion",
+      "duration": "45-60 seg",
+      "audio": "Voz directa",
+      "objective": "Conversion — llevar trafico al scorecard",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "¿Que nota saca tu empresa en IA?",
+          "voz": "Vamos a medir en vivo la madurez IA de una empresa."
+        },
+        "demo_35s": {
+          "accion": "Abrir aif369.com/scorecard.html y completar el formulario en vivo",
+          "voz": "Entramos al scorecard... seleccionamos industria... respondemos las 9 dimensiones... estrategia, gobierno, riesgos, privacidad, factory, observabilidad, etica, regulacion, cultura...",
+          "visual": "Screen recording real completando cada paso"
+        },
+        "resultado_10s": {
+          "texto_overlay": "Resultado: Score XX/100",
+          "voz": "Y este es el diagnostico. Con recomendaciones especificas para mejorar cada dimension."
+        },
+        "cta_5s": {
+          "texto_overlay": "Es GRATIS. Link en bio.",
+          "voz": "Hazlo tu. Es gratis. Link en bio."
+        }
+      },
+      "hashtags": "#Scorecard #IA #MadurezIA #Diagnostico #TechTok #Gratis #AIF369 #CAIO",
+      "caption": "¿Que nota saca tu empresa en IA? Scorecard GRATIS con diagnostico por dimension 📊 Link en bio #IA #Scorecard #AIF369",
+      "tips": [
+        "Completar el scorecard con datos realistas pero ficticios",
+        "Reaccionar genuinamente al resultado",
+        "Hacer zoom en el resultado final",
+        "Este video tiene el call-to-action mas fuerte — el scorecard es gratuito"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Donde buscar empleo en IA en LATAM",
+      "format": "Cara a camara + lista con texto overlay",
+      "duration": "30-45 seg",
+      "audio": "Voz directa",
+      "objective": "Engagement — atraer audiencia de job seekers",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "Empleos en IA que NADIE te cuenta",
+          "voz": "Estos son los empleos en IA que mas se buscan en LATAM y nadie te esta contando."
+        },
+        "contenido_25s": {
+          "puntos": [
+            {"texto_overlay": "1. CAIO — Chief AI Officer", "voz": "Numero 1: CAIO. El que gobierna toda la IA de una empresa. Sueldo: 8-15K USD/mes."},
+            {"texto_overlay": "2. ML Engineer", "voz": "ML Engineer. Despliega modelos en produccion real."},
+            {"texto_overlay": "3. AI Governance Lead", "voz": "AI Governance Lead. El que asegura compliance y etica."},
+            {"texto_overlay": "4. Data Engineer + GenAI", "voz": "Data Engineer con GenAI. Pipelines con LLMs gobernados."},
+            {"texto_overlay": "5. LLM Ops / Prompt Engineer", "voz": "Y LLM Ops. Quien opera los modelos de lenguaje en produccion."}
+          ]
+        },
+        "cta_5s": {
+          "texto_overlay": "Ofertas reales → Link en bio",
+          "voz": "Ofertas reales de empleo en IA en el link del bio."
+        }
+      },
+      "hashtags": "#EmpleoIA #TrabajoTech #CAIO #DataEngineer #MLEngineer #TechTok #LATAM #AIF369 #CarreraTech",
+      "caption": "5 empleos en IA que nadie te cuenta + donde postular 💼 Link en bio #EmpleoIA #TrabajoTech #IA #LATAM",
+      "tips": [
+        "Este tipo de contenido tiene ALTO engagement en TikTok",
+        "Los numeros de sueldo generan curiosidad y compartidos",
+        "Vincula directamente a encuentra-empleo.html",
+        "Hacer follow-up con videos de cada rol en detalle"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "¿Que es un CAIO y por que tu empresa necesita uno?",
+      "format": "Cara a camara + screen recording blog",
+      "duration": "45-60 seg",
+      "audio": "Voz directa",
+      "objective": "Educativo — posicionar como referente CAIO",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "CAIO: el puesto que no existia hace 2 anos",
+          "voz": "Hay un puesto ejecutivo que no existia hace 2 anos y ahora lo busca todo el mundo."
+        },
+        "contenido_35s": {
+          "voz": "Se llama CAIO. Chief AI Officer. No es el CTO. No es el CDO. Es el que:",
+          "puntos": [
+            "Define la estrategia de IA de la organizacion",
+            "Gobierna riesgos: sesgo, privacidad, compliance",
+            "Conecta negocio con tecnologia",
+            "Asegura que los proyectos de IA generan valor real"
+          ],
+          "cierre": "En Chile ya hay regulacion en tramite. En Europa ya es ley. Las empresas que no tengan a alguien en este rol van a tener problemas."
+        },
+        "cta_5s": {
+          "texto_overlay": "Guia completa del CAIO → Link en bio",
+          "voz": "Guia completa en el blog. Link en bio.",
+          "url": "aif369.com/blog-que-es-un-caio.html"
+        }
+      },
+      "hashtags": "#CAIO #ChiefAIOfficer #IA #Liderazgo #AIGovernance #TechTok #AIF369 #C-Suite",
+      "caption": "CAIO: el puesto ejecutivo mas buscado en 2026. ¿Tu empresa tiene uno? 👇 #CAIO #IA #TechTok #AIF369"
+    },
+    {
+      "id": 8,
+      "title": "5 razones por las que tu proyecto de IA va a fracasar",
+      "format": "Cara a camara con enumeracion + texto overlay",
+      "duration": "45-60 seg",
+      "audio": "Voz directa, tono provocador",
+      "objective": "Engagement — provocar discusion",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "Tu proyecto de IA VA a fracasar",
+          "voz": "Tu proyecto de IA va a fracasar. Y estas son las 5 razones."
+        },
+        "contenido_35s": {
+          "puntos": [
+            {"n": 1, "overlay": "Sin sponsor ejecutivo", "voz": "No tienes sponsor ejecutivo. Sin C-level que empuje, el proyecto muere en el mes 3."},
+            {"n": 2, "overlay": "PoC que nunca llega a produccion", "voz": "Hiciste un PoC hermoso que nadie paso a produccion."},
+            {"n": 3, "overlay": "Cero gobernanza", "voz": "No tienes gobernanza. Ni sabes que sesgos genera tu modelo."},
+            {"n": 4, "overlay": "No mides ROI", "voz": "No mides el valor de negocio. Solo metricas tecnicas."},
+            {"n": 5, "overlay": "Equipo sin estructura", "voz": "Tu equipo hace ML, datos, DevOps y compliance todo junto. Sin estructura."}
+          ]
+        },
+        "cta_5s": {
+          "texto_overlay": "Guia para no fallar → Link en bio",
+          "voz": "La guia completa esta en el blog. Link en bio.",
+          "url": "aif369.com/blog-por-que-fallan-proyectos-ia.html"
+        }
+      },
+      "hashtags": "#IA #ProyectosIA #Fracaso #TechTok #DataScience #MachineLearning #AIF369 #Startup",
+      "caption": "87% de proyectos de IA fracasan. Estas son las 5 razones reales 💀 #IA #TechTok #ProyectosIA #AIF369"
+    },
+    {
+      "id": 9,
+      "title": "El stack tecnologico de una AI Factory real",
+      "format": "Screen recording rapido + voz en off",
+      "duration": "30-45 seg",
+      "audio": "Musica tech/epic de fondo + voz",
+      "objective": "Credibilidad tecnica — atraer developers",
+      "script": {
+        "hook_3s": {
+          "texto_overlay": "Stack de una AI Factory REAL",
+          "voz": "Este es el stack tecnologico de una AI Factory real en produccion."
+        },
+        "contenido_25s": {
+          "accion": "Screen recording de caso-ai-factory-ecommerce.html seccion Stack Tecnico, scroll lento",
+          "voz_rapida": "Vertex AI para modelos. BigQuery para datos. Dataproc para procesamiento. Airflow para orquestacion. Langfuse para observabilidad. Kubernetes para compute. Y todo gobernado con Metodo 369.",
+          "visual": "Zoom-in en cada tecnologia mientras se menciona"
+        },
+        "cta_5s": {
+          "texto_overlay": "Caso completo → aif369.com",
+          "voz": "El caso de estudio completo esta en el link del bio."
+        }
+      },
+      "hashtags": "#Stack #IA #GCP #VertexAI #BigQuery #Airflow #Kubernetes #TechTok #AIF369 #DevOps",
+      "caption": "El stack de una AI Factory real en produccion. No es teoria. Es codigo funcionando 🔧 #Stack #IA #TechTok #AIF369"
+    }
+  ],
+
+  "production_guide": {
+    "equipment": {
+      "minimo": [
+        "iPhone/Android con camara frontal (ya lo tienes)",
+        "Audifonos con microfono (mejora audio 10x)",
+        "Luz natural de ventana (gratis, mejor que ring light)"
+      ],
+      "ideal": [
+        "Ring light ($15-25 USD en Amazon)",
+        "Tripode para celular ($10 USD)",
+        "Microfono lavalier ($15 USD)"
+      ]
+    },
+    "apps": {
+      "grabacion": "Camara nativa del iPhone o TikTok directo",
+      "screen_recording": "QuickTime (Mac) o grabacion de pantalla del iPhone",
+      "edicion": "CapCut (gratis) — tiene templates, texto overlay, transiciones",
+      "thumbnails": "Canva (gratis) — para crear imagenes de portada",
+      "scheduling": "TikTok Creator Studio o Later (gratis para 1 cuenta)"
+    },
+    "recording_tips": [
+      "Grabar en vertical (9:16) SIEMPRE",
+      "Hook en los primeros 2 segundos — si no enganchas, swipe",
+      "Hablar rapido pero claro — TikTok premia ritmo",
+      "Texto overlay grande y legible (fuente bold, fondo semitransparente)",
+      "Duracion ideal: 15-45 seg para los primeros videos",
+      "Publicar a las 12:00-13:00 o 19:00-21:00 hora Chile",
+      "Responder TODOS los comentarios las primeras 2 horas"
+    ],
+    "batch_recording": "Grabar los 3 videos de la semana en una sola sesion de 30-45 minutos. Cambiar de polera entre videos para que parezcan dias distintos."
+  },
+
+  "first_day_actions": [
+    "1. Configurar perfil @aifactory369: foto profesional, bio con link, cuenta de creador",
+    "2. Crear Linktree con las 7 URLs del metadata",
+    "3. Grabar VIDEO 3 primero (el POV, es el mas facil — 15 seg, solo screen recording)",
+    "4. Publicar VIDEO 3 como primer contenido",
+    "5. Grabar VIDEO 1 (cara a camara — el hook fuerte)",
+    "6. Publicar VIDEO 1 al dia siguiente",
+    "7. Interactuar en 10-15 videos de #TechTok y #IA para ganar visibilidad inicial"
+  ]
+}

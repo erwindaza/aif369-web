@@ -17,103 +17,104 @@
 <header class="site-header">
     <nav class="nav container">
         <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
-        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle"><span></span><span></span><span></span></button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="metodologia.html" style="color: #00D9CC;">Método 369</a>
-            <a href="services.html">Servicios</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
             <a href="scorecard.html">Scorecard IA</a>
-            <a href="blog.html" class="active">Insights</a>
-            <a href="author.html">Sobre Erwin</a>
+            <a href="blog.html" class="active" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
             <a href="encuentra-empleo.html">💼 Empleo</a>
             <a href="education.html" class="btn btn-primary">🎓 Cursos IA</a>
-            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
 
 <main class="container">
     <article class="section article">
-        <p class="tag">Gobernanza</p>
-        <h1>Gobernanza de IA: guía práctica para empresas chilenas</h1>
+        <p class="tag" data-i18n="bgob.text1">Gobernanza</p>
+        <h1 data-i18n="bgob.heading2">Gobernanza de IA: guía práctica para empresas chilenas</h1>
         <p class="blog-meta">Marzo 2026 · Lectura de 9 minutos · Por <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener">Erwin Daza</a></p>
 
-        <p>
+        <p data-i18n="bgob.text3">
             La IA generativa aceleró la adopción, pero también multiplicó los riesgos. Alucinaciones, sesgos, uso indebido de datos,
             falta de trazabilidad — todos problemas que la gobernanza resuelve. Esta guía explica cómo implementarla paso a paso.
         </p>
 
-        <h2>¿Qué es gobernanza de IA?</h2>
-        <p>
+        <h2 data-i18n="bgob.heading4">¿Qué es gobernanza de IA?</h2>
+        <p data-i18n="bgob.text5">
             Es el conjunto de políticas, procesos, roles y controles que aseguran que la IA se use de forma responsable,
             ética, transparente y alineada con los objetivos del negocio. No es burocracia — es gestión de riesgo inteligente.
         </p>
 
-        <h2>Los 4 pilares de la gobernanza de IA</h2>
+        <h2 data-i18n="bgob.heading6">Los 4 pilares de la gobernanza de IA</h2>
 
-        <h3>1. Comité de IA</h3>
-        <p>
+        <h3 data-i18n="bgob.subheading7">1. Comité de IA</h3>
+        <p data-i18n="bgob.text8">
             Un comité transversal (negocio, tecnología, legal, RRHH) que aprueba casos de uso, evalúa riesgos
             y supervisa el portfolio de IA. Se reúne mensual o quincenalmente.
         </p>
 
-        <h3>2. Políticas y estándares</h3>
-        <p>
+        <h3 data-i18n="bgob.subheading9">2. Políticas y estándares</h3>
+        <p data-i18n="bgob.text10">
             Documentos vivos que establecen: qué datos se pueden usar para entrenar modelos, qué decisiones se pueden automatizar,
             cómo se manejan los sesgos, y cómo se comunican las decisiones tomadas por IA.
         </p>
 
-        <h3>3. Registro de modelos</h3>
-        <p>
+        <h3 data-i18n="bgob.subheading11">3. Registro de modelos</h3>
+        <p data-i18n="bgob.text12">
             Un inventario de todos los modelos en uso: qué datos consumen, quién los mantiene, cuándo fueron auditados por última vez,
             y qué nivel de riesgo tienen. Sin este registro, no hay control.
         </p>
 
-        <h3>4. Auditoría y monitoreo</h3>
-        <p>
+        <h3 data-i18n="bgob.subheading13">4. Auditoría y monitoreo</h3>
+        <p data-i18n="bgob.text14">
             Monitoreo continuo de drift, sesgos y rendimiento. Auditorías periódicas (internas o externas) para validar
             que los modelos siguen cumpliendo con las políticas y regulaciones.
         </p>
 
-        <h2>Contexto regulatorio en Chile</h2>
-        <p>
+        <h2 data-i18n="bgob.heading15">Contexto regulatorio en Chile</h2>
+        <p data-i18n="bgob.text16">
             Chile tiene la Ley 19.628 de Protección de Datos (en proceso de modernización), la Política Nacional de IA
             actualizada en 2024, y creciente presión regulatoria desde la CMF para el sector financiero.
         </p>
-        <p>
+        <p data-i18n="bgob.text17">
             Las empresas que implementen gobernanza ahora estarán preparadas cuando la regulación se endurezca — 
             y las que no, enfrentarán costos de compliance retroactivos significativos.
         </p>
 
-        <h2>Cómo lo abordamos en AIF369</h2>
+        <h2 data-i18n="bgob.heading18">Cómo lo abordamos en AIF369</h2>
         <p>
-            En nuestro <a href="metodologia.html">Método 369</a>, la gobernanza es una de las <strong>6 capacidades</strong> que evaluamos
+            En nuestro <a href="metodologia.html">Método 369</a>, la gobernanza es una de las <strong data-i18n="bgob.bold19">6 capacidades</strong> que evaluamos
             y dos checkpoints están dedicados a ella:
         </p>
         <ul>
-            <li><strong>CP3 — Alineamiento ejecutivo:</strong> ¿El C-level respalda con presupuesto y governance?</li>
-            <li><strong>CP6 — Governance definido:</strong> ¿Existen políticas, comité y procesos formales?</li>
+            <li><strong data-i18n="bgob.bold20">CP3 — Alineamiento ejecutivo:</strong> ¿El C-level respalda con presupuesto y governance?</li>
+            <li><strong data-i18n="bgob.bold21">CP6 — Governance definido:</strong> ¿Existen políticas, comité y procesos formales?</li>
         </ul>
         <p>
-            Nuestro <strong>AI Governance Starter Kit</strong> incluye: diagnóstico de madurez en gobernanza, plantillas de políticas,
+            Nuestro <strong data-i18n="bgob.bold22">AI Governance Starter Kit</strong> incluye: diagnóstico de madurez en gobernanza, plantillas de políticas,
             estructura de comité de IA y roadmap de implementación de 90 días.
         </p>
 
-        <h2>Checklist: ¿Tiene gobernanza de IA?</h2>
+        <h2 data-i18n="bgob.heading23">Checklist: ¿Tiene gobernanza de IA?</h2>
         <ul>
-            <li>☐ ¿Existe un comité de IA con representación de negocio y tecnología?</li>
-            <li>☐ ¿Hay políticas escritas sobre uso de datos y modelos de IA?</li>
-            <li>☐ ¿Tiene un inventario de todos los modelos en uso o desarrollo?</li>
-            <li>☐ ¿Se monitorean los modelos en producción para drift y sesgos?</li>
-            <li>☐ ¿Alguien en la organización es responsable de la ética de IA?</li>
-            <li>☐ ¿El directorio recibe reportes sobre el estado de la IA?</li>
+            <li data-i18n="bgob.item24">☐ ¿Existe un comité de IA con representación de negocio y tecnología?</li>
+            <li data-i18n="bgob.item25">☐ ¿Hay políticas escritas sobre uso de datos y modelos de IA?</li>
+            <li data-i18n="bgob.item26">☐ ¿Tiene un inventario de todos los modelos en uso o desarrollo?</li>
+            <li data-i18n="bgob.item27">☐ ¿Se monitorean los modelos en producción para drift y sesgos?</li>
+            <li data-i18n="bgob.item28">☐ ¿Alguien en la organización es responsable de la ética de IA?</li>
+            <li data-i18n="bgob.item29">☐ ¿El directorio recibe reportes sobre el estado de la IA?</li>
         </ul>
-        <p>
+        <p data-i18n="bgob.text30">
             Si respondió "No" a más de 3, su empresa necesita implementar gobernanza de IA.
         </p>
 
         <div class="article-cta">
-            <p>Evalúe si su empresa tiene las bases para gobernar la IA de forma responsable.</p>
+            <p data-i18n="bgob.text31">Evalúe si su empresa tiene las bases para gobernar la IA de forma responsable.</p>
             <a href="scorecard.html" class="btn btn-primary">Hacer el Scorecard gratuito →</a>
         </div>
 

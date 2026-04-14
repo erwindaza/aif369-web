@@ -18,9 +18,9 @@
 <header class="site-header">
     <nav class="nav container">
         <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Aprende IA · Encuentra Empleo</span></a>
-        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle"><span></span><span></span><span></span></button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="education.html">Cursos</a>
             <a href="cursos-ia.html">IA</a>
             <a href="big-data-ia.html">Big Data</a>
@@ -28,6 +28,8 @@
             <a href="historias-reales.html" class="active" style="color:#00D9CC;">Historias</a>
             <a href="coaching-data.html">Coaching</a>
             <a href="https://bejoby.com" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#10B981;color:#10B981;">💼 BeJoby.com</a>
+
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -36,9 +38,9 @@
     <!-- Hero -->
     <section class="hero container">
         <div class="hero-content">
-            <p class="badge" style="background:rgba(236,72,153,0.15);color:#EC4899;">Historias Reales</p>
-            <h1>Resultados y trayectorias<br><span style="background:linear-gradient(135deg,#EC4899,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">de personas reales</span></h1>
-            <p class="hero-subtitle">Personas que aprendieron, mejoraron su perfil profesional y están logrando nuevas oportunidades laborales en IA y datos.</p>
+            <p class="badge" style="background:rgba(236,72,153,0.15);color:#EC4899;" data-i18n="historias.text1">Historias Reales</p>
+            <h1>Resultados y trayectorias<br><span style="background:linear-gradient(135deg,#EC4899,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;" data-i18n="historias.label2">de personas reales</span></h1>
+            <p class="hero-subtitle" data-i18n="historias.text3">Personas que aprendieron, mejoraron su perfil profesional y están logrando nuevas oportunidades laborales en IA y datos.</p>
         </div>
     </section>
 
@@ -51,22 +53,22 @@
                 <div class="story-card-header">
                     <div class="story-card-avatar">N</div>
                     <div>
-                        <h2>Nicolás</h2>
-                        <p class="story-card-tag" style="color:#10B981;">✓ Data Engineer — con la ayuda de AIF369.com</p>
+                        <h2 data-i18n="historias.heading4">Nicolás</h2>
+                        <p class="story-card-tag" style="color:#10B981;" data-i18n="historias.text5">✓ Data Engineer — con la ayuda de AIF369.com</p>
                     </div>
                 </div>
                 <div class="grid-2" style="margin-top:var(--space-5);">
                     <div>
-                        <h3 style="color:var(--text-muted);">Antes</h3>
-                        <p>Analista de datos en una empresa de retail. Dominaba Excel y SQL pero sentía que su perfil se estaba quedando atrás frente a las nuevas exigencias del mercado. No conocía IA ni automatización de pipelines.</p>
+                        <h3 style="color:var(--text-muted);" data-i18n="historias.subheading22">Antes</h3>
+                        <p data-i18n="historias.text7">Analista de datos en una empresa de retail. Dominaba Excel y SQL pero sentía que su perfil se estaba quedando atrás frente a las nuevas exigencias del mercado. No conocía IA ni automatización de pipelines.</p>
                     </div>
                     <div>
-                        <h3 style="color:#10B981;">Después</h3>
-                        <p>Completó IA Fundamentos, Big Data + IA y Automatización con Airflow en AIF369.com. Armó su primer pipeline automatizado en producción. Hoy trabaja como <strong>Data Engineer</strong> diseñando arquitecturas de datos en la nube.</p>
+                        <h3 style="color:#10B981;" data-i18n="historias.subheading24">Después</h3>
+                        <p>Completó IA Fundamentos, Big Data + IA y Automatización con Airflow en AIF369.com. Armó su primer pipeline automatizado en producción. Hoy trabaja como <strong data-i18n="historias.bold9">Data Engineer</strong> diseñando arquitecturas de datos en la nube.</p>
                     </div>
                 </div>
-                <blockquote class="story-quote">"No necesitaba ser programador experto. Necesitaba entender cómo funciona la IA y cómo conectar las piezas. Eso fue lo que aprendí en AIF369."</blockquote>
-                <p class="story-linkedin-pending">🔗 LinkedIn — pendiente de autorización</p>
+                <blockquote class="story-quote" data-i18n="historias.quote10">"No necesitaba ser programador experto. Necesitaba entender cómo funciona la IA y cómo conectar las piezas. Eso fue lo que aprendí en AIF369."</blockquote>
+                <p class="story-linkedin-pending" data-i18n="historias.text27">🔗 LinkedIn — pendiente de autorización</p>
             </article>
 
             <!-- Eduardo — Empresario -->
@@ -74,22 +76,22 @@
                 <div class="story-card-header">
                     <div class="story-card-avatar" style="background:linear-gradient(135deg,#F59E0B,#EF4444);">E</div>
                     <div>
-                        <h2>Eduardo</h2>
-                        <p class="story-card-tag" style="color:#10B981;">✓ Empresario — con la ayuda de AIF369.com</p>
+                        <h2 data-i18n="historias.heading12">Eduardo</h2>
+                        <p class="story-card-tag" style="color:#10B981;" data-i18n="historias.text13">✓ Empresario — con la ayuda de AIF369.com</p>
                     </div>
                 </div>
                 <div class="grid-2" style="margin-top:var(--space-5);">
                     <div>
-                        <h3 style="color:var(--text-muted);">Antes</h3>
-                        <p>Dueño de una PYME con 15 empleados. Sabía que la IA podía ayudar a su negocio pero no entendía cómo. Había contratado consultores caros sin resultados claros y sentía que le "vendían humo".</p>
+                        <h3 style="color:var(--text-muted);" data-i18n="historias.subheading14">Antes</h3>
+                        <p data-i18n="historias.text15">Dueño de una PYME con 15 empleados. Sabía que la IA podía ayudar a su negocio pero no entendía cómo. Había contratado consultores caros sin resultados claros y sentía que le "vendían humo".</p>
                     </div>
                     <div>
-                        <h3 style="color:#10B981;">Después</h3>
-                        <p>Tomó el curso de IA Fundamentos + Coaching Experto en AIF369.com. Entendió qué proyectos de IA tenían sentido para su empresa y cuáles no. Implementó automatización de reportes y un chatbot de atención al cliente. <strong>Redujo costos operativos un 30%.</strong></p>
+                        <h3 style="color:#10B981;" data-i18n="historias.subheading16">Después</h3>
+                        <p>Tomó el curso de IA Fundamentos + Coaching Experto en AIF369.com. Entendió qué proyectos de IA tenían sentido para su empresa y cuáles no. Implementó automatización de reportes y un chatbot de atención al cliente. <strong data-i18n="historias.bold17">Redujo costos operativos un 30%.</strong></p>
                     </div>
                 </div>
-                <blockquote class="story-quote">"Por fin alguien me explicó la IA en lenguaje de negocios. Ahora tomo decisiones informadas sobre tecnología y sé exactamente qué pedir cuando contrato un equipo técnico."</blockquote>
-                <p class="story-linkedin-pending">🔗 LinkedIn — pendiente de autorización</p>
+                <blockquote class="story-quote" data-i18n="historias.quote18">"Por fin alguien me explicó la IA en lenguaje de negocios. Ahora tomo decisiones informadas sobre tecnología y sé exactamente qué pedir cuando contrato un equipo técnico."</blockquote>
+                <p class="story-linkedin-pending" data-i18n="historias.text19">🔗 LinkedIn — pendiente de autorización</p>
             </article>
 
             <!-- Pedro — AI Engineer -->
@@ -97,22 +99,22 @@
                 <div class="story-card-header">
                     <div class="story-card-avatar" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);">P</div>
                     <div>
-                        <h2>Pedro</h2>
-                        <p class="story-card-tag" style="color:#10B981;">✓ AI Engineer — con la ayuda de AIF369.com</p>
+                        <h2 data-i18n="historias.heading20">Pedro</h2>
+                        <p class="story-card-tag" style="color:#10B981;" data-i18n="historias.text21">✓ AI Engineer — con la ayuda de AIF369.com</p>
                     </div>
                 </div>
                 <div class="grid-2" style="margin-top:var(--space-5);">
                     <div>
-                        <h3 style="color:var(--text-muted);">Antes</h3>
-                        <p>Ingeniero de software backend con 4 años de experiencia en Python y APIs. Quería especializarse en IA pero los cursos teóricos que encontraba no le daban las competencias prácticas para un rol de AI Engineer.</p>
+                        <h3 style="color:var(--text-muted);" data-i18n="historias.subheading6">Antes</h3>
+                        <p data-i18n="historias.text23">Ingeniero de software backend con 4 años de experiencia en Python y APIs. Quería especializarse en IA pero los cursos teóricos que encontraba no le daban las competencias prácticas para un rol de AI Engineer.</p>
                     </div>
                     <div>
-                        <h3 style="color:#10B981;">Después</h3>
-                        <p>Completó Airflow + IA Avanzada y Coaching Experto en AIF369.com. Construyó pipelines de ML end-to-end con orquestación, monitoreo y reentrenamiento automático. Hoy trabaja como <strong>AI Engineer</strong> desplegando modelos en producción para una empresa de FinTech.</p>
+                        <h3 style="color:#10B981;" data-i18n="historias.subheading8">Después</h3>
+                        <p>Completó Airflow + IA Avanzada y Coaching Experto en AIF369.com. Construyó pipelines de ML end-to-end con orquestación, monitoreo y reentrenamiento automático. Hoy trabaja como <strong data-i18n="historias.bold25">AI Engineer</strong> desplegando modelos en producción para una empresa de FinTech.</p>
                     </div>
                 </div>
-                <blockquote class="story-quote">"El salto de backend developer a AI Engineer fue más accesible de lo que pensaba. Los proyectos reales del curso me dieron el portfolio que necesitaba para conseguir el puesto."</blockquote>
-                <p class="story-linkedin-pending">🔗 LinkedIn — pendiente de autorización</p>
+                <blockquote class="story-quote" data-i18n="historias.quote26">"El salto de backend developer a AI Engineer fue más accesible de lo que pensaba. Los proyectos reales del curso me dieron el portfolio que necesitaba para conseguir el puesto."</blockquote>
+                <p class="story-linkedin-pending" data-i18n="historias.text11">🔗 LinkedIn — pendiente de autorización</p>
             </article>
 
             <!-- TÚ — próximo caso de éxito -->
@@ -125,16 +127,16 @@
                         </svg>
                     </div>
                     <div>
-                        <h2>¿Tú?</h2>
-                        <p class="story-card-tag" style="color:#00D9CC;">Solo faltas tú</p>
+                        <h2 data-i18n="historias.heading28">¿Tú?</h2>
+                        <p class="story-card-tag" style="color:#00D9CC;" data-i18n="historias.text29">Solo faltas tú</p>
                     </div>
                 </div>
                 <div style="margin-top:var(--space-5);">
-                    <p style="font-size:var(--text-lg);">Esta historia está esperándote. No importa tu punto de partida — ya seas analista, empresario, ingeniero o recién egresado.</p>
-                    <p style="color:var(--text-secondary);margin-top:var(--space-3);">Aprende IA, Big Data o Automatización de Datos con AIF369.com. Construye tu perfil con coaching experto. Conecta con empleo real en BeJoby.com.</p>
+                    <p style="font-size:var(--text-lg);" data-i18n="historias.text30">Esta historia está esperándote. No importa tu punto de partida — ya seas analista, empresario, ingeniero o recién egresado.</p>
+                    <p style="color:var(--text-secondary);margin-top:var(--space-3);" data-i18n="historias.text31">Aprende IA, Big Data o Automatización de Datos con AIF369.com. Construye tu perfil con coaching experto. Conecta con empleo real en BeJoby.com.</p>
                     <div style="margin-top:var(--space-5);display:flex;gap:12px;flex-wrap:wrap;">
                         <a href="education.html" class="btn btn-primary">Empieza tu historia →</a>
-                        <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Conversación gratuita</a>
+                        <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Conversación gratuita</a>
                     </div>
                 </div>
             </article>
@@ -145,8 +147,8 @@
     <section class="section">
         <div class="container">
             <header class="section-header">
-                <h2>¿Quieres ser la próxima historia?</h2>
-                <p>Empieza tu camino en IA, Big Data o Automatización de Datos. Construye tu perfil y conecta con oportunidades reales.</p>
+                <h2 data-i18n="historias.heading32">¿Quieres ser la próxima historia?</h2>
+                <p data-i18n="historias.text33">Empieza tu camino en IA, Big Data o Automatización de Datos. Construye tu perfil y conecta con oportunidades reales.</p>
                 <div style="margin-top:var(--space-5);display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
                     <a href="education.html" class="btn btn-primary">Ver cursos disponibles →</a>
                     <a href="coaching-data.html" class="btn btn-outline">Solicitar coaching →</a>

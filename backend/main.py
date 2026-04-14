@@ -422,7 +422,9 @@ def submit_contact_form():
             "submission_id": submission_id
         }
         send_email_notification(email_data)  # A nosotros
-        send_confirmation_email(email_data)   # Al cliente
+        # Skip confirmation email for QA/test submissions to avoid bounces
+        if email_data.get("form_type") != "qa_test":
+            send_confirmation_email(email_data)   # Al cliente
         
         return jsonify({
             "success": True,
@@ -510,8 +512,9 @@ def submit_education_form():
             "submission_id": submission_id
         }
         send_email_notification(email_data)
-        send_confirmation_email(email_data)
-
+        # Skip confirmation email for QA/test submissions to avoid bounces
+        if email_data.get("form_type") != "qa_test":
+            send_confirmation_email(email_data)
         return jsonify({
             "success": True,
             "submission_id": submission_id,

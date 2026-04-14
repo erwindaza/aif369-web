@@ -180,7 +180,7 @@ def test_backend_contact_form(base: str) -> list[TestResult]:
     # Test valid submission
     payload = {
         "name": "QA Bot Test",
-        "email": "qa-bot@aif369.com",
+        "email": "edaza@aif369.com",
         "company": "AIF369 QA",
         "role": "QA Agent",
         "message": "Automated QA test — please ignore.",
@@ -216,7 +216,7 @@ def test_backend_scorecard(base: str) -> list[TestResult]:
     # Valid scorecard submission
     payload = {
         "name": "QA Bot",
-        "email": "qa-bot@aif369.com",
+        "email": "edaza@aif369.com",
         "company": "QA Corp",
         "role": "QA Tester",
         "total_score": 55,

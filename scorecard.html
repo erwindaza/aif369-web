@@ -203,7 +203,7 @@
 <header class="site-header">
     <nav class="nav container">
         <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
-        <button class="nav-toggle" aria-label="Abrir menú">
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
@@ -215,7 +215,7 @@
             <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
             <a href="encuentra-empleo.html">💼 Empleo</a>
             <a href="education.html" class="btn btn-primary">🎓 Cursos IA</a>
-            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch">EN</button>
         </div>
     </nav>
@@ -225,7 +225,7 @@
     <!-- HERO -->
     <section class="section" style="padding-bottom: var(--space-4);">
         <header class="section-header">
-            <p class="badge">Método 369 · Herramienta gratuita</p>
+            <p class="badge" data-i18n="score.text1">Método 369 · Herramienta gratuita</p>
             <h1>AI Readiness Scorecard <span style="color: var(--accent);">369</span></h1>
             <p>Descubra la madurez de IA de su organización en 3 rondas.<br>
             <strong>3</strong> preguntas rápidas · <strong>6</strong> de profundidad · <strong>9</strong> métricas de resultado.</p>
@@ -235,11 +235,11 @@
     <!-- 369 PHASE INDICATOR -->
     <div class="scorecard-container" id="phase-indicator-wrapper">
         <div class="phase-indicator" id="phase-indicator">
-            <div class="phase-dot active" id="phase-dot-3">3<span class="phase-label">Dirección</span></div>
+            <div class="phase-dot active" id="phase-dot-3">3<span class="phase-label" data-i18n="score.label2">Dirección</span></div>
             <div class="phase-connector" id="conn-1"></div>
-            <div class="phase-dot" id="phase-dot-6">6<span class="phase-label">Fases</span></div>
+            <div class="phase-dot" id="phase-dot-6">6<span class="phase-label" data-i18n="score.label3">Fases</span></div>
             <div class="phase-connector" id="conn-2"></div>
-            <div class="phase-dot" id="phase-dot-9">9<span class="phase-label">Métricas</span></div>
+            <div class="phase-dot" id="phase-dot-9">9<span class="phase-label" data-i18n="score.label4">Métricas</span></div>
         </div>
     </div>
 
@@ -257,14 +257,14 @@
 
     <!-- GATE: Between round 1 and round 2 -->
     <section class="section scorecard-container gate-screen" id="gate-screen">
-        <h2 style="margin-bottom: var(--space-2);">📊 Tu pulso rápido</h2>
-        <p class="gate-preview-label">Basado en las 3 Capas de Dirección</p>
+        <h2 style="margin-bottom: var(--space-2);" data-i18n="score.heading5">📊 Tu pulso rápido</h2>
+        <p class="gate-preview-label" data-i18n="score.text6">Basado en las 3 Capas de Dirección</p>
         <div class="gate-preview-score" id="gate-score">0</div>
-        <p class="gate-preview-label">de 100 puntos</p>
+        <p class="gate-preview-label" data-i18n="score.text7">de 100 puntos</p>
         <div class="gate-preview-bars" id="gate-bars"></div>
         <div class="gate-message">
-            <h3>¿Quieres el diagnóstico completo?</h3>
-            <p>6 preguntas más, alineadas con las <strong>6 Fases de Transformación</strong> del Método 369. Al terminar verás tus <strong>9 métricas CAIO</strong> con recomendaciones personalizadas.</p>
+            <h3 data-i18n="score.subheading8">¿Quieres el diagnóstico completo?</h3>
+            <p>6 preguntas más, alineadas con las <strong data-i18n="score.bold9">6 Fases de Transformación</strong> del Método 369. Al terminar verás tus <strong data-i18n="score.bold10">9 métricas CAIO</strong> con recomendaciones personalizadas.</p>
         </div>
         <div class="gate-actions">
             <button class="btn btn-primary" id="btn-continue-deep">Sí, quiero el diagnóstico completo →</button>
@@ -275,8 +275,8 @@
     <!-- LEAD CAPTURE -->
     <section class="section scorecard-container results-hidden" id="lead-capture">
         <header class="section-header">
-            <h2>🎯 Tu diagnóstico está listo</h2>
-            <p>Ingresa tus datos para ver tus 9 métricas CAIO con recomendaciones.</p>
+            <h2 data-i18n="score.heading11">🎯 Tu diagnóstico está listo</h2>
+            <p data-i18n="score.text12">Ingresa tus datos para ver tus 9 métricas CAIO con recomendaciones.</p>
         </header>
         <div class="lead-form">
             <input type="text" id="lead-name" placeholder="Nombre y apellido" required>
@@ -293,11 +293,11 @@
     <section class="section scorecard-container results-hidden" id="scorecard-results">
         <div class="score-circle" id="score-circle">
             <span class="score-value" id="score-value">0</span>
-            <span class="score-label">de 100</span>
+            <span class="score-label" data-i18n="score.label13">de 100</span>
         </div>
         <div class="maturity-level" id="maturity-level"></div>
 
-        <h3 style="margin-bottom: var(--space-2);">Las 9 métricas de control CAIO</h3>
+        <h3 style="margin-bottom: var(--space-2);" data-i18n="score.subheading14">Las 9 métricas de control CAIO</h3>
         <p style="color: var(--text-tertiary); font-size: var(--text-sm); margin-bottom: var(--space-6);">Cada métrica refleja una dimensión clave del <a href="metodologia.html" style="color: var(--primary-light);">Método 369</a>.</p>
         <div class="metrics-grid" id="metrics-grid"></div>
 
@@ -305,7 +305,7 @@
 
         <div style="text-align:center; margin-top: var(--space-8);">
             <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar conversación gratuita</a>
-            <p style="margin-top: var(--space-3); color: var(--text-tertiary); font-size: var(--text-sm);">
+            <p style="margin-top: var(--space-3); color: var(--text-tertiary); font-size: var(--text-sm);" data-i18n="score.text15">
                 Conversemos sobre cómo llevar su organización al siguiente nivel de madurez en IA.
             </p>
         </div>
@@ -900,6 +900,14 @@
                     source_page: window.location.href
                 })
             });
+            // Track scorecard completion in GA4
+            if (window.aif369 && window.aif369.trackEvent) {
+                window.aif369.trackEvent('scorecard_complete', {
+                    maturity_level: results.level.name,
+                    total_score: results.totalPct,
+                    source_page: window.location.pathname
+                });
+            }
         } catch (e) {
             console.error('Error sending scorecard data:', e);
         }

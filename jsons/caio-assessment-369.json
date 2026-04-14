@@ -1,0 +1,739 @@
+{
+  "project_name": "AIF369_CAIO_Assessment_Framework",
+  "version": "1.0",
+  "language": "es",
+  "methodology": "Metodo 369",
+  "objective": "Framework completo de assessments CAIO para levantar informacion, evaluar estado actual y definir plan de accion siguiendo las 3 capas de direccion, 6 fases de transformacion y 9 metricas de control del Metodo 369.",
+
+  "assessment_types": [
+    {
+      "id": "assess_starter",
+      "name": "Assessment Starter 369",
+      "duration": "4-6 semanas",
+      "description": "Diagnostico ejecutivo inicial para organizaciones que quieren entender su posicion actual en IA.",
+      "phases_covered": ["descubrir", "diagnosticar"],
+      "deliverables": [
+        "AI Readiness Report",
+        "Mapa de casos de uso priorizados",
+        "Matriz de madurez por capa",
+        "Identificacion de quick wins",
+        "Hoja de ruta ejecutiva 90 dias"
+      ]
+    },
+    {
+      "id": "assess_governed",
+      "name": "Assessment Governed Pilot 369",
+      "duration": "8-12 semanas",
+      "description": "Evaluacion profunda con diseno de piloto gobernado. Para empresas que quieren pasar de diagnostico a accion controlada.",
+      "phases_covered": ["descubrir", "diagnosticar", "disenar", "desplegar"],
+      "deliverables": [
+        "Todo lo del Starter",
+        "Blueprint de arquitectura funcional",
+        "Risk assessment del caso priorizado",
+        "Marco de gobernanza aplicado",
+        "Dashboard de metricas en tiempo real",
+        "Criterios de exito del piloto"
+      ]
+    },
+    {
+      "id": "assess_enterprise",
+      "name": "Assessment Enterprise 369",
+      "duration": "3-6 meses",
+      "description": "Transformacion organizacional completa. Modelo operativo, governance framework, portfolio management y roadmap de escalamiento.",
+      "phases_covered": ["descubrir", "diagnosticar", "disenar", "desplegar", "dominar", "escalar"],
+      "deliverables": [
+        "Todo lo del Governed Pilot",
+        "AI Governance Framework completo",
+        "AI Committee Model",
+        "Policy Pack (politicas, estandares, controles)",
+        "Portfolio management de casos IA",
+        "Roadmap de escalamiento 12-24 meses",
+        "Programa de AI literacy"
+      ]
+    }
+  ],
+
+  "assessment_structure": {
+    "layer_1_strategic": {
+      "name": "Capa de Direccion Estrategica",
+      "focus": "El negocio decide que resolver y por que",
+      "assessment_areas": [
+        {
+          "id": "S1",
+          "area": "Vision y Alineamiento",
+          "questions": [
+            "¿Existe una vision clara de como la IA contribuye a los objetivos estrategicos?",
+            "¿Quien es el sponsor ejecutivo de las iniciativas de IA?",
+            "¿La IA esta en la agenda del directorio?"
+          ],
+          "evidence_required": [
+            "Plan estrategico o presentacion de directorio",
+            "Organigrama con responsable de IA",
+            "Minutas o acuerdos de directorio"
+          ],
+          "maturity_levels": {
+            "1_inicial": "No hay vision ni sponsor de IA",
+            "2_exploratorio": "Hay interes pero sin estrategia formal",
+            "3_definido": "Existe vision documentada y sponsor ejecutivo",
+            "4_gestionado": "La estrategia de IA esta integrada al plan de negocio",
+            "5_optimizado": "La IA es capacidad core del modelo de negocio"
+          }
+        },
+        {
+          "id": "S2",
+          "area": "Portafolio de Casos de Uso",
+          "questions": [
+            "¿Cuantos casos de uso de IA tiene identificados?",
+            "¿Estan priorizados por valor de negocio y factibilidad?",
+            "¿Existe un proceso formal para proponer y evaluar nuevos casos?"
+          ],
+          "evidence_required": [
+            "Inventario de casos de uso",
+            "Criterios de priorizacion documentados",
+            "Pipeline de evaluacion de ideas"
+          ],
+          "maturity_levels": {
+            "1_inicial": "No hay inventario de casos de uso",
+            "2_exploratorio": "Hay ideas sueltas sin priorizacion",
+            "3_definido": "Portafolio priorizado con criterios claros",
+            "4_gestionado": "Portfolio management activo con revisiones periodicas",
+            "5_optimizado": "Pipeline continuo de innovacion con IA"
+          }
+        },
+        {
+          "id": "S3",
+          "area": "Modelo Operativo",
+          "questions": [
+            "¿Como se organizan los equipos para ejecutar proyectos de IA?",
+            "¿Existe un centro de excelencia, equipo dedicado o modelo hibrido?",
+            "¿Como se asignan recursos y presupuesto?"
+          ],
+          "evidence_required": [
+            "Organigrama de equipos de IA/datos",
+            "Modelo de asignacion de recursos",
+            "Presupuesto dedicado a IA"
+          ],
+          "maturity_levels": {
+            "1_inicial": "No hay equipo ni presupuesto dedicado",
+            "2_exploratorio": "Esfuerzos individuales o ad-hoc",
+            "3_definido": "Equipo definido con roles claros",
+            "4_gestionado": "Centro de excelencia o fabrica de IA operando",
+            "5_optimizado": "Modelo federado con capacidades distribuidas"
+          }
+        },
+        {
+          "id": "S4",
+          "area": "Ventaja Competitiva",
+          "questions": [
+            "¿La IA genera diferenciacion visible frente a competidores?",
+            "¿Los clientes perciben valor de las soluciones de IA?",
+            "¿Existe medicion del impacto competitivo?"
+          ],
+          "evidence_required": [
+            "Casos con impacto medible en mercado",
+            "Indicadores de diferenciacion",
+            "Benchmark vs competencia si existe"
+          ],
+          "maturity_levels": {
+            "1_inicial": "La IA no genera diferenciacion",
+            "2_exploratorio": "Hay proyectos pero sin impacto competitivo visible",
+            "3_definido": "Algunos casos generan diferenciacion medible",
+            "4_gestionado": "La IA es fuente reconocida de ventaja competitiva",
+            "5_optimizado": "La IA redefine el modelo de negocio"
+          }
+        }
+      ]
+    },
+
+    "layer_2_risk_compliance": {
+      "name": "Capa de Direccion de Riesgo y Cumplimiento",
+      "focus": "El gobierno define que proteger y como",
+      "assessment_areas": [
+        {
+          "id": "R1",
+          "area": "Riesgos de IA",
+          "questions": [
+            "¿Existe un registro de riesgos especificos de IA?",
+            "¿Se evalua riesgo antes de cada proyecto de IA?",
+            "¿Hay clasificacion de riesgo por caso de uso?"
+          ],
+          "evidence_required": [
+            "Risk register de IA",
+            "Metodologia de evaluacion de riesgo",
+            "Heatmap de riesgos por proyecto"
+          ],
+          "maturity_levels": {
+            "1_inicial": "No se evaluan riesgos de IA",
+            "2_exploratorio": "Evaluacion informal caso a caso",
+            "3_definido": "Proceso formal de risk assessment",
+            "4_gestionado": "Risk register activo con revisiones periodicas",
+            "5_optimizado": "Gestion de riesgo proactiva con KRIs automatizados"
+          }
+        },
+        {
+          "id": "R2",
+          "area": "Privacidad y Etica",
+          "questions": [
+            "¿Se aplica privacy by design en proyectos de IA?",
+            "¿Se evalua sesgo y fairness antes del despliegue?",
+            "¿Existe proceso de revision etica?"
+          ],
+          "evidence_required": [
+            "Checklist de privacidad",
+            "Analisis de sesgo realizados",
+            "Comite o proceso de revision etica"
+          ],
+          "maturity_levels": {
+            "1_inicial": "No hay consideraciones de privacidad ni etica",
+            "2_exploratorio": "Conciencia pero sin procesos formales",
+            "3_definido": "Checklists y procesos implementados",
+            "4_gestionado": "Evaluacion sistematica con metricas",
+            "5_optimizado": "Programa robusto con auditoria externa"
+          }
+        },
+        {
+          "id": "R3",
+          "area": "Seguridad de IA",
+          "questions": [
+            "¿Se evaluan riesgos de seguridad especificos de IA (adversarial, prompt injection, data poisoning)?",
+            "¿Existe control de acceso a modelos y datos sensibles?",
+            "¿Hay plan de respuesta a incidentes de IA?"
+          ],
+          "evidence_required": [
+            "Evaluacion de seguridad de IA",
+            "Politicas de acceso a modelos",
+            "Plan de incidentes de IA"
+          ],
+          "maturity_levels": {
+            "1_inicial": "No se consideran riesgos de seguridad de IA",
+            "2_exploratorio": "Seguridad general pero sin foco en IA",
+            "3_definido": "Controles especificos de seguridad de IA implementados",
+            "4_gestionado": "Red teaming y testing de seguridad periodico",
+            "5_optimizado": "Seguridad de IA integrada en el ciclo de vida completo"
+          }
+        },
+        {
+          "id": "R4",
+          "area": "Legal y Compliance",
+          "questions": [
+            "¿Se conoce la regulacion aplicable (EU AI Act, Ley 21.719, Boletin 16821-19)?",
+            "¿Existe base legal documentada para el uso de datos personales en IA?",
+            "¿Hay proceso de aprobacion legal antes de desplegar IA?"
+          ],
+          "evidence_required": [
+            "Analisis regulatorio documentado",
+            "Bases legales por proyecto",
+            "Gate de aprobacion legal"
+          ],
+          "maturity_levels": {
+            "1_inicial": "Desconocimiento regulatorio",
+            "2_exploratorio": "Conciencia sin aplicacion practica",
+            "3_definido": "Compliance documentado por proyecto",
+            "4_gestionado": "Programa de compliance activo con gates",
+            "5_optimizado": "Compliance proactivo con actualizacion regulatoria continua"
+          }
+        },
+        {
+          "id": "R5",
+          "area": "Trazabilidad y Controles",
+          "questions": [
+            "¿Se puede rastrear cada decision de IA hasta sus datos y modelo?",
+            "¿Existe logging de inferencias, cambios y aprobaciones?",
+            "¿Hay controles automaticos en el pipeline de IA?"
+          ],
+          "evidence_required": [
+            "Sistema de logging y trazabilidad",
+            "Audit trail de cambios",
+            "Controles automatizados implementados"
+          ],
+          "maturity_levels": {
+            "1_inicial": "Sin trazabilidad",
+            "2_exploratorio": "Logs basicos sin estructura",
+            "3_definido": "Trazabilidad end-to-end implementada",
+            "4_gestionado": "Auditoria sistematica con reportes",
+            "5_optimizado": "Trazabilidad automatizada con alertas en tiempo real"
+          }
+        }
+      ]
+    },
+
+    "layer_3_implementation": {
+      "name": "Capa de Direccion de Implementacion",
+      "focus": "La ingenieria construye, despliega y opera",
+      "assessment_areas": [
+        {
+          "id": "I1",
+          "area": "Arquitectura y Stack Tecnico",
+          "questions": [
+            "¿Existe una arquitectura de referencia para proyectos de IA?",
+            "¿Que stack tecnologico se usa (cloud, frameworks, herramientas)?",
+            "¿La arquitectura permite escalar y reutilizar componentes?"
+          ],
+          "evidence_required": [
+            "Diagrama de arquitectura",
+            "Inventario de stack tecnologico",
+            "Documentacion de patrones de integracion"
+          ],
+          "maturity_levels": {
+            "1_inicial": "Sin arquitectura definida, cada proyecto decide",
+            "2_exploratorio": "Stack ad-hoc, herramientas dispersas",
+            "3_definido": "Arquitectura de referencia documentada",
+            "4_gestionado": "Plataforma de IA con componentes reutilizables",
+            "5_optimizado": "AI Factory o plataforma madura operando"
+          }
+        },
+        {
+          "id": "I2",
+          "area": "Datos y Calidad",
+          "questions": [
+            "¿Tiene inventario de datos disponibles para IA?",
+            "¿Existe proceso de validacion de calidad de datos?",
+            "¿Quien es dueno del dato y como se gobierna el acceso?"
+          ],
+          "evidence_required": [
+            "Catalogo de datos",
+            "Procesos de calidad documentados",
+            "Data ownership definido"
+          ],
+          "maturity_levels": {
+            "1_inicial": "Datos dispersos sin inventario",
+            "2_exploratorio": "Datos en silos con calidad variable",
+            "3_definido": "Catalogo de datos con ownership y calidad basica",
+            "4_gestionado": "Data governance activo con metricas de calidad",
+            "5_optimizado": "Data mesh o lake unificado con calidad automatizada"
+          }
+        },
+        {
+          "id": "I3",
+          "area": "MLOps y LLMOps",
+          "questions": [
+            "¿Existe pipeline de entrenamiento, evaluacion y despliegue automatizado?",
+            "¿Se versionan modelos, prompts y datasets?",
+            "¿Hay ambiente de staging y produccion separados?"
+          ],
+          "evidence_required": [
+            "Pipeline de CI/CD para modelos",
+            "Sistema de versionado",
+            "Ambientes definidos"
+          ],
+          "maturity_levels": {
+            "1_inicial": "Todo manual, notebooks en local",
+            "2_exploratorio": "Scripts manuales, deploy artesanal",
+            "3_definido": "Pipeline basico automatizado",
+            "4_gestionado": "MLOps/LLMOps completo con registries",
+            "5_optimizado": "Plataforma madura con retraining automatico y A/B testing"
+          }
+        },
+        {
+          "id": "I4",
+          "area": "Observabilidad y Monitoreo",
+          "questions": [
+            "¿Se monitorean metricas de performance de modelos en produccion?",
+            "¿Hay alertas automaticas ante degradacion, drift o anomalias?",
+            "¿Se miden costos de inferencia y latencia?"
+          ],
+          "evidence_required": [
+            "Dashboards de monitoreo",
+            "Alertas configuradas",
+            "Metricas de costo y performance"
+          ],
+          "maturity_levels": {
+            "1_inicial": "Sin monitoreo post-despliegue",
+            "2_exploratorio": "Monitoreo manual esporadico",
+            "3_definido": "Dashboard basico con metricas clave",
+            "4_gestionado": "Observabilidad completa con Langfuse o similar",
+            "5_optimizado": "Monitoreo proactivo con auto-remediation"
+          }
+        },
+        {
+          "id": "I5",
+          "area": "Integracion y Despliegue",
+          "questions": [
+            "¿Como se integra la IA con procesos y sistemas de negocio?",
+            "¿Existe estrategia de despliegue (canary, blue-green, gradual)?",
+            "¿Hay capacidad de rollback automatico?"
+          ],
+          "evidence_required": [
+            "Mapa de integraciones",
+            "Estrategia de deployment documentada",
+            "Proceso de rollback"
+          ],
+          "maturity_levels": {
+            "1_inicial": "Sin integracion, modelos aislados",
+            "2_exploratorio": "Integracion manual punto a punto",
+            "3_definido": "APIs y patrones de integracion definidos",
+            "4_gestionado": "Integracion automatizada con CI/CD y rollback",
+            "5_optimizado": "Plataforma de integracion con event-driven y failover"
+          }
+        }
+      ]
+    }
+  },
+
+  "nine_metrics_assessment": {
+    "description": "Evaluacion contra las 9 metricas de control CAIO. Cada metrica se evalua en escala 1-5.",
+    "metrics": [
+      {
+        "id": "M1",
+        "name": "Estrategia y Portafolio",
+        "key_question": "¿Que problemas vale la pena resolver con IA?",
+        "assessment_checklist": [
+          "¿Existe portafolio priorizado de casos de uso IA?",
+          "¿Se aplican criterios de valor vs factibilidad vs riesgo?",
+          "¿Hay proceso de intake para nuevas ideas?",
+          "¿Se mide el avance del portafolio?"
+        ]
+      },
+      {
+        "id": "M2",
+        "name": "Datos y Calidad",
+        "key_question": "¿Tenemos datos suficientes, trazables y confiables?",
+        "assessment_checklist": [
+          "¿Existe catalogo de datos con metadata?",
+          "¿Se mide calidad de datos (completitud, frescura, precision)?",
+          "¿Hay data ownership definido?",
+          "¿Se aplica data governance?"
+        ]
+      },
+      {
+        "id": "M3",
+        "name": "Arquitectura e Integracion",
+        "key_question": "¿Como se integra la IA con procesos y sistemas?",
+        "assessment_checklist": [
+          "¿Hay arquitectura de referencia para IA?",
+          "¿Los componentes son reutilizables?",
+          "¿Se usan APIs y patrones estándar?",
+          "¿La infraestructura escala?"
+        ]
+      },
+      {
+        "id": "M4",
+        "name": "Riesgo y Seguridad",
+        "key_question": "¿Que danos puede generar el sistema y como los prevenimos?",
+        "assessment_checklist": [
+          "¿Existe risk register especifico de IA?",
+          "¿Se evalua riesgo antes del despliegue?",
+          "¿Hay controles de seguridad especificos de IA?",
+          "¿Existe plan de respuesta a incidentes de IA?"
+        ]
+      },
+      {
+        "id": "M5",
+        "name": "Legal, Privacidad y Compliance",
+        "key_question": "¿Que base legal y obligaciones regulatorias aplican?",
+        "assessment_checklist": [
+          "¿Se conoce la regulacion aplicable?",
+          "¿Se aplica privacy by design?",
+          "¿Hay gate legal antes de produccion?",
+          "¿Se documenta base legal por proyecto?"
+        ]
+      },
+      {
+        "id": "M6",
+        "name": "Etica y Derechos Fundamentales",
+        "key_question": "¿Existe sesgo, discriminacion o impacto desproporcionado?",
+        "assessment_checklist": [
+          "¿Se evalua sesgo y fairness?",
+          "¿Hay proceso de revision etica?",
+          "¿Se mide impacto en derechos fundamentales?",
+          "¿Existe human oversight configurado?"
+        ]
+      },
+      {
+        "id": "M7",
+        "name": "Operacion y Observabilidad",
+        "key_question": "¿Como monitoreamos drift, alucinaciones y performance?",
+        "assessment_checklist": [
+          "¿Hay dashboards de monitoreo en produccion?",
+          "¿Se detecta drift automaticamente?",
+          "¿Se monitorean alucinaciones si hay LLMs?",
+          "¿Se miden costos de inferencia?"
+        ]
+      },
+      {
+        "id": "M8",
+        "name": "Personas y Adopcion",
+        "key_question": "¿Que capacidades necesita el negocio para operar IA?",
+        "assessment_checklist": [
+          "¿Hay roles de IA definidos (CAIO, Data, ML, LLM)?",
+          "¿Existe programa de AI literacy?",
+          "¿Se mide adopcion por area?",
+          "¿Los equipos de negocio participan en el diseno?"
+        ]
+      },
+      {
+        "id": "M9",
+        "name": "Valor y ROI",
+        "key_question": "¿Como medimos impacto, ahorro y retorno?",
+        "assessment_checklist": [
+          "¿Se define baseline antes de cada proyecto?",
+          "¿Se miden KPIs de valor de negocio?",
+          "¿Se calcula TCO y ROI por caso?",
+          "¿Se reporta valor al directorio?"
+        ]
+      }
+    ]
+  },
+
+  "six_phases_procedures": {
+    "description": "Procedimientos detallados por cada fase de transformacion del Metodo 369.",
+    "phases": [
+      {
+        "id": "F1",
+        "name": "Descubrir",
+        "objective": "Entender negocio, dolores, madurez y oportunidades",
+        "duration": "1-2 semanas",
+        "activities": [
+          "Kick-off con sponsor ejecutivo (60 min)",
+          "Entrevistas con 3-5 stakeholders clave (45 min c/u)",
+          "Cuestionario de AI Readiness Scorecard 369",
+          "Inventario de iniciativas de IA existentes",
+          "Mapa de stakeholders y decision-makers",
+          "Identificacion de quick wins potenciales"
+        ],
+        "inputs_required": [
+          "Plan estrategico o prioridades del negocio",
+          "Organigrama con areas relevantes",
+          "Listado de iniciativas de IA actuales o pasadas",
+          "Contacto del sponsor ejecutivo"
+        ],
+        "outputs": [
+          "Matriz de madurez por capa (3 capas)",
+          "Inventario de casos de uso identificados",
+          "Mapa de stakeholders",
+          "Score de AI Readiness (9 metricas)",
+          "Informe de hallazgos Fase 1"
+        ],
+        "tools": [
+          "AI Readiness Scorecard 369 (online)",
+          "Template de entrevista de discovery",
+          "Matriz de priorizacion valor-factibilidad-riesgo"
+        ]
+      },
+      {
+        "id": "F2",
+        "name": "Diagnosticar",
+        "objective": "Identificar datos, riesgos, restricciones legales y viabilidad",
+        "duration": "1-3 semanas",
+        "activities": [
+          "Inventario de datos disponibles por caso de uso",
+          "Evaluacion de calidad de datos (completitud, frescura, confiabilidad)",
+          "Risk assessment por caso de uso (impacto x probabilidad)",
+          "Analisis regulatorio inicial (EU AI Act, Ley 21.719, datos personales)",
+          "Gap analysis: estado actual vs estado deseado",
+          "Evaluacion de infraestructura y stack existente"
+        ],
+        "inputs_required": [
+          "Acceso a catalogo de datos o inventario de fuentes",
+          "Documentacion de sistemas existentes",
+          "Politicas de seguridad y privacidad vigentes",
+          "Casos de uso priorizados de Fase 1"
+        ],
+        "outputs": [
+          "Data landscape: inventario de datos por caso",
+          "Matriz de riesgo por caso de uso",
+          "Analisis regulatorio con gaps identificados",
+          "Gap analysis por capa (estrategia, riesgo, implementacion)",
+          "Informe de diagnostico Fase 2",
+          "Recomendacion de caso(s) priorizado(s)"
+        ],
+        "tools": [
+          "Template de inventario de datos",
+          "Matriz de riesgo (impacto x probabilidad)",
+          "Checklist de compliance regulatorio",
+          "Template de gap analysis"
+        ]
+      },
+      {
+        "id": "F3",
+        "name": "Disenar",
+        "objective": "Definir arquitectura, gobierno, controles y plan de implementacion",
+        "duration": "2-4 semanas",
+        "activities": [
+          "Diseno del target operating model de IA",
+          "Blueprint de arquitectura funcional y tecnica",
+          "Marco de gobernanza: roles, RACI, politicas, aprobaciones",
+          "Diseno de controles minimos por nivel de riesgo",
+          "Plan de implementacion con hitos y criterios de exito",
+          "Estimation de ROI y business case",
+          "Definicion de KPIs y KRIs del caso priorizado"
+        ],
+        "inputs_required": [
+          "Diagnostico completo de Fase 2",
+          "Caso(s) priorizado(s) con datos disponibles",
+          "Restricciones tecnicas y presupuestarias",
+          "Requisitos regulatorios identificados"
+        ],
+        "outputs": [
+          "Target Operating Model de IA",
+          "Blueprint de arquitectura (funcional + tecnica)",
+          "Marco de gobernanza con RACI",
+          "Policy pack (politicas, estandares, controles)",
+          "Plan de implementacion con timeline",
+          "Business case con ROI estimado",
+          "Informe de diseno Fase 3"
+        ],
+        "tools": [
+          "Template de blueprint de arquitectura",
+          "RACI matrix template",
+          "Template de business case",
+          "Checklist de controles por nivel de riesgo"
+        ]
+      },
+      {
+        "id": "F4",
+        "name": "Desplegar",
+        "objective": "Construir pilotos o MVPs controlados con medicion y resguardos",
+        "duration": "4-8 semanas",
+        "activities": [
+          "Setup de ambientes (dev, staging, produccion)",
+          "Implementacion del caso priorizado (PoC o MVP)",
+          "Aplicacion de controles de gobernanza definidos en F3",
+          "Configuracion de dashboards y observabilidad",
+          "Testing: funcional, seguridad, sesgo, performance",
+          "Despliegue controlado (canary o gradual)",
+          "Onboarding de usuarios piloto"
+        ],
+        "inputs_required": [
+          "Blueprint y plan de implementacion de Fase 3",
+          "Datos preparados y validados",
+          "Equipo de desarrollo asignado (interno o BeJoby)",
+          "Criterios de aceptacion del piloto"
+        ],
+        "outputs": [
+          "PoC o MVP funcionando en ambiente controlado",
+          "Dashboard de metricas en tiempo real",
+          "Alertas y observabilidad configuradas",
+          "Reporte de testing (funcional, seguridad, sesgo)",
+          "Usuarios piloto onboarded",
+          "Informe de despliegue Fase 4"
+        ],
+        "tools": [
+          "Template de criterios de aceptacion",
+          "Checklist pre-deploy",
+          "Template de reporte de testing",
+          "Dashboard template"
+        ]
+      },
+      {
+        "id": "F5",
+        "name": "Dominar",
+        "objective": "Operar con disciplina, monitoreo, mejora continua y accountability",
+        "duration": "Continuo (revision mensual)",
+        "activities": [
+          "Monitoreo continuo de KPIs y KRIs",
+          "Gestion de incidentes de IA",
+          "Auditoria interna periodica",
+          "Revision de drift, alucinaciones y degradacion",
+          "Revision de costos vs valor generado",
+          "Actualizacion de controles y politicas si cambia regulacion",
+          "Reportes ejecutivos mensuales"
+        ],
+        "inputs_required": [
+          "Sistema en produccion de Fase 4",
+          "Dashboards y alertas operando",
+          "Runbooks operacionales documentados",
+          "KPIs y KRIs definidos"
+        ],
+        "outputs": [
+          "Runbooks operacionales actualizados",
+          "Reportes de KPIs y KRIs mensuales",
+          "Log de incidentes y resoluciones",
+          "Auditoria interna periodica",
+          "Plan de mejora continua",
+          "Informe mensual Fase 5"
+        ],
+        "tools": [
+          "Template de runbook operacional",
+          "Template de reporte ejecutivo mensual",
+          "Checklist de auditoria interna",
+          "Template de gestion de incidentes"
+        ]
+      },
+      {
+        "id": "F6",
+        "name": "Escalar",
+        "objective": "Expandir capacidades y replicar patrones seguros a nivel organizacional",
+        "duration": "3-12 meses",
+        "activities": [
+          "Creacion de playbooks por dominio de solucion",
+          "Catalogo de casos reutilizables",
+          "Diseno del centro de excelencia de IA",
+          "Programa de AI literacy empresarial",
+          "Roadmap de escalamiento 12-24 meses",
+          "Evaluacion de nuevas soluciones del catalogo AIF369",
+          "Expansion de gobernanza a nuevas areas"
+        ],
+        "inputs_required": [
+          "Caso(s) en produccion exitoso(s) de Fase 5",
+          "Metricas validadas de valor y adopcion",
+          "Lecciones aprendidas documentadas",
+          "Nuevas oportunidades identificadas"
+        ],
+        "outputs": [
+          "Playbooks por dominio",
+          "Catalogo de componentes reutilizables",
+          "Centro de excelencia IA operando",
+          "Programa de AI literacy activo",
+          "Roadmap 12-24 meses",
+          "Informe de escalamiento Fase 6"
+        ],
+        "tools": [
+          "Template de playbook por dominio",
+          "Catalogo de Soluciones AIF369",
+          "Template de programa de AI literacy",
+          "Template de roadmap de escalamiento"
+        ]
+      }
+    ]
+  },
+
+  "assessment_delivery_model": {
+    "note": "El CAIO es hands-off: asesora, evalua y dirige. No escribe codigo.",
+    "roles": {
+      "caio_advisor": {
+        "responsibilities": [
+          "Conduce el assessment completo",
+          "Entrevista stakeholders",
+          "Evalua madurez por capa y metrica",
+          "Disena arquitectura funcional",
+          "Define governance y controles",
+          "Presenta hallazgos al directorio",
+          "Supervisa el plan de implementacion"
+        ],
+        "does_not": [
+          "Escribir codigo",
+          "Desplegar infraestructura",
+          "Construir modelos",
+          "Operar sistemas"
+        ]
+      },
+      "development_team_bejoby": {
+        "when": "Cuando el assessment identifica necesidad de construccion",
+        "responsibilities": [
+          "Construir PoC, MVP o sistema completo",
+          "Implementar arquitectura tecnica",
+          "Desarrollar modelos ML y pipelines",
+          "Desplegar a produccion",
+          "Operar y mantener sistemas"
+        ],
+        "engagement": "A traves de BeJoby, partner de talento de AIF369"
+      }
+    }
+  },
+
+  "pricing": {
+    "assessment_starter": {
+      "includes": "Fases 1-2 del Metodo 369",
+      "format": "A medida segun tamano de organizacion"
+    },
+    "assessment_governed": {
+      "includes": "Fases 1-4 del Metodo 369",
+      "format": "A medida segun complejidad del caso"
+    },
+    "assessment_enterprise": {
+      "includes": "Fases 1-6 del Metodo 369",
+      "format": "A medida segun alcance organizacional"
+    }
+  }
+}

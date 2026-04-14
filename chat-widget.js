@@ -433,6 +433,11 @@
         // Hide quick actions after first message
         quickActions.style.display = 'none';
 
+        // Track first message as chat_start in GA4
+        if (turnNumber === 0 && window.aif369 && window.aif369.trackEvent) {
+            window.aif369.trackEvent('chat_start', { source_page: window.location.pathname });
+        }
+
         addMessage('user', text);
         history.push({ role: 'user', content: text });
         turnNumber++;

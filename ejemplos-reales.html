@@ -18,9 +18,9 @@
 <header class="site-header">
     <nav class="nav container">
         <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Aprende IA · Encuentra Empleo</span></a>
-        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle"><span></span><span></span><span></span></button>
         <div class="nav-links">
-            <a href="index.html">Inicio</a>
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="education.html">Cursos</a>
             <a href="cursos-ia.html">IA</a>
             <a href="big-data-ia.html">Big Data</a>
@@ -28,6 +28,8 @@
             <a href="historias-reales.html">Historias</a>
             <a href="coaching-data.html">Coaching</a>
             <a href="https://bejoby.com" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#10B981;color:#10B981;">💼 BeJoby.com</a>
+
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
@@ -42,9 +44,9 @@
     <section class="section">
         <div class="container">
             <header class="section-header">
-                <p class="badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;">Ejemplos Reales</p>
-                <h1>Aprende con proyectos reales</h1>
-                <p>Estos son ejemplos de proyectos que se construyen durante los cursos de AIF369. Soluciones que puedes replicar, adaptar y llevar a tu trabajo.</p>
+                <p class="badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;" data-i18n="ejemplos.text1">Ejemplos Reales</p>
+                <h1 data-i18n="ejemplos.heading2">Aprende con proyectos reales</h1>
+                <p data-i18n="ejemplos.text3">Estos son ejemplos de proyectos que se construyen durante los cursos de AIF369. Soluciones que puedes replicar, adaptar y llevar a tu trabajo.</p>
             </header>
         </div>
     </section>
@@ -55,84 +57,84 @@
 
                 <!-- Ejemplo 1 -->
                 <article class="card">
-                    <p class="tag" style="color:#0088FF;">Pipeline de datos</p>
-                    <h3>Pipeline ETL con Airflow + BigQuery</h3>
-                    <p>Ingestión de datos desde una API pública, transformación con pandas y carga a BigQuery. Orquestado con Airflow, ejecutándose diariamente de forma automática.</p>
+                    <p class="tag" style="color:#0088FF;" data-i18n="ejemplos.text4">Pipeline de datos</p>
+                    <h3 data-i18n="ejemplos.subheading5">Pipeline ETL con Airflow + BigQuery</h3>
+                    <p data-i18n="ejemplos.text6">Ingestión de datos desde una API pública, transformación con pandas y carga a BigQuery. Orquestado con Airflow, ejecutándose diariamente de forma automática.</p>
                     <ul class="simple-list">
-                        <li>Airflow DAG con 5 tareas encadenadas</li>
-                        <li>Extracción de API REST con paginación</li>
-                        <li>Transformación y validación de datos</li>
-                        <li>Carga incremental a BigQuery</li>
+                        <li data-i18n="ejemplos.item7">Airflow DAG con 5 tareas encadenadas</li>
+                        <li data-i18n="ejemplos.item8">Extracción de API REST con paginación</li>
+                        <li data-i18n="ejemplos.item9">Transformación y validación de datos</li>
+                        <li data-i18n="ejemplos.item10">Carga incremental a BigQuery</li>
                     </ul>
                     <p style="color:var(--text-muted);font-size:var(--text-sm);">Se enseña en: <a href="automatizacion-airflow.html" class="btn-link">Automatización con Airflow</a></p>
                 </article>
 
                 <!-- Ejemplo 2 -->
                 <article class="card">
-                    <p class="tag" style="color:#8B5CF6;">IA + Clasificación</p>
-                    <h3>Clasificador de textos de soporte</h3>
-                    <p>Modelo de IA que clasifica automáticamente tickets de soporte técnico en categorías, prioridades y asigna al equipo correcto.</p>
+                    <p class="tag" style="color:#8B5CF6;" data-i18n="ejemplos.text11">IA + Clasificación</p>
+                    <h3 data-i18n="ejemplos.subheading12">Clasificador de textos de soporte</h3>
+                    <p data-i18n="ejemplos.text13">Modelo de IA que clasifica automáticamente tickets de soporte técnico en categorías, prioridades y asigna al equipo correcto.</p>
                     <ul class="simple-list">
-                        <li>Fine-tuning de modelo de lenguaje</li>
-                        <li>API REST para clasificación en tiempo real</li>
-                        <li>Integración con sistema de tickets</li>
-                        <li>Dashboard de métricas del modelo</li>
+                        <li data-i18n="ejemplos.item14">Fine-tuning de modelo de lenguaje</li>
+                        <li data-i18n="ejemplos.item15">API REST para clasificación en tiempo real</li>
+                        <li data-i18n="ejemplos.item16">Integración con sistema de tickets</li>
+                        <li data-i18n="ejemplos.item17">Dashboard de métricas del modelo</li>
                     </ul>
                     <p style="color:var(--text-muted);font-size:var(--text-sm);">Se enseña en: <a href="cursos-ia.html" class="btn-link">Curso de IA</a> + <a href="airflow-ia-avanzada.html" class="btn-link">Airflow + IA Avanzada</a></p>
                 </article>
 
                 <!-- Ejemplo 3 -->
                 <article class="card">
-                    <p class="tag" style="color:#10B981;">Dashboard</p>
-                    <h3>Dashboard automatizado con datos en tiempo real</h3>
-                    <p>Dashboard ejecutivo que se actualiza automáticamente cada hora con métricas de negocio, KPIs y alertas configurables.</p>
+                    <p class="tag" style="color:#10B981;" data-i18n="ejemplos.text18">Dashboard</p>
+                    <h3 data-i18n="ejemplos.subheading19">Dashboard automatizado con datos en tiempo real</h3>
+                    <p data-i18n="ejemplos.text20">Dashboard ejecutivo que se actualiza automáticamente cada hora con métricas de negocio, KPIs y alertas configurables.</p>
                     <ul class="simple-list">
-                        <li>Ingestión de datos de múltiples fuentes</li>
-                        <li>Transformación y agregación automática</li>
-                        <li>Visualización con Chart.js/Looker</li>
-                        <li>Alertas por email y Slack</li>
+                        <li data-i18n="ejemplos.item21">Ingestión de datos de múltiples fuentes</li>
+                        <li data-i18n="ejemplos.item22">Transformación y agregación automática</li>
+                        <li data-i18n="ejemplos.item23">Visualización con Chart.js/Looker</li>
+                        <li data-i18n="ejemplos.item24">Alertas por email y Slack</li>
                     </ul>
                     <p style="color:var(--text-muted);font-size:var(--text-sm);">Se enseña en: <a href="big-data-ia.html" class="btn-link">Big Data + IA</a></p>
                 </article>
 
                 <!-- Ejemplo 4 -->
                 <article class="card">
-                    <p class="tag" style="color:#EC4899;">IA Generativa</p>
-                    <h3>Bot de atención con IA generativa</h3>
-                    <p>Chatbot basado en RAG que responde preguntas sobre documentación interna de la empresa usando IA generativa con contexto real.</p>
+                    <p class="tag" style="color:#EC4899;" data-i18n="ejemplos.text25">IA Generativa</p>
+                    <h3 data-i18n="ejemplos.subheading26">Bot de atención con IA generativa</h3>
+                    <p data-i18n="ejemplos.text27">Chatbot basado en RAG que responde preguntas sobre documentación interna de la empresa usando IA generativa con contexto real.</p>
                     <ul class="simple-list">
-                        <li>Ingestión de documentos (PDF, DOCX, web)</li>
-                        <li>Embeddings y vector store</li>
-                        <li>RAG pipeline con Gemini/GPT</li>
-                        <li>Chat widget integrado en web</li>
+                        <li data-i18n="ejemplos.item28">Ingestión de documentos (PDF, DOCX, web)</li>
+                        <li data-i18n="ejemplos.item29">Embeddings y vector store</li>
+                        <li data-i18n="ejemplos.item30">RAG pipeline con Gemini/GPT</li>
+                        <li data-i18n="ejemplos.item31">Chat widget integrado en web</li>
                     </ul>
                     <p style="color:var(--text-muted);font-size:var(--text-sm);">Se enseña en: <a href="airflow-ia-avanzada.html" class="btn-link">Airflow + IA Avanzada</a></p>
                 </article>
 
                 <!-- Ejemplo 5 -->
                 <article class="card">
-                    <p class="tag" style="color:#F59E0B;">Automatización</p>
-                    <h3>Monitoreo de costos cloud con IA</h3>
-                    <p>Sistema que monitorea costos de GCP/AWS en tiempo real, detecta anomalías con ML y envía alertas antes de exceder presupuestos.</p>
+                    <p class="tag" style="color:#F59E0B;" data-i18n="ejemplos.text32">Automatización</p>
+                    <h3 data-i18n="ejemplos.subheading33">Monitoreo de costos cloud con IA</h3>
+                    <p data-i18n="ejemplos.text34">Sistema que monitorea costos de GCP/AWS en tiempo real, detecta anomalías con ML y envía alertas antes de exceder presupuestos.</p>
                     <ul class="simple-list">
-                        <li>BigQuery billing export integration</li>
-                        <li>Anomaly detection con ML</li>
-                        <li>Dashboard de costos por servicio</li>
-                        <li>Alertas proactivas por presupuesto</li>
+                        <li data-i18n="ejemplos.item35">BigQuery billing export integration</li>
+                        <li data-i18n="ejemplos.item36">Anomaly detection con ML</li>
+                        <li data-i18n="ejemplos.item37">Dashboard de costos por servicio</li>
+                        <li data-i18n="ejemplos.item38">Alertas proactivas por presupuesto</li>
                     </ul>
                     <p style="color:var(--text-muted);font-size:var(--text-sm);">Se enseña en: <a href="big-data-ia.html" class="btn-link">Big Data + IA</a> + <a href="automatizacion-airflow.html" class="btn-link">Airflow</a></p>
                 </article>
 
                 <!-- Ejemplo 6 -->
                 <article class="card">
-                    <p class="tag" style="color:#0088FF;">Data Quality</p>
-                    <h3>Validación inteligente de datos</h3>
-                    <p>Pipeline que valida datos entrantes usando reglas estáticas + IA para detectar anomalías semánticas y patrones fuera de lo normal.</p>
+                    <p class="tag" style="color:#0088FF;" data-i18n="ejemplos.text39">Data Quality</p>
+                    <h3 data-i18n="ejemplos.subheading40">Validación inteligente de datos</h3>
+                    <p data-i18n="ejemplos.text41">Pipeline que valida datos entrantes usando reglas estáticas + IA para detectar anomalías semánticas y patrones fuera de lo normal.</p>
                     <ul class="simple-list">
-                        <li>Great Expectations integrado en Airflow</li>
-                        <li>Validación semántica con LLMs</li>
-                        <li>Quarantine de registros anómalos</li>
-                        <li>Reportes automáticos de calidad</li>
+                        <li data-i18n="ejemplos.item42">Great Expectations integrado en Airflow</li>
+                        <li data-i18n="ejemplos.item43">Validación semántica con LLMs</li>
+                        <li data-i18n="ejemplos.item44">Quarantine de registros anómalos</li>
+                        <li data-i18n="ejemplos.item45">Reportes automáticos de calidad</li>
                     </ul>
                     <p style="color:var(--text-muted);font-size:var(--text-sm);">Se enseña en: <a href="airflow-ia-avanzada.html" class="btn-link">Airflow + IA Avanzada</a></p>
                 </article>
@@ -143,8 +145,8 @@
     <!-- CTA -->
     <section class="section">
         <header class="section-header">
-            <h2>¿Listo para construir proyectos como estos?</h2>
-            <p>Elige un curso y empieza a construir soluciones reales desde la primera semana.</p>
+            <h2 data-i18n="ejemplos.heading46">¿Listo para construir proyectos como estos?</h2>
+            <p data-i18n="ejemplos.text47">Elige un curso y empieza a construir soluciones reales desde la primera semana.</p>
             <div style="margin-top:var(--space-5);display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
                 <a href="education.html" class="btn btn-primary">Ver todos los cursos →</a>
                 <a href="coaching-data.html" class="btn btn-outline">Solicitar coaching →</a>
