@@ -38,13 +38,13 @@
         </button>
         <div class="nav-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
-            <a href="metodologia.html" style="color: #00D9CC;">Método 369</a>
+            <a href="metodologia.html" style="color: #00D9CC;" data-i18n="nav.metodo">Método 369</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="education.html" class="btn btn-primary">🎓 Cursos IA</a>
-            <a href="scorecard.html">Scorecard IA</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
+            <a href="scorecard.html" data-i18n="nav.scorecard">Scorecard IA</a>
             <a href="blog.html" data-i18n="nav.blog">Insights</a>
             <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
-            <a href="encuentra-empleo.html">💼 Empleo</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
             <a href="" class="btn btn-outline" data-i18n="nav.cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
@@ -65,8 +65,8 @@
                 Estrategia, gobernanza, riesgo, compliance y arquitectura para organizaciones que quieren usar inteligencia artificial en serio.
             </p>
             <div class="hero-actions">
-                <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agenda un diagnóstico 369</a>
-                <a href="metodologia.html" class="btn btn-link">Conoce la metodología →</a>
+                <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.agenda_diag369">📅 Agenda un diagnóstico 369</a>
+                <a href="metodologia.html" class="btn btn-link" data-i18n="cta.conoce_metodo">Conoce la metodología →</a>
             </div>
             <p class="hero-note" data-i18n="hero.note">
                 No ayudamos solo a implementar IA. Ayudamos a gobernarla, justificarla y sostenerla.
@@ -86,7 +86,7 @@
     <section class="section container">
         <header class="section-header">
             <h2>Por qué AIF369</h2>
-            <p>La mayoría de las empresas no necesita más hype. Necesita un método para decidir, implementar y monitorear IA con valor real.</p>
+            <p data-i18n="index.value.intro">La mayoría de las empresas no necesita más hype. Necesita un método para decidir, implementar y monitorear IA con valor real.</p>
         </header>
         <div class="grid-3">
             <article class="card">
@@ -132,7 +132,7 @@
         <div class="container">
             <header class="section-header">
                 <h2>Método 369</h2>
-                <p>Un marco práctico para descubrir oportunidades, diseñar controles, desplegar pilotos gobernados y escalar IA con valor de negocio.</p>
+                <p data-i18n="index.method.desc">Un marco práctico para descubrir oportunidades, diseñar controles, desplegar pilotos gobernados y escalar IA con valor de negocio.</p>
             </header>
             <div class="grid-3">
                 <article class="card">
@@ -158,8 +158,8 @@
                 </article>
             </div>
             <div style="text-align: center; margin-top: 1.5rem;">
-                <a href="metodologia.html" class="btn btn-outline">Conocer la metodología completa →</a>
-                <a href="resources/proyecto-ley-ia-chile-boletin-16821-19.pdf" target="_blank" rel="noopener" class="btn btn-link" style="margin-left: 1rem;">📄 Descargar Proyecto de Ley IA Chile (PDF)</a>
+                <a href="metodologia.html" class="btn btn-outline" data-i18n="cta.conocer_metodo_completa">Conocer la metodología completa →</a>
+                <a href="resources/proyecto-ley-ia-chile-boletin-16821-19.pdf" target="_blank" rel="noopener" class="btn btn-link" style="margin-left: 1rem;" data-i18n="cta.descargar_ley_ia">📄 Descargar Proyecto de Ley IA Chile (PDF)</a>
             </div>
         </div>
     </section>
@@ -174,7 +174,7 @@
         <div class="container">
             <header class="section-header">
                 <h2>Para quién trabajamos</h2>
-                <p>Perfiles que se benefician directamente de nuestra asesoría integral en IA.</p>
+                <p data-i18n="index.clients.intro">Perfiles que se benefician directamente de nuestra asesoría integral en IA.</p>
             </header>
             <div class="grid-2">
                 <article class="card">
@@ -206,7 +206,7 @@
     <section class="section section-alt">
         <div class="container">
         <header class="section-header">
-            <h2>Ideas para líderes que no quieren improvisar con IA</h2>
+            <h2 data-i18n="index.insights.title">Ideas para líderes que no quieren improvisar con IA</h2>
             <p>Publicaciones originales sobre estrategia, regulación, ética, riesgo y operación de IA.</p>
         </header>
         <div class="grid-3">
@@ -214,21 +214,21 @@
                 <p class="tag">Metodología</p>
                 <h4>Método 369 — El framework de AIF369</h4>
                 <p>3 capas de dirección, 6 fases de transformación, 9 métricas de control. El método completo para gobernar IA.</p>
-                <a href="metodologia.html" class="btn btn-link">Ver metodología →</a>
+                <a href="metodologia.html" class="btn btn-link" data-i18n="cta.ver_metodo">Ver metodología →</a>
             </article>
 
             <article class="card card-highlight">
                 <p class="tag">Caso de estudio</p>
                 <h4>AI Content Factory en produccion</h4>
                 <p>Generacion de contenido de marketing a escala con LLMs gobernados, bias detection y trazabilidad completa.</p>
-                <a href="caso-ai-factory-ecommerce.html" class="btn btn-link">Ver caso de estudio →</a>
+                <a href="caso-ai-factory-ecommerce.html" class="btn btn-link" data-i18n="cta.ver_caso">Ver caso de estudio →</a>
             </article>
 
             <article class="card">
                 <p class="tag">Insights</p>
                 <h4>Blog AIF369</h4>
                 <p>Briefings ejecutivos sobre gobernanza, riesgo, compliance, CAIO, agentes de IA y más.</p>
-                <a href="blog.html" class="btn btn-link">Ver todos los insights →</a>
+                <a href="blog.html" class="btn btn-link" data-i18n="cta.ver_insights">Ver todos los insights →</a>
             </article>
         </div>
         </div>
@@ -240,7 +240,7 @@
             <h2>19 Soluciones de IA listas para tu negocio</h2>
             <p>Accede al catálogo completo: qué problema resuelve cada solución, qué datos necesitas tener listos y cómo empezar — con asesoría Gemini CAIO o consultoría personalizada.</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
-                <a href="catalogo-soluciones-ia.html" class="btn btn-primary">Ver Catálogo de Soluciones IA →</a>
+                <a href="catalogo-soluciones-ia.html" class="btn btn-primary" data-i18n="cta.ver_catalogo_ia">Ver Catálogo de Soluciones IA →</a>
             </div>
         </header>
     </section>
@@ -296,14 +296,14 @@
             <p class="footer-text" data-i18n="index.footer.text">AI Factory, Governance, Risk and Business Value. AIF369 SpA — Chile.</p>
         </div>
         <div class="footer-links">
-            <a href="metodologia.html">Método 369</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
             <a href="services.html">Servicios</a>
             <a href="blog.html">Insights</a>
-            <a href="scorecard.html">Scorecard IA</a>
+            <a href="scorecard.html" data-i18n="nav.scorecard">Scorecard IA</a>
             <a href="author.html">Sobre Erwin</a>
         </div>
             <div class="footer-social">
-            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener">LinkedIn de Erwin →</a>
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" data-i18n="footer.linkedin">LinkedIn de Erwin →</a>
         </div>
 </div>
 </footer>

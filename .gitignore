@@ -62,3 +62,5 @@ qa-report-*.json
 
 # Build-time generated config (contains env vars)
 _config.js
+.vercel
+.env*.local

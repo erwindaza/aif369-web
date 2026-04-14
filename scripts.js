@@ -164,7 +164,13 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-i18n]").forEach((element) => {
             const key = element.dataset.i18n;
             if (dictionary[key]) {
-                element.textContent = dictionary[key];
+                const val = dictionary[key];
+                // Use innerHTML only if translation contains allowed HTML tags
+                if (/<(strong|em|a |br|span)\b/.test(val)) {
+                    element.innerHTML = val;
+                } else {
+                    element.textContent = val;
+                }
             }
         });
 

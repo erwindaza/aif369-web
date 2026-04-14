@@ -210,11 +210,11 @@
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
             <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
-            <a href="metodologia.html">Método 369</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
             <a href="blog.html" data-i18n="nav.blog">Insights</a>
             <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
-            <a href="encuentra-empleo.html">💼 Empleo</a>
-            <a href="education.html" class="btn btn-primary">🎓 Cursos IA</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
             <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch">EN</button>
         </div>
@@ -250,8 +250,8 @@
         <div class="scorecard-counter" id="question-counter"></div>
         <div id="scorecard-steps"></div>
         <div class="scorecard-nav">
-            <button class="btn btn-outline" id="btn-prev" style="visibility:hidden;">← Anterior</button>
-            <button class="btn btn-primary" id="btn-next" disabled>Siguiente →</button>
+            <button class="btn btn-outline" id="btn-prev" style="visibility:hidden;" data-i18n="cta.anterior">← Anterior</button>
+            <button class="btn btn-primary" id="btn-next" disabled data-i18n="cta.siguiente">Siguiente →</button>
         </div>
     </section>
 
@@ -267,8 +267,8 @@
             <p>6 preguntas más, alineadas con las <strong data-i18n="score.bold9">6 Fases de Transformación</strong> del Método 369. Al terminar verás tus <strong data-i18n="score.bold10">9 métricas CAIO</strong> con recomendaciones personalizadas.</p>
         </div>
         <div class="gate-actions">
-            <button class="btn btn-primary" id="btn-continue-deep">Sí, quiero el diagnóstico completo →</button>
-            <button class="btn btn-outline" id="btn-skip-to-results">Ver resultado básico</button>
+            <button class="btn btn-primary" id="btn-continue-deep" data-i18n="cta.si_diag_completo">Sí, quiero el diagnóstico completo →</button>
+            <button class="btn btn-outline" id="btn-skip-to-results" data-i18n="cta.ver_resultado_basico">Ver resultado básico</button>
         </div>
     </section>
 
@@ -283,7 +283,7 @@
             <input type="email" id="lead-email" placeholder="Email corporativo" required>
             <input type="text" id="lead-company" placeholder="Empresa" required>
             <input type="text" id="lead-role" placeholder="Cargo (ej: CTO, VP Data, CAIO)">
-            <button class="btn btn-primary" id="btn-show-results" style="width:100%; margin-top: var(--space-4);">
+            <button class="btn btn-primary" id="btn-show-results" data-i18n="cta.ver_metricas" style="width:100%; margin-top: var(--space-4);">
                 Ver mis 9 métricas →
             </button>
         </div>
@@ -298,13 +298,13 @@
         <div class="maturity-level" id="maturity-level"></div>
 
         <h3 style="margin-bottom: var(--space-2);" data-i18n="score.subheading14">Las 9 métricas de control CAIO</h3>
-        <p style="color: var(--text-tertiary); font-size: var(--text-sm); margin-bottom: var(--space-6);">Cada métrica refleja una dimensión clave del <a href="metodologia.html" style="color: var(--primary-light);">Método 369</a>.</p>
+        <p style="color: var(--text-tertiary); font-size: var(--text-sm); margin-bottom: var(--space-6);">Cada métrica refleja una dimensión clave del <a href="metodologia.html" style="color: var(--primary-light);" data-i18n="nav.metodo">Método 369</a>.</p>
         <div class="metrics-grid" id="metrics-grid"></div>
 
         <div id="recommendation"></div>
 
         <div style="text-align:center; margin-top: var(--space-8);">
-            <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar conversación gratuita</a>
+            <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.agendar_conv_free">📅 Agendar conversación gratuita</a>
             <p style="margin-top: var(--space-3); color: var(--text-tertiary); font-size: var(--text-sm);" data-i18n="score.text15">
                 Conversemos sobre cómo llevar su organización al siguiente nivel de madurez en IA.
             </p>
@@ -320,7 +320,7 @@
         </div>
         <div>
             <a href="services.html">Servicios</a>
-            <a href="metodologia.html">Método 369</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
             <a href="blog.html">Insights</a>
             <a href="author.html">Sobre Erwin</a>
         </div>
@@ -632,7 +632,7 @@
             roundHeader.innerHTML = `<div class="round-header">
                 <span class="round-tag round-tag-1">Ronda 1 de 2</span>
                 <h3>3 Capas de Dirección</h3>
-                <p>Una pregunta por cada capa — toma 30 segundos</p>
+                <p data-i18n="score.round1_intro">Una pregunta por cada capa — toma 30 segundos</p>
             </div>`;
         }
 
@@ -856,8 +856,8 @@
                 <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">${rec.desc}</p>
                 ${!results.completedDeep ? '<p style="color: var(--text-tertiary); font-size: var(--text-xs); margin-bottom: var(--space-4);">💡 Las métricas no evaluadas fueron estimadas. Para un diagnóstico preciso, <a href="scorecard.html" style="color: var(--primary-light);">repite el scorecard completo</a>.</p>' : ''}
                 <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
-                    <a href="index.html#contacto" class="btn btn-primary">Solicitar información →</a>
-                    <a href="${rec.link}" class="btn btn-outline">Ver Método 369 →</a>
+                    <a href="index.html#contacto" class="btn btn-primary" data-i18n="cta.solicitar_info3">Solicitar información →</a>
+                    <a href="${rec.link}" class="btn btn-outline" data-i18n="cta.ver_metodo369">Ver Método 369 →</a>
                 </div>
             </div>
         `;
