@@ -2399,5 +2399,11 @@
   "score.round1_intro": "One question per layer—takes 30 seconds",
   "dashboard.data_estimation_notice": "Current data is an estimate. Enable export to see actual costs per service, day, and SKU.",
   "service.express_kit_description": "If the kit reveals you need deeper analysis in 5-7 days. The kit cost is deducted.",
-  "service.executive_evaluation_description": "Complete evaluation with interviews, ROI by use case, and C-level presentation."
+  "service.executive_evaluation_description": "Complete evaluation with interviews, ROI by use case, and C-level presentation.",
+  "error.404_title": "Page not found",
+  "error.404_desc": "The page you're looking for doesn't exist or has been moved. Explore our resources on artificial intelligence, data governance and the 369 Method.",
+  "error.404_home": "← Go to home",
+  "error.404_services": "Services",
+  "error.404_blog": "Blog",
+  "error.404_scorecard": "AI Scorecard"
 }

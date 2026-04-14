@@ -2316,5 +2316,11 @@
   "score.round1_intro": "Una pregunta por cada capa — toma 30 segundos",
   "dashboard.data_estimation_notice": "Los datos actuales son estimaciones. Habilita el export para ver costos reales por servicio, día y SKU.",
   "service.express_kit_description": "Si el kit revela que necesita más profundidad en 5-7 días. El costo del kit se descuenta.",
-  "service.executive_evaluation_description": "Evaluación completa con entrevistas, ROI por caso de uso y presentación C-level."
+  "service.executive_evaluation_description": "Evaluación completa con entrevistas, ROI por caso de uso y presentación C-level.",
+  "error.404_title": "Página no encontrada",
+  "error.404_desc": "La página que buscas no existe o fue movida. Explora nuestros recursos sobre inteligencia artificial, gobierno de datos y el Método 369.",
+  "error.404_home": "← Ir al inicio",
+  "error.404_services": "Servicios",
+  "error.404_blog": "Blog",
+  "error.404_scorecard": "AI Scorecard"
 }

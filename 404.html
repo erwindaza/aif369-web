@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Página no encontrada | AIF369</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .error-page { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; text-align:center; padding:2rem; }
+        .error-code { font-size:8rem; font-weight:800; background:linear-gradient(135deg,#0088FF,#00D9CC); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1; margin-bottom:0.5rem; }
+        .error-msg { font-size:1.5rem; color:var(--text-primary,#fff); margin-bottom:1rem; }
+        .error-desc { font-size:1.05rem; color:var(--text-secondary,#94a3b8); max-width:500px; margin-bottom:2rem; line-height:1.7; }
+        .error-links { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; }
+        .error-links a { padding:0.75rem 1.5rem; border-radius:8px; font-weight:600; text-decoration:none; transition:transform .2s; }
+        .error-links a:hover { transform:translateY(-2px); }
+        .error-links .btn-primary { background:linear-gradient(135deg,#0088FF,#0066CC); color:#fff; }
+        .error-links .btn-outline { border:1px solid rgba(255,255,255,0.2); color:var(--text-primary,#fff); }
+        .error-links .btn-outline:hover { border-color:#0088FF; }
+    </style>
+</head>
+<body>
+    <main class="error-page">
+        <div class="error-code">404</div>
+        <h1 class="error-msg" data-i18n="error.404_title">Página no encontrada</h1>
+        <p class="error-desc" data-i18n="error.404_desc">La página que buscas no existe o fue movida. Explora nuestros recursos sobre inteligencia artificial, gobierno de datos y el Método 369.</p>
+        <div class="error-links">
+            <a href="/" class="btn-primary" data-i18n="error.404_home">← Ir al inicio</a>
+            <a href="/services.html" class="btn-outline" data-i18n="error.404_services">Servicios</a>
+            <a href="/blog.html" class="btn-outline" data-i18n="error.404_blog">Blog</a>
+            <a href="/scorecard.html" class="btn-outline" data-i18n="error.404_scorecard">AI Scorecard</a>
+        </div>
+    </main>
+    <script src="_config.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

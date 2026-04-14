@@ -1,0 +1,19 @@
+{
+  "name": "AIF369 — AI Governance & Strategy",
+  "short_name": "AIF369",
+  "description": "CAIO Advisory, AI Governance, Método 369 — Inteligencia artificial estratégica, segura y medible.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A1628",
+  "theme_color": "#0088FF",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "es",
+  "categories": ["business", "education"]
+}
