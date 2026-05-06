@@ -80,6 +80,27 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ── Scroll reveal: elementos con clase .reveal aparecen al entrar en viewport ──
+    if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            revealObserver.observe(el);
+        });
+    } else {
+        // Fallback: mostrar todos de inmediato
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            el.classList.add('visible');
+        });
+    }
+
     // ── Efecto de scroll en la barra de navegación ──
     // Cuando el usuario baja, la barra se vuelve más sólida (clase "scrolled")
     const header = document.querySelector(".site-header");
