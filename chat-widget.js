@@ -469,7 +469,12 @@
                 });
                 clearTimeout(timeout);
                 const data = await res.json();
-                reply = data.response;
+                // Only use backend response if Gemini actually answered (success: true)
+                if (data.success && data.response) {
+                    reply = data.response;
+                } else {
+                    console.warn('AIF369 Chat: backend returned success=false, using local KB.', data);
+                }
             } catch (e) {
                 console.warn('AIF369 Chat: backend unreachable, using local KB fallback.', e.message);
                 backendDown = true;
