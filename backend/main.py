@@ -958,9 +958,7 @@ def daily_report():
           COUNTIF(language = 'en')                          AS lang_en,
           COUNTIF(language NOT IN ('es','en'))              AS lang_other,
           -- sessions with >1 message = engaged users
-          COUNT(DISTINCT IF(turn_number > 1, session_id, NULL)) AS engaged_sessions,
-          -- peak hour (Santiago)
-          EXTRACT(HOUR FROM timestamp AT TIME ZONE 'America/Santiago') AS peak_hour_stub
+          COUNT(DISTINCT IF(turn_number > 1, session_id, NULL)) AS engaged_sessions
         FROM {table}
         WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
         """
