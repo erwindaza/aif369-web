@@ -87,6 +87,14 @@
     }
   ],
 
+  "document_pricing_tiers": [
+    { "tier": "micro",    "pages_min": 1,   "pages_max": 20,  "price": 10,  "label": "Hasta 20 páginas",     "price_display": "$10 USD"  },
+    { "tier": "small",    "pages_min": 21,  "pages_max": 50,  "price": 15,  "label": "21–50 páginas",         "price_display": "$15 USD"  },
+    { "tier": "medium",   "pages_min": 51,  "pages_max": 100, "price": 20,  "label": "51–100 páginas",        "price_display": "$20 USD"  },
+    { "tier": "large",    "pages_min": 101, "pages_max": 200, "price": 35,  "label": "101–200 páginas",       "price_display": "$35 USD"  },
+    { "tier": "xl",       "pages_min": 201, "pages_max": 999, "price": 50,  "label": "Más de 200 páginas",    "price_display": "$50 USD"  }
+  ],
+
   "digital_products": [
     {
       "id": "guide-caio",
@@ -122,6 +130,76 @@
       "paypal_plan_id": null,
       "status": "coming_soon",
       "launch_date": "2026-06-01"
+    },
+    {
+      "id": "doc-prompt-engineering",
+      "slug": "recursos-digitales",
+      "name": "Guía de Prompting para Empresas",
+      "subtitle": "Técnicas avanzadas de prompting para equipos de negocio y tecnología",
+      "target": "Profesionales, analistas, PMs, equipos de datos",
+      "pages": 18,
+      "pricing_tier": "micro",
+      "price": 10,
+      "price_display": "$10 USD",
+      "format": "PDF descargable",
+      "status": "active",
+      "paypal_button_id": "YJX3BT86XLQEY"
+    },
+    {
+      "id": "doc-ai-readiness",
+      "slug": "recursos-digitales",
+      "name": "AI Readiness Assessment — Plantilla Completa",
+      "subtitle": "Herramienta de diagnóstico de madurez IA con 120+ criterios y scoring automático",
+      "target": "CEO, COO, Directores de Transformación Digital",
+      "pages": 34,
+      "pricing_tier": "small",
+      "price": 15,
+      "price_display": "$15 USD",
+      "format": "PDF + Excel editable",
+      "status": "active",
+      "paypal_button_id": null
+    },
+    {
+      "id": "doc-roadmap-369",
+      "slug": "recursos-digitales",
+      "name": "Roadmap 369: Plantilla de 12 Meses",
+      "subtitle": "Plantilla ejecutiva para planificar la adopción de IA en 3, 6 y 9 meses",
+      "target": "CEO, CTO, Gerentes de Innovación",
+      "pages": 22,
+      "pricing_tier": "small",
+      "price": 15,
+      "price_display": "$15 USD",
+      "format": "PDF + PowerPoint editable",
+      "status": "active",
+      "paypal_button_id": null
+    },
+    {
+      "id": "doc-gobierno-ia",
+      "slug": "recursos-digitales",
+      "name": "Pack de Gobierno IA: Políticas y Templates",
+      "subtitle": "10 documentos listos para implementar gobernanza de IA en tu empresa",
+      "target": "COO, Director Legal, Compliance, Directorio",
+      "pages": 87,
+      "pricing_tier": "medium",
+      "price": 20,
+      "price_display": "$20 USD",
+      "format": "PDF + Word editable",
+      "status": "active",
+      "paypal_button_id": null
+    },
+    {
+      "id": "doc-casos-uso-latam",
+      "slug": "recursos-digitales",
+      "name": "30 Casos de Uso de IA para LATAM",
+      "subtitle": "Casos reales de implementación IA en retail, finanzas, salud, logística y gobierno",
+      "target": "Alta gerencia, estrategia, innovación",
+      "pages": 145,
+      "pricing_tier": "large",
+      "price": 35,
+      "price_display": "$35 USD",
+      "format": "PDF + presentación ejecutiva",
+      "status": "coming_soon",
+      "paypal_button_id": null
     }
   ],
 
