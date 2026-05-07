@@ -715,7 +715,7 @@ def chat():
         origin = request.headers.get("Origin", "")
         is_dev = re.match(r"^https://.*\.vercel\.app$", origin) or \
                  re.match(r"^http://localhost(:\d+)?$", origin)
-        is_trusted = origin in ALLOWED_CHAT_ORIGINS or is_dev
+        is_trusted = origin in ALLOWED_CHAT_ORIGINS or bool(is_dev)
 
         if not is_trusted:
             suspicious_origin = origin or "(no origin header)"
