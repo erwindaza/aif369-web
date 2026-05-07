@@ -149,10 +149,15 @@
                         <li>✓ Acceso inmediato tras el pago</li>
                     </ul>
                     <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Para: analistas, PMs, equipos operativos, todo profesional que usa IA en su trabajo</p>
-                    <!-- PayPal Hosted Button YJX3BT86XLQEY -->
-                    <div id="paypal-container-YJX3BT86XLQEY" style="min-height:50px;">
-                        <p class="paypal-loading">Cargando botón de pago…</p>
-                    </div>
+                    <a href="https://paypal.me/ErwinDaza954/10"
+                       target="_blank" rel="noopener"
+                       class="btn btn-primary"
+                       style="width:100%;text-align:center;display:block;">
+                        Comprar — $10 USD con PayPal →
+                    </a>
+                    <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:8px;">
+                        Tras el pago recibirás el link de descarga por email en menos de 1 hora hábil
+                    </p>
                 </article>
 
                 <!-- PRODUCTO 2 — $15 -->
@@ -378,32 +383,10 @@
 </footer>
 
 <script>
-    // Render PayPal hosted button (Guía de Prompting $10 — botón real)
-    document.addEventListener('DOMContentLoaded', function () {
-        if (typeof paypal_hosted !== 'undefined' && paypal_hosted.HostedButtons) {
-            paypal_hosted.HostedButtons({
-                hostedButtonId: 'YJX3BT86XLQEY'
-            }).render('#paypal-container-YJX3BT86XLQEY')
-            .then(function () {
-                var placeholder = document.querySelector('#paypal-container-YJX3BT86XLQEY .paypal-loading');
-                if (placeholder) placeholder.remove();
-            })
-            .catch(function () {
-                document.getElementById('paypal-container-YJX3BT86XLQEY').innerHTML =
-                    '<a href="https://paypal.me/ErwinDaza954/10" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;text-align:center;display:block;">Comprar — $10 USD con PayPal →</a>';
-            });
-        } else {
-            // Fallback si el SDK no carga
-            document.getElementById('paypal-container-YJX3BT86XLQEY').innerHTML =
-                '<a href="https://paypal.me/ErwinDaza954/10" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;text-align:center;display:block;">Comprar — $10 USD con PayPal →</a>';
-        }
-    });
-
-    // Para los botones paypal.me: inyecta el nombre del producto en la nota
+    // Para los botones paypal.me: abre el link con el monto correcto
     function confirmPayPalMe(link, producto, precio) {
-        // Construye URL con monto y descripción legible
         link.href = 'https://paypal.me/ErwinDaza954/' + precio;
-        return true; // abre el link normalmente
+        return true;
     }
 </script>
 <script src="scripts.js"></script>

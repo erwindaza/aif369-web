@@ -143,7 +143,8 @@
       "price_display": "$10 USD",
       "format": "PDF descargable",
       "status": "active",
-      "paypal_button_id": "YJX3BT86XLQEY"
+      "paypal_button_id": null,
+      "_note": "paypal.me/ErwinDaza954/10 — el botón YJX3BT86XLQEY está configurado a $500, NO usar"
     },
     {
       "id": "doc-ai-readiness",
