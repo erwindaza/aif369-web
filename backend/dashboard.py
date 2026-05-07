@@ -160,6 +160,47 @@ def pages_activity(days):
         GROUP BY 1 ORDER BY 2 DESC LIMIT 10
     """)
 
+def token_usage(days):
+    return q(f"""
+        SELECT
+            DATE(timestamp, 'America/Santiago') as fecha,
+            COUNT(*) as llamadas,
+            SUM(COALESCE(input_tokens, 0))  as tokens_in,
+            SUM(COALESCE(output_tokens, 0)) as tokens_out,
+            SUM(COALESCE(input_tokens, 0) + COALESCE(output_tokens, 0)) as tokens_total
+        FROM `{PROJECT_ID}.{DATASET}.chat_conversations`
+        WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL {days} DAY)
+          AND provider = 'gemini'
+        GROUP BY 1 ORDER BY 1 DESC
+    """)
+
+def suspicious_requests(days):
+    return q(f"""
+        SELECT
+            DATE(timestamp, 'America/Santiago') as fecha,
+            ip_address, origin_header,
+            COUNT(*) as n,
+            STRING_AGG(DISTINCT user_message ORDER BY user_message LIMIT 3) as sample_msgs
+        FROM `{PROJECT_ID}.{DATASET}.chat_conversations`
+        WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL {days} DAY)
+          AND suspicious = TRUE
+        GROUP BY 1, 2, 3 ORDER BY 4 DESC LIMIT 20
+    """)
+
+def token_summary(days):
+    rows = q(f"""
+        SELECT
+            COALESCE(SUM(input_tokens), 0)  as total_in,
+            COALESCE(SUM(output_tokens), 0) as total_out,
+            COALESCE(SUM(input_tokens + output_tokens), 0) as total_tokens,
+            COUNT(*) as llamadas_gemini,
+            COUNTIF(suspicious = TRUE) as llamadas_sospechosas
+        FROM `{PROJECT_ID}.{DATASET}.chat_conversations`
+        WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL {days} DAY)
+          AND provider = 'gemini'
+    """)
+    return rows[0] if rows else None
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # RENDER
@@ -323,6 +364,66 @@ def render_form_leads(rows):
     console.print(t)
 
 
+def render_token_usage(rows, summary):
+    console.print()
+    console.print(Rule("[bold yellow]🔐 Seguridad & Tokens Gemini[/bold yellow]"))
+
+    if summary:
+        # Gemini-2.5-flash pricing: input $0.15/1M, output $0.60/1M (as of 2026)
+        cost_in  = summary.total_in  / 1_000_000 * 0.15
+        cost_out = summary.total_out / 1_000_000 * 0.60
+        total_cost = cost_in + cost_out
+
+        status = "[green]✓ NORMAL[/green]" if summary.llamadas_sospechosas == 0 else f"[red]⚠ {summary.llamadas_sospechosas} SOSPECHOSAS[/red]"
+        console.print(Panel(
+            f"""[bold]RESUMEN DE TOKENS GEMINI[/bold]
+
+Llamadas totales a Gemini:  [cyan]{summary.llamadas_gemini}[/cyan]
+Tokens de entrada (input):  [white]{summary.total_in:,}[/white]
+Tokens de salida (output):  [white]{summary.total_out:,}[/white]
+Tokens totales:             [bold white]{summary.total_tokens:,}[/bold white]
+
+Costo estimado (USD):       [yellow]${total_cost:.4f}[/yellow]  (in: ${cost_in:.4f} | out: ${cost_out:.4f})
+Llamadas sospechosas:       {status}
+
+[dim]Precio Gemini-2.5-Flash: $0.15/1M tokens in · $0.60/1M tokens out[/dim]""",
+            title="💰 Token Usage", border_style="yellow"
+        ))
+
+    if rows:
+        t = Table(title="Tokens por día (solo llamadas Gemini)", box=box.SIMPLE_HEAVY)
+        t.add_column("Fecha", style="dim")
+        t.add_column("Llamadas", justify="right", style="cyan")
+        t.add_column("Tokens IN", justify="right")
+        t.add_column("Tokens OUT", justify="right")
+        t.add_column("Total", justify="right", style="yellow")
+        for r in rows:
+            t.add_row(
+                str(r.fecha), str(r.llamadas),
+                f"{r.tokens_in:,}", f"{r.tokens_out:,}", f"{r.tokens_total:,}"
+            )
+        console.print(t)
+
+
+def render_suspicious(rows):
+    if not rows:
+        console.print("[green]✓ Sin requests sospechosos en el período.[/green]")
+        return
+    t = Table(title="⚠ Requests sospechosos (origin inválido)", box=box.SIMPLE_HEAVY, border_style="red")
+    t.add_column("Fecha", style="dim")
+    t.add_column("IP", style="red")
+    t.add_column("Origin", style="dim", max_width=40)
+    t.add_column("Requests", justify="right")
+    t.add_column("Mensajes (muestra)", max_width=50)
+    for r in rows:
+        t.add_row(
+            str(r.fecha), r.ip_address or "—",
+            r.origin_header or "(sin origin)", str(r.n),
+            r.sample_msgs or "—"
+        )
+    console.print(t)
+
+
 def render_funnel(kpi):
     console.print()
     console.print(Panel(
@@ -359,6 +460,9 @@ def main():
     pages      = pages_activity(days)
     sc_maturity= scorecard_by_maturity(days)
     sc_daily   = scorecard_summary(days)
+    tok_daily  = token_usage(days)
+    tok_sum    = token_summary(days)
+    suspicious = suspicious_requests(days)
 
     render_kpis(kpi, days)
     render_funnel(kpi)
@@ -367,6 +471,8 @@ def main():
     render_intents(intents)
     render_pages(pages)
     render_scorecard_maturity(sc_maturity)
+    render_token_usage(tok_daily, tok_sum)
+    render_suspicious(suspicious)
 
     if args.leads:
         render_scorecard_leads(scorecard_leads(days))

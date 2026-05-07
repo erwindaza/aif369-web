@@ -4,9 +4,10 @@ import uuid
 import smtplib
 import re
 import requests as http_requests
+from collections import defaultdict
+from datetime import datetime, timezone, timedelta
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from datetime import datetime, timezone
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from google.cloud import bigquery
@@ -28,9 +29,33 @@ app = Flask(__name__)
 CORS(app, origins=[
     "https://aif369.com",
     "https://www.aif369.com",
-    re.compile(r"^https://.*\\.vercel\\.app$"),
-    re.compile(r"^http://localhost(:\\d+)?$")
+    re.compile(r"^https://.*\.vercel\.app$"),
+    re.compile(r"^http://localhost(:\d+)?$")
 ])
+
+# ── Allowed origins for /api/chat (enforced server-side, not just CORS) ──────
+ALLOWED_CHAT_ORIGINS = {
+    "https://aif369.com",
+    "https://www.aif369.com",
+}
+
+# ── In-memory rate limiter: max 20 chat requests per IP per hour ─────────────
+# (Cloud Run can have multiple instances; this is per-instance.
+#  Sufficient for current traffic; upgrade to Firestore/Redis if needed.)
+_rate_limit: dict = defaultdict(list)
+RATE_LIMIT_MAX   = 20   # requests
+RATE_LIMIT_WINDOW = 3600  # seconds (1 hour)
+
+def is_rate_limited(ip: str) -> bool:
+    now = datetime.now(tz=timezone.utc)
+    window_start = now - timedelta(seconds=RATE_LIMIT_WINDOW)
+    hits = _rate_limit[ip]
+    # Remove old hits outside the window
+    _rate_limit[ip] = [t for t in hits if t > window_start]
+    if len(_rate_limit[ip]) >= RATE_LIMIT_MAX:
+        return True
+    _rate_limit[ip].append(now)
+    return False
 
 # Cliente de BigQuery
 PROJECT_ID = os.getenv("PROJECT_ID", "aif369-backend")
@@ -683,8 +708,29 @@ def chat():
     Chatbot endpoint. Primary: Gemini. Fallback: Ollama (local).
     Expected JSON: { "message": "...", "history": [...], "session_id": "...", "turn_number": 1, "source_page": "..." }
     Persiste cada intercambio en BigQuery para seguimiento y analytics.
+    Security: rate limiting (20 req/IP/hour) + origin validation.
     """
     try:
+        # ── Security: Origin validation ──────────────────────────────────────
+        origin = request.headers.get("Origin", "")
+        is_dev = re.match(r"^https://.*\.vercel\.app$", origin) or \
+                 re.match(r"^http://localhost(:\d+)?$", origin)
+        is_trusted = origin in ALLOWED_CHAT_ORIGINS or is_dev
+
+        if not is_trusted:
+            suspicious_origin = origin or "(no origin header)"
+            print(f"SECURITY ALERT: chat request from untrusted origin: {suspicious_origin} | IP: {request.headers.get('X-Forwarded-For', request.remote_addr)}")
+
+        # ── Security: Rate limiting ───────────────────────────────────────────
+        client_ip = request.headers.get("X-Forwarded-For", request.remote_addr or "").split(",")[0].strip()
+        if is_rate_limited(client_ip):
+            print(f"RATE LIMIT HIT: IP {client_ip} exceeded {RATE_LIMIT_MAX} req/hour")
+            return jsonify({
+                "error": "Too many requests",
+                "response": "Has enviado demasiados mensajes. Por favor espera unos minutos.",
+                "success": False
+            }), 429
+
         if not request.is_json:
             return jsonify({"error": "Content-Type must be application/json"}), 400
 
@@ -704,6 +750,8 @@ def chat():
 
         reply = None
         provider = "none"
+        input_tokens = 0
+        output_tokens = 0
 
         # --- Intento 1: Gemini ---
         if GEMINI_API_KEY:
@@ -726,7 +774,13 @@ def chat():
                 response = chat_session.send_message(user_message)
                 reply = response.text
                 provider = "gemini"
-                print("Chat response via Gemini")
+
+                # Capture token usage from Gemini response
+                if hasattr(response, "usage_metadata") and response.usage_metadata:
+                    input_tokens  = getattr(response.usage_metadata, "prompt_token_count", 0) or 0
+                    output_tokens = getattr(response.usage_metadata, "candidates_token_count", 0) or 0
+
+                print(f"Chat response via Gemini | in={input_tokens} out={output_tokens} | origin={origin or 'none'} | ip={client_ip} | trusted={is_trusted}")
             except Exception as gemini_error:
                 print(f"Gemini failed, trying Ollama fallback: {gemini_error}")
 
@@ -768,15 +822,19 @@ def chat():
                 "message_id": str(uuid.uuid4()),
                 "session_id": session_id,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "user_message": user_message[:5000],       # Limitar tamaño
+                "user_message": user_message[:5000],
                 "assistant_response": reply[:5000],
                 "provider": provider,
                 "turn_number": turn_number,
                 "source_page": source_page,
                 "user_agent": request.headers.get("User-Agent", ""),
-                "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+                "ip_address": client_ip,
                 "language": language,
-                "intent_detected": intent
+                "intent_detected": intent,
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "origin_header": origin[:500] if origin else "",
+                "suspicious": not is_trusted,
             }
             save_chat_to_bigquery(chat_row)
         except Exception as bq_err:
