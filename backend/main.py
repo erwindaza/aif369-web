@@ -57,6 +57,31 @@ def is_rate_limited(ip: str) -> bool:
     _rate_limit[ip].append(now)
     return False
 
+# ── In-memory set of session_ids already alerted (one email per session) ─────
+_notified_sessions: set = set()
+
+# ── REPORT_SECRET: protects /api/daily-report endpoint ───────────────────────
+REPORT_SECRET = os.getenv("REPORT_SECRET", "")
+
+def send_alert_email(subject: str, body_html: str) -> None:
+    """Send operational alert email via Zoho SMTP. Fails silently if not configured."""
+    if not SMTP_PASSWORD:
+        print("Alert email skipped: SMTP_PASSWORD not configured")
+        return
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"AIF369 Monitor <{SMTP_USER}>"
+        msg["To"] = NOTIFICATION_EMAIL
+        msg.attach(MIMEText(body_html, "html"))
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=5) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.send_message(msg)
+        print(f"Alert email sent: {subject}")
+    except Exception as e:
+        print(f"Alert email failed ({subject}): {e}")
+
 # Cliente de BigQuery
 PROJECT_ID = os.getenv("PROJECT_ID", "aif369-backend")
 DATASET_ID = os.getenv("DATASET_ID", "aif369_analytics")
@@ -840,6 +865,47 @@ def chat():
         except Exception as bq_err:
             print(f"Non-blocking BQ save error: {bq_err}")
 
+        # ── Email alerts (non-blocking) ───────────────────────────────────────
+        try:
+            now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+            # 1. Suspicious origin → immediate security alert
+            if not is_trusted:
+                send_alert_email(
+                    f"⚠️ SECURITY ALERT: Chat desde origen no autorizado",
+                    f"""<html><body style="font-family:sans-serif">
+                    <h2 style="color:#c0392b">⚠️ Solicitud sospechosa detectada</h2>
+                    <p><strong>Hora:</strong> {now_str}</p>
+                    <p><strong>Origin:</strong> {origin or '(sin origin header)'}</p>
+                    <p><strong>IP:</strong> {client_ip}</p>
+                    <p><strong>Session:</strong> {session_id}</p>
+                    <p><strong>Mensaje:</strong> {user_message[:300]}</p>
+                    <hr>
+                    <p><small>AIF369 Backend Monitor — Cloud Run</small></p>
+                    </body></html>"""
+                )
+
+            # 2. New chat session (first message) → new user notification
+            if session_id not in _notified_sessions:
+                _notified_sessions.add(session_id)
+                est_cost = round((input_tokens * 0.15 + output_tokens * 0.60) / 1_000_000, 6)
+                send_alert_email(
+                    f"💬 Nuevo chat en AIF369 — {now_str}",
+                    f"""<html><body style="font-family:sans-serif">
+                    <h2 style="color:#0088FF">💬 Nueva sesión de chat</h2>
+                    <p><strong>Hora:</strong> {now_str}</p>
+                    <p><strong>Session ID:</strong> {session_id}</p>
+                    <p><strong>Página:</strong> {source_page or '(desconocida)'}</p>
+                    <p><strong>Primer mensaje:</strong> {user_message[:300]}</p>
+                    <p><strong>Tokens:</strong> in={input_tokens} | out={output_tokens} | costo≈${est_cost:.6f}</p>
+                    <p><strong>Origin:</strong> {origin or '(sin header)'} {'✅' if is_trusted else '⚠️ NO AUTORIZADO'}</p>
+                    <hr>
+                    <p><small>AIF369 Backend Monitor — Cloud Run</small></p>
+                    </body></html>"""
+                )
+        except Exception as alert_err:
+            print(f"Alert email error (non-blocking): {alert_err}")
+
         return jsonify({
             "response": reply,
             "success": provider != "none",
@@ -856,8 +922,86 @@ def chat():
         }), 200
 
 
+
 # --- API Key for content generation (simple auth) ---
 CONTENT_API_KEY = os.getenv("CONTENT_API_KEY", "")
+
+
+@app.route("/api/daily-report", methods=["GET", "POST"])
+def daily_report():
+    """
+    Envía resumen diario de uso por email.
+    Llamado por Cloud Scheduler cada día.
+    Requiere header X-Report-Token == REPORT_SECRET (si está configurado).
+    """
+    if REPORT_SECRET:
+        token = request.headers.get("X-Report-Token", "")
+        if token != REPORT_SECRET:
+            return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        bq = get_bq_client()
+        table = f"`{PROJECT_ID}.{DATASET_ID}.chat_conversations`"
+
+        query = f"""
+        SELECT
+          COUNT(DISTINCT session_id)              AS sessions,
+          COUNT(*)                                AS messages,
+          COALESCE(SUM(input_tokens), 0)          AS in_tokens,
+          COALESCE(SUM(output_tokens), 0)         AS out_tokens,
+          COUNTIF(suspicious = TRUE)              AS suspicious_count,
+          COUNTIF(provider = 'gemini')            AS gemini_calls,
+          COUNTIF(provider = 'ollama')            AS ollama_calls
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        """
+        rows = list(bq.query(query).result())
+        row = rows[0] if rows else None
+
+        sessions        = int(row.sessions)        if row else 0
+        messages        = int(row.messages)        if row else 0
+        in_tokens       = int(row.in_tokens)       if row else 0
+        out_tokens      = int(row.out_tokens)      if row else 0
+        suspicious      = int(row.suspicious_count) if row else 0
+        gemini_calls    = int(row.gemini_calls)    if row else 0
+        ollama_calls    = int(row.ollama_calls)    if row else 0
+
+        est_cost = round((in_tokens * 0.15 + out_tokens * 0.60) / 1_000_000, 4)
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        suspicious_label = f'⚠️ {suspicious} solicitudes sospechosas' if suspicious else '✅ Sin solicitudes sospechosas'
+        cost_warning = f'<p style="color:#c0392b"><strong>⚠️ Costo del día: ${est_cost:.4f} USD</strong></p>' if est_cost > 0.10 else f'<p><strong>Costo del día: ${est_cost:.4f} USD</strong></p>'
+
+        body_html = f"""<html><body style="font-family:sans-serif;max-width:600px">
+        <h2 style="color:#0088FF">📊 Reporte diario AIF369 — {date_str}</h2>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Sesiones únicas</strong></td><td>{sessions}</td></tr>
+          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Mensajes totales</strong></td><td>{messages}</td></tr>
+          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Llamadas Gemini</strong></td><td>{gemini_calls}</td></tr>
+          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Llamadas Ollama</strong></td><td>{ollama_calls}</td></tr>
+          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Tokens entrada</strong></td><td>{in_tokens:,}</td></tr>
+          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Tokens salida</strong></td><td>{out_tokens:,}</td></tr>
+          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Seguridad</strong></td><td>{suspicious_label}</td></tr>
+        </table>
+        {cost_warning}
+        <hr>
+        <p><small>AIF369 Backend Monitor | Cloud Run | {date_str}</small></p>
+        </body></html>"""
+
+        send_alert_email(f"📊 Reporte diario AIF369 — {date_str}", body_html)
+        return jsonify({
+            "sent": True,
+            "date": date_str,
+            "sessions": sessions,
+            "messages": messages,
+            "in_tokens": in_tokens,
+            "out_tokens": out_tokens,
+            "estimated_cost_usd": est_cost,
+            "suspicious": suspicious
+        })
+
+    except Exception as e:
+        print(f"Daily report error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 CONTENT_PROMPT = """Eres un redactor experto de contenido B2B sobre inteligencia artificial, datos y cloud para empresas.
 Escribes para el blog de AIF369, una consultora chilena fundada por Erwin Daza.
