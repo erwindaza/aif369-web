@@ -42,18 +42,154 @@
     </nav>
 </header>
 
-<main class="container">
-    <!-- HEADER -->
-    <section class="section">
-        <header class="section-header">
-            <h1 data-i18n="svc.heading1">Servicios de Asesoria Integral en IA</h1>
-            <p data-i18n="svc.text2">Advisory ejecutivo, AI Governance, Risk & Compliance, AI Factory Design y capacidades demostradas en produccion.</p>
-            <p class="small-text" style="margin-top: 0.75rem;"><a href="#produccion" style="color: var(--color-secondary);">Ver capacidades en produccion ↓</a></p>
-        </header>
+<main>
+    <!-- HEADER EJECUTIVO -->
+    <section class="section" style="background:linear-gradient(135deg,#0A1628 0%,#0D2144 60%,#0A1628 100%);padding:72px 0 56px;">
+        <div class="container">
+            <div style="max-width:720px;margin:0 auto;text-align:center;">
+                <span style="display:inline-block;background:rgba(0,136,255,0.15);color:#0088FF;border:1px solid rgba(0,136,255,0.3);border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;margin-bottom:20px;">
+                    PARA CEO · COO · CTO · DIRECTORIO
+                </span>
+                <h1 style="font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;margin-bottom:16px;">
+                    Implementa IA en tu empresa.<br>
+                    <span style="color:#00D9CC;">Con gobierno. Con ROI. Sin improvisar.</span>
+                </h1>
+                <p style="font-size:1.15rem;color:var(--text-secondary);margin-bottom:28px;line-height:1.6;">
+                    Servicios ejecutivos de IA para alta gerencia en LATAM. Diagnóstico, estrategia, implementación y gobierno. Precios fijos, entregables claros, sin sorpresas.
+                </p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <a href="" class="btn btn-primary" style="padding:14px 28px;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar diagnóstico gratuito</a>
+                    <a href="#paquetes" class="btn btn-outline" style="padding:14px 24px;">Ver paquetes y precios ↓</a>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- PAQUETES C-LEVEL CON PRECIOS -->
+    <section class="section" id="paquetes">
+        <div class="container">
+            <header class="section-header">
+                <h2>Paquetes ejecutivos — Precios fijos</h2>
+                <p style="color:var(--text-secondary);">Todos los proyectos incluyen diagnóstico inicial sin costo, entregables definidos y sesiones de seguimiento con la alta gerencia.</p>
+            </header>
+            <div class="grid-2" style="gap:28px;">
+
+                <article class="card" style="border:2px solid rgba(0,136,255,0.3);position:relative;overflow:hidden;">
+                    <div style="position:absolute;top:0;right:0;background:#0088FF;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:0 0 0 8px;">MÁS SOLICITADO</div>
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(0,136,255,0.1);color:#0088FF;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">⭐ DIAGNÓSTICO</span>
+                            <h3 style="margin:8px 0 4px;">Diagnóstico Ejecutivo de IA</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Entrega en 2 semanas</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#00D9CC;line-height:1;">$2.000</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD · pago único</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Evaluación completa del estado actual de IA en tu organización: brechas, oportunidades, riesgos y hoja de ruta de 90 días.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ AI Readiness Assessment (120+ puntos)</li>
+                        <li>✓ Mapa de procesos con potencial IA</li>
+                        <li>✓ Priorización de 3-5 casos de uso</li>
+                        <li>✓ Presentación para directorio</li>
+                        <li>✓ Hoja de ruta ejecutiva 90 días</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: CEO, Gerente General, Dueños de empresa</p>
+                    <a href="" class="btn btn-primary" style="width:100%;margin-top:8px;text-align:center;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">Agendar diagnóstico gratuito →</a>
+                </article>
+
+                <article class="card" style="border:2px solid rgba(0,217,204,0.3);">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(0,217,204,0.1);color:#00D9CC;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">🏭 AI FACTORY</span>
+                            <h3 style="margin:8px 0 4px;">AI Factory Sprint</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Duración: 6-8 semanas</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#00D9CC;line-height:1;">$5.000</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD · proyecto cerrado</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Implementación real de un caso de uso IA en producción: desde arquitectura hasta deployment con observabilidad y gobierno incluidos.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ Arquitectura y diseño del pipeline</li>
+                        <li>✓ Implementación en Google Cloud / Azure / AWS</li>
+                        <li>✓ Observabilidad + alertas (Langfuse / Datadog)</li>
+                        <li>✓ Controles de gobierno y compliance</li>
+                        <li>✓ Documentación técnica y ejecutiva</li>
+                        <li>✓ Capacitación al equipo interno</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: CTO, Gerente de Tecnología, equipos de Data & IA</p>
+                    <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20información%20sobre%20el%20AI%20Factory%20Sprint" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;margin-top:8px;text-align:center;border-color:#00D9CC;color:#00D9CC;">Consultar disponibilidad →</a>
+                </article>
+
+                <article class="card">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(245,158,11,0.1);color:#F59E0B;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">🛡️ GOBIERNO</span>
+                            <h3 style="margin:8px 0 4px;">Marco de Gobierno IA</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Duración: 3-4 semanas</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#F59E0B;line-height:1;">$3.500</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD · proyecto cerrado</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Framework completo de gobernanza para implementar IA con control, trazabilidad y cumplimiento regulatorio.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ Política corporativa de IA</li>
+                        <li>✓ RACI + Comité de IA</li>
+                        <li>✓ Inventario y clasificación de riesgo</li>
+                        <li>✓ Controles mínimos y checklist de aprobación</li>
+                        <li>✓ Alineación EU AI Act + Ley IA Chile</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: Director Legal, Compliance, COO, Directorio</p>
+                    <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20información%20sobre%20Marco%20de%20Gobierno%20IA" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;margin-top:8px;text-align:center;">Consultar →</a>
+                </article>
+
+                <article class="card" style="border:2px solid rgba(139,92,246,0.3);">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(139,92,246,0.1);color:#8B5CF6;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">♟️ CAIO-AS-A-SERVICE</span>
+                            <h3 style="margin:8px 0 4px;">CAIO Fractional</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Retainer mensual · mínimo 3 meses</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#8B5CF6;line-height:1;">$3.000</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD / mes</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Erwin Daza como tu Chief AI Officer externo: presencia ejecutiva, decisiones estratégicas, acompañamiento continuo al directorio y equipos técnicos.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ 8 horas ejecutivas mensuales (calls + presencia)</li>
+                        <li>✓ Review de iniciativas IA en curso</li>
+                        <li>✓ Participación en comité directivo mensual</li>
+                        <li>✓ Revisión técnica de arquitecturas</li>
+                        <li>✓ Canal prioritario (respuesta &lt;4h hábiles)</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: CEO / Directorio que necesita un CAIO sin contratar uno full-time</p>
+                    <a href="" class="btn btn-primary" style="width:100%;margin-top:8px;text-align:center;background:#8B5CF6;border-color:#8B5CF6;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">Agendar conversación →</a>
+                </article>
+
+            </div>
+
+            <!-- Nota pie de precios -->
+            <div style="margin-top:32px;text-align:center;background:rgba(0,136,255,0.06);border:1px solid rgba(0,136,255,0.2);border-radius:12px;padding:20px 28px;">
+                <p style="color:var(--text-secondary);margin:0;">
+                    <strong>¿Necesitas algo a medida?</strong> Todos los proyectos son adaptables. Agenda una llamada de diagnóstico gratuita de 30 minutos para definir el alcance exacto.
+                    <br>
+                    <a href="" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" style="color:#0088FF;font-weight:600;">📅 Agendar diagnóstico gratuito →</a>
+                    &nbsp;·&nbsp;
+                    <a href="https://wa.me/56997547192" target="_blank" rel="noopener" style="color:#25D366;font-weight:600;">💬 WhatsApp directo</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
     <!-- SERVICE LINES -->
-    <section class="section section-alt">
+    <section class="section section-alt" style="border-radius:var(--radius-lg);">
         <header class="section-header">
             <h2 data-i18n="svc.heading3">Líneas de servicio</h2>
             <p data-i18n="svc.text4">Cada línea puede contratarse independientemente según las necesidades de su organización.</p>
@@ -371,6 +507,7 @@
             </div>
         </header>
     </section>
+    </div><!-- /container -->
 </main>
 
 <footer class="site-footer">

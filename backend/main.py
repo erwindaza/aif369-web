@@ -40,11 +40,16 @@ ALLOWED_CHAT_ORIGINS = {
 }
 
 # ── In-memory rate limiter: max 20 chat requests per IP per hour ─────────────
-# (Cloud Run can have multiple instances; this is per-instance.
-#  Sufficient for current traffic; upgrade to Firestore/Redis if needed.)
 _rate_limit: dict = defaultdict(list)
-RATE_LIMIT_MAX   = 20   # requests
-RATE_LIMIT_WINDOW = 3600  # seconds (1 hour)
+RATE_LIMIT_MAX    = 20    # requests per IP per hour
+RATE_LIMIT_WINDOW = 3600  # seconds
+
+# ── Per-session limits: max turns and max input tokens consumed ───────────────
+# Prevents runaway sessions from burning API budget.
+MAX_TURNS_PER_SESSION = 10          # messages per session
+MAX_INPUT_TOKENS_PER_SESSION = 15000  # ~10-12 pages of text
+_session_turns:  dict = defaultdict(int)    # session_id → turn count
+_session_tokens: dict = defaultdict(int)    # session_id → cumulative input tokens
 
 def is_rate_limited(ip: str) -> bool:
     now = datetime.now(tz=timezone.utc)
@@ -395,6 +400,51 @@ def get_paypal_config():
     if not client_id:
         return jsonify({"error": "PayPal not configured"}), 503
     return jsonify({"client_id": client_id}), 200
+
+
+# ── VIP email list (comma-separated in env var, never hardcoded) ──────────────
+def _get_vip_emails() -> set:
+    raw = os.getenv("VIP_EMAILS", "")
+    return {e.strip().lower() for e in raw.split(",") if e.strip()}
+
+# Course prices (matches products-catalog.json)
+COURSE_PRICES = {
+    "Curso de Inteligencia Artificial":          197,
+    "Big Data + IA: Arquitecturas Modernas":     297,
+    "MLOps: De Modelos a Producción":            347,
+    "Automatización con Apache Airflow":         247,
+}
+VIP_PRICE = 10
+
+
+@app.route("/api/course-price", methods=["POST"])
+def course_price():
+    """
+    Returns the correct price for a course given the user's email.
+    VIP emails (VIP_EMAILS env var) pay $10. Everyone else pays full price.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+
+    data = request.get_json()
+    email = (data.get("email") or "").strip().lower()
+    course = (data.get("course") or "").strip()
+
+    if not email or not course:
+        return jsonify({"error": "email and course required"}), 400
+
+    is_vip = email in _get_vip_emails()
+    full_price = COURSE_PRICES.get(course, 197)
+    price = VIP_PRICE if is_vip else full_price
+
+    return jsonify({
+        "email": email,
+        "course": course,
+        "price": price,
+        "is_vip": is_vip,
+        "currency": "USD",
+        "label": f"${price} USD{' (precio especial)' if is_vip else ''}"
+    }), 200
 
 
 @app.route("/api/contact", methods=["POST"])
@@ -811,6 +861,26 @@ def chat():
         if not user_message:
             return jsonify({"error": "Message is required"}), 400
 
+        # ── Per-session limits ────────────────────────────────────────────────
+        _session_turns[session_id] += 1
+        if _session_turns[session_id] > MAX_TURNS_PER_SESSION:
+            print(f"SESSION LIMIT: session {session_id} exceeded {MAX_TURNS_PER_SESSION} turns")
+            return jsonify({
+                "error": "Session limit reached",
+                "response": "Has alcanzado el límite de mensajes por sesión. Para continuar, escríbenos por WhatsApp: +56 9 9754 7192",
+                "success": False,
+                "limit_reached": True
+            }), 200  # 200 so the widget shows the message naturally
+
+        if _session_tokens[session_id] >= MAX_INPUT_TOKENS_PER_SESSION:
+            print(f"TOKEN LIMIT: session {session_id} exceeded {MAX_INPUT_TOKENS_PER_SESSION} input tokens")
+            return jsonify({
+                "error": "Token limit reached",
+                "response": "Esta conversación es muy extensa. Para continuar, escríbenos por WhatsApp: +56 9 9754 7192",
+                "success": False,
+                "limit_reached": True
+            }), 200
+
         # Detectar intención e idioma para analytics
         intent = detect_intent(user_message)
         language = detect_language(user_message)
@@ -846,6 +916,7 @@ def chat():
                 if hasattr(response, "usage_metadata") and response.usage_metadata:
                     input_tokens  = getattr(response.usage_metadata, "prompt_token_count", 0) or 0
                     output_tokens = getattr(response.usage_metadata, "candidates_token_count", 0) or 0
+                    _session_tokens[session_id] += input_tokens  # accumulate for session cap
 
                 print(f"Chat response via Gemini | in={input_tokens} out={output_tokens} | origin={origin or 'none'} | ip={client_ip} | trusted={is_trusted}")
             except Exception as gemini_error:
