@@ -943,46 +943,165 @@ def daily_report():
         bq = get_bq_client()
         table = f"`{PROJECT_ID}.{DATASET_ID}.chat_conversations`"
 
-        query = f"""
+        # ── Main daily summary ───────────────────────────────────────────────
+        q_summary = f"""
         SELECT
-          COUNT(DISTINCT session_id)              AS sessions,
-          COUNT(*)                                AS messages,
-          COALESCE(SUM(input_tokens), 0)          AS in_tokens,
-          COALESCE(SUM(output_tokens), 0)         AS out_tokens,
-          COUNTIF(suspicious = TRUE)              AS suspicious_count,
-          COUNTIF(provider = 'gemini')            AS gemini_calls,
-          COUNTIF(provider = 'ollama')            AS ollama_calls
+          COUNT(DISTINCT session_id)                        AS sessions,
+          COUNT(*)                                          AS messages,
+          COALESCE(SUM(input_tokens), 0)                   AS in_tokens,
+          COALESCE(SUM(output_tokens), 0)                  AS out_tokens,
+          COUNTIF(suspicious = TRUE)                        AS suspicious_count,
+          COUNTIF(provider = 'gemini')                      AS gemini_calls,
+          COUNTIF(provider = 'ollama')                      AS ollama_calls,
+          ROUND(AVG(COALESCE(input_tokens,0) + COALESCE(output_tokens,0)), 1) AS avg_tokens_per_msg,
+          COUNTIF(language = 'es')                          AS lang_es,
+          COUNTIF(language = 'en')                          AS lang_en,
+          COUNTIF(language NOT IN ('es','en'))              AS lang_other,
+          -- sessions with >1 message = engaged users
+          COUNT(DISTINCT IF(turn_number > 1, session_id, NULL)) AS engaged_sessions,
+          -- peak hour (Santiago)
+          EXTRACT(HOUR FROM timestamp AT TIME ZONE 'America/Santiago') AS peak_hour_stub
         FROM {table}
         WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
         """
-        rows = list(bq.query(query).result())
-        row = rows[0] if rows else None
 
-        sessions        = int(row.sessions)        if row else 0
-        messages        = int(row.messages)        if row else 0
-        in_tokens       = int(row.in_tokens)       if row else 0
-        out_tokens      = int(row.out_tokens)      if row else 0
-        suspicious      = int(row.suspicious_count) if row else 0
-        gemini_calls    = int(row.gemini_calls)    if row else 0
-        ollama_calls    = int(row.ollama_calls)    if row else 0
+        # ── Previous day for comparison ───────────────────────────────────────
+        q_prev = f"""
+        SELECT
+          COUNT(DISTINCT session_id) AS sessions_prev,
+          COUNT(*)                   AS messages_prev
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = DATE_SUB(CURRENT_DATE('America/Santiago'), INTERVAL 1 DAY)
+        """
+
+        # ── Peak hour breakdown ───────────────────────────────────────────────
+        q_hours = f"""
+        SELECT
+          EXTRACT(HOUR FROM timestamp AT TIME ZONE 'America/Santiago') AS hour,
+          COUNT(*) AS msgs
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        GROUP BY hour ORDER BY msgs DESC LIMIT 3
+        """
+
+        # ── Top source pages ─────────────────────────────────────────────────
+        q_pages = f"""
+        SELECT
+          COALESCE(NULLIF(source_page,''), '(desconocida)') AS page,
+          COUNT(DISTINCT session_id) AS sessions
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        GROUP BY page ORDER BY sessions DESC LIMIT 5
+        """
+
+        # ── Top intents ──────────────────────────────────────────────────────
+        q_intents = f"""
+        SELECT
+          COALESCE(NULLIF(intent_detected,''), '(sin clasificar)') AS intent,
+          COUNT(*) AS msgs
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        GROUP BY intent ORDER BY msgs DESC LIMIT 5
+        """
+
+        # ── Top suspicious IPs/origins ───────────────────────────────────────
+        q_suspicious = f"""
+        SELECT
+          origin_header,
+          ip_address,
+          COUNT(*) AS hits
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+          AND suspicious = TRUE
+        GROUP BY origin_header, ip_address ORDER BY hits DESC LIMIT 5
+        """
+
+        row       = list(bq.query(q_summary).result())[0]
+        prev_rows = list(bq.query(q_prev).result())
+        prev      = prev_rows[0] if prev_rows else None
+        hour_rows   = list(bq.query(q_hours).result())
+        page_rows   = list(bq.query(q_pages).result())
+        intent_rows = list(bq.query(q_intents).result())
+        susp_rows   = list(bq.query(q_suspicious).result())
+
+        sessions        = int(row.sessions)
+        messages        = int(row.messages)
+        in_tokens       = int(row.in_tokens)
+        out_tokens      = int(row.out_tokens)
+        suspicious      = int(row.suspicious_count)
+        gemini_calls    = int(row.gemini_calls)
+        ollama_calls    = int(row.ollama_calls)
+        avg_tokens      = float(row.avg_tokens_per_msg or 0)
+        lang_es         = int(row.lang_es)
+        lang_en         = int(row.lang_en)
+        lang_other      = int(row.lang_other)
+        engaged         = int(row.engaged_sessions)
+
+        sessions_prev   = int(prev.sessions_prev) if prev else 0
+        messages_prev   = int(prev.messages_prev) if prev else 0
+
+        def delta(today, yesterday):
+            if yesterday == 0:
+                return "(sin datos ayer)"
+            pct = round((today - yesterday) / yesterday * 100)
+            return f"+{pct}%" if pct >= 0 else f"{pct}%"
 
         est_cost = round((in_tokens * 0.15 + out_tokens * 0.60) / 1_000_000, 4)
         date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        suspicious_label = f'⚠️ {suspicious} solicitudes sospechosas' if suspicious else '✅ Sin solicitudes sospechosas'
-        cost_warning = f'<p style="color:#c0392b"><strong>⚠️ Costo del día: ${est_cost:.4f} USD</strong></p>' if est_cost > 0.10 else f'<p><strong>Costo del día: ${est_cost:.4f} USD</strong></p>'
 
-        body_html = f"""<html><body style="font-family:sans-serif;max-width:600px">
+        # ── Build email tables ───────────────────────────────────────────────
+        td = 'style="padding:6px;border-bottom:1px solid #eee"'
+
+        def make_rows(data_rows, cols):
+            html = ""
+            for r in data_rows:
+                html += "<tr>" + "".join(f"<td {td}>{getattr(r, c)}</td>" for c in cols) + "</tr>"
+            return html or f"<tr><td {td} colspan='{len(cols)}'>(sin datos)</td></tr>"
+
+        pages_html   = make_rows(page_rows,   ["page", "sessions"])
+        intents_html = make_rows(intent_rows, ["intent", "msgs"])
+        susp_html    = make_rows(susp_rows,   ["origin_header", "ip_address", "hits"])
+        hours_html   = make_rows(hour_rows,   ["hour", "msgs"])
+
+        cost_color = "#c0392b" if est_cost > 0.10 else "#0088FF"
+        susp_label = f'⚠️ {suspicious}' if suspicious else '✅ 0'
+
+        body_html = f"""<html><body style="font-family:sans-serif;max-width:650px;color:#222">
         <h2 style="color:#0088FF">📊 Reporte diario AIF369 — {date_str}</h2>
+
+        <h3>Resumen general</h3>
         <table style="border-collapse:collapse;width:100%">
-          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Sesiones únicas</strong></td><td>{sessions}</td></tr>
-          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Mensajes totales</strong></td><td>{messages}</td></tr>
-          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Llamadas Gemini</strong></td><td>{gemini_calls}</td></tr>
-          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Llamadas Ollama</strong></td><td>{ollama_calls}</td></tr>
-          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Tokens entrada</strong></td><td>{in_tokens:,}</td></tr>
-          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Tokens salida</strong></td><td>{out_tokens:,}</td></tr>
-          <tr><td style="padding:6px;border-bottom:1px solid #eee"><strong>Seguridad</strong></td><td>{suspicious_label}</td></tr>
+          <tr><td {td}><strong>Sesiones únicas</strong></td><td {td}>{sessions} <small style="color:#888">{delta(sessions, sessions_prev)} vs ayer</small></td></tr>
+          <tr><td {td}><strong>Mensajes totales</strong></td><td {td}>{messages} <small style="color:#888">{delta(messages, messages_prev)} vs ayer</small></td></tr>
+          <tr><td {td}><strong>Sesiones con >1 mensaje</strong></td><td {td}>{engaged} <small style="color:#888">(usuarios engajados)</small></td></tr>
+          <tr><td {td}><strong>Avg tokens/mensaje</strong></td><td {td}>{avg_tokens:,.0f}</td></tr>
+          <tr><td {td}><strong>Tokens entrada / salida</strong></td><td {td}>{in_tokens:,} / {out_tokens:,}</td></tr>
+          <tr><td {td}><strong>Costo estimado</strong></td><td {td}><strong style="color:{cost_color}">${est_cost:.4f} USD</strong></td></tr>
+          <tr><td {td}><strong>Proveedor</strong></td><td {td}>Gemini: {gemini_calls} | Ollama: {ollama_calls}</td></tr>
+          <tr><td {td}><strong>Idiomas</strong></td><td {td}>ES: {lang_es} | EN: {lang_en} | Otro: {lang_other}</td></tr>
+          <tr><td {td}><strong>Sospechosas</strong></td><td {td}>{susp_label}</td></tr>
         </table>
-        {cost_warning}
+
+        <h3>Top páginas de origen</h3>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><th {td} align="left">Página</th><th {td} align="left">Sesiones</th></tr>
+          {pages_html}
+        </table>
+
+        <h3>Top intenciones detectadas</h3>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><th {td} align="left">Intent</th><th {td} align="left">Mensajes</th></tr>
+          {intents_html}
+        </table>
+
+        <h3>Horas pico (hora Santiago)</h3>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><th {td} align="left">Hora</th><th {td} align="left">Mensajes</th></tr>
+          {hours_html}
+        </table>
+
+        {'<h3>⚠️ Solicitudes sospechosas</h3><table style="border-collapse:collapse;width:100%"><tr><th ' + td + ' align="left">Origin</th><th ' + td + ' align="left">IP</th><th ' + td + ' align="left">Hits</th></tr>' + susp_html + '</table>' if suspicious else ''}
+
         <hr>
         <p><small>AIF369 Backend Monitor | Cloud Run | {date_str}</small></p>
         </body></html>"""
@@ -992,11 +1111,25 @@ def daily_report():
             "sent": True,
             "date": date_str,
             "sessions": sessions,
+            "sessions_prev_day": sessions_prev,
+            "sessions_delta_pct": round((sessions - sessions_prev) / sessions_prev * 100, 1) if sessions_prev else None,
             "messages": messages,
+            "messages_prev_day": messages_prev,
+            "engaged_sessions": engaged,
+            "avg_tokens_per_msg": avg_tokens,
             "in_tokens": in_tokens,
             "out_tokens": out_tokens,
             "estimated_cost_usd": est_cost,
-            "suspicious": suspicious
+            "gemini_calls": gemini_calls,
+            "ollama_calls": ollama_calls,
+            "lang_es": lang_es,
+            "lang_en": lang_en,
+            "lang_other": lang_other,
+            "suspicious": suspicious,
+            "top_pages": [{"page": r.page, "sessions": int(r.sessions)} for r in page_rows],
+            "top_intents": [{"intent": r.intent, "msgs": int(r.msgs)} for r in intent_rows],
+            "peak_hours": [{"hour": int(r.hour), "msgs": int(r.msgs)} for r in hour_rows],
+            "suspicious_sources": [{"origin": r.origin_header, "ip": r.ip_address, "hits": int(r.hits)} for r in susp_rows],
         })
 
     except Exception as e:
