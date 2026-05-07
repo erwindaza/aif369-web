@@ -744,7 +744,49 @@ def chat():
 
         if not is_trusted:
             suspicious_origin = origin or "(no origin header)"
-            print(f"SECURITY ALERT: chat request from untrusted origin: {suspicious_origin} | IP: {request.headers.get('X-Forwarded-For', request.remote_addr)}")
+            client_ip_early = request.headers.get("X-Forwarded-For", request.remote_addr or "").split(",")[0].strip()
+            print(f"SECURITY ALERT: chat BLOCKED from untrusted origin: {suspicious_origin} | IP: {client_ip_early}")
+            # Log to BQ before blocking so we keep the audit trail
+            try:
+                save_chat_to_bigquery({
+                    "message_id": str(uuid.uuid4()),
+                    "session_id": request.get_json(silent=True, force=True).get("session_id", str(uuid.uuid4())) if request.is_json else str(uuid.uuid4()),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "user_message": (request.get_json(silent=True, force=True) or {}).get("message", "")[:500],
+                    "assistant_response": "(BLOCKED)",
+                    "provider": "blocked",
+                    "turn_number": 0,
+                    "source_page": "",
+                    "user_agent": request.headers.get("User-Agent", ""),
+                    "ip_address": client_ip_early,
+                    "language": "",
+                    "intent_detected": "",
+                    "input_tokens": 0,
+                    "output_tokens": 0,
+                    "origin_header": suspicious_origin[:500],
+                    "suspicious": True,
+                })
+            except Exception:
+                pass
+            # Fire-and-forget alert email
+            try:
+                send_alert_email(
+                    f"🚫 Chat BLOQUEADO — origen no autorizado",
+                    f"""<html><body style="font-family:sans-serif">
+                    <h2 style="color:#c0392b">🚫 Request bloqueado</h2>
+                    <p><strong>Hora:</strong> {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</p>
+                    <p><strong>Origin:</strong> {suspicious_origin}</p>
+                    <p><strong>IP:</strong> {client_ip_early}</p>
+                    <p><strong>User-Agent:</strong> {request.headers.get('User-Agent','')[:200]}</p>
+                    </body></html>"""
+                )
+            except Exception:
+                pass
+            return jsonify({
+                "error": "Forbidden",
+                "response": "Acceso no autorizado.",
+                "success": False
+            }), 403
 
         # ── Security: Rate limiting ───────────────────────────────────────────
         client_ip = request.headers.get("X-Forwarded-For", request.remote_addr or "").split(",")[0].strip()
@@ -869,23 +911,7 @@ def chat():
         try:
             now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-            # 1. Suspicious origin → immediate security alert
-            if not is_trusted:
-                send_alert_email(
-                    f"⚠️ SECURITY ALERT: Chat desde origen no autorizado",
-                    f"""<html><body style="font-family:sans-serif">
-                    <h2 style="color:#c0392b">⚠️ Solicitud sospechosa detectada</h2>
-                    <p><strong>Hora:</strong> {now_str}</p>
-                    <p><strong>Origin:</strong> {origin or '(sin origin header)'}</p>
-                    <p><strong>IP:</strong> {client_ip}</p>
-                    <p><strong>Session:</strong> {session_id}</p>
-                    <p><strong>Mensaje:</strong> {user_message[:300]}</p>
-                    <hr>
-                    <p><small>AIF369 Backend Monitor — Cloud Run</small></p>
-                    </body></html>"""
-                )
-
-            # 2. New chat session (first message) → new user notification
+            # New chat session (first message) → new user notification
             if session_id not in _notified_sessions:
                 _notified_sessions.add(session_id)
                 est_cost = round((input_tokens * 0.15 + output_tokens * 0.60) / 1_000_000, 6)
@@ -898,7 +924,7 @@ def chat():
                     <p><strong>Página:</strong> {source_page or '(desconocida)'}</p>
                     <p><strong>Primer mensaje:</strong> {user_message[:300]}</p>
                     <p><strong>Tokens:</strong> in={input_tokens} | out={output_tokens} | costo≈${est_cost:.6f}</p>
-                    <p><strong>Origin:</strong> {origin or '(sin header)'} {'✅' if is_trusted else '⚠️ NO AUTORIZADO'}</p>
+                    <p><strong>Origin:</strong> {origin or '(sin header)'} ✅</p>
                     <hr>
                     <p><small>AIF369 Backend Monitor — Cloud Run</small></p>
                     </body></html>"""
