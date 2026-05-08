@@ -64,3 +64,16 @@ qa-report-*.json
 _config.js
 .vercel
 .env*.local
+
+# Security — credentials and key files (NEVER commit)
+*.pem
+*.key
+*.p12
+*.pfx
+service-account.json
+service_account.json
+credentials.json
+secrets.yaml
+secrets.yml
+gcloud-key.json
+keyfile.json
