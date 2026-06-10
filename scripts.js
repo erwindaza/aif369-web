@@ -80,6 +80,27 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ── Scroll reveal: elementos con clase .reveal aparecen al entrar en viewport ──
+    if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            revealObserver.observe(el);
+        });
+    } else {
+        // Fallback: mostrar todos de inmediato
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            el.classList.add('visible');
+        });
+    }
+
     // ── Efecto de scroll en la barra de navegación ──
     // Cuando el usuario baja, la barra se vuelve más sólida (clase "scrolled")
     const header = document.querySelector(".site-header");
@@ -660,6 +681,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var wrappers = document.querySelectorAll('.enrollment-wrapper');
     if (!wrappers.length) return;
 
+    var BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'
+        : 'https://aif369-backend-api-830685315001.us-central1.run.app';
+
     // Pre-fetch PayPal SDK so it's ready when user finishes the form
     loadPayPalSDK().catch(function (err) { console.warn('PayPal pre-load failed, will retry:', err); });
 
@@ -673,6 +698,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var paypalContainer = wrapper.querySelector('.paypal-btn-container');
         var enrollmentData = {};
         var paypalRendered = false;
+        var finalPrice = null; // set after /api/course-price call
 
         function setStep(num) {
             steps.forEach(function (s) {
@@ -683,10 +709,18 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        function updatePriceDisplay(priceData) {
+            // Update all price display elements in this wrapper
+            wrapper.querySelectorAll('.price-display').forEach(function (el) {
+                el.textContent = priceData.label;
+            });
+            var summaryTotal = wrapper.querySelector('.summary-total');
+            if (summaryTotal) summaryTotal.textContent = priceData.label;
+        }
+
         // Step 1 → Step 2: Form submit
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            // Clear previous invalid states
             form.querySelectorAll('.invalid').forEach(function (el) { el.classList.remove('invalid'); });
 
             var name = form.querySelector('[name="name"]');
@@ -711,47 +745,71 @@ document.addEventListener('DOMContentLoaded', function () {
                 source_page: window.location.pathname
             };
 
-            // Show payment step
-            wrapper.querySelector('.summary-name').textContent = enrollmentData.name;
-            wrapper.querySelector('.summary-email').textContent = enrollmentData.email;
-            form.style.display = 'none';
-            paymentDiv.style.display = 'block';
-            setStep(2);
+            // ── Consult backend for correct price (VIP vs full) ───────────
+            var submitBtn = form.querySelector('[type="submit"]');
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Verificando precio…'; }
 
-            // Render PayPal buttons (only once, after SDK loaded)
-            if (!paypalRendered) {
-                paypalRendered = true;
-                loadPayPalSDK().then(function () {
-                    if (typeof paypal === 'undefined' || !paypal.Buttons) return;
-                    paypal.Buttons({
-                    style: {
-                        layout: 'vertical',
-                        color: 'gold',
-                        shape: 'rect',
-                        label: 'pay',
-                        height: 45
-                    },
+            fetch(BACKEND_URL + '/api/course-price', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Origin': window.location.origin },
+                body: JSON.stringify({ email: enrollmentData.email, course: courseName })
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (priceData) {
+                finalPrice = priceData.price || 197;
+                enrollmentData.price = finalPrice;
+                enrollmentData.is_vip = priceData.is_vip || false;
+
+                // Show payment step
+                wrapper.querySelector('.summary-name').textContent = enrollmentData.name;
+                wrapper.querySelector('.summary-email').textContent = enrollmentData.email;
+                updatePriceDisplay(priceData);
+                form.style.display = 'none';
+                paymentDiv.style.display = 'block';
+                setStep(2);
+
+                if (!paypalRendered) {
+                    paypalRendered = true;
+                    renderPayPal(finalPrice);
+                }
+                paymentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            })
+            .catch(function () {
+                // Fallback: use full price if API fails
+                finalPrice = 197;
+                enrollmentData.price = finalPrice;
+                wrapper.querySelector('.summary-name').textContent = enrollmentData.name;
+                wrapper.querySelector('.summary-email').textContent = enrollmentData.email;
+                form.style.display = 'none';
+                paymentDiv.style.display = 'block';
+                setStep(2);
+                if (!paypalRendered) { paypalRendered = true; renderPayPal(finalPrice); }
+                paymentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            })
+            .finally(function () {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Continuar al pago →'; }
+            });
+        });
+
+        function renderPayPal(price) {
+            loadPayPalSDK().then(function () {
+                if (typeof paypal === 'undefined' || !paypal.Buttons) return;
+                paypal.Buttons({
+                    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 45 },
                     createOrder: function (data, actions) {
                         return actions.order.create({
                             purchase_units: [{
                                 description: courseName + ' — AIF369',
-                                amount: {
-                                    currency_code: 'USD',
-                                    value: '10.00'
-                                }
+                                amount: { currency_code: 'USD', value: price.toFixed(2) }
                             }]
                         });
                     },
                     onApprove: function (data, actions) {
                         return actions.order.capture().then(function (details) {
-                            // Payment successful — send enrollment to backend
                             enrollmentData.paypal_order_id = data.orderID;
                             enrollmentData.payer_email = details.payer && details.payer.email_address ? details.payer.email_address : '';
                             enrollmentData.payment_status = 'completed';
-
                             sendEnrollment(enrollmentData);
-
-                            // Show success
                             paymentDiv.style.display = 'none';
                             successDiv.style.display = 'block';
                             wrapper.querySelector('.enrollment-steps').style.display = 'none';
@@ -762,12 +820,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         alert('Hubo un error con el pago. Por favor intenta de nuevo o contáctanos por WhatsApp.');
                     }
                 }).render(paypalContainer);
-                }); // end loadPayPalSDK.then
-            }
-
-            // Scroll to payment section
-            paymentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
+            });
+        }
 
         // Back button: payment → form
         if (backBtn) {
@@ -781,10 +835,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Send enrollment data to backend
     function sendEnrollment(data) {
-        var BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'https://aif369-backend-api-dev-830685315001.us-central1.run.app'
-            : 'https://aif369-backend-api-830685315001.us-central1.run.app';
-
         fetch(BACKEND_URL + '/api/enrollment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

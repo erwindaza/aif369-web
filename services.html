@@ -42,24 +42,222 @@
     </nav>
 </header>
 
-<main class="container">
-    <!-- HEADER -->
-    <section class="section">
-        <header class="section-header">
-            <h1 data-i18n="svc.heading1">Servicios de Asesoria Integral en IA</h1>
-            <p data-i18n="svc.text2">Advisory ejecutivo, AI Governance, Risk & Compliance, AI Factory Design y capacidades demostradas en produccion.</p>
-            <p class="small-text" style="margin-top: 0.75rem;"><a href="#produccion" style="color: var(--color-secondary);">Ver capacidades en produccion ↓</a></p>
-        </header>
+<main>
+    <!-- HEADER EJECUTIVO -->
+    <section class="section" style="background:linear-gradient(135deg,#0A1628 0%,#0D2144 60%,#0A1628 100%);padding:72px 0 56px;">
+        <div class="container">
+            <div style="max-width:720px;margin:0 auto;text-align:center;">
+                <span style="display:inline-block;background:rgba(0,136,255,0.15);color:#0088FF;border:1px solid rgba(0,136,255,0.3);border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;margin-bottom:20px;">
+                    PARA CEO · COO · CTO · DIRECTORIO
+                </span>
+                <h1 style="font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;margin-bottom:16px;">
+                    Implementa IA en tu empresa.<br>
+                    <span style="color:#00D9CC;">Con gobierno. Con ROI. Sin improvisar.</span>
+                </h1>
+                <p style="font-size:1.15rem;color:var(--text-secondary);margin-bottom:28px;line-height:1.6;">
+                    Servicios ejecutivos de IA para alta gerencia en LATAM. Diagnóstico, estrategia, implementación y gobierno. Precios fijos, entregables claros, sin sorpresas.
+                </p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <a href="" class="btn btn-primary" style="padding:14px 28px;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar diagnóstico gratuito</a>
+                    <a href="#paquetes" class="btn btn-outline" style="padding:14px 24px;">Ver paquetes y precios ↓</a>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- PAQUETES C-LEVEL CON PRECIOS -->
+    <section class="section" id="paquetes">
+        <div class="container">
+            <header class="section-header">
+                <h2>Paquetes ejecutivos — Precios fijos</h2>
+                <p style="color:var(--text-secondary);">Todos los proyectos incluyen diagnóstico inicial sin costo, entregables definidos y sesiones de seguimiento con la alta gerencia.</p>
+            </header>
+            <div class="grid-2" style="gap:28px;">
+
+                <!-- ★ NUEVO: Gobernanza de Datos para IA ★ -->
+                <article class="card" style="border:2px solid rgba(168,85,247,0.45);position:relative;overflow:hidden;grid-column:span 2;">
+                    <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#A855F7,#7C3AED);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:0 0 0 8px;">🆕 NUEVO SERVICIO ESTRELLA</div>
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(168,85,247,0.12);color:#A855F7;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:600;">🗄️ GOBERNANZA DE DATOS + IA</span>
+                            <h3 style="margin:8px 0 4px;">Gobernanza de Datos para IA</h3>
+                            <p style="color:var(--text-secondary);font-size:13px;">6–10 semanas · AIF369 + especialista certificado DAMA/DMBOK</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#A855F7;line-height:1;">$6.000</div>
+                            <div style="font-size:12px;color:var(--text-secondary);">USD desde · proyecto cerrado</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(168,85,247,0.07);border:1px solid rgba(168,85,247,0.25);border-radius:10px;padding:14px 18px;margin-bottom:18px;">
+                        <p style="color:#A8B8D8;font-size:13px;line-height:1.6;margin:0;">
+                            <strong style="color:#fff;">¿Por qué urgente?</strong> La <strong style="color:#A855F7;">Ley 21.719</strong> (protección de datos personales Chile) entra en vigor en <strong>diciembre 2026</strong>.
+                            Además, <strong>una IA es tan buena como sus datos</strong> — sin calidad de datos, tu sistema de IA producirá resultados incorrectos o sesgados, independiente del modelo que uses.
+                        </p>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:18px;">
+                        <div>
+                            <p style="font-size:11px;font-weight:700;color:#A855F7;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">AIF369 entrega</p>
+                            <ul class="simple-list">
+                                <li>Introducción ejecutiva: por qué los datos son el prerequisito de toda IA exitosa</li>
+                                <li>Assessment de madurez de datos (Método 369)</li>
+                                <li>Presentación al directorio con riesgos y hoja de ruta</li>
+                                <li>Coordinación y supervisión del proyecto DAMA</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p style="font-size:11px;font-weight:700;color:#00D9CC;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">Especialista DAMA/DMBOK entrega</p>
+                            <ul class="simple-list">
+                                <li>Auditoría de calidad y trazabilidad de datos</li>
+                                <li>Data catalog, data lineage y glosario de negocio</li>
+                                <li>Roles: Data Steward, Data Owner, Data Governance Committee</li>
+                                <li>Plan de compliance con Ley 21.719 (datos personales)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-secondary);">Ideal para: CEO · COO · Director de Datos · Legal/Compliance · Empresas reguladas (finanzas, salud, retail)</p>
+                    <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+                        <a href="" class="btn btn-primary" style="background:#A855F7;border-color:#A855F7;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar diagnóstico gratuito</a>
+                        <a href="gobernanza-datos-ia.html" class="btn btn-outline" style="border-color:#A855F7;color:#A855F7;">Ver detalles del servicio →</a>
+                        <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20información%20sobre%20Gobernanza%20de%20Datos%20para%20IA" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#25D366;color:#25D366;">💬 WhatsApp</a>
+                    </div>
+                </article>
+
+                <article class="card" style="border:2px solid rgba(0,136,255,0.3);position:relative;overflow:hidden;">
+                    <div style="position:absolute;top:0;right:0;background:#0088FF;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:0 0 0 8px;">MÁS SOLICITADO</div>
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(0,136,255,0.1);color:#0088FF;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">⭐ DIAGNÓSTICO</span>
+                            <h3 style="margin:8px 0 4px;">Diagnóstico Ejecutivo de IA</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Entrega en 2 semanas</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#00D9CC;line-height:1;">$2.000</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD · pago único</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Evaluación completa del estado actual de IA en tu organización: brechas, oportunidades, riesgos y hoja de ruta de 90 días.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ AI Readiness Assessment (120+ puntos)</li>
+                        <li>✓ Mapa de procesos con potencial IA</li>
+                        <li>✓ Priorización de 3-5 casos de uso</li>
+                        <li>✓ Presentación para directorio</li>
+                        <li>✓ Hoja de ruta ejecutiva 90 días</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: CEO, Gerente General, Dueños de empresa</p>
+                    <a href="" class="btn btn-primary" style="width:100%;margin-top:8px;text-align:center;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">Agendar diagnóstico gratuito →</a>
+                </article>
+
+                <article class="card" style="border:2px solid rgba(0,217,204,0.3);">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(0,217,204,0.1);color:#00D9CC;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">🏭 AI FACTORY</span>
+                            <h3 style="margin:8px 0 4px;">AI Factory Sprint</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Duración: 6-8 semanas</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#00D9CC;line-height:1;">$5.000</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD · proyecto cerrado</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Implementación real de un caso de uso IA en producción: desde arquitectura hasta deployment con observabilidad y gobierno incluidos.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ Arquitectura y diseño del pipeline</li>
+                        <li>✓ Implementación en Google Cloud / Azure / AWS</li>
+                        <li>✓ Observabilidad + alertas (Langfuse / Datadog)</li>
+                        <li>✓ Controles de gobierno y compliance</li>
+                        <li>✓ Documentación técnica y ejecutiva</li>
+                        <li>✓ Capacitación al equipo interno</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: CTO, Gerente de Tecnología, equipos de Data & IA</p>
+                    <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20información%20sobre%20el%20AI%20Factory%20Sprint" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;margin-top:8px;text-align:center;border-color:#00D9CC;color:#00D9CC;">Consultar disponibilidad →</a>
+                </article>
+
+                <article class="card">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(245,158,11,0.1);color:#F59E0B;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">🛡️ GOBIERNO</span>
+                            <h3 style="margin:8px 0 4px;">Marco de Gobierno IA</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Duración: 3-4 semanas</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#F59E0B;line-height:1;">$3.500</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD · proyecto cerrado</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Framework completo de gobernanza para implementar IA con control, trazabilidad y cumplimiento regulatorio.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ Política corporativa de IA</li>
+                        <li>✓ RACI + Comité de IA</li>
+                        <li>✓ Inventario y clasificación de riesgo</li>
+                        <li>✓ Controles mínimos y checklist de aprobación</li>
+                        <li>✓ Alineación EU AI Act · Ley 21.719 (datos personales Chile) · Boletín 16821-19 (proyecto ley IA)</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: Director Legal, Compliance, COO, Directorio</p>
+                    <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20información%20sobre%20Marco%20de%20Gobierno%20IA" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;margin-top:8px;text-align:center;">Consultar →</a>
+                </article>
+
+                <article class="card" style="border:2px solid rgba(139,92,246,0.3);">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <span style="background:rgba(139,92,246,0.1);color:#8B5CF6;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">♟️ CAIO-AS-A-SERVICE</span>
+                            <h3 style="margin:8px 0 4px;">CAIO Fractional</h3>
+                            <p style="color:var(--text-muted);font-size:13px;">Retainer mensual · mínimo 3 meses</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:2rem;font-weight:800;color:#8B5CF6;line-height:1;">$3.000</div>
+                            <div style="font-size:12px;color:var(--text-muted);">USD / mes</div>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-secondary);margin-bottom:12px;">Erwin Daza como tu Chief AI Officer externo: presencia ejecutiva, decisiones estratégicas, acompañamiento continuo al directorio y equipos técnicos.</p>
+                    <ul class="simple-list" style="margin-bottom:16px;">
+                        <li>✓ 8 horas ejecutivas mensuales (calls + presencia)</li>
+                        <li>✓ Review de iniciativas IA en curso</li>
+                        <li>✓ Participación en comité directivo mensual</li>
+                        <li>✓ Revisión técnica de arquitecturas</li>
+                        <li>✓ Canal prioritario (respuesta &lt;4h hábiles)</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--text-muted);">Ideal para: CEO / Directorio que necesita un CAIO sin contratar uno full-time</p>
+                    <a href="" class="btn btn-primary" style="width:100%;margin-top:8px;text-align:center;background:#8B5CF6;border-color:#8B5CF6;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">Agendar conversación →</a>
+                </article>
+
+            </div>
+
+            <!-- Nota pie de precios -->
+            <div style="margin-top:32px;text-align:center;background:rgba(0,136,255,0.06);border:1px solid rgba(0,136,255,0.2);border-radius:12px;padding:20px 28px;">
+                <p style="color:var(--text-secondary);margin:0;">
+                    <strong>¿Necesitas algo a medida?</strong> Todos los proyectos son adaptables. Agenda una llamada de diagnóstico gratuita de 30 minutos para definir el alcance exacto.
+                    <br>
+                    <a href="" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" style="color:#0088FF;font-weight:600;">📅 Agendar diagnóstico gratuito →</a>
+                    &nbsp;·&nbsp;
+                    <a href="https://wa.me/56997547192" target="_blank" rel="noopener" style="color:#25D366;font-weight:600;">💬 WhatsApp directo</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
     <!-- SERVICE LINES -->
-    <section class="section section-alt">
+    <section class="section section-alt" style="border-radius:var(--radius-lg);">
         <header class="section-header">
             <h2 data-i18n="svc.heading3">Líneas de servicio</h2>
             <p data-i18n="svc.text4">Cada línea puede contratarse independientemente según las necesidades de su organización.</p>
         </header>
 
         <div class="grid-3">
+            <article class="card" style="border-left:3px solid #A855F7;">
+                <p class="tag" style="color:#A855F7;background:rgba(168,85,247,0.1);">🆕 Gobernanza de Datos</p>
+                <h3>Gobernanza de Datos para IA</h3>
+                <p>Auditoría DAMA/DMBOK + compliance Ley 21.719 + preparación de datos para sistemas de IA. El prerequisito que la mayoría de las empresas ignora — y que define el éxito o fracaso de cualquier proyecto IA.</p>
+                <p class="small-text"><strong>Ideal para:</strong> empresas reguladas, compañías con grandes volúmenes de datos, organizaciones preparándose para IA o cumplimiento de Ley 21.719 (dic 2026).</p>
+                <ul class="simple-list">
+                    <li>Data catalog, data lineage y glosario de negocio</li>
+                    <li>Roles de gobierno de datos (Data Steward, Data Owner)</li>
+                    <li>Plan de compliance Ley 21.719 (protección de datos personales)</li>
+                    <li>Assessment de calidad de datos para IA (Método 369)</li>
+                </ul>
+                <a href="gobernanza-datos-ia.html" class="btn btn-link" style="color:#A855F7;">Ver servicio completo →</a>
+            </article>
+
             <article class="card card-highlight">
                 <p class="tag" data-i18n="svc.text5">⭐ Advisory</p>
                 <h3 data-i18n="svc.subheading6">CAIO Advisory as a Service</h3>
@@ -183,7 +381,7 @@
                     <li data-i18n="svc.item72">Metadata de trazabilidad por registro</li>
                     <li data-i18n="svc.item73">Clasificacion de riesgo (EU AI Act)</li>
                 </ul>
-                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold74">Regulaciones:</strong> Ley IA Chile (16821-19), Ley 21.719, EU AI Act, Privacy by Design</p>
+                <p class="small-text" style="margin-top: 0.75rem;"><strong data-i18n="svc.bold74">Regulaciones:</strong> EU AI Act · Ley 21.719 (protección de datos personales Chile, vigencia dic 2026) · Boletín 16821-19 (proyecto ley IA Chile) · Privacy by Design</p>
                 <a href="index.html#contacto" class="btn btn-link" data-i18n="cta.solicitar_info4">Solicitar informacion →</a>
             </article>
 
@@ -371,6 +569,7 @@
             </div>
         </header>
     </section>
+    </div><!-- /container -->
 </main>
 
 <footer class="site-footer">
@@ -381,12 +580,22 @@
         </div>
         <div class="footer-links">
             <a href="index.html">Inicio</a>
-            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
+            <a href="metodologia.html">Método 369</a>
+            <a href="gobernanza-datos-ia.html">Gobernanza de Datos</a>
+            <a href="education.html">Cursos IA</a>
             <a href="blog.html">Insights</a>
+            <a href="scorecard.html">Scorecard IA</a>
             <a href="author.html">Sobre Erwin</a>
         </div>
-            <div class="footer-social">
-            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" data-i18n="footer.linkedin">LinkedIn de Erwin →</a>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+            </a>
+            <a href="https://github.com/erwindaza" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-left:16px;color:var(--text-secondary);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
 </div>
 </footer>
@@ -394,5 +603,6 @@
 <script src="_config.js"></script>
 <script src="scripts.js"></script>
 <script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

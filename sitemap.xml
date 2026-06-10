@@ -14,12 +14,15 @@
   <url><loc>https://aif369.com/service-implementacion.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <!-- Courses -->
   <url><loc>https://aif369.com/cursos-ia.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/guia-caio.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/recursos-digitales.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://aif369.com/course-desarrollo-ia.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://aif369.com/course-guias-practicas.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://aif369.com/course-material-caio.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://aif369.com/big-data-ia.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://aif369.com/automatizacion-airflow.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://aif369.com/airflow-ia-avanzada.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/curso-mlops.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <!-- Education extras -->
   <url><loc>https://aif369.com/coaching-data.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://aif369.com/encuentra-empleo.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>

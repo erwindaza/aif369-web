@@ -23,6 +23,7 @@
     { "id": "courses_ai", "label": "Cursos de IA", "path": "/cursos-ia.html" },
     { "id": "courses_bigdata_ai", "label": "Big Data + IA", "path": "/big-data-ia.html" },
     { "id": "courses_airflow", "label": "Automatización con Airflow", "path": "/automatizacion-airflow.html" },
+    { "id": "courses_mlops", "label": "MLOps & ML Engineering", "path": "/curso-mlops.html" },
     { "id": "advanced_airflow_ai", "label": "Airflow + IA Avanzada", "path": "/airflow-ia-avanzada.html" },
     { "id": "real_examples", "label": "Ejemplos Reales", "path": "/ejemplos-reales.html" },
     { "id": "real_stories", "label": "Historias Reales", "path": "/historias-reales.html" },
@@ -65,6 +66,17 @@
       "category": "Avanzado",
       "level": "avanzado",
       "file": "airflow-ia-avanzada.html"
+    },
+    {
+      "id": "curso_mlops_mle",
+      "type": "course",
+      "title": "MLOps & ML Engineering",
+      "short_title": "MLOps & MLE",
+      "category": "MLOps",
+      "level": "avanzado",
+      "file": "curso-mlops.html",
+      "free": true,
+      "source": "DataTalks.Club MLOps Zoomcamp"
     },
     {
       "id": "coaching_experto_data",

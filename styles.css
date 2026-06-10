@@ -2171,3 +2171,318 @@ nav {
     .smart-cta-bar { padding: 12px 16px; }
     .smart-cta-link { font-size: var(--text-sm, 0.875rem); }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   UI/UX IMPROVEMENTS — May 2026
+   Missing variables, class aliases, and visual enhancements.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Alias variables for new pages ── */
+:root {
+    --surface-1: var(--bg-secondary);
+    --surface-2: var(--bg-tertiary);
+    --text-2: var(--text-secondary);
+    --text-3: var(--text-tertiary);
+    --text-muted: var(--text-tertiary);
+    --bg-card: var(--bg-tertiary);
+    --space-7: 2.5rem; /* 40px */
+}
+
+/* ── bw-banner: pricing highlight banner used in course pages ── */
+.bw-banner {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-6);
+    background: linear-gradient(135deg, rgba(0,136,255,0.08), rgba(0,217,204,0.08));
+    border: 1px solid rgba(0,136,255,0.2);
+    border-radius: var(--radius-lg);
+    margin-top: var(--space-4);
+}
+
+.bw-tag {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.bw-pricing {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+}
+
+.bw-old {
+    font-size: var(--text-xl);
+    color: var(--text-tertiary);
+    text-decoration: line-through;
+}
+
+.bw-new {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.bw-card-price {
+    margin: var(--space-3) 0;
+}
+
+.bw-card-price .bw-new {
+    font-size: var(--text-2xl);
+}
+
+/* ── footer-grid: 3-column footer layout ── */
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-8);
+    margin-bottom: var(--space-6);
+}
+
+.footer-grid h4 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-3);
+}
+
+.footer-grid ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.footer-grid ul a {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    transition: color var(--transition-fast);
+}
+
+.footer-grid ul a:hover {
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-6);
+    }
+    .footer-grid > div:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Catalog card: accent top border on hover ── */
+.catalog-card {
+    border-top: 3px solid transparent;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.catalog-card:hover {
+    border-top-color: var(--secondary);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,217,204,0.15);
+}
+
+.catalog-card-featured:hover {
+    border-top-color: #8B5CF6;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(139,92,246,0.25);
+}
+
+/* ── Cards: richer featured gradient ── */
+.card-highlight,
+.catalog-card-featured {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-highlight::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* ── Industry pills: subtle accent coloring ── */
+.industries-grid .industry-pill:nth-child(odd):hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    background: rgba(0,217,204,0.06);
+}
+
+/* ── Nav active link: more visible indicator ── */
+.nav-links a.active {
+    color: var(--secondary) !important;
+    position: relative;
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: var(--space-3);
+    right: var(--space-3);
+    height: 2px;
+    background: var(--secondary);
+    border-radius: 1px;
+}
+
+/* ── Hero: ambient background orbs ── */
+.hero {
+    position: relative;
+    isolation: isolate;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    right: -150px;
+    background: radial-gradient(circle, rgba(0,136,255,0.07) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    bottom: -100px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(0,217,204,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ── Section divider: softer section-alt separator ── */
+.section-alt::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+
+/* ── Buttons: shimmer effect on primary ── */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-primary:hover::after {
+    left: 150%;
+}
+
+/* ── Scroll reveal utility ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Skip to content (accessibility) ── */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    z-index: 9999;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* ── Cards: improved typography spacing ── */
+.card h3 {
+    font-size: var(--text-xl);
+    line-height: 1.3;
+}
+
+/* ── Catalog card body text size consistency ── */
+.catalog-card h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* ── Section headers: gradient accent on h2 ── */
+.section-header h2 {
+    background: linear-gradient(135deg, var(--text-primary) 40%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Mobile: larger tap targets ── */
+@media (max-width: 768px) {
+    .btn {
+        min-height: 48px;
+        padding: var(--space-3) var(--space-5);
+    }
+
+    .catalog-card {
+        padding: var(--space-4);
+    }
+
+    .bw-new {
+        font-size: var(--text-3xl);
+    }
+}
+
+/* ── Subtle grid background for alt sections ── */
+.section-grid-bg {
+    background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+}

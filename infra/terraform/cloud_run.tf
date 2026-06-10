@@ -47,7 +47,7 @@ resource "google_cloud_run_service" "backend" {
           value = tostring(var.monthly_budget_usd)
         }
 
-        # Secrets from GCP Secret Manager
+        # Secrets from GCP Secret Manager — NEVER use plain `value` for sensitive vars
         env {
           name = "GEMINI_API_KEY"
           value_from {
@@ -73,6 +73,26 @@ resource "google_cloud_run_service" "backend" {
           value_from {
             secret_key_ref {
               name = "aif369-content-api-key"
+              key  = "latest"
+            }
+          }
+        }
+
+        env {
+          name = "PAYPAL_CLIENT_ID"
+          value_from {
+            secret_key_ref {
+              name = "aif369-paypal-client-id"
+              key  = "latest"
+            }
+          }
+        }
+
+        env {
+          name = "PAYPAL_SECRET"
+          value_from {
+            secret_key_ref {
+              name = "aif369-paypal-secret"
               key  = "latest"
             }
           }

@@ -4,9 +4,10 @@ import uuid
 import smtplib
 import re
 import requests as http_requests
+from collections import defaultdict
+from datetime import datetime, timezone, timedelta
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from datetime import datetime, timezone
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from google.cloud import bigquery
@@ -28,9 +29,64 @@ app = Flask(__name__)
 CORS(app, origins=[
     "https://aif369.com",
     "https://www.aif369.com",
-    re.compile(r"^https://.*\\.vercel\\.app$"),
-    re.compile(r"^http://localhost(:\\d+)?$")
+    re.compile(r"^https://.*\.vercel\.app$"),
+    re.compile(r"^http://localhost(:\d+)?$")
 ])
+
+# ── Allowed origins for /api/chat (enforced server-side, not just CORS) ──────
+ALLOWED_CHAT_ORIGINS = {
+    "https://aif369.com",
+    "https://www.aif369.com",
+}
+
+# ── In-memory rate limiter: max 20 chat requests per IP per hour ─────────────
+_rate_limit: dict = defaultdict(list)
+RATE_LIMIT_MAX    = 20    # requests per IP per hour
+RATE_LIMIT_WINDOW = 3600  # seconds
+
+# ── Per-session limits: max turns and max input tokens consumed ───────────────
+# Prevents runaway sessions from burning API budget.
+MAX_TURNS_PER_SESSION = 10          # messages per session
+MAX_INPUT_TOKENS_PER_SESSION = 15000  # ~10-12 pages of text
+_session_turns:  dict = defaultdict(int)    # session_id → turn count
+_session_tokens: dict = defaultdict(int)    # session_id → cumulative input tokens
+
+def is_rate_limited(ip: str) -> bool:
+    now = datetime.now(tz=timezone.utc)
+    window_start = now - timedelta(seconds=RATE_LIMIT_WINDOW)
+    hits = _rate_limit[ip]
+    # Remove old hits outside the window
+    _rate_limit[ip] = [t for t in hits if t > window_start]
+    if len(_rate_limit[ip]) >= RATE_LIMIT_MAX:
+        return True
+    _rate_limit[ip].append(now)
+    return False
+
+# ── In-memory set of session_ids already alerted (one email per session) ─────
+_notified_sessions: set = set()
+
+# ── REPORT_SECRET: protects /api/daily-report endpoint ───────────────────────
+REPORT_SECRET = os.getenv("REPORT_SECRET", "")
+
+def send_alert_email(subject: str, body_html: str) -> None:
+    """Send operational alert email via Zoho SMTP. Fails silently if not configured."""
+    if not SMTP_PASSWORD:
+        print("Alert email skipped: SMTP_PASSWORD not configured")
+        return
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"AIF369 Monitor <{SMTP_USER}>"
+        msg["To"] = NOTIFICATION_EMAIL
+        msg["Cc"] = CC_EMAIL
+        msg.attach(MIMEText(body_html, "html"))
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=5) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.send_message(msg)
+        print(f"Alert email sent: {subject}")
+    except Exception as e:
+        print(f"Alert email failed ({subject}): {e}")
 
 # Cliente de BigQuery
 PROJECT_ID = os.getenv("PROJECT_ID", "aif369-backend")
@@ -52,7 +108,7 @@ SMTP_PORT = 587
 SMTP_USER = os.getenv("SMTP_USER", "edaza@aif369.com")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "edaza@aif369.com")
-CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com")
+CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com, erwin.androide@gmail.com")
 
 # Configuración de Gemini para el chatbot
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -345,6 +401,51 @@ def get_paypal_config():
     if not client_id:
         return jsonify({"error": "PayPal not configured"}), 503
     return jsonify({"client_id": client_id}), 200
+
+
+# ── VIP email list (comma-separated in env var, never hardcoded) ──────────────
+def _get_vip_emails() -> set:
+    raw = os.getenv("VIP_EMAILS", "")
+    return {e.strip().lower() for e in raw.split(",") if e.strip()}
+
+# Course prices (matches products-catalog.json)
+COURSE_PRICES = {
+    "Curso de Inteligencia Artificial":          197,
+    "Big Data + IA: Arquitecturas Modernas":     297,
+    "MLOps: De Modelos a Producción":            347,
+    "Automatización con Apache Airflow":         247,
+}
+VIP_PRICE = 10
+
+
+@app.route("/api/course-price", methods=["POST"])
+def course_price():
+    """
+    Returns the correct price for a course given the user's email.
+    VIP emails (VIP_EMAILS env var) pay $10. Everyone else pays full price.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+
+    data = request.get_json()
+    email = (data.get("email") or "").strip().lower()
+    course = (data.get("course") or "").strip()
+
+    if not email or not course:
+        return jsonify({"error": "email and course required"}), 400
+
+    is_vip = email in _get_vip_emails()
+    full_price = COURSE_PRICES.get(course, 197)
+    price = VIP_PRICE if is_vip else full_price
+
+    return jsonify({
+        "email": email,
+        "course": course,
+        "price": price,
+        "is_vip": is_vip,
+        "currency": "USD",
+        "label": f"${price} USD{' (precio especial)' if is_vip else ''}"
+    }), 200
 
 
 @app.route("/api/contact", methods=["POST"])
@@ -666,6 +767,33 @@ def submit_scorecard():
         }
         send_email_notification(email_data)
 
+        # Auto-email to user with Gemini recommendations
+        try:
+            scorecard_context = (
+                f"EMPRESA: {company} ({role})\n"
+                f"Score total: {total_score}/100\n"
+                f"Nivel: {maturity_level} ({maturity_number}/5)\n"
+                f"Dimensiones:\n{dim_summary}"
+            )
+            user_report = _gemini_generate(
+                SCORECARD_RECOMMENDATION_SYSTEM,
+                f"Genera recomendaciones para:\n{scorecard_context}"
+            )
+            first_name = (name.split()[0] if name else "Estimado/a")
+            _send_user_report_email(
+                to_email=email,
+                first_name=first_name,
+                subject=f"Tu AI Readiness Score: {total_score}/100 — AIF369",
+                score=total_score,
+                score_label="AI Readiness Score",
+                report_html=user_report,
+                cta_url="https://aif369.com/services.html",
+                cta_label="Ver Servicios AIF369 →",
+                accent_color="#0088FF"
+            )
+        except Exception as user_email_err:
+            print(f"Scorecard user email error (non-fatal): {user_email_err}")
+
         return jsonify({
             "success": True,
             "submission_id": submission_id,
@@ -677,14 +805,288 @@ def submit_scorecard():
         return jsonify({"error": "Internal server error", "message": str(e)}), 500
 
 
+# ── Prompts para assessments automáticos ─────────────────────────────────────
+DATA_ASSESSMENT_SYSTEM = """Eres un consultor experto de AIF369 especializado en gobernanza de datos para empresas en Latam.
+Analiza las respuestas del assessment de madurez de datos y genera un reporte ejecutivo personalizado.
+REGLAS ESTRICTAS:
+1. Sé directo y concreto — sin frases genéricas.
+2. Identifica exactamente los 3 riesgos principales según sus respuestas.
+3. Da 3 recomendaciones accionables y específicas para esta empresa.
+4. Recomienda el paquete más adecuado: Starter ($6,000 USD), Business ($12,000 USD) o Enterprise ($18,000+ USD).
+5. Menciona la Ley 21.719 si procesa datos personales.
+6. Máximo 350 palabras. Usa formato HTML con <h3>, <p>, <ul><li>.
+Paquetes AIF369: Starter = empresa pequeña, 1-2 dominios, 6 sem. Business = 200-1000 emp, 2-3 dominios, 8-10 sem. Enterprise = grande o muy regulada."""
+
+SCORECARD_RECOMMENDATION_SYSTEM = """Eres un CAIO Advisor de AIF369. Analiza los resultados del AI Readiness Scorecard y genera recomendaciones personalizadas.
+REGLAS:
+1. Basate SOLO en los datos del scorecard — sin inventar.
+2. Identifica los 3 gaps más críticos de esta empresa específica.
+3. Da 3 próximos pasos concretos y priorizados.
+4. Si el score es < 40%, recomienda primero Gobernanza de Datos (prerequisito).
+5. Recomienda el servicio AIF369 más adecuado para su nivel.
+6. Máximo 300 palabras. Formato HTML con <h3>, <p>, <ul><li>.
+Servicios: Starter 369 ($4k, 4-6 sem), Governed Pilot ($12k, 8-12 sem), CAIO-as-a-Service ($3k/mes), Gobernanza Datos ($6k)."""
+
+
+def _gemini_generate(system: str, user_prompt: str, max_tokens: int = 600) -> str:
+    """Calls Gemini and returns generated text, or empty string on failure."""
+    if not GEMINI_API_KEY:
+        return ""
+    try:
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash",
+            system_instruction=system,
+            generation_config=genai.types.GenerationConfig(temperature=0.3, max_output_tokens=max_tokens)
+        )
+        return model.generate_content(user_prompt).text
+    except Exception as e:
+        print(f"Gemini generate error: {e}")
+        return ""
+
+
+def _send_user_report_email(to_email: str, first_name: str, subject: str,
+                             score: int, score_label: str, report_html: str,
+                             cta_url: str, cta_label: str, accent_color: str = "#0088FF") -> None:
+    """Send a branded auto-report email to the user. Fails silently."""
+    if not SMTP_PASSWORD:
+        return
+    urgency = ("⚠️ Alta urgencia — acción recomendada este mes" if score < 30
+               else ("🔸 Riesgo moderado — actuar este trimestre" if score < 60
+                     else "✅ Madurez aceptable — momento de optimizar"))
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"AIF369 <{SMTP_USER}>"
+        msg["To"] = to_email
+        html = f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0B1120;font-family:'Segoe UI',Roboto,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0B1120;padding:32px 0;">
+<tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<tr><td style="background:linear-gradient(135deg,{accent_color},{accent_color}CC);padding:28px 40px;border-radius:16px 16px 0 0;">
+<table width="100%"><tr>
+<td style="color:#fff;font-size:24px;font-weight:700;">AIF369</td>
+<td align="right" style="color:rgba(255,255,255,0.85);font-size:12px;">Reporte automático</td>
+</tr></table></td></tr>
+<tr><td style="background:#0F1F35;padding:32px 40px;border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);">
+<p style="color:#E2E8F0;font-size:17px;font-weight:600;margin:0 0 8px;">Hola {first_name},</p>
+<p style="color:#A8B8D8;font-size:14px;line-height:1.7;margin:0 0 20px;">Aquí está tu reporte personalizado basado en tus respuestas.</p>
+<div style="background:#162B45;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;margin:0 0 20px;text-align:center;">
+<div style="font-size:11px;font-weight:700;color:#7B8BA8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">{score_label}</div>
+<div style="font-size:42px;font-weight:800;color:{accent_color};">{score}<span style="font-size:20px;color:#7B8BA8;">/100</span></div>
+<div style="font-size:12px;color:#A8B8D8;margin-top:6px;">{urgency}</div>
+</div>
+<div style="color:#A8B8D8;font-size:14px;line-height:1.7;">{report_html if report_html else "<p>Nuestro equipo revisará tu solicitud en las próximas 24 horas.</p>"}</div>
+<div style="margin:24px 0;text-align:center;background:#162B45;border-radius:12px;padding:20px;">
+<p style="color:#E2E8F0;font-size:14px;font-weight:600;margin:0 0 14px;">¿Tienes preguntas? Nuestro asistente IA responde 24/7</p>
+<a href="{cta_url}" style="display:inline-block;background:{accent_color};color:#fff;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;text-decoration:none;">{cta_label}</a>
+</div>
+</td></tr>
+<tr><td style="background:#0A1628;padding:18px 40px;border-radius:0 0 16px 16px;border:1px solid rgba(255,255,255,0.04);border-top:none;">
+<p style="color:#4A5E7A;font-size:12px;margin:0;"><strong style="color:#7B8BA8;">AIF369</strong> — IA · Datos · Cloud · aif369.com · +56 9 9754 7192</p>
+</td></tr></table></td></tr></table></body></html>"""
+        msg.attach(MIMEText(html, "html"))
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.send_message(msg)
+        print(f"User report email sent to {to_email}")
+    except Exception as e:
+        print(f"User report email failed: {e}")
+
+
+@app.route("/api/assessment-datos", methods=["POST"])
+def assessment_datos():
+    """
+    Assessment automático de Gobernanza de Datos.
+    Recibe respuestas del formulario, analiza con Gemini y envía reporte al usuario.
+    Sin intervención humana requerida — 100% automático.
+    """
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        name = (data.get("name") or "").strip()
+        email = (data.get("email") or "").strip()
+        company = (data.get("company") or "").strip()
+        role = (data.get("role") or "").strip()
+        industry = (data.get("industry") or "").strip()
+        company_size = (data.get("company_size") or "").strip()
+        data_sources = (data.get("data_sources") or "").strip()
+        data_quality = (data.get("data_quality") or "").strip()
+        current_governance = (data.get("current_governance") or "").strip()
+        processes_personal = (data.get("processes_personal_data") or "").strip()
+        ley21719_status = (data.get("ley21719_status") or "").strip()
+        main_challenge = (data.get("main_challenge") or "").strip()
+        ai_plans = (data.get("ai_plans") or "").strip()
+
+        if not name or not email:
+            return jsonify({"error": "name and email are required"}), 400
+
+        submission_id = str(uuid.uuid4())
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        assessment_context = (
+            f"EMPRESA: {company} ({industry}) — {company_size}\n"
+            f"CONTACTO: {name}, {role}\n"
+            f"Fuentes de datos: {data_sources}\n"
+            f"Calidad de datos: {data_quality}\n"
+            f"Gobierno de datos actual: {current_governance}\n"
+            f"¿Procesa datos personales?: {processes_personal}\n"
+            f"Estado Ley 21.719: {ley21719_status}\n"
+            f"Principal desafío: {main_challenge}\n"
+            f"Planes de IA: {ai_plans}"
+        )
+
+        # Simple maturity score
+        quality_scores = {"Muy buena": 25, "Buena": 18, "Regular": 10, "Mala": 5}
+        gov_scores = {"Gobierno avanzado": 35, "Gobierno estructurado": 25,
+                      "Políticas básicas": 15, "Ninguno": 0}
+        ley_scores = {"Listo": 30, "Parcialmente preparado": 15,
+                      "No preparado": 0, "No sé qué es": 0}
+        maturity_score = min(100,
+            quality_scores.get(data_quality, 7) +
+            gov_scores.get(current_governance, 5) +
+            ley_scores.get(ley21719_status, 5)
+        )
+
+        report_html = _gemini_generate(
+            DATA_ASSESSMENT_SYSTEM,
+            f"Genera el reporte para:\n{assessment_context}"
+        )
+
+        # Auto-email to user
+        first_name = name.split()[0] if name else "Estimado/a"
+        _send_user_report_email(
+            to_email=email,
+            first_name=first_name,
+            subject="Tu Assessment de Gobernanza de Datos — AIF369",
+            score=maturity_score,
+            score_label="Índice de Madurez de Datos",
+            report_html=report_html,
+            cta_url="https://aif369.com/gobernanza-datos-ia.html",
+            cta_label="Ver Servicio Completo →",
+            accent_color="#A855F7"
+        )
+
+        # Notify Erwin
+        send_email_notification({
+            "submission_id": submission_id,
+            "timestamp": timestamp,
+            "name": name,
+            "email": email,
+            "company": f"{company} | {industry} | {company_size}",
+            "role": role,
+            "message": f"Assessment Datos — Score: {maturity_score}/100\n\n{assessment_context}",
+            "source_page": data.get("source_page", "assessment-datos"),
+            "form_type": "assessment-datos",
+            "interest": f"Data Governance Score: {maturity_score}/100",
+            "team_size": company_size,
+        })
+
+        # BigQuery
+        try:
+            row = {
+                "submission_id": submission_id, "timestamp": timestamp,
+                "name": name, "email": email, "company": company, "role": role,
+                "message": f"Data Governance Score: {maturity_score}/100\n{assessment_context}",
+                "source_page": data.get("source_page", ""),
+                "user_agent": request.headers.get("User-Agent", ""),
+                "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+                "form_type": "assessment-datos",
+                "interest": f"Score:{maturity_score} | Industry:{industry}",
+                "team_size": company_size,
+            }
+            errors = get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}", [row])
+            if errors:
+                print(f"Assessment BQ errors: {errors}")
+        except Exception as bq_err:
+            print(f"Assessment BQ error (non-fatal): {bq_err}")
+
+        return jsonify({
+            "success": True,
+            "submission_id": submission_id,
+            "maturity_score": maturity_score,
+            "report_html": report_html,
+            "message": "Assessment completado. Revisa tu email para el reporte personalizado."
+        }), 200
+
+    except Exception as e:
+        print(f"Error in assessment-datos: {e}")
+        return jsonify({"error": "Internal server error", "message": str(e)}), 500
+
+
 @app.route("/api/chat", methods=["POST"])
 def chat():
     """
     Chatbot endpoint. Primary: Gemini. Fallback: Ollama (local).
     Expected JSON: { "message": "...", "history": [...], "session_id": "...", "turn_number": 1, "source_page": "..." }
     Persiste cada intercambio en BigQuery para seguimiento y analytics.
+    Security: rate limiting (20 req/IP/hour) + origin validation.
     """
     try:
+        # ── Security: Origin validation ──────────────────────────────────────
+        origin = request.headers.get("Origin", "")
+        is_dev = re.match(r"^https://.*\.vercel\.app$", origin) or \
+                 re.match(r"^http://localhost(:\d+)?$", origin)
+        is_trusted = origin in ALLOWED_CHAT_ORIGINS or bool(is_dev)
+
+        if not is_trusted:
+            suspicious_origin = origin or "(no origin header)"
+            client_ip_early = request.headers.get("X-Forwarded-For", request.remote_addr or "").split(",")[0].strip()
+            print(f"SECURITY ALERT: chat BLOCKED from untrusted origin: {suspicious_origin} | IP: {client_ip_early}")
+            # Log to BQ before blocking so we keep the audit trail
+            try:
+                save_chat_to_bigquery({
+                    "message_id": str(uuid.uuid4()),
+                    "session_id": request.get_json(silent=True, force=True).get("session_id", str(uuid.uuid4())) if request.is_json else str(uuid.uuid4()),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "user_message": (request.get_json(silent=True, force=True) or {}).get("message", "")[:500],
+                    "assistant_response": "(BLOCKED)",
+                    "provider": "blocked",
+                    "turn_number": 0,
+                    "source_page": "",
+                    "user_agent": request.headers.get("User-Agent", ""),
+                    "ip_address": client_ip_early,
+                    "language": "",
+                    "intent_detected": "",
+                    "input_tokens": 0,
+                    "output_tokens": 0,
+                    "origin_header": suspicious_origin[:500],
+                    "suspicious": True,
+                })
+            except Exception:
+                pass
+            # Fire-and-forget alert email
+            try:
+                send_alert_email(
+                    f"🚫 Chat BLOQUEADO — origen no autorizado",
+                    f"""<html><body style="font-family:sans-serif">
+                    <h2 style="color:#c0392b">🚫 Request bloqueado</h2>
+                    <p><strong>Hora:</strong> {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</p>
+                    <p><strong>Origin:</strong> {suspicious_origin}</p>
+                    <p><strong>IP:</strong> {client_ip_early}</p>
+                    <p><strong>User-Agent:</strong> {request.headers.get('User-Agent','')[:200]}</p>
+                    </body></html>"""
+                )
+            except Exception:
+                pass
+            return jsonify({
+                "error": "Forbidden",
+                "response": "Acceso no autorizado.",
+                "success": False
+            }), 403
+
+        # ── Security: Rate limiting ───────────────────────────────────────────
+        client_ip = request.headers.get("X-Forwarded-For", request.remote_addr or "").split(",")[0].strip()
+        if is_rate_limited(client_ip):
+            print(f"RATE LIMIT HIT: IP {client_ip} exceeded {RATE_LIMIT_MAX} req/hour")
+            return jsonify({
+                "error": "Too many requests",
+                "response": "Has enviado demasiados mensajes. Por favor espera unos minutos.",
+                "success": False
+            }), 429
+
         if not request.is_json:
             return jsonify({"error": "Content-Type must be application/json"}), 400
 
@@ -698,12 +1100,34 @@ def chat():
         if not user_message:
             return jsonify({"error": "Message is required"}), 400
 
+        # ── Per-session limits ────────────────────────────────────────────────
+        _session_turns[session_id] += 1
+        if _session_turns[session_id] > MAX_TURNS_PER_SESSION:
+            print(f"SESSION LIMIT: session {session_id} exceeded {MAX_TURNS_PER_SESSION} turns")
+            return jsonify({
+                "error": "Session limit reached",
+                "response": "Has alcanzado el límite de mensajes por sesión. Para continuar, escríbenos por WhatsApp: +56 9 9754 7192",
+                "success": False,
+                "limit_reached": True
+            }), 200  # 200 so the widget shows the message naturally
+
+        if _session_tokens[session_id] >= MAX_INPUT_TOKENS_PER_SESSION:
+            print(f"TOKEN LIMIT: session {session_id} exceeded {MAX_INPUT_TOKENS_PER_SESSION} input tokens")
+            return jsonify({
+                "error": "Token limit reached",
+                "response": "Esta conversación es muy extensa. Para continuar, escríbenos por WhatsApp: +56 9 9754 7192",
+                "success": False,
+                "limit_reached": True
+            }), 200
+
         # Detectar intención e idioma para analytics
         intent = detect_intent(user_message)
         language = detect_language(user_message)
 
         reply = None
         provider = "none"
+        input_tokens = 0
+        output_tokens = 0
 
         # --- Intento 1: Gemini ---
         if GEMINI_API_KEY:
@@ -726,7 +1150,14 @@ def chat():
                 response = chat_session.send_message(user_message)
                 reply = response.text
                 provider = "gemini"
-                print("Chat response via Gemini")
+
+                # Capture token usage from Gemini response
+                if hasattr(response, "usage_metadata") and response.usage_metadata:
+                    input_tokens  = getattr(response.usage_metadata, "prompt_token_count", 0) or 0
+                    output_tokens = getattr(response.usage_metadata, "candidates_token_count", 0) or 0
+                    _session_tokens[session_id] += input_tokens  # accumulate for session cap
+
+                print(f"Chat response via Gemini | in={input_tokens} out={output_tokens} | origin={origin or 'none'} | ip={client_ip} | trusted={is_trusted}")
             except Exception as gemini_error:
                 print(f"Gemini failed, trying Ollama fallback: {gemini_error}")
 
@@ -768,19 +1199,48 @@ def chat():
                 "message_id": str(uuid.uuid4()),
                 "session_id": session_id,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "user_message": user_message[:5000],       # Limitar tamaño
+                "user_message": user_message[:5000],
                 "assistant_response": reply[:5000],
                 "provider": provider,
                 "turn_number": turn_number,
                 "source_page": source_page,
                 "user_agent": request.headers.get("User-Agent", ""),
-                "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+                "ip_address": client_ip,
                 "language": language,
-                "intent_detected": intent
+                "intent_detected": intent,
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "origin_header": origin[:500] if origin else "",
+                "suspicious": not is_trusted,
             }
             save_chat_to_bigquery(chat_row)
         except Exception as bq_err:
             print(f"Non-blocking BQ save error: {bq_err}")
+
+        # ── Email alerts (non-blocking) ───────────────────────────────────────
+        try:
+            now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+            # New chat session (first message) → new user notification
+            if session_id not in _notified_sessions:
+                _notified_sessions.add(session_id)
+                est_cost = round((input_tokens * 0.15 + output_tokens * 0.60) / 1_000_000, 6)
+                send_alert_email(
+                    f"💬 Nuevo chat en AIF369 — {now_str}",
+                    f"""<html><body style="font-family:sans-serif">
+                    <h2 style="color:#0088FF">💬 Nueva sesión de chat</h2>
+                    <p><strong>Hora:</strong> {now_str}</p>
+                    <p><strong>Session ID:</strong> {session_id}</p>
+                    <p><strong>Página:</strong> {source_page or '(desconocida)'}</p>
+                    <p><strong>Primer mensaje:</strong> {user_message[:300]}</p>
+                    <p><strong>Tokens:</strong> in={input_tokens} | out={output_tokens} | costo≈${est_cost:.6f}</p>
+                    <p><strong>Origin:</strong> {origin or '(sin header)'} ✅</p>
+                    <hr>
+                    <p><small>AIF369 Backend Monitor — Cloud Run</small></p>
+                    </body></html>"""
+                )
+        except Exception as alert_err:
+            print(f"Alert email error (non-blocking): {alert_err}")
 
         return jsonify({
             "response": reply,
@@ -798,8 +1258,217 @@ def chat():
         }), 200
 
 
+
 # --- API Key for content generation (simple auth) ---
 CONTENT_API_KEY = os.getenv("CONTENT_API_KEY", "")
+
+
+@app.route("/api/daily-report", methods=["GET", "POST"])
+def daily_report():
+    """
+    Envía resumen diario de uso por email.
+    Llamado por Cloud Scheduler cada día.
+    Requiere header X-Report-Token == REPORT_SECRET (si está configurado).
+    """
+    if REPORT_SECRET:
+        token = request.headers.get("X-Report-Token", "")
+        if token != REPORT_SECRET:
+            return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        bq = get_bq_client()
+        table = f"`{PROJECT_ID}.{DATASET_ID}.chat_conversations`"
+
+        # ── Main daily summary ───────────────────────────────────────────────
+        q_summary = f"""
+        SELECT
+          COUNT(DISTINCT session_id)                        AS sessions,
+          COUNT(*)                                          AS messages,
+          COALESCE(SUM(input_tokens), 0)                   AS in_tokens,
+          COALESCE(SUM(output_tokens), 0)                  AS out_tokens,
+          COUNTIF(suspicious = TRUE)                        AS suspicious_count,
+          COUNTIF(provider = 'gemini')                      AS gemini_calls,
+          COUNTIF(provider = 'ollama')                      AS ollama_calls,
+          ROUND(AVG(COALESCE(input_tokens,0) + COALESCE(output_tokens,0)), 1) AS avg_tokens_per_msg,
+          COUNTIF(language = 'es')                          AS lang_es,
+          COUNTIF(language = 'en')                          AS lang_en,
+          COUNTIF(language NOT IN ('es','en'))              AS lang_other,
+          -- sessions with >1 message = engaged users
+          COUNT(DISTINCT IF(turn_number > 1, session_id, NULL)) AS engaged_sessions
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        """
+
+        # ── Previous day for comparison ───────────────────────────────────────
+        q_prev = f"""
+        SELECT
+          COUNT(DISTINCT session_id) AS sessions_prev,
+          COUNT(*)                   AS messages_prev
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = DATE_SUB(CURRENT_DATE('America/Santiago'), INTERVAL 1 DAY)
+        """
+
+        # ── Peak hour breakdown ───────────────────────────────────────────────
+        q_hours = f"""
+        SELECT
+          EXTRACT(HOUR FROM timestamp AT TIME ZONE 'America/Santiago') AS hour,
+          COUNT(*) AS msgs
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        GROUP BY hour ORDER BY msgs DESC LIMIT 3
+        """
+
+        # ── Top source pages ─────────────────────────────────────────────────
+        q_pages = f"""
+        SELECT
+          COALESCE(NULLIF(source_page,''), '(desconocida)') AS page,
+          COUNT(DISTINCT session_id) AS sessions
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        GROUP BY page ORDER BY sessions DESC LIMIT 5
+        """
+
+        # ── Top intents ──────────────────────────────────────────────────────
+        q_intents = f"""
+        SELECT
+          COALESCE(NULLIF(intent_detected,''), '(sin clasificar)') AS intent,
+          COUNT(*) AS msgs
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+        GROUP BY intent ORDER BY msgs DESC LIMIT 5
+        """
+
+        # ── Top suspicious IPs/origins ───────────────────────────────────────
+        q_suspicious = f"""
+        SELECT
+          origin_header,
+          ip_address,
+          COUNT(*) AS hits
+        FROM {table}
+        WHERE DATE(timestamp, 'America/Santiago') = CURRENT_DATE('America/Santiago')
+          AND suspicious = TRUE
+        GROUP BY origin_header, ip_address ORDER BY hits DESC LIMIT 5
+        """
+
+        row       = list(bq.query(q_summary).result())[0]
+        prev_rows = list(bq.query(q_prev).result())
+        prev      = prev_rows[0] if prev_rows else None
+        hour_rows   = list(bq.query(q_hours).result())
+        page_rows   = list(bq.query(q_pages).result())
+        intent_rows = list(bq.query(q_intents).result())
+        susp_rows   = list(bq.query(q_suspicious).result())
+
+        sessions        = int(row.sessions)
+        messages        = int(row.messages)
+        in_tokens       = int(row.in_tokens)
+        out_tokens      = int(row.out_tokens)
+        suspicious      = int(row.suspicious_count)
+        gemini_calls    = int(row.gemini_calls)
+        ollama_calls    = int(row.ollama_calls)
+        avg_tokens      = float(row.avg_tokens_per_msg or 0)
+        lang_es         = int(row.lang_es)
+        lang_en         = int(row.lang_en)
+        lang_other      = int(row.lang_other)
+        engaged         = int(row.engaged_sessions)
+
+        sessions_prev   = int(prev.sessions_prev) if prev else 0
+        messages_prev   = int(prev.messages_prev) if prev else 0
+
+        def delta(today, yesterday):
+            if yesterday == 0:
+                return "(sin datos ayer)"
+            pct = round((today - yesterday) / yesterday * 100)
+            return f"+{pct}%" if pct >= 0 else f"{pct}%"
+
+        est_cost = round((in_tokens * 0.15 + out_tokens * 0.60) / 1_000_000, 4)
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+        # ── Build email tables ───────────────────────────────────────────────
+        td = 'style="padding:6px;border-bottom:1px solid #eee"'
+
+        def make_rows(data_rows, cols):
+            html = ""
+            for r in data_rows:
+                html += "<tr>" + "".join(f"<td {td}>{getattr(r, c)}</td>" for c in cols) + "</tr>"
+            return html or f"<tr><td {td} colspan='{len(cols)}'>(sin datos)</td></tr>"
+
+        pages_html   = make_rows(page_rows,   ["page", "sessions"])
+        intents_html = make_rows(intent_rows, ["intent", "msgs"])
+        susp_html    = make_rows(susp_rows,   ["origin_header", "ip_address", "hits"])
+        hours_html   = make_rows(hour_rows,   ["hour", "msgs"])
+
+        cost_color = "#c0392b" if est_cost > 0.10 else "#0088FF"
+        susp_label = f'⚠️ {suspicious}' if suspicious else '✅ 0'
+
+        body_html = f"""<html><body style="font-family:sans-serif;max-width:650px;color:#222">
+        <h2 style="color:#0088FF">📊 Reporte diario AIF369 — {date_str}</h2>
+
+        <h3>Resumen general</h3>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><td {td}><strong>Sesiones únicas</strong></td><td {td}>{sessions} <small style="color:#888">{delta(sessions, sessions_prev)} vs ayer</small></td></tr>
+          <tr><td {td}><strong>Mensajes totales</strong></td><td {td}>{messages} <small style="color:#888">{delta(messages, messages_prev)} vs ayer</small></td></tr>
+          <tr><td {td}><strong>Sesiones con >1 mensaje</strong></td><td {td}>{engaged} <small style="color:#888">(usuarios engajados)</small></td></tr>
+          <tr><td {td}><strong>Avg tokens/mensaje</strong></td><td {td}>{avg_tokens:,.0f}</td></tr>
+          <tr><td {td}><strong>Tokens entrada / salida</strong></td><td {td}>{in_tokens:,} / {out_tokens:,}</td></tr>
+          <tr><td {td}><strong>Costo estimado</strong></td><td {td}><strong style="color:{cost_color}">${est_cost:.4f} USD</strong></td></tr>
+          <tr><td {td}><strong>Proveedor</strong></td><td {td}>Gemini: {gemini_calls} | Ollama: {ollama_calls}</td></tr>
+          <tr><td {td}><strong>Idiomas</strong></td><td {td}>ES: {lang_es} | EN: {lang_en} | Otro: {lang_other}</td></tr>
+          <tr><td {td}><strong>Sospechosas</strong></td><td {td}>{susp_label}</td></tr>
+        </table>
+
+        <h3>Top páginas de origen</h3>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><th {td} align="left">Página</th><th {td} align="left">Sesiones</th></tr>
+          {pages_html}
+        </table>
+
+        <h3>Top intenciones detectadas</h3>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><th {td} align="left">Intent</th><th {td} align="left">Mensajes</th></tr>
+          {intents_html}
+        </table>
+
+        <h3>Horas pico (hora Santiago)</h3>
+        <table style="border-collapse:collapse;width:100%">
+          <tr><th {td} align="left">Hora</th><th {td} align="left">Mensajes</th></tr>
+          {hours_html}
+        </table>
+
+        {'<h3>⚠️ Solicitudes sospechosas</h3><table style="border-collapse:collapse;width:100%"><tr><th ' + td + ' align="left">Origin</th><th ' + td + ' align="left">IP</th><th ' + td + ' align="left">Hits</th></tr>' + susp_html + '</table>' if suspicious else ''}
+
+        <hr>
+        <p><small>AIF369 Backend Monitor | Cloud Run | {date_str}</small></p>
+        </body></html>"""
+
+        send_alert_email(f"📊 Reporte diario AIF369 — {date_str}", body_html)
+        return jsonify({
+            "sent": True,
+            "date": date_str,
+            "sessions": sessions,
+            "sessions_prev_day": sessions_prev,
+            "sessions_delta_pct": round((sessions - sessions_prev) / sessions_prev * 100, 1) if sessions_prev else None,
+            "messages": messages,
+            "messages_prev_day": messages_prev,
+            "engaged_sessions": engaged,
+            "avg_tokens_per_msg": avg_tokens,
+            "in_tokens": in_tokens,
+            "out_tokens": out_tokens,
+            "estimated_cost_usd": est_cost,
+            "gemini_calls": gemini_calls,
+            "ollama_calls": ollama_calls,
+            "lang_es": lang_es,
+            "lang_en": lang_en,
+            "lang_other": lang_other,
+            "suspicious": suspicious,
+            "top_pages": [{"page": r.page, "sessions": int(r.sessions)} for r in page_rows],
+            "top_intents": [{"intent": r.intent, "msgs": int(r.msgs)} for r in intent_rows],
+            "peak_hours": [{"hour": int(r.hour), "msgs": int(r.msgs)} for r in hour_rows],
+            "suspicious_sources": [{"origin": r.origin_header, "ip": r.ip_address, "hits": int(r.hits)} for r in susp_rows],
+        })
+
+    except Exception as e:
+        print(f"Daily report error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 CONTENT_PROMPT = """Eres un redactor experto de contenido B2B sobre inteligencia artificial, datos y cloud para empresas.
 Escribes para el blog de AIF369, una consultora chilena fundada por Erwin Daza.

@@ -14,34 +14,167 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
     <style>
+        /* ── Pricing hero ── */
         .pricing-hero { text-align: center; padding: 3rem 0; }
-        .pricing-hero .price { font-size: 3rem; font-weight: 700; color: var(--color-primary); }
+        .pricing-hero .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0088FF, #00D9CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         .pricing-hero .price-note { font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; }
-        .path-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-        @media (max-width: 768px) { .path-grid { grid-template-columns: 1fr; } }
-        .path-card { border: 2px solid var(--border); border-radius: var(--radius); padding: 2rem; position: relative; }
-        .path-card.recommended { border-color: var(--color-primary); }
-        .path-card .path-price { font-size: 2rem; font-weight: 700; color: var(--color-primary); margin: 1rem 0; }
-        .path-card .path-price .unit { font-size: 1rem; font-weight: 400; color: var(--text-secondary); }
-        .solution-preview { background: var(--bg-alt, #f8f9fa); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; }
-        .solution-preview h4 { margin-bottom: 0.5rem; font-size: 1rem; }
-        .solution-preview .data-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-        .solution-preview .data-tag { background: var(--color-primary); color: white; padding: 0.2rem 0.6rem; border-radius: 1rem; font-size: 0.75rem; }
-        .locked-overlay { position: relative; }
-        .locked-overlay::after { content: "🔒 Acceso completo con el catálogo"; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); color: white; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); font-weight: 600; font-size: 0.95rem; }
-        .catalog-number { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; background: var(--color-primary); color: white; border-radius: 50%; font-weight: 700; font-size: 0.85rem; margin-right: 0.5rem; flex-shrink: 0; }
-        .step-flow { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0; }
-        .step-flow .step-box { background: var(--bg-alt, #f8f9fa); border-radius: var(--radius); padding: 1rem 1.5rem; text-align: center; min-width: 180px; }
-        .step-flow .step-arrow { font-size: 1.5rem; color: var(--color-primary); }
+
+        /* ── Step flow ── */
+        .step-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2.5rem 0;
+        }
+        .step-flow .step-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.75rem;
+            text-align: center;
+            min-width: 180px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .step-flow .step-box:hover {
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        .step-flow .step-box strong { color: var(--text-primary); display: block; margin-bottom: 4px; }
+        .step-flow .step-arrow { font-size: 1.5rem; color: var(--secondary); }
+
+        /* ── Solution cards ── */
+        .solution-preview {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--secondary);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+            cursor: default;
+        }
+        .solution-preview:hover {
+            border-left-color: var(--primary);
+            box-shadow: 0 8px 32px rgba(0,136,255,0.15);
+            transform: translateX(4px);
+        }
+        .solution-preview h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .solution-preview p { color: var(--text-secondary); }
+        .solution-preview .data-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+        .solution-preview .data-tag {
+            background: rgba(0,136,255,0.15);
+            color: #60AAFF;
+            border: 1px solid rgba(0,136,255,0.25);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .solution-preview .data-tag:hover {
+            background: rgba(0,136,255,0.28);
+        }
+
+        /* ── Locked overlay ── */
+        .locked-overlay { position: relative; overflow: hidden; }
+        .locked-overlay::after {
+            content: "🔒 Acceso completo con el catálogo";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 22, 40, 0.88);
+            backdrop-filter: blur(4px);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* ── Catalog number badge ── */
+        .catalog-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* ── Comparison table ── */
         .comparison-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
-        .comparison-table th, .comparison-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
-        .comparison-table th { background: var(--bg-alt, #f8f9fa); font-weight: 600; }
-        .comparison-table .check { color: var(--color-primary); font-weight: 700; }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        .comparison-table th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .comparison-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .comparison-table .check { color: var(--secondary); font-weight: 700; font-size: 1.1rem; }
+
+        /* ── Path card price ── */
+        .path-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 1rem 0;
+        }
+        .path-price .unit {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            -webkit-text-fill-color: var(--text-secondary);
+        }
+
+        /* ── Solutions grid: max width ── */
+        .solutions-list { max-width: 860px; margin: 0 auto; }
+
+        /* ── Feature numbers in cards ── */
+        .feature-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
     </style>
 </head>
 <body>
@@ -137,8 +270,9 @@
             <p data-i18n="cat.text26">Estas son 3 de las 19 soluciones incluidas. El catálogo completo detalla los datos requeridos, riesgo y entrega de cada una.</p>
         </header>
 
+        <div class="solutions-list">
         <!-- SOL 1: Visible -->
-        <div class="solution-preview">
+        <div class="solution-preview reveal">
             <h4><span class="catalog-number">1</span> Predicción de Demanda</h4>
             <p class="small-text"><strong data-i18n="cat.bold53">Dominio:</strong> Operaciones · <strong data-i18n="cat.bold54">Industrias:</strong> Retail, Manufactura, Distribución · <strong data-i18n="cat.bold55">Estructura:</strong> Estructurado</p>
             <p data-i18n="cat.text30">La empresa no logra anticipar correctamente la demanda y genera quiebres de stock o sobreinventario.</p>
@@ -155,7 +289,7 @@
         </div>
 
         <!-- SOL 2: Visible -->
-        <div class="solution-preview">
+        <div class="solution-preview reveal">
             <h4><span class="catalog-number">7</span> Automatización Inteligente de Atención al Cliente</h4>
             <p class="small-text"><strong data-i18n="cat.bold40">Dominio:</strong> Servicio · <strong data-i18n="cat.bold41">Industrias:</strong> Retail, Banca, Salud, Educación · <strong data-i18n="cat.bold42">Estructura:</strong> Semi-estructurado</p>
             <p data-i18n="cat.text43">Los equipos de atención no dan abasto y la experiencia del cliente es inconsistente.</p>
@@ -172,7 +306,7 @@
         </div>
 
         <!-- SOL 3: Visible -->
-        <div class="solution-preview">
+        <div class="solution-preview reveal">
             <h4><span class="catalog-number">8</span> Predicción de Churn</h4>
             <p class="small-text"><strong data-i18n="cat.bold27">Dominio:</strong> Clientes · <strong data-i18n="cat.bold28">Industrias:</strong> Telecom, SaaS, Retail, Educación, Finanzas · <strong data-i18n="cat.bold29">Estructura:</strong> Estructurado</p>
             <p data-i18n="cat.text56">La empresa pierde clientes sin detectar señales tempranas de abandono.</p>
@@ -193,6 +327,7 @@
             <h4 data-i18n="cat.subheading66">+ 16 soluciones más</h4>
             <p data-i18n="cat.text67">Fraude, Sentimiento, Segmentación, Rutas, Mantenimiento Predictivo, Visión IA, Scoring de Crédito, Pricing, Recomendador, Moderación de Contenido y más...</p>
         </div>
+        </div><!-- /.solutions-list -->
     </section>
 
     <!-- PRICING: CATÁLOGO -->
@@ -248,10 +383,10 @@
 
         <div class="grid-3">
             <!-- PATH A: Gemini CAIO -->
-            <article class="card">
+            <article class="card reveal">
                 <p class="tag" data-i18n="cat.text89">Asesoría IA</p>
                 <h3 data-i18n="cat.subheading90">Asesor CAIO con Gemini</h3>
-                <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-primary); margin: 1rem 0;">USD $100 <span style="font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);" data-i18n="cat.label91">/ sesión</span></div>
+                <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 1rem 0;">USD $100 <span style="font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);" data-i18n="cat.label91">/ sesión</span></div>
                 <p data-i18n="cat.text92">Asesoría estratégica potenciada por Gemini. Trae tu problema y recibe orientación de primer nivel.</p>
 
                 <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;" data-i18n="cat.subheading134">¿Qué hace?</h4>
@@ -284,10 +419,10 @@
             </article>
 
             <!-- PATH B: Consultor CAIO Humano -->
-            <article class="card card-highlight">
+            <article class="card card-highlight reveal">
                 <p class="tag" data-i18n="cat.text108">⭐ Asesoría Premium</p>
                 <h3 data-i18n="cat.subheading109">Consultor CAIO de AIF369</h3>
-                <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-primary); margin: 1rem 0;">A medida <span style="font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);" data-i18n="cat.label110">según necesidad</span></div>
+                <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 1rem 0;">A medida <span style="font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);" data-i18n="cat.label110">según necesidad</span></div>
                 <p data-i18n="cat.text111">Asesoría ejecutiva personalizada con un CAIO senior. Hands-off: estrategia, gobierno y dirección, sin escribir una línea de código.</p>
 
                 <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;" data-i18n="cat.subheading112">¿Qué hace?</h4>
@@ -323,10 +458,10 @@
             </article>
 
             <!-- PATH C: Desarrollo con Talento BeJoby -->
-            <article class="card">
+            <article class="card reveal">
                 <p class="tag" data-i18n="cat.text130">Implementación</p>
                 <h3 data-i18n="cat.subheading131">Desarrollo con Talento Especializado</h3>
-                <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-primary); margin: 1rem 0;">A medida <span style="font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);" data-i18n="cat.label132">según proyecto</span></div>
+                <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 1rem 0;">A medida <span style="font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);" data-i18n="cat.label132">según proyecto</span></div>
                 <p>¿Necesitas que alguien lo construya? A través de nuestro partner de talento <strong data-i18n="cat.bold133">BeJoby</strong>, conectamos tu proyecto con profesionales especializados en IA, datos e ingeniería.</p>
 
                 <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;" data-i18n="cat.subheading93">¿Qué hace?</h4>
@@ -538,5 +673,6 @@
 <script src="_config.js"></script>
 <script src="scripts.js"></script>
 <script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
