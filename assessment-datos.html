@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Gratuito — Gobernanza de Datos para IA | AIF369</title>
+    <meta name="description" content="Diagnóstico automático y gratuito de madurez de datos. Recibe un reporte personalizado con IA en minutos. Sin llamadas, sin espera.">
+    <link rel="canonical" href="https://aif369.com/assessment-datos.html">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .assessment-hero {
+            background: linear-gradient(135deg,#0B1120 0%,#1a0f35 60%,#0B1120 100%);
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+        .assessment-wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .step-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
+        .step-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all .3s; }
+        .step-dot.done { background: #A855F7; }
+        .step-dot.active { background: #A855F7; transform: scale(1.3); }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+        .form-group .hint { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px 16px; border-radius: 8px;
+            background: var(--bg-tertiary); border: 1px solid var(--border);
+            color: var(--text-primary); font-size: 14px; transition: border .2s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none; border-color: #A855F7; box-shadow: 0 0 0 3px rgba(168,85,247,0.15);
+        }
+        .form-group select option { background: #162B45; }
+
+        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-card {
+            border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+            cursor: pointer; transition: all .2s; background: var(--bg-tertiary);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .option-card:hover { border-color: #A855F7; background: rgba(168,85,247,0.07); }
+        .option-card.selected { border-color: #A855F7; background: rgba(168,85,247,0.12); }
+        .option-card .check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; transition: all .2s; }
+        .option-card.selected .check { background: #A855F7; border-color: #A855F7; }
+        .option-card .label { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+        .option-card .sublabel { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+        .btn-next { background: #A855F7; border: none; color: #fff; padding: 13px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 8px; transition: opacity .2s; }
+        .btn-next:hover { opacity: .9; }
+        .btn-next:disabled { opacity: .5; cursor: not-allowed; }
+        .btn-back { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 24px; border-radius: 8px; font-size: 14px; cursor: pointer; margin-right: 10px; }
+        .btn-back:hover { border-color: var(--border-strong); }
+
+        .progress-bar-wrap { background: rgba(168,85,247,0.15); border-radius: 10px; height: 6px; margin-bottom: 32px; }
+        .progress-bar { height: 100%; border-radius: 10px; background: linear-gradient(90deg,#A855F7,#7C3AED); transition: width .4s ease; }
+
+        .result-card { background: var(--bg-tertiary); border: 1px solid rgba(168,85,247,0.3); border-radius: 16px; padding: 32px; margin-top: 24px; }
+        .result-score { font-size: 56px; font-weight: 800; color: #A855F7; line-height: 1; }
+        .result-report h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 16px 0 8px; }
+        .result-report p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin: 0 0 12px; }
+        .result-report ul { margin: 0 0 12px; padding-left: 20px; }
+        .result-report li { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 4px; }
+
+        .loading { display: none; text-align: center; padding: 40px 20px; }
+        .spinner { width: 48px; height: 48px; border: 4px solid rgba(168,85,247,0.2); border-top-color: #A855F7; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media(max-width:600px) { .option-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="services.html">Servicios</a>
+            <a href="gobernanza-datos-ia.html" style="color:#A855F7;">Gobernanza de Datos</a>
+            <a href="scorecard.html">Scorecard IA</a>
+            <a href="blog.html">Insights</a>
+            <a href="education.html" class="btn btn-primary">🎓 Cursos IA</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="assessment-hero">
+        <div class="assessment-wrap">
+            <span style="display:inline-block;background:rgba(168,85,247,0.12);color:#D8B4FE;border:1px solid rgba(168,85,247,0.3);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;margin-bottom:16px;">🗄️ Assessment Gratuito · Resultado Inmediato</span>
+            <h1 style="font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.2;margin-bottom:12px;">¿Están tus datos listos para IA?</h1>
+            <p style="font-size:1rem;color:var(--text-secondary);line-height:1.7;max-width:560px;margin:0 auto 8px;">10 preguntas · 3 minutos · Reporte personalizado por email</p>
+            <p style="font-size:13px;color:var(--text-secondary);">Sin llamadas. Sin espera. La IA analiza tus respuestas y te envía el diagnóstico.</p>
+        </div>
+    </section>
+
+    <section style="padding:40px 20px;">
+        <div class="assessment-wrap">
+
+            <!-- Progress bar -->
+            <div class="progress-bar-wrap">
+                <div class="progress-bar" id="progressBar" style="width:10%;"></div>
+            </div>
+
+            <!-- Step dots -->
+            <div class="step-indicator" id="stepDots"></div>
+
+            <!-- STEP 1: Contact info -->
+            <div class="step active" id="step1">
+                <h2 style="font-size:1.3rem;margin-bottom:6px;">¿Con quién hablamos?</h2>
+                <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">El reporte se enviará a este email inmediatamente.</p>
+                <div class="form-group">
+                    <label>Nombre completo *</label>
+                    <input type="text" id="f_name" placeholder="Ej: María González" autocomplete="name">
+                </div>
+                <div class="form-group">
+                    <label>Email corporativo *</label>
+                    <input type="email" id="f_email" placeholder="maria@empresa.cl" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label>Empresa *</label>
+                    <input type="text" id="f_company" placeholder="Nombre de la organización" autocomplete="organization">
+                </div>
+                <div class="form-group">
+                    <label>Cargo / Rol</label>
+                    <input type="text" id="f_role" placeholder="Ej: Director de TI, CDO, CEO" autocomplete="organization-title">
+                </div>
+                <button class="btn-next" onclick="nextStep(1)">Continuar →</button>
+            </div>
+
+            <!-- STEP 2: Company profile -->
+            <div class="step" id="step2">
+                <h2 style="font-size:1.3rem;margin-bottom:6px;">Cuéntanos sobre tu organización</h2>
+                <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Esto personaliza las recomendaciones.</p>
+                <div class="form-group">
+                    <label>Industria / Sector</label>
+                    <select id="f_industry">
+                        <option value="">Selecciona...</option>
+                        <option>Servicios Financieros (banca, seguros)</option>
+                        <option>Retail / E-commerce</option>
+                        <option>Cajas de Compensación</option>
+                        <option>Salud</option>
+                        <option>Manufactura / Industria</option>
+                        <option>Gobierno / Sector Público</option>
+                        <option>Educación</option>
+                        <option>Energía / Utilities</option>
+                        <option>Tecnología / Software</option>
+                        <option>Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tamaño de la empresa</label>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectOption(this,'f_size','1–50 empleados')">
+                            <div class="check"></div><div><div class="label">Pequeña</div><div class="sublabel">1–50 empleados</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_size','51–200 empleados')">
+                            <div class="check"></div><div><div class="label">Mediana baja</div><div class="sublabel">51–200 empleados</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_size','201–1.000 empleados')">
+                            <div class="check"></div><div><div class="label">Mediana alta</div><div class="sublabel">201–1.000 empleados</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_size','Más de 1.000 empleados')">
+                            <div class="check"></div><div><div class="label">Grande</div><div class="sublabel">+1.000 empleados</div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="f_size">
+                </div>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                    <button class="btn-back" onclick="prevStep(2)">← Atrás</button>
+                    <button class="btn-next" style="flex:1;" onclick="nextStep(2)">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Data landscape -->
+            <div class="step" id="step3">
+                <h2 style="font-size:1.3rem;margin-bottom:6px;">¿Cómo son tus datos hoy?</h2>
+                <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Sé honesto — esto ayuda a darte el diagnóstico correcto.</p>
+                <div class="form-group">
+                    <label>¿Cuántas fuentes de datos principales tienen?</label>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectOption(this,'f_sources','1–2 fuentes')">
+                            <div class="check"></div><div><div class="label">1–2 fuentes</div><div class="sublabel">Ej: solo CRM</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_sources','3–5 fuentes')">
+                            <div class="check"></div><div><div class="label">3–5 fuentes</div><div class="sublabel">Ej: CRM + ERP + Excel</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_sources','6–10 fuentes')">
+                            <div class="check"></div><div><div class="label">6–10 fuentes</div><div class="sublabel">Múltiples sistemas</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_sources','Más de 10 fuentes')">
+                            <div class="check"></div><div><div class="label">+10 fuentes</div><div class="sublabel">Entorno complejo</div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="f_sources">
+                </div>
+                <div class="form-group" style="margin-top:20px;">
+                    <label>Calidad de los datos hoy</label>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectOption(this,'f_quality','Muy buena')">
+                            <div class="check"></div><div><div class="label">Muy buena</div><div class="sublabel">Pocos errores, bien documentados</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_quality','Buena')">
+                            <div class="check"></div><div><div class="label">Buena</div><div class="sublabel">Algunos problemas conocidos</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_quality','Regular')">
+                            <div class="check"></div><div><div class="label">Regular</div><div class="sublabel">Muchos duplicados o incompletos</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_quality','Mala')">
+                            <div class="check"></div><div><div class="label">Mala / No sé</div><div class="sublabel">Sin inventario ni control</div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="f_quality">
+                </div>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                    <button class="btn-back" onclick="prevStep(3)">← Atrás</button>
+                    <button class="btn-next" style="flex:1;" onclick="nextStep(3)">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Governance & Compliance -->
+            <div class="step" id="step4">
+                <h2 style="font-size:1.3rem;margin-bottom:6px;">Gobierno y Cumplimiento</h2>
+                <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Las preguntas más importantes para tu riesgo regulatorio.</p>
+                <div class="form-group">
+                    <label>¿Qué nivel de gobierno de datos tienen hoy?</label>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectOption(this,'f_gov','Ninguno')">
+                            <div class="check"></div><div><div class="label">Sin gobierno</div><div class="sublabel">No hay políticas formales</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_gov','Políticas básicas')">
+                            <div class="check"></div><div><div class="label">Políticas básicas</div><div class="sublabel">Documentos, sin roles claros</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_gov','Gobierno estructurado')">
+                            <div class="check"></div><div><div class="label">Estructurado</div><div class="sublabel">Roles y comité activo</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_gov','Gobierno avanzado')">
+                            <div class="check"></div><div><div class="label">Avanzado</div><div class="sublabel">DAMA/DMBOK o similar</div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="f_gov">
+                </div>
+                <div class="form-group" style="margin-top:20px;">
+                    <label>¿Procesan datos personales de clientes o empleados?</label>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectOption(this,'f_personal','Sí, muchos (clientes, empleados, proveedores)')">
+                            <div class="check"></div><div><div class="label">Sí, en gran volumen</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_personal','Sí, algunos')">
+                            <div class="check"></div><div><div class="label">Sí, algunos</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_personal','Muy pocos o datos internos solo')">
+                            <div class="check"></div><div><div class="label">Muy pocos</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_personal','No procesamos datos personales')">
+                            <div class="check"></div><div><div class="label">No procesamos</div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="f_personal">
+                </div>
+                <div class="form-group" style="margin-top:20px;">
+                    <label>¿Cómo está la empresa respecto a la <strong>Ley 21.719</strong> (protección de datos, vigencia dic 2026)?</label>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectOption(this,'f_ley','Listo')">
+                            <div class="check"></div><div><div class="label">Preparados</div><div class="sublabel">Cumplimiento en marcha</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_ley','Parcialmente preparado')">
+                            <div class="check"></div><div><div class="label">Parcialmente</div><div class="sublabel">Algunas brechas conocidas</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_ley','No preparado')">
+                            <div class="check"></div><div><div class="label">No preparados</div><div class="sublabel">Sin acciones tomadas</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_ley','No sé qué es')">
+                            <div class="check"></div><div><div class="label">No la conocía</div><div class="sublabel">Primera vez que escucho</div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="f_ley">
+                </div>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                    <button class="btn-back" onclick="prevStep(4)">← Atrás</button>
+                    <button class="btn-next" style="flex:1;" onclick="nextStep(4)">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: AI Plans & Challenges -->
+            <div class="step" id="step5">
+                <h2 style="font-size:1.3rem;margin-bottom:6px;">IA y desafíos actuales</h2>
+                <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Última sección — ya casi terminamos.</p>
+                <div class="form-group">
+                    <label>¿Cuál es el principal desafío de datos en tu empresa?</label>
+                    <select id="f_challenge">
+                        <option value="">Selecciona el más urgente...</option>
+                        <option>La IA da resultados incorrectos por mala calidad de datos</option>
+                        <option>No cumplimos con regulaciones de datos (Ley 21.719, GDPR)</option>
+                        <option>No tenemos equipo ni roles de gobierno de datos</option>
+                        <option>Múltiples fuentes de datos difíciles de unificar</option>
+                        <option>Datos en silos — cada área tiene los suyos</option>
+                        <option>No sabemos qué datos tenemos ni dónde están</option>
+                        <option>Todos los anteriores</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>¿Cuáles son tus planes de IA?</label>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectOption(this,'f_ai','Ya usamos IA en producción')">
+                            <div class="check"></div><div><div class="label">Ya usamos IA</div><div class="sublabel">En producción actualmente</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_ai','Implementando IA (0–6 meses)')">
+                            <div class="check"></div><div><div class="label">Implementando</div><div class="sublabel">En los próximos 6 meses</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_ai','Planes futuros de IA (6–18 meses)')">
+                            <div class="check"></div><div><div class="label">Planificando</div><div class="sublabel">En 6 a 18 meses</div></div>
+                        </div>
+                        <div class="option-card" onclick="selectOption(this,'f_ai','Sin planes de IA por ahora')">
+                            <div class="check"></div><div><div class="label">Sin planes aún</div><div class="sublabel">Solo exploración inicial</div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="f_ai">
+                </div>
+                <div style="display:flex;gap:8px;margin-top:24px;">
+                    <button class="btn-back" onclick="prevStep(5)">← Atrás</button>
+                    <button class="btn-next" style="flex:1;" id="submitBtn" onclick="submitAssessment()">🔍 Generar mi reporte con IA</button>
+                </div>
+            </div>
+
+            <!-- LOADING -->
+            <div class="loading" id="loadingState">
+                <div class="spinner"></div>
+                <p style="color:var(--text-secondary);font-size:14px;">Analizando tus respuestas con IA...<br>Esto toma solo unos segundos.</p>
+            </div>
+
+            <!-- RESULT -->
+            <div class="step" id="stepResult">
+                <div style="text-align:center;margin-bottom:24px;">
+                    <div style="font-size:13px;font-weight:700;color:#A855F7;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Índice de Madurez de Datos</div>
+                    <div class="result-score" id="resultScore">–</div>
+                    <div style="font-size:14px;color:var(--text-secondary);margin-top:6px;" id="resultLabel"></div>
+                    <div style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);border-radius:8px;padding:10px 16px;margin-top:16px;font-size:13px;color:#86EFAC;">
+                        ✅ Reporte enviado a tu email — revísalo en los próximos minutos
+                    </div>
+                </div>
+                <div class="result-card">
+                    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;color:var(--text-primary);">Tu diagnóstico personalizado</h3>
+                    <div class="result-report" id="resultReport">
+                        <p style="color:var(--text-secondary);">Generando análisis...</p>
+                    </div>
+                </div>
+                <div style="margin-top:24px;text-align:center;">
+                    <a href="gobernanza-datos-ia.html" class="btn btn-primary" style="background:#A855F7;border-color:#A855F7;display:inline-block;margin-bottom:12px;">Ver Servicio Completo →</a>
+                    <p style="font-size:13px;color:var(--text-secondary);">¿Tienes preguntas? Nuestro asistente responde 24/7 en el chat de esta web.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text">Gobernanza de Datos · IA · Compliance · aif369.com</p>
+        </div>
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="gobernanza-datos-ia.html">Gobernanza de Datos</a>
+            <a href="scorecard.html">Scorecard IA</a>
+            <a href="services.html">Servicios</a>
+            <a href="blog.html">Insights</a>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener">LinkedIn →</a>
+        </div>
+    </div>
+</footer>
+
+<script src="_config.js"></script>
+<script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+<script>
+const TOTAL_STEPS = 5;
+let currentStep = 1;
+const fields = {};
+
+// Build step dots
+function buildDots() {
+    const c = document.getElementById('stepDots');
+    c.innerHTML = '';
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+        const d = document.createElement('div');
+        d.className = 'step-dot' + (i < currentStep ? ' done' : '') + (i === currentStep ? ' active' : '');
+        c.appendChild(d);
+    }
+}
+
+function updateProgress() {
+    const pct = Math.round((currentStep - 1) / TOTAL_STEPS * 100) + 10;
+    document.getElementById('progressBar').style.width = Math.min(100, pct) + '%';
+    buildDots();
+}
+
+function selectOption(card, fieldId, value) {
+    const container = card.parentElement;
+    container.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    document.getElementById(fieldId).value = value;
+    fields[fieldId] = value;
+}
+
+function nextStep(from) {
+    // Validate required fields
+    if (from === 1) {
+        const name = document.getElementById('f_name').value.trim();
+        const email = document.getElementById('f_email').value.trim();
+        const company = document.getElementById('f_company').value.trim();
+        if (!name || !email || !company) {
+            alert('Por favor completa nombre, email y empresa.');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert('Por favor ingresa un email válido.');
+            return;
+        }
+        fields.name = name;
+        fields.email = email;
+        fields.company = company;
+        fields.role = document.getElementById('f_role').value.trim();
+    }
+    document.getElementById('step' + from).classList.remove('active');
+    currentStep = from + 1;
+    const next = document.getElementById('step' + currentStep);
+    if (next) next.classList.add('active');
+    updateProgress();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function prevStep(from) {
+    document.getElementById('step' + from).classList.remove('active');
+    currentStep = from - 1;
+    document.getElementById('step' + currentStep).classList.add('active');
+    updateProgress();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+async function submitAssessment() {
+    fields.industry = document.getElementById('f_industry').value;
+    fields.challenge = document.getElementById('f_challenge').value;
+
+    if (!fields.industry || !fields.challenge) {
+        alert('Por favor completa todos los campos.');
+        return;
+    }
+
+    // Hide form, show loading
+    document.getElementById('step5').classList.remove('active');
+    document.getElementById('loadingState').style.display = 'block';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+
+    const payload = {
+        name: fields.name,
+        email: fields.email,
+        company: fields.company,
+        role: fields.role || '',
+        industry: fields.industry,
+        company_size: fields.f_size || '',
+        data_sources: fields.f_sources || '',
+        data_quality: fields.f_quality || '',
+        current_governance: fields.f_gov || '',
+        processes_personal_data: fields.f_personal || '',
+        ley21719_status: fields.f_ley || '',
+        main_challenge: fields.challenge,
+        ai_plans: fields.f_ai || '',
+        source_page: 'assessment-datos.html'
+    };
+
+    try {
+        const BASE = (location.hostname === 'aif369.com' || location.hostname === 'www.aif369.com')
+            ? 'https://aif369-backend-api-830685315001.us-central1.run.app'
+            : 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
+
+        const resp = await fetch(BASE + '/api/assessment-datos', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        const data = await resp.json();
+
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('stepResult').classList.add('active');
+
+        const score = data.maturity_score || 0;
+        document.getElementById('resultScore').textContent = score + '/100';
+        document.getElementById('resultLabel').textContent = score < 30
+            ? '⚠️ Alta urgencia — acción recomendada este mes'
+            : score < 60 ? '🔸 Riesgo moderado — actuar este trimestre'
+            : '✅ Madurez aceptable — momento de optimizar';
+
+        if (data.report_html) {
+            document.getElementById('resultReport').innerHTML = data.report_html;
+        } else {
+            document.getElementById('resultReport').innerHTML = '<p>Revisa tu email — el reporte completo fue enviado a <strong>' + fields.email + '</strong>.</p>';
+        }
+
+        // Update progress to 100%
+        document.getElementById('progressBar').style.width = '100%';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+
+    } catch (err) {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('step5').classList.add('active');
+        alert('Error enviando el assessment. Por favor intenta de nuevo.');
+        console.error(err);
+    }
+}
+
+// Init
+updateProgress();
+</script>
+</body>
+</html>
