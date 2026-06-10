@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AIF369 — Erwin Daza · CAIO · Data & AI Consulting</title>
+<meta name="description" content="Data & AI Consulting para empresas en LATAM. Gobernanza, IA en producción y compliance Ley 21.719. Erwin Daza — CAIO, Universidad de Chile.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0B1120;color:#E2E8F0;min-height:100vh}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#0B1120 0%,#111827 50%,#0B1120 100%);padding:48px 24px 40px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#0088FF,#00D9CC);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#fff;margin:0 auto 16px;border:3px solid rgba(0,136,255,0.4)}
+.name{font-size:1.5rem;font-weight:800;margin-bottom:4px}
+.title{font-size:0.85rem;color:#7B8BA8;line-height:1.6;margin-bottom:20px}
+.pill{display:inline-block;background:rgba(0,136,255,0.12);color:#93C5FD;border:1px solid rgba(0,136,255,0.25);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;margin:3px}
+.social-row{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.social-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.social-btn:hover{opacity:.85}
+.btn-li{background:#0A66C2;color:#fff}
+.btn-wa{background:#25D366;color:#fff}
+.btn-cal{background:linear-gradient(135deg,#0088FF,#00D9CC);color:#fff}
+
+/* URGENCY */
+.urgency{background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(124,58,237,0.1));border:1px solid rgba(168,85,247,0.35);margin:20px 16px;border-radius:14px;padding:18px 20px;text-align:center}
+.urgency strong{color:#D8B4FE;display:block;font-size:15px;margin-bottom:6px}
+.urgency p{font-size:13px;color:#A8B8D8;line-height:1.6}
+
+/* SERVICES */
+.section{padding:32px 20px}
+.section h2{font-size:1.05rem;font-weight:700;color:#7B8BA8;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:20px;text-align:center}
+.service-card{background:#0F1F35;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c)}
+.service-icon{font-size:24px;margin-bottom:10px}
+.service-name{font-size:1rem;font-weight:700;margin-bottom:4px}
+.service-desc{font-size:13px;color:#A8B8D8;line-height:1.6;margin-bottom:14px}
+.service-price{font-size:1.4rem;font-weight:800;color:#00D9CC}
+.service-price span{font-size:12px;color:#7B8BA8;font-weight:400}
+.service-includes{list-style:none;margin-top:12px}
+.service-includes li{font-size:13px;color:#A8B8D8;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:flex-start;gap:8px}
+.service-includes li::before{content:'✓';color:#00D9CC;font-weight:700;flex-shrink:0;margin-top:1px}
+.badge-hot{position:absolute;top:14px;right:14px;background:linear-gradient(135deg,#A855F7,#7C3AED);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px}
+
+/* SECTORS */
+.sectors{padding:0 20px 28px;text-align:center}
+.sectors h2{font-size:1.05rem;font-weight:700;color:#7B8BA8;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:16px}
+.sector-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.sector-pill{background:rgba(0,136,255,0.08);border:1px solid rgba(0,136,255,0.2);border-radius:20px;padding:6px 14px;font-size:12px;color:#93C5FD;font-weight:500}
+
+/* NUMBERS */
+.numbers{background:#0F1F35;margin:0 16px 24px;border-radius:14px;padding:24px 20px}
+.numbers h2{font-size:1.05rem;font-weight:700;color:#7B8BA8;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:20px;text-align:center}
+.num-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.num-item{text-align:center}
+.num-val{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#0088FF,#00D9CC);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.num-label{font-size:11px;color:#7B8BA8;margin-top:3px;line-height:1.4}
+
+/* METHOD */
+.method{padding:0 20px 28px}
+.method h2{font-size:1.05rem;font-weight:700;color:#7B8BA8;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:16px;text-align:center}
+.method-steps{display:flex;flex-direction:column;gap:10px}
+.step{display:flex;align-items:center;gap:14px;background:#0F1F35;border-radius:10px;padding:14px 16px}
+.step-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0088FF,#00D9CC);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0}
+.step-text{font-size:13px;color:#A8B8D8;line-height:1.5}
+.step-text strong{color:#E2E8F0;display:block;margin-bottom:2px}
+
+/* CTA FINAL */
+.cta-final{background:linear-gradient(135deg,#0088FF,#00D9CC);margin:0 16px 32px;border-radius:16px;padding:28px 20px;text-align:center}
+.cta-final h2{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:8px}
+.cta-final p{font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:20px;line-height:1.6}
+.cta-btn{display:block;background:#fff;color:#0088FF;font-size:15px;font-weight:700;padding:14px 24px;border-radius:10px;text-decoration:none;margin-bottom:10px}
+.cta-btn-outline{display:block;border:2px solid rgba(255,255,255,0.7);color:#fff;font-size:14px;font-weight:600;padding:12px 24px;border-radius:10px;text-decoration:none}
+
+/* FOOTER */
+footer{text-align:center;padding:20px;color:#4A5E7A;font-size:12px;border-top:1px solid rgba(255,255,255,0.05)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="avatar">E</div>
+  <div class="name">Erwin Daza Castillo</div>
+  <div class="title">
+    Chief Artificial Intelligence Officer (CAIO) · Universidad de Chile<br>
+    Senior Data & AI Platform Engineer · Fundador AIF369
+  </div>
+  <div>
+    <span class="pill">Data & AI Consulting</span>
+    <span class="pill">AI Governance</span>
+    <span class="pill">Generative AI</span>
+    <span class="pill">LATAM</span>
+  </div>
+  <div class="social-row">
+    <a href="https://www.linkedin.com/in/erwin-daza-castillo/" class="social-btn btn-li" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://wa.me/56997547192" class="social-btn btn-wa" target="_blank">
+      💬 WhatsApp
+    </a>
+    <a href="https://calendly.com/edaza-aif369/30min" class="social-btn btn-cal" target="_blank">
+      📅 Agendar
+    </a>
+  </div>
+</div>
+
+<!-- URGENCIA -->
+<div class="urgency">
+  <strong>⚖️ Ley 21.719 · Vigencia diciembre 2026</strong>
+  <p>Si tu empresa procesa datos de clientes en sistemas de IA, tienes que cumplir con la Ley de Protección de Datos Personales. Quedan 6 meses.</p>
+</div>
+
+<!-- SERVICIOS -->
+<div class="section">
+  <h2>Servicios</h2>
+
+  <div class="service-card" style="--c:linear-gradient(90deg,#A855F7,#7C3AED)">
+    <div class="badge-hot">🆕 URGENTE 2026</div>
+    <div class="service-icon">🗄️</div>
+    <div class="service-name">Gobernanza de Datos para IA</div>
+    <div class="service-desc">Auditoría DAMA/DMBOK + compliance Ley 21.719 + preparación de datos para IA. El prerequisito que toda empresa necesita antes de implementar IA.</div>
+    <div class="service-price">Desde $6.000 <span>USD · 6-10 semanas</span></div>
+    <ul class="service-includes">
+      <li>Data catalog y data lineage completo</li>
+      <li>Roles: Data Steward, Data Owner</li>
+      <li>Plan de compliance Ley 21.719</li>
+      <li>Presentación ejecutiva al directorio</li>
+    </ul>
+  </div>
+
+  <div class="service-card" style="--c:linear-gradient(90deg,#0088FF,#0066CC)">
+    <div class="service-icon">🎯</div>
+    <div class="service-name">Diagnóstico Ejecutivo IA</div>
+    <div class="service-desc">Evaluación completa de madurez en IA. Hoja de ruta con los 3-5 casos de uso de mayor ROI para tu industria. Listo para presentar al directorio.</div>
+    <div class="service-price">$4.000 – $8.000 <span>USD · 4-6 semanas</span></div>
+    <ul class="service-includes">
+      <li>AI Readiness Assessment (120+ criterios)</li>
+      <li>Top 5 casos de uso priorizados por ROI</li>
+      <li>Hoja de ruta ejecutiva 90 días</li>
+      <li>Presentación al directorio incluida</li>
+    </ul>
+  </div>
+
+  <div class="service-card" style="--c:linear-gradient(90deg,#00D9CC,#0088FF)">
+    <div class="service-icon">🚀</div>
+    <div class="service-name">Piloto IA Gobernado</div>
+    <div class="service-desc">Un caso de uso de IA en producción real en 8-12 semanas. Con gobernanza integrada desde el día 1. ROI medible desde el primer sprint.</div>
+    <div class="service-price">$12.000 – $25.000 <span>USD · proyecto cerrado</span></div>
+    <ul class="service-includes">
+      <li>Arquitectura + implementación + despliegue</li>
+      <li>Observabilidad y controles de gobierno</li>
+      <li>KPIs de negocio definidos y medidos</li>
+      <li>Transferencia de conocimiento al equipo</li>
+    </ul>
+  </div>
+
+  <div class="service-card" style="--c:linear-gradient(90deg,#8B5CF6,#6D28D9)">
+    <div class="service-icon">♟️</div>
+    <div class="service-name">CAIO-as-a-Service</div>
+    <div class="service-desc">Tu Chief AI Officer externo. Estrategia, gobierno y decisiones de IA sin contratar un C-level a tiempo completo.</div>
+    <div class="service-price">$3.000 – $6.000 <span>USD/mes · mín. 3 meses</span></div>
+    <ul class="service-includes">
+      <li>8-16 horas ejecutivas mensuales</li>
+      <li>Review de iniciativas IA en curso</li>
+      <li>Reporte mensual al directorio</li>
+      <li>Acceso prioritario (respuesta &lt;4h)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTORES -->
+<div class="sectors">
+  <h2>Sectores con experiencia</h2>
+  <div class="sector-pills">
+    <span class="sector-pill">Servicios Financieros</span>
+    <span class="sector-pill">Retail / E-commerce</span>
+    <span class="sector-pill">Cajas de Compensación</span>
+    <span class="sector-pill">Medios de Pago</span>
+    <span class="sector-pill">Salud</span>
+    <span class="sector-pill">Logística</span>
+    <span class="sector-pill">Manufactura</span>
+    <span class="sector-pill">Energía</span>
+    <span class="sector-pill">Gobierno</span>
+  </div>
+</div>
+
+<!-- NÚMEROS -->
+<div class="numbers">
+  <h2>En números</h2>
+  <div class="num-grid">
+    <div class="num-item">
+      <div class="num-val">15+</div>
+      <div class="num-label">Años en datos e IA empresarial</div>
+    </div>
+    <div class="num-item">
+      <div class="num-val">8</div>
+      <div class="num-label">Semanas de diagnóstico a piloto</div>
+    </div>
+    <div class="num-item">
+      <div class="num-val">369</div>
+      <div class="num-label">Metodología propietaria</div>
+    </div>
+    <div class="num-item">
+      <div class="num-val">$0</div>
+      <div class="num-label">Costo del diagnóstico inicial</div>
+    </div>
+  </div>
+</div>
+
+<!-- MÉTODO -->
+<div class="method">
+  <h2>Cómo trabajamos</h2>
+  <div class="method-steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Diagnóstico gratuito (30 min)</strong>Entendemos tu contexto, tus datos y tu objetivo. Sin compromiso.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Propuesta en 48 horas</strong>Alcance exacto, precio fijo, entregables claros. Sin sorpresas.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Resultados desde sprint 1</strong>ROI medible desde la primera semana. No al final del proyecto.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <h2>¿Conversamos esta semana?</h2>
+  <p>30 minutos para entender tu situación y decirte exactamente qué necesitas — y si no somos los indicados, te lo decimos con honestidad.</p>
+  <a href="https://calendly.com/edaza-aif369/30min" class="cta-btn" target="_blank">📅 Agendar diagnóstico gratuito</a>
+  <a href="https://wa.me/56997547192?text=Hola%20Erwin%2C%20vi%20tu%20perfil%20y%20me%20interesa%20conversar%20sobre%20IA%20para%20nuestra%20empresa." class="cta-btn-outline" target="_blank">💬 WhatsApp directo +56 9 9754 7192</a>
+</div>
+
+<footer>
+  Erwin Daza Castillo · AIF369 · aif369.com · Chile<br>
+  CAIO · Universidad de Chile · Método 369
+</footer>
+
+</body>
+</html>
