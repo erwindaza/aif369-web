@@ -78,6 +78,7 @@ def send_alert_email(subject: str, body_html: str) -> None:
         msg["Subject"] = subject
         msg["From"] = f"AIF369 Monitor <{SMTP_USER}>"
         msg["To"] = NOTIFICATION_EMAIL
+        msg["Cc"] = CC_EMAIL
         msg.attach(MIMEText(body_html, "html"))
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=5) as server:
             server.starttls()
@@ -107,7 +108,7 @@ SMTP_PORT = 587
 SMTP_USER = os.getenv("SMTP_USER", "edaza@aif369.com")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "edaza@aif369.com")
-CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com")
+CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com, erwin.androide@gmail.com")
 
 # Configuración de Gemini para el chatbot
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
