@@ -438,7 +438,8 @@ def course_price():
 
     is_vip = email in _get_vip_emails()
     full_price = COURSE_PRICES.get(course, 197)
-    price = VIP_PRICE if is_vip else full_price
+    # VIP price only applies when it's actually a discount (less than full price)
+    price = VIP_PRICE if (is_vip and VIP_PRICE < full_price) else full_price
 
     return jsonify({
         "email": email,
