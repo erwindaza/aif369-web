@@ -775,8 +775,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 paymentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             })
             .catch(function () {
-                // Fallback: use full price if API fails
-                finalPrice = 197;
+                // Fallback prices per course — must match COURSE_PRICES in backend/main.py
+                var FALLBACK_PRICES = {
+                    "Curso de Inteligencia Artificial": 197,
+                    "Big Data + IA: Arquitecturas Modernas": 297,
+                    "MLOps: De Modelos a Producción": 347,
+                    "Automatización con Apache Airflow": 247,
+                    "Automatización con Apache Airflow Avanzada": 247
+                };
+                finalPrice = FALLBACK_PRICES[courseName] || 197;
                 enrollmentData.price = finalPrice;
                 wrapper.querySelector('.summary-name').textContent = enrollmentData.name;
                 wrapper.querySelector('.summary-email').textContent = enrollmentData.email;
