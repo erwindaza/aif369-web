@@ -415,6 +415,7 @@ COURSE_PRICES = {
     "MLOps: De Modelos a Producción":            347,
     "Automatización con Apache Airflow":         247,
     "Automatización con Apache Airflow Avanzada": 247,
+    "Test Pago AIF369":                          1,   # test only — remove after verification
 }
 VIP_PRICE = 10
 
