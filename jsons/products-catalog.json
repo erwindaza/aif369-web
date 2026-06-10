@@ -206,6 +206,41 @@
 
   "services": [
     {
+      "id": "service-gobernanza-datos-ia",
+      "slug": "gobernanza-datos-ia",
+      "name": "Gobernanza de Datos para IA",
+      "subtitle": "Auditoría DAMA/DMBOK + compliance Ley 21.719 + preparación de datos para sistemas de IA.",
+      "target": "CEO, COO, Director de Datos, Legal/Compliance, empresas reguladas",
+      "target_level": "C-Suite · Empresas con datos sensibles",
+      "price_from": 6000,
+      "price_display": "Desde $6,000 USD",
+      "duration": "6-10 semanas",
+      "format": "Remoto · talleres presenciales según requerimiento",
+      "highlight": "Nuevo servicio estrella — AIF369 + especialista certificado DAMA/DMBOK",
+      "urgency": "Ley 21.719 (protección de datos personales Chile) entra en vigor diciembre 2026",
+      "deliverables_aif369": [
+        "Diagnóstico de madurez de datos con Método 369",
+        "Mapa de riesgo regulatorio (Ley 21.719)",
+        "Presentación ejecutiva al directorio",
+        "Supervisión y coordinación del proyecto DAMA",
+        "Hoja de ruta de 90 días"
+      ],
+      "deliverables_dama": [
+        "Auditoría de calidad de datos",
+        "Data catalog y data lineage",
+        "Glosario de negocio",
+        "Roles: Data Steward, Data Owner, Data Governance Committee",
+        "Plan de compliance Ley 21.719 (bases legales, derechos ARCO, registro de tratamientos)"
+      ],
+      "pricing_tiers": [
+        {"name": "Starter", "price": 6000, "scope": "Empresa hasta 200 emp · 1-2 dominios", "duration": "6 sem"},
+        {"name": "Business", "price": 12000, "scope": "Empresa 200-1000 emp · 2-3 dominios", "duration": "8-10 sem"},
+        {"name": "Enterprise", "price": 18000, "scope": "Empresa grande · múltiples dominios", "duration": "según alcance"}
+      ],
+      "status": "active",
+      "_note": "Servicio conjunto: AIF369 lidera estrategia, especialista externo DAMA/DMBOK ejecuta auditoría técnica. El boletín 16821-19 es proyecto de ley de IA (no vigente). La Ley 21.719 es protección de datos (vigente dic 2026)."
+    },
+    {
       "id": "service-diagnostico-ejecutivo",
       "slug": "service-diagnostico",
       "name": "Diagnóstico IA Ejecutivo",

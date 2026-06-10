@@ -78,6 +78,7 @@ def send_alert_email(subject: str, body_html: str) -> None:
         msg["Subject"] = subject
         msg["From"] = f"AIF369 Monitor <{SMTP_USER}>"
         msg["To"] = NOTIFICATION_EMAIL
+        msg["Cc"] = CC_EMAIL
         msg.attach(MIMEText(body_html, "html"))
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=5) as server:
             server.starttls()
@@ -107,7 +108,7 @@ SMTP_PORT = 587
 SMTP_USER = os.getenv("SMTP_USER", "edaza@aif369.com")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "edaza@aif369.com")
-CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com")
+CC_EMAIL = os.getenv("CC_EMAIL", "erwin.daza@gmail.com, erwin.androide@gmail.com")
 
 # Configuración de Gemini para el chatbot
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -766,6 +767,33 @@ def submit_scorecard():
         }
         send_email_notification(email_data)
 
+        # Auto-email to user with Gemini recommendations
+        try:
+            scorecard_context = (
+                f"EMPRESA: {company} ({role})\n"
+                f"Score total: {total_score}/100\n"
+                f"Nivel: {maturity_level} ({maturity_number}/5)\n"
+                f"Dimensiones:\n{dim_summary}"
+            )
+            user_report = _gemini_generate(
+                SCORECARD_RECOMMENDATION_SYSTEM,
+                f"Genera recomendaciones para:\n{scorecard_context}"
+            )
+            first_name = (name.split()[0] if name else "Estimado/a")
+            _send_user_report_email(
+                to_email=email,
+                first_name=first_name,
+                subject=f"Tu AI Readiness Score: {total_score}/100 — AIF369",
+                score=total_score,
+                score_label="AI Readiness Score",
+                report_html=user_report,
+                cta_url="https://aif369.com/services.html",
+                cta_label="Ver Servicios AIF369 →",
+                accent_color="#0088FF"
+            )
+        except Exception as user_email_err:
+            print(f"Scorecard user email error (non-fatal): {user_email_err}")
+
         return jsonify({
             "success": True,
             "submission_id": submission_id,
@@ -774,6 +802,217 @@ def submit_scorecard():
 
     except Exception as e:
         print(f"Error processing scorecard: {str(e)}")
+        return jsonify({"error": "Internal server error", "message": str(e)}), 500
+
+
+# ── Prompts para assessments automáticos ─────────────────────────────────────
+DATA_ASSESSMENT_SYSTEM = """Eres un consultor experto de AIF369 especializado en gobernanza de datos para empresas en Latam.
+Analiza las respuestas del assessment de madurez de datos y genera un reporte ejecutivo personalizado.
+REGLAS ESTRICTAS:
+1. Sé directo y concreto — sin frases genéricas.
+2. Identifica exactamente los 3 riesgos principales según sus respuestas.
+3. Da 3 recomendaciones accionables y específicas para esta empresa.
+4. Recomienda el paquete más adecuado: Starter ($6,000 USD), Business ($12,000 USD) o Enterprise ($18,000+ USD).
+5. Menciona la Ley 21.719 si procesa datos personales.
+6. Máximo 350 palabras. Usa formato HTML con <h3>, <p>, <ul><li>.
+Paquetes AIF369: Starter = empresa pequeña, 1-2 dominios, 6 sem. Business = 200-1000 emp, 2-3 dominios, 8-10 sem. Enterprise = grande o muy regulada."""
+
+SCORECARD_RECOMMENDATION_SYSTEM = """Eres un CAIO Advisor de AIF369. Analiza los resultados del AI Readiness Scorecard y genera recomendaciones personalizadas.
+REGLAS:
+1. Basate SOLO en los datos del scorecard — sin inventar.
+2. Identifica los 3 gaps más críticos de esta empresa específica.
+3. Da 3 próximos pasos concretos y priorizados.
+4. Si el score es < 40%, recomienda primero Gobernanza de Datos (prerequisito).
+5. Recomienda el servicio AIF369 más adecuado para su nivel.
+6. Máximo 300 palabras. Formato HTML con <h3>, <p>, <ul><li>.
+Servicios: Starter 369 ($4k, 4-6 sem), Governed Pilot ($12k, 8-12 sem), CAIO-as-a-Service ($3k/mes), Gobernanza Datos ($6k)."""
+
+
+def _gemini_generate(system: str, user_prompt: str, max_tokens: int = 600) -> str:
+    """Calls Gemini and returns generated text, or empty string on failure."""
+    if not GEMINI_API_KEY:
+        return ""
+    try:
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash",
+            system_instruction=system,
+            generation_config=genai.types.GenerationConfig(temperature=0.3, max_output_tokens=max_tokens)
+        )
+        return model.generate_content(user_prompt).text
+    except Exception as e:
+        print(f"Gemini generate error: {e}")
+        return ""
+
+
+def _send_user_report_email(to_email: str, first_name: str, subject: str,
+                             score: int, score_label: str, report_html: str,
+                             cta_url: str, cta_label: str, accent_color: str = "#0088FF") -> None:
+    """Send a branded auto-report email to the user. Fails silently."""
+    if not SMTP_PASSWORD:
+        return
+    urgency = ("⚠️ Alta urgencia — acción recomendada este mes" if score < 30
+               else ("🔸 Riesgo moderado — actuar este trimestre" if score < 60
+                     else "✅ Madurez aceptable — momento de optimizar"))
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"AIF369 <{SMTP_USER}>"
+        msg["To"] = to_email
+        html = f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0B1120;font-family:'Segoe UI',Roboto,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0B1120;padding:32px 0;">
+<tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<tr><td style="background:linear-gradient(135deg,{accent_color},{accent_color}CC);padding:28px 40px;border-radius:16px 16px 0 0;">
+<table width="100%"><tr>
+<td style="color:#fff;font-size:24px;font-weight:700;">AIF369</td>
+<td align="right" style="color:rgba(255,255,255,0.85);font-size:12px;">Reporte automático</td>
+</tr></table></td></tr>
+<tr><td style="background:#0F1F35;padding:32px 40px;border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);">
+<p style="color:#E2E8F0;font-size:17px;font-weight:600;margin:0 0 8px;">Hola {first_name},</p>
+<p style="color:#A8B8D8;font-size:14px;line-height:1.7;margin:0 0 20px;">Aquí está tu reporte personalizado basado en tus respuestas.</p>
+<div style="background:#162B45;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;margin:0 0 20px;text-align:center;">
+<div style="font-size:11px;font-weight:700;color:#7B8BA8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">{score_label}</div>
+<div style="font-size:42px;font-weight:800;color:{accent_color};">{score}<span style="font-size:20px;color:#7B8BA8;">/100</span></div>
+<div style="font-size:12px;color:#A8B8D8;margin-top:6px;">{urgency}</div>
+</div>
+<div style="color:#A8B8D8;font-size:14px;line-height:1.7;">{report_html if report_html else "<p>Nuestro equipo revisará tu solicitud en las próximas 24 horas.</p>"}</div>
+<div style="margin:24px 0;text-align:center;background:#162B45;border-radius:12px;padding:20px;">
+<p style="color:#E2E8F0;font-size:14px;font-weight:600;margin:0 0 14px;">¿Tienes preguntas? Nuestro asistente IA responde 24/7</p>
+<a href="{cta_url}" style="display:inline-block;background:{accent_color};color:#fff;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;text-decoration:none;">{cta_label}</a>
+</div>
+</td></tr>
+<tr><td style="background:#0A1628;padding:18px 40px;border-radius:0 0 16px 16px;border:1px solid rgba(255,255,255,0.04);border-top:none;">
+<p style="color:#4A5E7A;font-size:12px;margin:0;"><strong style="color:#7B8BA8;">AIF369</strong> — IA · Datos · Cloud · aif369.com · +56 9 9754 7192</p>
+</td></tr></table></td></tr></table></body></html>"""
+        msg.attach(MIMEText(html, "html"))
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.send_message(msg)
+        print(f"User report email sent to {to_email}")
+    except Exception as e:
+        print(f"User report email failed: {e}")
+
+
+@app.route("/api/assessment-datos", methods=["POST"])
+def assessment_datos():
+    """
+    Assessment automático de Gobernanza de Datos.
+    Recibe respuestas del formulario, analiza con Gemini y envía reporte al usuario.
+    Sin intervención humana requerida — 100% automático.
+    """
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        name = (data.get("name") or "").strip()
+        email = (data.get("email") or "").strip()
+        company = (data.get("company") or "").strip()
+        role = (data.get("role") or "").strip()
+        industry = (data.get("industry") or "").strip()
+        company_size = (data.get("company_size") or "").strip()
+        data_sources = (data.get("data_sources") or "").strip()
+        data_quality = (data.get("data_quality") or "").strip()
+        current_governance = (data.get("current_governance") or "").strip()
+        processes_personal = (data.get("processes_personal_data") or "").strip()
+        ley21719_status = (data.get("ley21719_status") or "").strip()
+        main_challenge = (data.get("main_challenge") or "").strip()
+        ai_plans = (data.get("ai_plans") or "").strip()
+
+        if not name or not email:
+            return jsonify({"error": "name and email are required"}), 400
+
+        submission_id = str(uuid.uuid4())
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        assessment_context = (
+            f"EMPRESA: {company} ({industry}) — {company_size}\n"
+            f"CONTACTO: {name}, {role}\n"
+            f"Fuentes de datos: {data_sources}\n"
+            f"Calidad de datos: {data_quality}\n"
+            f"Gobierno de datos actual: {current_governance}\n"
+            f"¿Procesa datos personales?: {processes_personal}\n"
+            f"Estado Ley 21.719: {ley21719_status}\n"
+            f"Principal desafío: {main_challenge}\n"
+            f"Planes de IA: {ai_plans}"
+        )
+
+        # Simple maturity score
+        quality_scores = {"Muy buena": 25, "Buena": 18, "Regular": 10, "Mala": 5}
+        gov_scores = {"Gobierno avanzado": 35, "Gobierno estructurado": 25,
+                      "Políticas básicas": 15, "Ninguno": 0}
+        ley_scores = {"Listo": 30, "Parcialmente preparado": 15,
+                      "No preparado": 0, "No sé qué es": 0}
+        maturity_score = min(100,
+            quality_scores.get(data_quality, 7) +
+            gov_scores.get(current_governance, 5) +
+            ley_scores.get(ley21719_status, 5)
+        )
+
+        report_html = _gemini_generate(
+            DATA_ASSESSMENT_SYSTEM,
+            f"Genera el reporte para:\n{assessment_context}"
+        )
+
+        # Auto-email to user
+        first_name = name.split()[0] if name else "Estimado/a"
+        _send_user_report_email(
+            to_email=email,
+            first_name=first_name,
+            subject="Tu Assessment de Gobernanza de Datos — AIF369",
+            score=maturity_score,
+            score_label="Índice de Madurez de Datos",
+            report_html=report_html,
+            cta_url="https://aif369.com/gobernanza-datos-ia.html",
+            cta_label="Ver Servicio Completo →",
+            accent_color="#A855F7"
+        )
+
+        # Notify Erwin
+        send_email_notification({
+            "submission_id": submission_id,
+            "timestamp": timestamp,
+            "name": name,
+            "email": email,
+            "company": f"{company} | {industry} | {company_size}",
+            "role": role,
+            "message": f"Assessment Datos — Score: {maturity_score}/100\n\n{assessment_context}",
+            "source_page": data.get("source_page", "assessment-datos"),
+            "form_type": "assessment-datos",
+            "interest": f"Data Governance Score: {maturity_score}/100",
+            "team_size": company_size,
+        })
+
+        # BigQuery
+        try:
+            row = {
+                "submission_id": submission_id, "timestamp": timestamp,
+                "name": name, "email": email, "company": company, "role": role,
+                "message": f"Data Governance Score: {maturity_score}/100\n{assessment_context}",
+                "source_page": data.get("source_page", ""),
+                "user_agent": request.headers.get("User-Agent", ""),
+                "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+                "form_type": "assessment-datos",
+                "interest": f"Score:{maturity_score} | Industry:{industry}",
+                "team_size": company_size,
+            }
+            errors = get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}", [row])
+            if errors:
+                print(f"Assessment BQ errors: {errors}")
+        except Exception as bq_err:
+            print(f"Assessment BQ error (non-fatal): {bq_err}")
+
+        return jsonify({
+            "success": True,
+            "submission_id": submission_id,
+            "maturity_score": maturity_score,
+            "report_html": report_html,
+            "message": "Assessment completado. Revisa tu email para el reporte personalizado."
+        }), 200
+
+    except Exception as e:
+        print(f"Error in assessment-datos: {e}")
         return jsonify({"error": "Internal server error", "message": str(e)}), 500
 
 

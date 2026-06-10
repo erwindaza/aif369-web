@@ -35,8 +35,8 @@ variable "dataset_id" {
 variable "environments" {
   description = "Map of environments to deploy (dev, qa, production)"
   type = map(object({
-    service_name = string
-    dataset_id   = string
+    service_name  = string
+    dataset_id    = string
     min_instances = number
     max_instances = number
   }))

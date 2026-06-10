@@ -255,6 +255,9 @@ class TestScorecard:
 # ══════════════════════════════════════════════════════════
 
 class TestChat:
+    # All chat requests must include a trusted Origin header (security gate added in 17f190b).
+    TRUSTED_ORIGIN = {"Origin": "https://aif369.com"}
+
     def test_chat_valid_message_gemini(self, client):
         """Chat with mocked Gemini returns 200 and a response."""
         with patch("main.GEMINI_API_KEY", "test-key"), \
@@ -267,7 +270,8 @@ class TestChat:
             mock_model.start_chat.return_value = mock_session
             mock_genai.GenerativeModel.return_value = mock_model
 
-            response = _post_json(client, "/api/chat", {"message": "Hola"})
+            response = _post_json(client, "/api/chat", {"message": "Hola"},
+                                  headers=self.TRUSTED_ORIGIN)
             assert response.status_code == 200
             data = response.get_json()
             assert data["success"] is True
@@ -275,17 +279,25 @@ class TestChat:
             assert "response" in data
             assert "session_id" in data
 
+    def test_chat_blocked_without_origin(self, client):
+        """Chat without Origin header must be blocked with 403."""
+        response = _post_json(client, "/api/chat", {"message": "Hola"})
+        assert response.status_code == 403
+
     def test_chat_empty_message_returns_400(self, client):
-        response = _post_json(client, "/api/chat", {"message": ""})
+        response = _post_json(client, "/api/chat", {"message": ""},
+                              headers=self.TRUSTED_ORIGIN)
         assert response.status_code == 400
 
     def test_chat_missing_message_returns_400(self, client):
-        response = _post_json(client, "/api/chat", {})
+        response = _post_json(client, "/api/chat", {},
+                              headers=self.TRUSTED_ORIGIN)
         assert response.status_code == 400
 
     def test_chat_wrong_content_type(self, client):
         response = client.post(
-            "/api/chat", data="not json", content_type="text/plain"
+            "/api/chat", data="not json", content_type="text/plain",
+            headers=self.TRUSTED_ORIGIN
         )
         assert response.status_code == 400
 
@@ -310,7 +322,8 @@ class TestChat:
                 "session_id": "test-session-123",
                 "turn_number": 2
             }
-            response = _post_json(client, "/api/chat", payload)
+            response = _post_json(client, "/api/chat", payload,
+                                  headers=self.TRUSTED_ORIGIN)
             assert response.status_code == 200
             data = response.get_json()
             assert data["session_id"] == "test-session-123"
@@ -327,7 +340,8 @@ class TestChat:
             mock_genai.GenerativeModel.return_value = mock_model
             mock_requests.post.side_effect = Exception("Connection refused")
 
-            response = _post_json(client, "/api/chat", {"message": "Hola"})
+            response = _post_json(client, "/api/chat", {"message": "Hola"},
+                                  headers=self.TRUSTED_ORIGIN)
             assert response.status_code == 200
             data = response.get_json()
             assert data["success"] is False
@@ -339,7 +353,8 @@ class TestChat:
              patch("main.http_requests") as mock_requests:
             mock_requests.post.side_effect = Exception("Connection refused")
 
-            response = _post_json(client, "/api/chat", {"message": "Hola"})
+            response = _post_json(client, "/api/chat", {"message": "Hola"},
+                                  headers=self.TRUSTED_ORIGIN)
             assert response.status_code == 200
             data = response.get_json()
             assert data["success"] is False

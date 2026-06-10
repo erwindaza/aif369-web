@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIF369 — Hoja de Ruta Maestra</title>
+<style>
+  :root {
+    --blue:   #0088FF; --teal:  #00D9CC; --bg:    #0B1120;
+    --surf:   #0F1F35; --card:  #162B45; --bor:   rgba(255,255,255,0.08);
+    --text:   #E2E8F0; --muted: #7B8BA8; --dim:   #A8B8D8;
+    --green:  #22C55E; --amber: #F59E0B; --red:   #EF4444; --purple:#A855F7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+  header{background:linear-gradient(135deg,#0B1120,#162B45);border-bottom:1px solid var(--bor);padding:24px 40px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-size:26px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .badge{background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+
+  .tabs{display:flex;gap:4px;padding:20px 40px 0;border-bottom:1px solid var(--bor);overflow-x:auto}
+  .tab{padding:10px 18px;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);border:1px solid transparent;border-bottom:none;transition:all .2s;white-space:nowrap}
+  .tab.active{color:var(--blue);border-color:var(--bor);background:var(--surf)}
+  .tab:hover:not(.active){color:var(--dim)}
+
+  main{padding:32px 40px;max-width:1400px;margin:0 auto}
+  .panel{display:none}.panel.active{display:block}
+
+  h2.section{font-size:20px;font-weight:700;margin-bottom:6px}
+  p.lead{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+
+  /* cards */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+  .card{background:var(--card);border:1px solid var(--bor);border-radius:12px;padding:22px;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,linear-gradient(90deg,var(--blue),var(--teal)))}
+  .card h3{font-size:15px;font-weight:700;margin-bottom:4px}
+  .card .sub{font-size:12px;color:var(--muted);margin-bottom:14px}
+  .card ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .card li{font-size:13px;color:var(--dim);padding-left:16px;position:relative;line-height:1.45}
+  .card li::before{content:'›';position:absolute;left:0;color:var(--blue);font-weight:700}
+  .card .foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--bor);font-size:12px;color:var(--muted)}
+  .card .foot strong{color:var(--teal)}
+
+  /* accent variants */
+  .a-blue{--accent:linear-gradient(90deg,#0088FF,#0066CC)}
+  .a-teal{--accent:linear-gradient(90deg,#00D9CC,#0088FF)}
+  .a-green{--accent:linear-gradient(90deg,#22C55E,#16A34A)}
+  .a-amber{--accent:linear-gradient(90deg,#F59E0B,#D97706)}
+  .a-purple{--accent:linear-gradient(90deg,#A855F7,#7C3AED)}
+  .a-red{--accent:linear-gradient(90deg,#EF4444,#DC2626)}
+
+  /* tag */
+  .tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+  .tag.blue{background:rgba(0,136,255,.15);color:var(--blue)}
+  .tag.teal{background:rgba(0,217,204,.15);color:var(--teal)}
+  .tag.green{background:rgba(34,197,94,.15);color:var(--green)}
+  .tag.amber{background:rgba(245,158,11,.15);color:var(--amber)}
+  .tag.red{background:rgba(239,68,68,.15);color:var(--red)}
+  .tag.purple{background:rgba(168,85,247,.15);color:var(--purple)}
+
+  /* alert box */
+  .alert{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:16px 20px;margin-bottom:24px;font-size:13px;color:var(--amber);line-height:1.6}
+  .alert strong{color:#fff}
+  .info{background:rgba(0,136,255,.08);border:1px solid rgba(0,136,255,.2);border-radius:10px;padding:16px 20px;margin-bottom:24px;font-size:13px;color:var(--dim);line-height:1.6}
+
+  /* roadmap timeline */
+  .timeline{display:flex;flex-direction:column;gap:0}
+  .tl-item{display:flex;gap:20px;padding-bottom:28px;position:relative}
+  .tl-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--bor)}
+  .tl-dot{width:32px;height:32px;border-radius:50%;background:var(--card);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--blue);flex-shrink:0;margin-top:2px;z-index:1}
+  .tl-dot.done{background:var(--green);border-color:var(--green);color:#fff}
+  .tl-dot.now{background:var(--blue);border-color:var(--blue);color:#fff}
+  .tl-body{flex:1}
+  .tl-title{font-size:15px;font-weight:700;margin-bottom:4px}
+  .tl-phase{font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
+  .tl-body ul{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+  .tl-body li{font-size:13px;color:var(--dim);padding-left:16px;position:relative}
+  .tl-body li::before{content:'→';position:absolute;left:0;color:var(--teal)}
+  .tl-kpi{font-size:12px;color:var(--muted);background:rgba(0,136,255,.07);border-radius:6px;padding:6px 10px;margin-top:8px}
+  .tl-kpi strong{color:var(--blue)}
+
+  /* agent cards */
+  .agent-card{background:var(--card);border:1px solid var(--bor);border-radius:12px;padding:22px;position:relative;overflow:hidden}
+  .agent-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,linear-gradient(90deg,var(--blue),var(--teal)))}
+  .agent-name{font-size:16px;font-weight:700;margin-bottom:2px}
+  .agent-role{font-size:12px;color:var(--muted);margin-bottom:14px}
+  .agent-powers{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .power{font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(0,136,255,.1);color:var(--blue);font-weight:600}
+  .agent-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .agent-card li{font-size:13px;color:var(--dim);padding-left:16px;position:relative;line-height:1.4}
+  .agent-card li::before{content:'•';position:absolute;left:0;color:var(--teal)}
+
+  /* platform options */
+  .option{background:var(--card);border:1px solid var(--bor);border-radius:12px;padding:22px}
+  .option.recommended{border-color:var(--blue)}
+  .option h3{font-size:15px;font-weight:700;margin-bottom:4px}
+  .option .desc{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  .pros h4,.cons h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+  .pros h4{color:var(--green)}.cons h4{color:var(--red)}
+  .pros ul,.cons ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+  .pros li,.cons li{font-size:12px;color:var(--dim);padding-left:14px;position:relative}
+  .pros li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+  .cons li::before{content:'✗';position:absolute;left:0;color:var(--red)}
+
+  /* stat boxes */
+  .stat{background:var(--card);border:1px solid var(--bor);border-radius:10px;padding:16px;text-align:center}
+  .stat .val{font-size:24px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .stat .lbl{font-size:11px;color:var(--muted);margin-top:3px}
+
+  footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--bor);margin-top:40px}
+
+  @media(max-width:900px){
+    .grid-3,.grid-4{grid-template-columns:1fr 1fr}
+    .grid-2{grid-template-columns:1fr}
+    main{padding:20px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="logo">AIF369</div>
+    <div>
+      <div style="font-size:15px;font-weight:700">Hoja de Ruta Maestra · IA para el Negocio</div>
+      <div style="font-size:12px;color:var(--muted)">Producto · Agentes IA · Plataforma · Go-to-Market</div>
+    </div>
+  </div>
+  <div class="badge">Junio 2026</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('productos')">🎯 Productos & Valor</div>
+  <div class="tab" onclick="show('agentes')">🤖 Agentes IA</div>
+  <div class="tab" onclick="show('plataforma')">🔐 Plataforma de Cursos</div>
+  <div class="tab" onclick="show('gtm')">🚀 Go-to-Market IA</div>
+  <div class="tab" onclick="show('roadmap')">🗺 Roadmap Priorizado</div>
+</div>
+
+<main>
+
+<!-- ══════════════════════ PRODUCTOS -->
+<div class="panel active" id="panel-productos">
+  <h2 class="section">Productos & Propuesta de Valor</h2>
+  <p class="lead">Claridad total de qué vende AIF369, a quién, y qué valor entrega. Ajustado al contexto regulatorio real de Chile 2026.</p>
+
+  <div class="alert">
+    ⚖️ <strong>Corrección regulatoria importante:</strong> La <strong>Ley 21.719</strong> es de <strong>protección de datos personales</strong> (vigencia dic 2026) — no de IA. Las leyes sobre IA en Chile son aún proyectos de ley (Boletín 16821-19 y otros). El mensaje correcto es: <em>"Si tienes malos datos, tu IA producirá malos resultados — y además estarás fuera de cumplimiento con la Ley 21.719."</em> La gobernanza de datos <strong>es el prerequisito</strong> de cualquier iniciativa IA exitosa.
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+
+    <!-- PRODUCTO 1 -->
+    <div class="card a-purple">
+      <div class="tag purple">🏆 Producto Estrella · Nuevo</div>
+      <h3>Gobernanza de Datos para IA</h3>
+      <div class="sub">Servicio conjunto AIF369 + especialista DAMA/DMBOK</div>
+      <ul>
+        <li><strong style="color:var(--text)">AIF369 entrega:</strong> la introducción ejecutiva — por qué sin datos de calidad la IA falla, cómo el Método 369 estructura la preparación de datos, impacto de la Ley 21.719</li>
+        <li><strong style="color:var(--text)">Especialista externo entrega:</strong> auditoría DMBOK, data catalog, data lineage, data quality framework, roles (Data Steward, Data Owner)</li>
+        <li>Resultado para el cliente: datos listos para IA + compliance con Ley 21.719</li>
+        <li>Modelo: subcontratación al especialista, AIF369 factura y coordina</li>
+      </ul>
+      <div class="foot">
+        <strong>Precio estimado:</strong> $6.000–$18.000 USD · Duración: 6–10 semanas<br>
+        <strong>Argumento de venta:</strong> "Tu IA es tan buena como tus datos. Arreglemos los datos primero."
+      </div>
+    </div>
+
+    <!-- PRODUCTO 2 -->
+    <div class="card a-blue">
+      <div class="tag blue">💼 Core · Consultoría</div>
+      <h3>CAIO Advisory — Método 369</h3>
+      <div class="sub">Diagnóstico → Gobernanza → Piloto en producción</div>
+      <ul>
+        <li><strong style="color:var(--text)">Starter 369:</strong> diagnóstico de madurez IA + hoja de ruta (4–6 sem · $4k–$8k)</li>
+        <li><strong style="color:var(--text)">Governed Pilot:</strong> 1 caso de uso en producción con gobernanza integrada (8–12 sem · $12k–$25k)</li>
+        <li><strong style="color:var(--text)">Enterprise 369:</strong> transformación completa, AI Factory (3–6 meses · $40k–$120k)</li>
+        <li><strong style="color:var(--text)">CAIO-as-a-Service:</strong> retainer mensual de advisory ejecutivo ($2.5k–$6k/mes)</li>
+      </ul>
+      <div class="foot">
+        <strong>Diferenciador:</strong> Metodología propietaria + foco en ROI medible desde sprint 1
+      </div>
+    </div>
+
+    <!-- PRODUCTO 3 -->
+    <div class="card a-teal">
+      <div class="tag teal">🎓 Educación · Gated</div>
+      <h3>Cursos & Asesorías (Plataforma Propia)</h3>
+      <div class="sub">Acceso controlado · Pago por curso o suscripción mensual</div>
+      <ul>
+        <li><strong style="color:var(--text)">Curso IA para Negocios</strong> — para ejecutivos no técnicos · $197 USD</li>
+        <li><strong style="color:var(--text)">Big Data + IA:</strong> arquitecturas modernas · $297 USD</li>
+        <li><strong style="color:var(--text)">MLOps en Producción</strong> · $347 USD</li>
+        <li><strong style="color:var(--text)">Automatización con Airflow</strong> · $247 USD</li>
+        <li><strong style="color:var(--text)">Asesorías 1:1 grabadas</strong> acceso 30 días · $99–$199 USD</li>
+        <li><strong style="color:var(--text)">Membresía AIF369 Academy</strong> — acceso a todo · $49/mes</li>
+      </ul>
+      <div class="foot">
+        <strong>Delivery:</strong> Video + PDF + Q&A por chat con agente IA + sesiones en vivo mensuales
+      </div>
+    </div>
+
+    <!-- PRODUCTO 4 -->
+    <div class="card a-green">
+      <div class="tag green">📄 Recursos Digitales</div>
+      <h3>Guías & Herramientas Prácticas</h3>
+      <div class="sub">Venta directa · bajo fricción · alto volumen</div>
+      <ul>
+        <li>Guía Práctica de Prompting para Empresas · $10–$29 USD</li>
+        <li>Plantilla AI Governance Framework (DMBOK + Método 369) · $49 USD</li>
+        <li>AI Readiness Report personalizado (Scorecard premium) · $79 USD</li>
+        <li>Kit de política de uso de IA corporativa · $99 USD</li>
+        <li>Workshop grabado: "IA para Directorio" · $149 USD</li>
+      </ul>
+      <div class="foot">
+        <strong>Estrategia:</strong> Lead magnets baratos que abren la puerta a la consultoría
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tabla de valor por segmento -->
+  <div class="card a-amber" style="margin-top:8px">
+    <div class="tag amber">🎯 Propuesta de Valor por Segmento</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:10px;text-transform:uppercase;letter-spacing:.8px">CEO / Directorio</div>
+        <ul>
+          <li>"Tu empresa está en riesgo regulatorio (Ley 21.719). Tienes 6 meses."</li>
+          <li>"Sin gobernanza de datos, tu IA producirá errores costosos."</li>
+          <li>"CAIO externo = liderazgo de C-level sin el sueldo fijo."</li>
+          <li>"ROI medible desde el sprint 1, no al final del año."</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px;text-transform:uppercase;letter-spacing:.8px">CTO / CIO / CDO</div>
+        <ul>
+          <li>"El Método 369 te da arquitectura + gobernanza + MLOps desde el día 1."</li>
+          <li>"Pasamos de experimento a producción en 8 semanas."</li>
+          <li>"No más proyectos IA que mueren en PoC."</li>
+          <li>"Framework DMBOK + IA listo para auditorías."</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px;text-transform:uppercase;letter-spacing:.8px">Profesionales / Equipos</div>
+        <ul>
+          <li>"Certifícate en lo que el mercado está pagando: IA + datos + gobernanza."</li>
+          <li>"Cursos prácticos, no teóricos. Casos reales de empresas Latam."</li>
+          <li>"Accede al framework CAIO que usan los mejores consultores."</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════ AGENTES IA -->
+<div class="panel" id="panel-agentes">
+  <h2 class="section">Agentes IA para AIF369</h2>
+  <p class="lead">Qué tareas del negocio pueden ser manejadas por IA — desde atención al cliente hasta generación de contenido. Mapa completo con prioridades.</p>
+
+  <div class="info">
+    💡 <strong>Principio:</strong> Los agentes IA no reemplazan a Erwin — lo <strong>multiplican</strong>. Cada agente maneja las interacciones repetibles para que Erwin solo toque las conversaciones de alto valor (cierre de contratos, relación con C-level).
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+
+    <div class="agent-card a-blue">
+      <div class="tag blue">🤖 Prioridad 1 · En Producción (mejorar)</div>
+      <div class="agent-name">Agente de Ventas & Calificación</div>
+      <div class="agent-role">Chatbot web → upgrade a agente multi-intento</div>
+      <div class="agent-powers">
+        <span class="power">Calificación de leads</span>
+        <span class="power">Detección de intención</span>
+        <span class="power">Agenda automática</span>
+        <span class="power">Alerta a Erwin</span>
+      </div>
+      <ul>
+        <li>Responde preguntas sobre servicios, precios y procesos 24/7</li>
+        <li>Detecta si el visitante es un lead caliente (menciona presupuesto, urgencia, empresa)</li>
+        <li>Ofrece el Scorecard gratuito como siguiente paso</li>
+        <li>Agenda directamente en Calendly si el lead está listo</li>
+        <li>Envía alerta por email/WhatsApp a Erwin con resumen del lead</li>
+        <li><strong style="color:var(--text)">Mejora propuesta:</strong> agregar contexto del Scorecard del visitante si ya lo completó</li>
+      </ul>
+      <div class="card foot" style="background:transparent;border:0;padding:0;margin-top:14px">
+        <strong>Tecnología:</strong> Gemini 2.5 Flash (ya existe) → agregar herramientas: Calendly API + CRM<br>
+        <strong>Esfuerzo:</strong> Bajo — 1–2 semanas de mejora sobre lo existente
+      </div>
+    </div>
+
+    <div class="agent-card a-teal">
+      <div class="tag teal">🤖 Prioridad 2 · Por construir</div>
+      <div class="agent-name">Agente de Soporte de Cursos</div>
+      <div class="agent-role">Asistente dentro de la plataforma de educación</div>
+      <div class="agent-powers">
+        <span class="power">Q&A del curso</span>
+        <span class="power">Ejercicios prácticos</span>
+        <span class="power">Progreso del alumno</span>
+        <span class="power">Motivación</span>
+      </div>
+      <ul>
+        <li>Responde preguntas del contenido del curso (contexto del material cargado)</li>
+        <li>Guía al alumno a través de los módulos</li>
+        <li>Propone ejercicios adicionales según el ritmo del alumno</li>
+        <li>Detecta si el alumno está estancado y avisa para intervención humana</li>
+        <li>Sugiere el siguiente curso o servicio de consultoría según el progreso</li>
+      </ul>
+      <div class="card foot" style="background:transparent;border:0;padding:0;margin-top:14px">
+        <strong>Tecnología:</strong> Gemini con contexto del contenido del curso (RAG sobre el material)<br>
+        <strong>Esfuerzo:</strong> Medio — 2–4 semanas
+      </div>
+    </div>
+
+    <div class="agent-card a-purple">
+      <div class="tag purple">🤖 Prioridad 3 · Por construir</div>
+      <div class="agent-name">Agente de Contenido & LinkedIn</div>
+      <div class="agent-role">Generación automática de posts, artículos y newsletter</div>
+      <div class="agent-powers">
+        <span class="power">Posts LinkedIn</span>
+        <span class="power">Blog SEO</span>
+        <span class="power">Newsletter</span>
+        <span class="power">Aprobación humana</span>
+      </div>
+      <ul>
+        <li>Genera 3 borradores de posts LinkedIn por semana según calendario editorial</li>
+        <li>Escribe artículos de blog con SEO (target: "CAIO Chile", "gobernanza datos IA")</li>
+        <li>Redacta newsletter quincenal con resumen de tendencias IA + Latam</li>
+        <li>Erwin solo aprueba o edita — no parte desde cero</li>
+        <li>Aprende del tono y estilo de Erwin con feedback iterativo</li>
+      </ul>
+      <div class="card foot" style="background:transparent;border:0;padding:0;margin-top:14px">
+        <strong>Tecnología:</strong> Endpoint /api/generate-content (ya existe) → automatizar con scheduler<br>
+        <strong>Esfuerzo:</strong> Bajo — 1 semana + proceso editorial de revisión
+      </div>
+    </div>
+
+    <div class="agent-card a-amber">
+      <div class="tag amber">🤖 Prioridad 4 · Por construir</div>
+      <div class="agent-name">Agente de Seguimiento Post-Lead</div>
+      <div class="agent-role">Secuencias automáticas de nurturing por email</div>
+      <div class="agent-powers">
+        <span class="power">Email sequences</span>
+        <span class="power">Segmentación</span>
+        <span class="power">Reactivación</span>
+        <span class="power">CRM sync</span>
+      </div>
+      <ul>
+        <li>Día 0: email personalizado según resultado del Scorecard</li>
+        <li>Día 3: caso de estudio relevante al sector del lead</li>
+        <li>Día 7: recordatorio de asesoría gratuita si no agendó</li>
+        <li>Día 14: recurso gratuito (guía, plantilla) para mantener el contacto</li>
+        <li>Día 30: reactivación con ángulo nuevo (regulatorio, tendencia de mercado)</li>
+      </ul>
+      <div class="card foot" style="background:transparent;border:0;padding:0;margin-top:14px">
+        <strong>Tecnología:</strong> Zoho Campaigns o SendGrid + trigger desde backend<br>
+        <strong>Esfuerzo:</strong> Medio — 2–3 semanas (requiere CRM básico)
+      </div>
+    </div>
+
+    <div class="agent-card a-green">
+      <div class="tag green">🤖 Prioridad 5 · Por construir</div>
+      <div class="agent-name">Agente de Análisis de Negocio</div>
+      <div class="agent-role">Dashboard diario automático con insights accionables</div>
+      <div class="agent-powers">
+        <span class="power">BigQuery analytics</span>
+        <span class="power">Reporte diario</span>
+        <span class="power">Alertas anomalías</span>
+        <span class="power">Recomendaciones</span>
+      </div>
+      <ul>
+        <li>Reporte diario ya existe (/api/daily-report) → agregar interpretación IA</li>
+        <li>"Ayer tuviste 3 leads con intención de compra, 0 agendaron — considera activar seguimiento manual"</li>
+        <li>"El post del martes generó 40% más tráfico al Scorecard — repetir formato"</li>
+        <li>Detecta patrones de ataque o uso abusivo del chat</li>
+        <li>Sugiere acción concreta, no solo datos</li>
+      </ul>
+      <div class="card foot" style="background:transparent;border:0;padding:0;margin-top:14px">
+        <strong>Tecnología:</strong> Gemini sobre output de BigQuery (ya conectado)<br>
+        <strong>Esfuerzo:</strong> Bajo–Medio — 1–2 semanas sobre infra existente
+      </div>
+    </div>
+
+    <div class="agent-card a-red">
+      <div class="tag red">🤖 Futuro · 6+ meses</div>
+      <div class="agent-name">Agente de WhatsApp</div>
+      <div class="agent-role">Atención 24/7 por WhatsApp Business API</div>
+      <div class="agent-powers">
+        <span class="power">WhatsApp Business</span>
+        <span class="power">Handoff humano</span>
+        <span class="power">Documentos</span>
+        <span class="power">Pagos</span>
+      </div>
+      <ul>
+        <li>Mismo agente de ventas pero en WhatsApp (canal preferido en Latam)</li>
+        <li>Puede recibir y enviar documentos (propuestas, contratos)</li>
+        <li>Handoff a Erwin cuando el lead pide hablar con un humano</li>
+        <li>Notifica y resume la conversación antes del handoff</li>
+      </ul>
+      <div class="card foot" style="background:transparent;border:0;padding:0;margin-top:14px">
+        <strong>Tecnología:</strong> WhatsApp Business API (Meta) + webhook al backend Flask<br>
+        <strong>Esfuerzo:</strong> Alto — requiere aprobación de Meta Business + 3–6 semanas
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════ PLATAFORMA -->
+<div class="panel" id="panel-plataforma">
+  <h2 class="section">Plataforma de Cursos & Membresía</h2>
+  <p class="lead">Opciones para entregar cursos y asesorías con acceso controlado. Análisis de construir vs comprar.</p>
+
+  <div class="info">
+    🎯 <strong>Objetivo:</strong> Que solo los clientes que pagan puedan acceder al contenido. Tres opciones ordenadas por rapidez vs control.
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px">
+
+    <div class="option recommended">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="tag teal">⭐ Recomendado · Lanzar en 2 semanas</div>
+          <h3>Opción A — Hotmart o Teachable (plataforma externa)</h3>
+          <div class="desc">Subir los cursos a Hotmart (muy usado en Latam, acepta CLP, USD, BRL) o Teachable. El sitio de AIF369 hace el marketing; el acceso al contenido se da en la plataforma externa.</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-size:22px;font-weight:800;color:var(--teal)">2 semanas</div>
+          <div style="font-size:11px;color:var(--muted)">para lanzar</div>
+        </div>
+      </div>
+      <div class="pros-cons">
+        <div class="pros"><h4>Ventajas</h4><ul>
+          <li>Lanzamiento en días, no meses</li>
+          <li>Pagos integrados (tarjeta, PayPal, PIX, CLP)</li>
+          <li>Certificados automáticos</li>
+          <li>App móvil incluida</li>
+          <li>Afiliados para vender cursos</li>
+          <li>Costo fijo bajo ($0–$99/mes)</li>
+        </ul></div>
+        <div class="cons"><h4>Limitaciones</h4><ul>
+          <li>Menos control sobre la experiencia</li>
+          <li>Comisión por venta (5–10%)</li>
+          <li>Branding limitado de la plataforma</li>
+          <li>Los datos del alumno son de Hotmart</li>
+        </ul></div>
+      </div>
+      <div class="card foot" style="background:transparent;border:0;padding:12px 0 0;margin:0">
+        <strong>Acción inmediata:</strong> Crear cuenta Hotmart Producer → subir 1 curso → conectar link desde aif369.com/cursos → probar pago completo
+      </div>
+    </div>
+
+    <div class="option">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="tag blue">🏗 Mediano Plazo · 4–8 semanas</div>
+          <h3>Opción B — Construir en el sitio AIF369 (control total)</h3>
+          <div class="desc">Agregar autenticación + acceso por roles al backend Flask actual. Stripe/PayPal para pagos. El contenido vive en el propio sitio — máximo control, máximo branding.</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-size:22px;font-weight:800;color:var(--blue)">6–8 sem</div>
+          <div style="font-size:11px;color:var(--muted)">para lanzar</div>
+        </div>
+      </div>
+      <div class="pros-cons">
+        <div class="pros"><h4>Ventajas</h4><ul>
+          <li>Experiencia 100% AIF369</li>
+          <li>Datos de alumnos propios (BigQuery)</li>
+          <li>Sin comisión por venta</li>
+          <li>Agente IA integrado nativamente</li>
+          <li>Escalable a SaaS futuro</li>
+        </ul></div>
+        <div class="cons"><h4>Limitaciones</h4><ul>
+          <li>Mayor tiempo de desarrollo</li>
+          <li>Hay que manejar pagos, auth, video hosting</li>
+          <li>Mantenimiento propio</li>
+          <li>No tiene app móvil nativa</li>
+        </ul></div>
+      </div>
+      <div class="card foot" style="background:transparent;border:0;padding:12px 0 0;margin:0">
+        <strong>Stack:</strong> Flask + JWT auth + Stripe + Vimeo (video privado) + BigQuery (progreso)
+      </div>
+    </div>
+
+    <div class="option">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="tag purple">🔀 Híbrido · Mejor de los dos</div>
+          <h3>Opción C — Marketing en AIF369, contenido en Hotmart · Migrar después</h3>
+          <div class="desc">Lanzar en Hotmart para validar demanda y precios. Cuando haya 50+ alumnos, migrar a la plataforma propia. Esto elimina el riesgo de construir para nadie.</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-size:22px;font-weight:800;color:var(--purple)">Lo mejor</div>
+          <div style="font-size:11px;color:var(--muted)">a largo plazo</div>
+        </div>
+      </div>
+      <div class="pros-cons">
+        <div class="pros"><h4>Ventajas</h4><ul>
+          <li>Validas antes de construir</li>
+          <li>Ingresos desde semana 2</li>
+          <li>Sin riesgo técnico inicial</li>
+          <li>Migras cuando hay base de clientes real</li>
+        </ul></div>
+        <div class="cons"><h4>Limitaciones</h4><ul>
+          <li>Doble trabajo al migrar</li>
+          <li>Experiencia de usuario fragmentada temporalmente</li>
+        </ul></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Requisitos de acceso controlado -->
+  <div class="card a-green">
+    <div class="tag green">🔐 Requisitos de Control de Acceso</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px">
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Tipos de Acceso</div>
+        <ul>
+          <li>Visitante público (sin registro)</li>
+          <li>Lead registrado (Scorecard gratuito)</li>
+          <li>Alumno (pagó curso específico)</li>
+          <li>Miembro Academy ($49/mes — acceso total)</li>
+          <li>Cliente consultoría (materiales del proyecto)</li>
+          <li>Admin (Erwin — acceso total)</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Contenido a Proteger</div>
+        <ul>
+          <li>Videos de cursos (streaming privado)</li>
+          <li>PDFs y plantillas descargables</li>
+          <li>Grabaciones de asesorías 1:1</li>
+          <li>Materiales de proyectos de consultoría</li>
+          <li>Sesiones en vivo (Zoom/Meet con acceso por link privado)</li>
+          <li>Chat con agente IA del curso</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Pagos Aceptados</div>
+        <ul>
+          <li>Tarjeta de crédito/débito (Stripe)</li>
+          <li>PayPal (ya integrado)</li>
+          <li>Transferencia bancaria (Chile)</li>
+          <li>Crypto (futuro)</li>
+          <li>Suscripción mensual (Stripe Subscriptions)</li>
+          <li>Factura / boleta de honorarios</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════ GTM -->
+<div class="panel" id="panel-gtm">
+  <h2 class="section">Go-to-Market con IA</h2>
+  <p class="lead">Todo lo que puede ser manejado o asistido por IA en la adquisición de clientes. Foco en el canal con mayor ROI primero.</p>
+
+  <div class="grid-3" style="margin-bottom:16px">
+
+    <div class="card a-blue">
+      <div class="tag blue">⚡ Inmediato · Semana 1</div>
+      <h3>Scorecard como Motor de Leads</h3>
+      <ul>
+        <li>Activar email automático post-Scorecard según puntaje (ya tenemos el backend)</li>
+        <li>0–40%: urgencia + oferta de call gratuita + guía rápida</li>
+        <li>41–70%: hoja de ruta sugerida + link a Starter 369</li>
+        <li>71–100%: caso de estudio avanzado + propuesta Enterprise</li>
+        <li>Conectar Scorecard al agente de ventas: "Vi que hiciste el Scorecard, ¿quieres que te explique los resultados?"</li>
+      </ul>
+      <div class="foot"><strong>KPI:</strong> 30% de completadores del Scorecard → call de discovery</div>
+    </div>
+
+    <div class="card a-teal">
+      <div class="tag teal">📝 Semana 1–2</div>
+      <h3>LinkedIn — Contenido con IA</h3>
+      <ul>
+        <li>Usar /api/generate-content para generar 3 borradores por semana</li>
+        <li>Lunes: insight regulatorio (Ley 21.719 + datos para IA)</li>
+        <li>Miércoles: framework o caso del Método 369</li>
+        <li>Viernes: pregunta de debate para CEO/CTO</li>
+        <li>Erwin revisa y publica — 15 min/día en lugar de 2 horas</li>
+        <li>Incluir CTA al Scorecard en cada 2° post</li>
+      </ul>
+      <div class="foot"><strong>KPI:</strong> +300 seguidores/mes · 5% engagement rate</div>
+    </div>
+
+    <div class="card a-green">
+      <div class="tag green">📧 Semana 2–3</div>
+      <h3>Secuencia de Email Automatizada</h3>
+      <ul>
+        <li>Día 0 (Scorecard completado): reporte personalizado por sector</li>
+        <li>Día 3: "3 señales de que tu empresa NO está lista para IA" (artículo)</li>
+        <li>Día 7: recordatorio de asesoría gratuita (Calendly)</li>
+        <li>Día 14: recurso gratis — plantilla de política de uso de IA</li>
+        <li>Día 30: reactivación con ángulo nuevo ("¿Cómo va tu proyecto IA?")</li>
+      </ul>
+      <div class="foot"><strong>KPI:</strong> 25% open rate · 5% click rate · 2% conversión a call</div>
+    </div>
+
+    <div class="card a-amber">
+      <div class="tag amber">📱 Mes 1</div>
+      <h3>Canal WhatsApp (manual con plantillas)</h3>
+      <ul>
+        <li>Crear 5 plantillas de WhatsApp para seguimiento de leads</li>
+        <li>Template 1: Bienvenida post-Scorecard</li>
+        <li>Template 2: Recordatorio de call</li>
+        <li>Template 3: Envío de propuesta</li>
+        <li>Template 4: Follow-up post-call</li>
+        <li>Template 5: Reactivación de lead frío</li>
+        <li>Agente IA responde fuera de horario → Erwin en horario</li>
+      </ul>
+      <div class="foot"><strong>KPI:</strong> Reducir tiempo de respuesta a &lt;5 min</div>
+    </div>
+
+    <div class="card a-purple">
+      <div class="tag purple">🔍 Mes 1–2</div>
+      <h3>SEO — Contenido de Autoridad</h3>
+      <ul>
+        <li>Target: "gobernanza de datos IA Chile", "CAIO consultor", "Ley 21.719 empresa"</li>
+        <li>Generar 4 artículos/mes con /api/generate-content + revisión humana</li>
+        <li>Estructura: pregunta de CEO → respuesta práctica → CTA Scorecard</li>
+        <li>Interlink entre artículos y páginas de servicios</li>
+        <li>Guest posts en medios tech Chile (El Mercurio Digital, Pulso)</li>
+      </ul>
+      <div class="foot"><strong>KPI:</strong> Top 10 Google para 5 keywords en 90 días</div>
+    </div>
+
+    <div class="card a-red">
+      <div class="tag red">🎯 Mes 2–3</div>
+      <h3>Webinar Mensual Automatizado</h3>
+      <ul>
+        <li>"IA sin caos: cómo implementar con gobernanza real" — una vez al mes</li>
+        <li>Registro con email → secuencia automática pre-evento (3 emails)</li>
+        <li>Agente IA responde preguntas del chat del webinar en tiempo real</li>
+        <li>Post-evento: grabación + oferta de Starter 369 a precio especial (48h)</li>
+        <li>Secuencia post-webinar de 5 emails para los que no compraron</li>
+      </ul>
+      <div class="foot"><strong>KPI:</strong> 50 registrados/webinar · 10% conversión a lead calificado</div>
+    </div>
+
+  </div>
+
+  <!-- Herramientas -->
+  <div class="card a-blue">
+    <div class="tag blue">🛠 Stack de Herramientas GTM (bajo costo)</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px">
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">Email</div>
+        <ul><li>Zoho Campaigns (ya tenemos Zoho Mail)</li><li>O MailerLite ($10/mes hasta 1k)</li><li>SendGrid (API para emails transac.)</li></ul>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">CRM</div>
+        <ul><li>Zoho CRM Free (hasta 3 usuarios)</li><li>HubSpot Free (alternativa)</li><li>Notion + automaciones (mínimo)</li></ul>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">Analytics</div>
+        <ul><li>BigQuery (ya integrado)</li><li>Google Analytics 4 (gratis)</li><li>Hotjar (mapas de calor, $39/mes)</li></ul>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">Contenido</div>
+        <ul><li>Gemini API (ya integrada)</li><li>Canva Pro ($13/mes) para imágenes</li><li>Buffer ($15/mes) para scheduling LinkedIn</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════ ROADMAP -->
+<div class="panel" id="panel-roadmap">
+  <h2 class="section">Roadmap Priorizado — Primera Tarea</h2>
+  <p class="lead">Todo ordenado por impacto vs esfuerzo. Lo que AIF369 puede hacer con IA, en orden de ejecución.</p>
+
+  <div class="grid-4" style="margin-bottom:24px">
+    <div class="stat"><div class="val">5</div><div class="lbl">Agentes IA por construir</div></div>
+    <div class="stat"><div class="val">2 sem</div><div class="lbl">Para lanzar cursos en Hotmart</div></div>
+    <div class="stat"><div class="val">~$0</div><div class="lbl">Costo adicional semana 1</div></div>
+    <div class="stat"><div class="val">6–12</div><div class="lbl">Meses para escala Latam</div></div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot now">1</div>
+      <div class="tl-body">
+        <div class="tl-phase">Semana 1 · Impacto inmediato</div>
+        <div class="tl-title">🎯 Definir el Producto y su Valor (esta semana)</div>
+        <ul>
+          <li>Escribir la propuesta de valor de cada producto en 1 oración (ya tienes el draft arriba)</li>
+          <li>Definir precio, duración y entregables exactos de cada servicio</li>
+          <li>Identificar y contactar al especialista DAMA/DMBOK para el servicio de gobernanza de datos</li>
+          <li>Crear 1 caso de estudio (real o compuesto) por segmento (finanzas, retail, salud)</li>
+        </ul>
+        <div class="tl-kpi"><strong>Resultado:</strong> Propuesta comercial lista para enviar a un lead mañana</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot now">2</div>
+      <div class="tl-body">
+        <div class="tl-phase">Semana 1–2 · Go-to-Market con IA</div>
+        <div class="tl-title">🤖 Activar el Agente de Ventas (upgrade del chatbot)</div>
+        <ul>
+          <li>Actualizar el System Prompt del chatbot con los nuevos productos y precios</li>
+          <li>Agregar detección de intención "datos" → conectar con propuesta de Gobernanza de Datos</li>
+          <li>Configurar email automático post-Scorecard según puntaje (3 variantes)</li>
+          <li>Conectar Calendly al flujo del chatbot para que agende directamente</li>
+        </ul>
+        <div class="tl-kpi"><strong>Resultado:</strong> Leads atendidos 24/7 sin intervención de Erwin</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">3</div>
+      <div class="tl-body">
+        <div class="tl-phase">Semana 2 · Ingresos digitales</div>
+        <div class="tl-title">🎓 Lanzar Cursos en Hotmart (o Teachable)</div>
+        <ul>
+          <li>Crear cuenta Hotmart Producer</li>
+          <li>Subir el primer curso completo (el de mayor demanda)</li>
+          <li>Conectar el botón de compra desde aif369.com a Hotmart</li>
+          <li>Configurar email de bienvenida automático al alumno</li>
+          <li>Publicar en LinkedIn el lanzamiento del curso</li>
+        </ul>
+        <div class="tl-kpi"><strong>Resultado:</strong> Primera venta de curso en los primeros 7 días post-lanzamiento</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">4</div>
+      <div class="tl-body">
+        <div class="tl-phase">Semana 2–3 · Contenido con IA</div>
+        <div class="tl-title">📝 Activar Generación de Contenido LinkedIn + Blog</div>
+        <ul>
+          <li>Crear calendario editorial: 3 posts/semana (temáticas definidas)</li>
+          <li>Usar /api/generate-content para generar borradores automáticos cada lunes</li>
+          <li>Erwin revisa y publica — 15 min/día</li>
+          <li>Primer artículo SEO: "Por qué sin datos de calidad, tu IA falla — y cómo remediarlo"</li>
+          <li>Mencionar Ley 21.719 como urgencia real de negocio</li>
+        </ul>
+        <div class="tl-kpi"><strong>Resultado:</strong> 12 posts/mes sin partir desde cero · +200 visitas orgánicas</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">5</div>
+      <div class="tl-body">
+        <div class="tl-phase">Mes 1 · Nurturing automatizado</div>
+        <div class="tl-title">📧 Secuencia de Email Post-Scorecard</div>
+        <ul>
+          <li>Configurar Zoho Campaigns o MailerLite</li>
+          <li>Crear 5 emails de seguimiento con contenido de valor (no solo venta)</li>
+          <li>Segmentar por puntaje del Scorecard y sector de la empresa</li>
+          <li>Integrar con el backend para trigger automático al completar el Scorecard</li>
+        </ul>
+        <div class="tl-kpi"><strong>Resultado:</strong> Ningún lead se enfría sin seguimiento automático</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">6</div>
+      <div class="tl-body">
+        <div class="tl-phase">Mes 2 · Cerrar el loop</div>
+        <div class="tl-title">🤖 Agente de Soporte de Cursos + Análisis Diario con IA</div>
+        <ul>
+          <li>Construir el agente de soporte dentro de la plataforma de cursos (RAG sobre el material)</li>
+          <li>Agregar interpretación IA al reporte diario (/api/daily-report) — acción recomendada</li>
+          <li>Primer webinar mensual con agente IA respondiendo el chat en vivo</li>
+        </ul>
+        <div class="tl-kpi"><strong>Resultado:</strong> Negocio mayormente autónomo para interacciones repetibles</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">7</div>
+      <div class="tl-body">
+        <div class="tl-phase">Mes 3–6 · Escala</div>
+        <div class="tl-title">🌎 Plataforma Propia + Expansión Latam</div>
+        <ul>
+          <li>Migrar cursos de Hotmart a plataforma propia en aif369.com (auth + pagos + agente IA)</li>
+          <li>Contratar 1 consultor DAMA/DMBOK para el servicio de gobernanza de datos</li>
+          <li>Primer cliente en Colombia o México (referido o LinkedIn)</li>
+          <li>Certificar el Método 369 con documentación formal</li>
+          <li>Evaluar WhatsApp Business API para atención automatizada</li>
+        </ul>
+        <div class="tl-kpi"><strong>Resultado:</strong> AIF369 opera en 3 países con infraestructura IA como columna vertebral</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<footer>
+  AIF369 · Hoja de Ruta Maestra · Erwin Daza Castillo · aif369.com · Junio 2026
+</footer>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

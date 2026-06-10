@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIF369 — AI Business Model Canvas</title>
+<style>
+  :root {
+    --blue:    #0088FF;
+    --teal:    #00D9CC;
+    --bg:      #0B1120;
+    --surface: #0F1F35;
+    --card:    #162B45;
+    --border:  rgba(255,255,255,0.08);
+    --text:    #E2E8F0;
+    --muted:   #7B8BA8;
+    --dim:     #A8B8D8;
+    --green:   #22C55E;
+    --amber:   #F59E0B;
+    --red:     #EF4444;
+    --purple:  #A855F7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── Header ── */
+  header {
+    background: linear-gradient(135deg, #0B1120 0%, #162B45 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header .brand { display: flex; align-items: center; gap: 16px; }
+  header .logo { font-size: 28px; font-weight: 800; background: linear-gradient(90deg,var(--blue),var(--teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  header .subtitle { color: var(--muted); font-size: 13px; }
+  header .badge { background: linear-gradient(135deg,var(--blue),var(--teal)); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 4px; padding: 20px 40px 0; border-bottom: 1px solid var(--border); }
+  .tab { padding: 10px 20px; border-radius: 8px 8px 0 0; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); border: 1px solid transparent; border-bottom: none; transition: all .2s; }
+  .tab.active { color: var(--blue); border-color: var(--border); background: var(--surface); }
+  .tab:hover:not(.active) { color: var(--dim); }
+
+  /* ── Main ── */
+  main { padding: 32px 40px; max-width: 1600px; margin: 0 auto; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── Canvas Grid ── */
+  .canvas-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .canvas-desc  { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+  .canvas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+  }
+
+  .cell {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    min-height: 160px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cell::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent, linear-gradient(90deg,var(--blue),var(--teal)));
+  }
+  .cell-title {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--muted); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cell-title .icon { font-size: 14px; }
+  .cell ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .cell li { font-size: 13px; color: var(--dim); line-height: 1.45; padding-left: 14px; position: relative; }
+  .cell li::before { content: '›'; position: absolute; left: 0; color: var(--blue); font-weight: 700; }
+  .cell .tag {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 10px; margin-bottom: 6px;
+  }
+
+  /* cell spanning */
+  .span-col-2 { grid-column: span 2; }
+  .span-row-2 { grid-row: span 2; }
+
+  /* accent colors per cell */
+  .accent-blue   { --accent: linear-gradient(90deg,#0088FF,#0066CC); }
+  .accent-teal   { --accent: linear-gradient(90deg,#00D9CC,#0088FF); }
+  .accent-green  { --accent: linear-gradient(90deg,#22C55E,#16A34A); }
+  .accent-amber  { --accent: linear-gradient(90deg,#F59E0B,#D97706); }
+  .accent-purple { --accent: linear-gradient(90deg,#A855F7,#7C3AED); }
+  .accent-red    { --accent: linear-gradient(90deg,#EF4444,#DC2626); }
+
+  /* ── Revenue bar ── */
+  .revenue-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 8px;
+  }
+
+  /* ── GTM Panel ── */
+  .gtm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .gtm-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 22px; position: relative; overflow: hidden;
+  }
+  .gtm-card::before { content: ''; position: absolute; top:0;left:0;right:0;height:3px; background: var(--accent,linear-gradient(90deg,var(--blue),var(--teal))); }
+  .gtm-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .gtm-card .phase { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 14px; }
+  .gtm-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .gtm-card li { font-size: 13px; color: var(--dim); padding-left: 18px; position: relative; line-height: 1.4; }
+  .gtm-card li::before { content: '→'; position: absolute; left: 0; color: var(--blue); }
+  .gtm-card .kpi { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  .gtm-card .kpi strong { color: var(--teal); }
+
+  /* ── Metrics Panel ── */
+  .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .metric-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .metric-card .val { font-size: 28px; font-weight: 800; background: linear-gradient(90deg,var(--blue),var(--teal)); -webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+  .metric-card .label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .metric-card .sub { font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+  .funnel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .funnel h3 { font-size: 15px; font-weight: 700; margin-bottom: 18px; }
+  .funnel-step { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .funnel-bar-wrap { flex: 1; background: rgba(255,255,255,0.05); border-radius: 6px; height: 32px; overflow: hidden; }
+  .funnel-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 12px; font-size: 12px; font-weight: 600; color: #fff; transition: width .5s ease; }
+  .funnel-label { font-size: 13px; color: var(--dim); min-width: 160px; }
+  .funnel-count { font-size: 12px; color: var(--muted); min-width: 60px; text-align: right; }
+
+  /* ── Pricing ── */
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .pricing-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; position:relative; overflow:hidden; }
+  .pricing-card.featured { border-color: var(--blue); }
+  .pricing-card.featured::after { content:'MÁS POPULAR'; position:absolute;top:12px;right:-20px;background:var(--blue);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 28px;transform:rotate(35deg); }
+  .pricing-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .pricing-card .duration { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .pricing-card .price { font-size: 28px; font-weight: 800; color: var(--blue); margin-bottom: 4px; }
+  .pricing-card .price-note { font-size: 11px; color: var(--muted); margin-bottom: 18px; }
+  .pricing-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .pricing-card li { font-size: 13px; color: var(--dim); padding-left: 20px; position:relative; }
+  .pricing-card li::before { content:'✓'; position:absolute;left:0;color:var(--green);font-weight:700; }
+
+  /* ── Sections inside panels ── */
+  .section-title { font-size: 18px; font-weight: 700; color: var(--text); margin: 32px 0 16px; display: flex; align-items: center; gap: 10px; }
+  .section-title .dot { width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg,var(--blue),var(--teal)); }
+
+  /* ── Footer ── */
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 40px; }
+
+  @media(max-width: 1100px) {
+    .canvas-grid { grid-template-columns: 1fr 1fr; }
+    .gtm-grid, .metrics-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .span-col-2 { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">AIF369</div>
+    <div>
+      <div style="font-size:16px;font-weight:700;color:var(--text)">AI Business Model Canvas</div>
+      <div class="subtitle">Modelo de negocio · Método 369 · Consultoría IA</div>
+    </div>
+  </div>
+  <div class="badge">v2026</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('canvas')">🗂 Canvas</div>
+  <div class="tab" onclick="showPanel('gtm')">🚀 Go-to-Market</div>
+  <div class="tab" onclick="showPanel('pricing')">💰 Modelo de Ingresos</div>
+  <div class="tab" onclick="showPanel('funnel')">📊 Funnel de Clientes</div>
+</div>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════════════ PANEL: CANVAS -->
+  <div class="panel active" id="panel-canvas">
+    <div class="canvas-title">Business Model Canvas — AIF369</div>
+    <div class="canvas-desc">Adaptado para consultoría de IA con enfoque en gobernanza, riesgo y adopción empresarial · Basado en el Método 369</div>
+
+    <div class="canvas-grid">
+
+      <!-- ROW 1 -->
+
+      <!-- Socios Clave — col 1, rows 1-2 -->
+      <div class="cell span-row-2 accent-purple" style="grid-row:1/3;grid-column:1">
+        <div class="cell-title"><span class="icon">🤝</span> Socios Clave</div>
+        <ul>
+          <li>Google Cloud (Gemini, BigQuery, Cloud Run)</li>
+          <li>Vercel (hosting frontend)</li>
+          <li>Zoho (email / CRM)</li>
+          <li>Calendly (agendamiento)</li>
+          <li>Consultores freelance especializados (MLOps, Legal IA)</li>
+          <li>Firmas legales de privacidad de datos (Chile)</li>
+          <li>Cámaras de Comercio y asociaciones tech Latam</li>
+          <li>Universidades y escuelas de negocios (co-formación)</li>
+        </ul>
+      </div>
+
+      <!-- Actividades Clave — col 2, row 1 -->
+      <div class="cell accent-blue" style="grid-column:2">
+        <div class="cell-title"><span class="icon">⚙️</span> Actividades Clave</div>
+        <ul>
+          <li>Diagnóstico de madurez IA (Scorecard)</li>
+          <li>Diseño de gobernanza y AI Factory</li>
+          <li>Advisory ejecutivo (CAIO-as-a-Service)</li>
+          <li>Talleres para directorios y C-level</li>
+          <li>Generación de contenido SEO / LinkedIn</li>
+          <li>Calificación de leads vía chatbot</li>
+        </ul>
+      </div>
+
+      <!-- Propuesta de Valor — col 3, rows 1-2 -->
+      <div class="cell span-row-2 accent-teal" style="grid-row:1/3;grid-column:3">
+        <div class="cell-title"><span class="icon">💎</span> Propuesta de Valor</div>
+        <span class="tag" style="background:rgba(0,217,204,.15);color:var(--teal)">Diferenciador central</span>
+        <ul>
+          <li><strong style="color:var(--text)">CAIO externo</strong> — liderazgo AI de C-level sin el costo fijo de un ejecutivo</li>
+          <li><strong style="color:var(--text)">ROI medible</strong> desde el primer sprint, no al final del proyecto</li>
+          <li><strong style="color:var(--text)">Gobernanza lista</strong> para EU AI Act, Chile Ley 21.719 y Boletín 16821-19</li>
+          <li><strong style="color:var(--text)">Método 369</strong> — metodología propietaria: 3 capas, 6 fases, 9 métricas CAIO</li>
+          <li><strong style="color:var(--text)">Riesgo controlado</strong> — framework de riesgo y privacidad desde el día 1</li>
+          <li><strong style="color:var(--text)">Velocidad</strong> — de diagnóstico a piloto en producción en 8-12 semanas</li>
+          <li><strong style="color:var(--text)">Contexto Latam</strong> — regulación local, cultura organizacional regional</li>
+        </ul>
+      </div>
+
+      <!-- Relación con Clientes — col 4, row 1 -->
+      <div class="cell accent-green" style="grid-column:4">
+        <div class="cell-title"><span class="icon">💬</span> Relación con Clientes</div>
+        <ul>
+          <li>Advisory mensual recurrente (CAIO-as-a-Service)</li>
+          <li>Chatbot IA 24/7 en el sitio web</li>
+          <li>Consultoría presencial y remota</li>
+          <li>Newsletter con insights IA ejecutivos</li>
+          <li>Comunidad cerrada post-proyecto</li>
+        </ul>
+      </div>
+
+      <!-- Segmentos de Clientes — col 5, rows 1-2 -->
+      <div class="cell span-row-2 accent-amber" style="grid-row:1/3;grid-column:5">
+        <div class="cell-title"><span class="icon">🎯</span> Segmentos de Clientes</div>
+        <span class="tag" style="background:rgba(245,158,11,.15);color:var(--amber)">Prioridad Alta</span>
+        <ul>
+          <li><strong style="color:var(--text)">Empresas medianas</strong> (100-1000 empleados) en Chile, Colombia, México, Perú</li>
+          <li>Sectores: <strong style="color:var(--text)">Finanzas, Retail, Salud, Manufactura, Gobierno</strong></li>
+          <li>Decisores: CEO, CTO, CIO, CDO, Directorio</li>
+        </ul>
+        <span class="tag" style="background:rgba(245,158,11,.10);color:var(--amber);margin-top:12px">Prioridad Media</span>
+        <ul style="margin-top:0">
+          <li>Startups de IA que necesitan gobierno y compliance</li>
+          <li>Multinacionales con operaciones en Latam</li>
+          <li>Entidades públicas digitalizando con IA</li>
+        </ul>
+        <span class="tag" style="background:rgba(245,158,11,.07);color:var(--amber);margin-top:12px">Educación</span>
+        <ul style="margin-top:0">
+          <li>Profesionales de datos y IA (upskilling)</li>
+          <li>Equipos corporativos (formación interna)</li>
+        </ul>
+      </div>
+
+      <!-- Recursos Clave — col 2, row 2 -->
+      <div class="cell accent-blue" style="grid-column:2">
+        <div class="cell-title"><span class="icon">🏗️</span> Recursos Clave</div>
+        <ul>
+          <li><strong style="color:var(--text)">Método 369</strong> — IP propietaria</li>
+          <li><strong style="color:var(--text)">Erwin Daza</strong> — marca personal, CAIO Advisor, 15+ años</li>
+          <li>Plataforma web + backend IA (chatbot, scorecard)</li>
+          <li>Red de contactos C-level en Latam</li>
+          <li>Biblioteca de frameworks y plantillas</li>
+          <li>BigQuery analytics de usuarios</li>
+        </ul>
+      </div>
+
+      <!-- Canales — col 4, row 2 -->
+      <div class="cell accent-green" style="grid-column:4">
+        <div class="cell-title"><span class="icon">📡</span> Canales</div>
+        <ul>
+          <li><strong style="color:var(--text)">aif369.com</strong> — SEO, blog, scorecard (lead magnet)</li>
+          <li><strong style="color:var(--text)">LinkedIn</strong> — thought leadership Erwin Daza</li>
+          <li>WhatsApp +56 9 9754 7192</li>
+          <li>Calendly (asesoría gratuita 30 min)</li>
+          <li>Referidos de clientes actuales</li>
+          <li>Eventos y webinars tech en Latam</li>
+        </ul>
+      </div>
+
+      <!-- ROW 3: Costos y Revenue (full width) -->
+
+      <!-- Estructura de Costos — cols 1-2-3 -->
+      <div class="cell accent-red" style="grid-column:1/4">
+        <div class="cell-title"><span class="icon">📉</span> Estructura de Costos</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+          <div>
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Fijos</div>
+            <ul>
+              <li>Tiempo Erwin Daza (costo de oportunidad)</li>
+              <li>Hosting Vercel + dominio</li>
+              <li>Google Cloud Run (backend)</li>
+              <li>Zoho Mail + CRM</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Variables</div>
+            <ul>
+              <li>Gemini API (por tokens de chat)</li>
+              <li>Consultores externos por proyecto</li>
+              <li>Producción de contenido y diseño</li>
+              <li>Viajes / eventos presenciales</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Escalabilidad</div>
+            <ul>
+              <li>Bajo CAPEX — modelo consultoría pura</li>
+              <li>Contratar junior advisors al crecer</li>
+              <li>Productizar metodología → SaaS futuro</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fuentes de Ingreso — cols 4-5 -->
+      <div class="cell accent-teal" style="grid-column:4/6">
+        <div class="cell-title"><span class="icon">💵</span> Fuentes de Ingreso</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Proyectos (principal)</div>
+            <ul>
+              <li>Starter 369 — diagnóstico</li>
+              <li>Governed Pilot 369 — piloto</li>
+              <li>Enterprise 369 — transformación</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Recurrente + Digital</div>
+            <ul>
+              <li>CAIO-as-a-Service (retainer mensual)</li>
+              <li>Cursos IA (4 activos)</li>
+              <li>Guías y recursos digitales</li>
+              <li>Workshops ejecutivos (sesión)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /canvas-grid -->
+  </div><!-- /panel-canvas -->
+
+
+  <!-- ══════════════════════════════════════════════════════ PANEL: GTM -->
+  <div class="panel" id="panel-gtm">
+    <div class="canvas-title">Go-to-Market — Atracción de Clientes</div>
+    <div class="canvas-desc">Estrategia en 3 horizontes: activación inmediata, construcción de autoridad, y escala a Latam</div>
+
+    <div class="gtm-grid">
+
+      <div class="gtm-card accent-blue">
+        <div class="phase">Horizonte 1 · Ahora (0-90 días)</div>
+        <h3>🎯 Activación de Leads Calientes</h3>
+        <ul>
+          <li>Optimizar el <strong>Scorecard</strong> como lead magnet principal — cada resultado envía email automatizado con propuesta de valor personalizada</li>
+          <li>Publicar 2 posts semanales en <strong>LinkedIn</strong> con casos reales y marcos de gobernanza (Erwin Daza como voz)</li>
+          <li>Ofrecer <strong>30 min gratuitos</strong> a empresas que completen el Scorecard con puntaje bajo (&lt;40%)</li>
+          <li>Activar seguimiento del chatbot: cada sesión con intención "pricing" o "scheduling" genera alerta inmediata</li>
+          <li>Reactivar <strong>3-5 contactos</strong> previos con nuevo ángulo regulatorio (Ley 21.719 vigencia dic 2026)</li>
+        </ul>
+        <div class="kpi">Meta: <strong>5 calls de discovery</strong> en 30 días</div>
+      </div>
+
+      <div class="gtm-card accent-teal">
+        <div class="phase">Horizonte 2 · Corto Plazo (90-180 días)</div>
+        <h3>🏗️ Construcción de Autoridad</h3>
+        <ul>
+          <li>Publicar <strong>1 caso de estudio</strong> por mes con resultados reales (con permiso del cliente)</li>
+          <li>Webinar mensual gratuito: "IA sin caos: gobernanza para empresas latinoamericanas"</li>
+          <li>Co-crear contenido con <strong>medios tech/empresa</strong> en Chile (El Mercurio, emol, Pulso)</li>
+          <li>Lanzar <strong>newsletter quincenal</strong> con insights de regulación IA + casos Latam</li>
+          <li>Presentar en 2 eventos de la industria (ej. Summit IA Chile, Endeavor, ICARE)</li>
+          <li>Optimizar <strong>SEO</strong> para "CAIO Chile", "consultoría gobernanza IA", "AI Act Latam"</li>
+        </ul>
+        <div class="kpi">Meta: <strong>3 contratos cerrados</strong> · 500 suscriptores newsletter</div>
+      </div>
+
+      <div class="gtm-card accent-purple">
+        <div class="phase">Horizonte 3 · Mediano Plazo (6-18 meses)</div>
+        <h3>🌎 Escala Regional</h3>
+        <ul>
+          <li>Expandir a Colombia, México, Perú con <strong>socios locales</strong> o consultores asociados</li>
+          <li>Certificar el <strong>Método 369</strong> como framework con documentación oficial y training</li>
+          <li>Productizar el diagnóstico → <strong>SaaS de madurez IA</strong> (Scorecard premium con benchmark sectorial)</li>
+          <li>Programa de <strong>CAIO Academy</strong> — formación ejecutiva certificada</li>
+          <li>Alianzas con consultoras Big 4 o firmas boutique como <strong>canal de referidos</strong></li>
+        </ul>
+        <div class="kpi">Meta: <strong>10+ clientes activos</strong> · presencia en 3 países</div>
+      </div>
+
+      <div class="gtm-card accent-amber">
+        <div class="phase">Canal · Siempre Activo</div>
+        <h3>🔗 LinkedIn — Motor Principal</h3>
+        <ul>
+          <li><strong>Lunes:</strong> insight regulatorio (EU AI Act, Ley Chile) — para directores legales y compliance</li>
+          <li><strong>Miércoles:</strong> caso práctico o framework del Método 369 — para CTO/CIO</li>
+          <li><strong>Viernes:</strong> tendencia de mercado o pregunta de debate — para CEOs</li>
+          <li>Comentar en posts de referentes IA globales con perspectiva Latam</li>
+          <li>Publicar resultados del Scorecard anonimizados ("empresas medianas tienen 32% de madurez IA")</li>
+        </ul>
+        <div class="kpi">Meta: <strong>+500 seguidores/mes</strong> · 5% engagement rate</div>
+      </div>
+
+      <div class="gtm-card accent-green">
+        <div class="phase">Canal · Conversión</div>
+        <h3>🧲 Scorecard como Máquina de Leads</h3>
+        <ul>
+          <li>Tras completar el Scorecard, envío automático de email con <strong>reporte personalizado</strong> por nivel de madurez</li>
+          <li>Puntaje 0-40%: email con urgencia + oferta de call gratuita</li>
+          <li>Puntaje 41-70%: guía de siguiente paso + link a Starter 369</li>
+          <li>Puntaje 71-100%: propuesta Enterprise + invitación a workshop</li>
+          <li>Integrar con <strong>CRM</strong> para seguimiento automatizado a los 7 y 30 días</li>
+        </ul>
+        <div class="kpi">Meta: <strong>30% conversión</strong> Scorecard → Call de discovery</div>
+      </div>
+
+      <div class="gtm-card accent-red">
+        <div class="phase">Urgencia de Mercado · 2026</div>
+        <h3>⚡ Ventana Regulatoria Chile</h3>
+        <ul>
+          <li><strong>Dic 2026</strong>: entra en vigor Ley 21.719 (protección de datos personales Chile) — empresas DEBEN tener datos en orden</li>
+          <li><strong>EU AI Act</strong> ya en vigencia — empresas que exportan a Europa o tienen socios EU están en riesgo</li>
+          <li>Posicionar AIF369 como <strong>"el partner antes de que sea obligatorio"</strong></li>
+          <li>Mensaje: "Cada mes que esperas, el riesgo regulatorio crece. El Método 369 te pone compliance-ready en 8 semanas."</li>
+        </ul>
+        <div class="kpi">Ventana de oportunidad: <strong>6-12 meses</strong> de alta demanda regulatoria</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════ PANEL: PRICING -->
+  <div class="panel" id="panel-pricing">
+    <div class="canvas-title">Modelo de Ingresos — Estructura de Precios</div>
+    <div class="canvas-desc">Tres líneas de negocio: proyectos, recurrente, y productos digitales</div>
+
+    <div class="section-title"><span class="dot"></span>Paquetes de Proyectos (ticket principal)</div>
+    <div class="pricing-grid">
+
+      <div class="pricing-card accent-blue">
+        <h3>🔍 Starter 369</h3>
+        <div class="duration">4 – 6 semanas · Diagnóstico + Hoja de Ruta</div>
+        <div class="price">$4.000 – $8.000</div>
+        <div class="price-note">USD · boleta de honorarios Chile</div>
+        <ul>
+          <li>AI Readiness Assessment completo</li>
+          <li>Mapa de riesgos IA actual</li>
+          <li>Hoja de ruta priorizada (quick wins + largo plazo)</li>
+          <li>Presentación ejecutiva al directorio</li>
+          <li>Framework inicial de gobernanza</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card featured accent-teal">
+        <h3>🚀 Governed Pilot 369</h3>
+        <div class="duration">8 – 12 semanas · Un caso de uso en producción</div>
+        <div class="price">$12.000 – $25.000</div>
+        <div class="price-note">USD · por proyecto</div>
+        <ul>
+          <li>Todo lo de Starter 369</li>
+          <li>1 caso de uso IA en producción con governance integrado</li>
+          <li>Arquitectura de datos y MLOps básico</li>
+          <li>Risk register + controles de privacidad</li>
+          <li>KPIs de negocio definidos y medidos</li>
+          <li>Handoff al equipo interno</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card accent-purple">
+        <h3>🏢 Enterprise 369</h3>
+        <div class="duration">3 – 6 meses · Transformación completa</div>
+        <div class="price">$40.000 – $120.000</div>
+        <div class="price-note">USD · según alcance</div>
+        <ul>
+          <li>Estrategia IA corporativa completa</li>
+          <li>AI Factory Design (capacidades internas)</li>
+          <li>Gobierno, riesgo y compliance end-to-end</li>
+          <li>Múltiples casos de uso en producción</li>
+          <li>Formación interna del equipo</li>
+          <li>CAIO Advisory durante el proyecto</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="dot"></span>Ingresos Recurrentes</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="pricing-card accent-green">
+        <h3>🔄 CAIO-as-a-Service</h3>
+        <div class="duration">Retainer mensual · Ongoing</div>
+        <div class="price">$2.500 – $6.000</div>
+        <div class="price-note">USD/mes · mínimo 3 meses</div>
+        <ul>
+          <li>8-16 horas/mes de advisory ejecutivo</li>
+          <li>Revisión de decisiones IA del equipo</li>
+          <li>Alertas de cambios regulatorios</li>
+          <li>Acceso prioritario por WhatsApp/email</li>
+          <li>Reporte mensual de madurez IA</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card accent-amber">
+        <h3>🎓 Educación y Cursos</h3>
+        <div class="duration">Asíncronos + Workshops · One-time + licencias</div>
+        <div class="price">$197 – $2.000</div>
+        <div class="price-note">USD · por curso o taller</div>
+        <ul>
+          <li>Curso de IA — $197 (público general)</li>
+          <li>Big Data + IA — $297</li>
+          <li>MLOps Producción — $347</li>
+          <li>Guía Práctica de Prompting — $10</li>
+          <li>Workshop corporativo — $1.500-$2.000/sesión</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="dot"></span>Proyección de Ingresos Anuales (escenario base)</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="val">3–5</div>
+        <div class="label">Proyectos/año</div>
+        <div class="sub">Governed Pilot promedio</div>
+      </div>
+      <div class="metric-card">
+        <div class="val">$60k</div>
+        <div class="label">Ingresos proyectos</div>
+        <div class="sub">Escenario conservador</div>
+      </div>
+      <div class="metric-card">
+        <div class="val">$30k</div>
+        <div class="label">Retainers anuales</div>
+        <div class="sub">2 clientes × $1.250/mes</div>
+      </div>
+      <div class="metric-card">
+        <div class="val">$8k</div>
+        <div class="label">Educación digital</div>
+        <div class="sub">Cursos + guías</div>
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:4px">Ingreso total estimado año 1 (conservador)</div>
+        <div style="font-size:28px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent">~$98.000 USD</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:4px">Año 2 (con 2 Enterprise + 4 retainers)</div>
+        <div style="font-size:22px;font-weight:700;color:var(--teal)">~$220.000 USD</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════ PANEL: FUNNEL -->
+  <div class="panel" id="panel-funnel">
+    <div class="canvas-title">Funnel de Clientes — Conversión</div>
+    <div class="canvas-desc">Embudo de adquisición actual y tasas objetivo para escalar</div>
+
+    <div class="metrics-grid" style="margin-bottom:24px">
+      <div class="metric-card">
+        <div class="val">500</div>
+        <div class="label">Visitantes/mes (meta)</div>
+        <div class="sub">SEO + LinkedIn</div>
+      </div>
+      <div class="metric-card">
+        <div class="val">15%</div>
+        <div class="label">Tasa Scorecard</div>
+        <div class="sub">Visitantes → lead</div>
+      </div>
+      <div class="metric-card">
+        <div class="val">30%</div>
+        <div class="label">Tasa Call</div>
+        <div class="sub">Lead → discovery call</div>
+      </div>
+      <div class="metric-card">
+        <div class="val">40%</div>
+        <div class="label">Tasa Cierre</div>
+        <div class="sub">Call → contrato</div>
+      </div>
+    </div>
+
+    <div class="funnel" style="margin-bottom:24px">
+      <h3>📉 Embudo de Conversión — Meta Mensual</h3>
+      <div style="margin-top:16px">
+        <div class="funnel-step">
+          <div class="funnel-label">Visitantes web</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:linear-gradient(90deg,#0088FF,#0066CC)">500 visitantes/mes</div></div>
+          <div class="funnel-count">100%</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-label">Completan Scorecard</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:75%;background:linear-gradient(90deg,#00D9CC,#0088FF)">75 leads calificados</div></div>
+          <div class="funnel-count">15%</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-label">Agendan call</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:45%;background:linear-gradient(90deg,#22C55E,#16A34A)">22 calls de discovery</div></div>
+          <div class="funnel-count">30%</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-label">Propuesta enviada</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:28%;background:linear-gradient(90deg,#F59E0B,#D97706)">14 propuestas</div></div>
+          <div class="funnel-count">60%</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-label">Contrato cerrado</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:11%;background:linear-gradient(90deg,#A855F7,#7C3AED)">~6 clientes/mes</div></div>
+          <div class="funnel-count">40%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gtm-grid">
+      <div class="gtm-card accent-blue">
+        <div class="phase">Etapa 1 · Atracción</div>
+        <h3>Generar Tráfico Calificado</h3>
+        <ul>
+          <li>SEO: "CAIO Chile", "consultoría IA Latam", "gobernanza IA empresa"</li>
+          <li>LinkedIn: 3 posts/semana con Erwin Daza como voz de autoridad</li>
+          <li>Blog AIF369: artículos de profundidad sobre regulación y casos de uso</li>
+          <li>Participación en eventos tech (online y presencial)</li>
+        </ul>
+      </div>
+      <div class="gtm-card accent-teal">
+        <div class="phase">Etapa 2 · Conversión</div>
+        <h3>Transformar Interés en Lead</h3>
+        <ul>
+          <li>Scorecard gratuito como punto de entrada principal</li>
+          <li>Email automatizado post-Scorecard según nivel de madurez</li>
+          <li>Chatbot IA con detección de intención (pricing, scheduling)</li>
+          <li>CTA claro en cada página: Calendly + WhatsApp</li>
+        </ul>
+      </div>
+      <div class="gtm-card accent-green">
+        <div class="phase">Etapa 3 · Cierre</div>
+        <h3>De Call a Contrato</h3>
+        <ul>
+          <li>Discovery call de 30 min con diagnóstico rápido en vivo</li>
+          <li>Propuesta enviada en 48 horas máximo</li>
+          <li>Case studies relevantes al sector del prospecto</li>
+          <li>Urgencia real: fecha límite Ley 21.719 (dic 2026)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  AIF369 · Business Model Canvas · Método 369 propietario de Erwin Daza Castillo · aif369.com · 2026
+</footer>
+
+<script>
+  function showPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
