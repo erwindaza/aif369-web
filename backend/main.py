@@ -414,6 +414,7 @@ COURSE_PRICES = {
     "Big Data + IA: Arquitecturas Modernas":     297,
     "MLOps: De Modelos a Producción":            347,
     "Automatización con Apache Airflow":         247,
+    "Automatización con Apache Airflow Avanzada": 247,
 }
 VIP_PRICE = 10
 
