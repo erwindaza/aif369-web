@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIF369 — Arquitectura del Sistema</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0B1120; color: #E2E8F0; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; height: 100vh; }
+        #header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(11,17,32,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+        #header h1 { font-size: 1.2rem; background: linear-gradient(135deg, #0088FF, #10B981); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        #header .subtitle { color: #7B8BA8; font-size: 0.8rem; }
+
+        .toolbar { display: flex; gap: 6px; align-items: center; }
+        .toolbar button {
+            background: #1e3a5f; color: #E2E8F0; border: 1px solid rgba(0,136,255,0.4);
+            padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+            transition: all 0.15s;
+        }
+        .toolbar button:hover { background: #0088FF; border-color: #0088FF; }
+        .toolbar .zoom-display {
+            color: #7B8BA8; font-size: 0.8rem; min-width: 50px; text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+        .toolbar .sep { width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 0 4px; }
+
+        #canvas {
+            position: absolute; top: 56px; left: 0; right: 0; bottom: 0;
+            overflow: hidden; cursor: grab;
+        }
+        #canvas.dragging { cursor: grabbing; }
+        #diagram-wrap {
+            transform-origin: 0 0;
+            position: absolute; top: 0; left: 0;
+            transition: none;
+        }
+        #diagram-wrap.smooth { transition: transform 0.25s ease; }
+
+        .mermaid svg { display: block; }
+
+        /* Minimap */
+        #minimap {
+            position: fixed; bottom: 16px; right: 16px; z-index: 100;
+            width: 200px; height: 140px;
+            background: rgba(15,31,53,0.9); border: 1px solid rgba(0,136,255,0.3);
+            border-radius: 8px; overflow: hidden;
+        }
+        #minimap canvas { width: 100%; height: 100%; }
+        #minimap .viewport-rect {
+            position: absolute; border: 2px solid #0088FF; background: rgba(0,136,255,0.08);
+            pointer-events: none; border-radius: 2px;
+        }
+        #minimap-label { position: absolute; top: 4px; left: 8px; font-size: 0.6rem; color: #7B8BA8; pointer-events: none; }
+
+        /* Hint */
+        #hint {
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+            background: rgba(15,31,53,0.9); border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 20px; border-radius: 20px; font-size: 0.75rem; color: #7B8BA8;
+            z-index: 100; pointer-events: none;
+            animation: fadeout 4s forwards; animation-delay: 3s;
+        }
+        @keyframes fadeout { to { opacity: 0; } }
+
+        /* Code panel */
+        #code-panel {
+            position: fixed; top: 56px; right: -420px; width: 400px; bottom: 0;
+            background: rgba(11,17,32,0.97); border-left: 1px solid rgba(255,255,255,0.08);
+            z-index: 90; transition: right 0.3s ease; padding: 16px; overflow-y: auto;
+        }
+        #code-panel.open { right: 0; }
+        #code-panel pre {
+            background: #0F1F35; border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px; padding: 16px; font-size: 0.7rem; line-height: 1.5;
+            color: #A8B8D8; white-space: pre-wrap; word-break: break-all;
+        }
+        #code-panel h3 { font-size: 0.9rem; margin-bottom: 12px; color: #0088FF; }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div>
+            <h1>AIF369 — Arquitectura General del Sistema</h1>
+            <span class="subtitle">Abril 2026 · aif369.com · GCP · Vercel</span>
+        </div>
+        <div class="toolbar">
+            <button onclick="zoomTo(scale - 0.15)" title="Alejar">−</button>
+            <span class="zoom-display" id="zoom-label">100%</span>
+            <button onclick="zoomTo(scale + 0.15)" title="Acercar">+</button>
+            <div class="sep"></div>
+            <button onclick="resetView()" title="Centrar">⌂ Centrar</button>
+            <button onclick="zoomTo(1.8)" title="Zoom legible">🔍 Zoom legible</button>
+            <div class="sep"></div>
+            <button onclick="toggleCode()">{ } Código</button>
+        </div>
+    </div>
+
+    <div id="canvas">
+        <div id="diagram-wrap">
+            <div class="mermaid">
+graph TB
+    subgraph FRONTEND["🌐 FRONTEND — Vercel · aif369.com"]
+        direction TB
+        HP["index.html — Homepage"]
+        SVC["services.html + 3 detail pages"]
+        EDU["education.html + 7 cursos · $10 USD"]
+        BLOG["blog.html + 7 posts"]
+        SC["scorecard.html — AI Readiness"]
+        EMP["encuentra-empleo.html — Job Board · BeJoby"]
+        COACH["coaching-data.html"]
+        DASH["cost-dashboard.html — Cost Monitor"]
+        CW["chat-widget.js — Chatbot flotante"]
+        JS["scripts.js — Forms + PayPal"]
+    end
+
+    subgraph GCP["☁️ GOOGLE CLOUD PLATFORM · aif369-backend"]
+        direction TB
+        subgraph CR["Cloud Run — Backend Flask API · Python"]
+            DEV["DEV — aif369-backend-api-dev"]
+            QA["QA — aif369-backend-api-qa"]
+            PROD["PROD — aif369-backend-api"]
+        end
+
+        subgraph API["15 API Endpoints"]
+            EP1["/api/contact — Formulario contacto"]
+            EP2["/api/education — Inscripción cursos"]
+            EP3["/api/scorecard — Resultados scorecard"]
+            EP4["/api/chat — Chatbot IA"]
+            EP5["/api/config/paypal — Config dinámica"]
+            EP6["/api/generate-content — Generación contenido"]
+            EP7["/api/costs/* — Monitoreo costos"]
+        end
+
+        subgraph BQ["BigQuery Analytics"]
+            T1["contact_form_submissions"]
+            T2["scorecard_submissions"]
+            T3["chat_conversations"]
+            T4["billing_export"]
+        end
+
+        SM["🔐 Secret Manager — GEMINI_API_KEY · SMTP_PASSWORD · CONTENT_API_KEY · PAYPAL_CLIENT_ID"]
+        GCS["📦 Cloud Storage — raw · processed · assets"]
+    end
+
+    subgraph EXT["⚡ INTEGRACIONES EXTERNAS"]
+        GEMINI["🤖 Google Gemini 2.5 — Chat + Content Gen"]
+        OLLAMA["🦙 Ollama fallback — mistral:7b"]
+        ZOHO["📧 Zoho Mail SMTP — edaza@aif369.com"]
+        PAYPAL["💳 PayPal Smart Buttons — $10 USD"]
+        CALENDLY["📅 Calendly — edaza-aif369/30min"]
+        WA["💬 WhatsApp — +56 9 9754 7192"]
+        BEJOBY["💼 BeJoby.com — Empleo Partner"]
+    end
+
+    subgraph CICD["🔄 CI/CD — GitHub Actions"]
+        GH["GitHub — erwindaza/aif369-web"]
+        CIDEV["ci-dev.yml — Lint + Test + Deploy DEV"]
+        CIQA["deploy-qa.yml — QA Gate + Deploy QA"]
+        CIPROD["deploy-production.yml — Prod Gate + Deploy PROD"]
+    end
+
+    subgraph TERRA["🏗️ INFRAESTRUCTURA — Terraform IaC"]
+        TF["infra/terraform/ — .tfvars por entorno"]
+        BUDGET["Budget $10/mes — Alertas 50% · 80% · 100%"]
+        IAM["IAM — aif369-backend-sa — BQ Editor · Storage Admin"]
+    end
+
+    HP & SVC & COACH --> EP1
+    EDU --> EP2
+    SC --> EP3
+    CW --> EP4
+    JS --> EP5
+    DASH --> EP7
+
+    EP1 & EP2 --> T1
+    EP3 --> T2
+    EP4 --> T3
+    EP7 --> T4
+
+    EP4 --> GEMINI
+    EP4 -.->|fallback| OLLAMA
+    EP1 & EP2 & EP3 --> ZOHO
+    EP5 --> SM
+    EP6 --> GEMINI
+    CR --> SM
+
+    JS --> PAYPAL
+    EMP --> BEJOBY
+    HP & SVC --> CALENDLY
+    HP --> WA
+
+    GH -->|push dev| CIDEV
+    GH -->|merge PR → qa| CIQA
+    GH -->|merge PR → main| CIPROD
+    CIDEV --> DEV
+    CIQA --> QA
+    CIPROD --> PROD
+
+    TF --> CR
+    TF --> BQ
+    TF --> GCS
+    TF --> BUDGET
+    TF --> IAM
+
+    classDef frontend fill:#1e3a5f,stroke:#0088FF,color:#E2E8F0,font-size:16px
+    classDef gcp fill:#0f2b1e,stroke:#10B981,color:#E2E8F0,font-size:16px
+    classDef ext fill:#3b1f0b,stroke:#F59E0B,color:#E2E8F0,font-size:16px
+    classDef cicd fill:#2d1b4e,stroke:#8B5CF6,color:#E2E8F0,font-size:16px
+    classDef terra fill:#1a1a2e,stroke:#F472B6,color:#E2E8F0,font-size:16px
+
+    class HP,SVC,EDU,BLOG,SC,EMP,COACH,DASH,CW,JS frontend
+    class DEV,QA,PROD,EP1,EP2,EP3,EP4,EP5,EP6,EP7,T1,T2,T3,T4,SM,GCS gcp
+    class GEMINI,OLLAMA,ZOHO,PAYPAL,CALENDLY,WA,BEJOBY ext
+    class GH,CIDEV,CIQA,CIPROD cicd
+    class TF,BUDGET,IAM terra
+            </div>
+        </div>
+    </div>
+
+    <div id="minimap">
+        <canvas id="minimap-canvas"></canvas>
+        <div class="viewport-rect" id="minimap-vp"></div>
+        <span id="minimap-label">minimap</span>
+    </div>
+
+    <div id="hint">🖱️ Scroll = zoom · Arrastra = mover · Botones arriba para zoom legible</div>
+
+    <div id="code-panel">
+        <h3>Código Mermaid (copiar y pegar)</h3>
+        <pre id="mermaid-src"></pre>
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#0B1120',
+                primaryColor: '#1e3a5f',
+                primaryTextColor: '#E2E8F0',
+                primaryBorderColor: '#0088FF',
+                lineColor: '#5a6577',
+                secondaryColor: '#0f2b1e',
+                tertiaryColor: '#2d1b4e',
+                fontSize: '18px',
+                fontFamily: 'Segoe UI, system-ui, sans-serif'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 24,
+                nodeSpacing: 30,
+                rankSpacing: 50,
+                htmlLabels: true,
+                useMaxWidth: false
+            },
+            securityLevel: 'loose'
+        });
+
+        // After render, set up pan-zoom and copy source
+        await mermaid.run();
+
+        const src = document.querySelector('.mermaid').getAttribute('data-processed') !== null
+            ? document.querySelector('.mermaid').textContent : '';
+
+        // Extract raw source for code panel
+        const rawSrc = `graph TB
+    subgraph FRONTEND["🌐 FRONTEND — Vercel · aif369.com"]
+        direction TB
+        HP["index.html — Homepage"]
+        SVC["services.html + 3 detail pages"]
+        EDU["education.html + 7 cursos · $10 USD"]
+        BLOG["blog.html + 7 posts"]
+        SC["scorecard.html — AI Readiness"]
+        EMP["encuentra-empleo.html — Job Board · BeJoby"]
+        COACH["coaching-data.html"]
+        DASH["cost-dashboard.html — Cost Monitor"]
+        CW["chat-widget.js — Chatbot flotante"]
+        JS["scripts.js — Forms + PayPal"]
+    end
+
+    subgraph GCP["☁️ GOOGLE CLOUD PLATFORM · aif369-backend"]
+        direction TB
+        subgraph CR["Cloud Run — Backend Flask API · Python"]
+            DEV["DEV — aif369-backend-api-dev"]
+            QA["QA — aif369-backend-api-qa"]
+            PROD["PROD — aif369-backend-api"]
+        end
+
+        subgraph API["15 API Endpoints"]
+            EP1["/api/contact — Formulario contacto"]
+            EP2["/api/education — Inscripción cursos"]
+            EP3["/api/scorecard — Resultados scorecard"]
+            EP4["/api/chat — Chatbot IA"]
+            EP5["/api/config/paypal — Config dinámica"]
+            EP6["/api/generate-content — Generación contenido"]
+            EP7["/api/costs/* — Monitoreo costos"]
+        end
+
+        subgraph BQ["BigQuery Analytics"]
+            T1["contact_form_submissions"]
+            T2["scorecard_submissions"]
+            T3["chat_conversations"]
+            T4["billing_export"]
+        end
+
+        SM["🔐 Secret Manager — GEMINI_API_KEY · SMTP_PASSWORD · CONTENT_API_KEY · PAYPAL_CLIENT_ID"]
+        GCS["📦 Cloud Storage — raw · processed · assets"]
+    end
+
+    subgraph EXT["⚡ INTEGRACIONES EXTERNAS"]
+        GEMINI["🤖 Google Gemini 2.5 — Chat + Content Gen"]
+        OLLAMA["🦙 Ollama fallback — mistral:7b"]
+        ZOHO["📧 Zoho Mail SMTP — edaza@aif369.com"]
+        PAYPAL["💳 PayPal Smart Buttons — $10 USD"]
+        CALENDLY["📅 Calendly — edaza-aif369/30min"]
+        WA["💬 WhatsApp — +56 9 9754 7192"]
+        BEJOBY["💼 BeJoby.com — Empleo Partner"]
+    end
+
+    subgraph CICD["🔄 CI/CD — GitHub Actions"]
+        GH["GitHub — erwindaza/aif369-web"]
+        CIDEV["ci-dev.yml — Lint + Test + Deploy DEV"]
+        CIQA["deploy-qa.yml — QA Gate + Deploy QA"]
+        CIPROD["deploy-production.yml — Prod Gate + Deploy PROD"]
+    end
+
+    subgraph TERRA["🏗️ INFRAESTRUCTURA — Terraform IaC"]
+        TF["infra/terraform/ — .tfvars por entorno"]
+        BUDGET["Budget $10/mes — Alertas 50% · 80% · 100%"]
+        IAM["IAM — aif369-backend-sa — BQ Editor · Storage Admin"]
+    end
+
+    HP & SVC & COACH --> EP1
+    EDU --> EP2
+    SC --> EP3
+    CW --> EP4
+    JS --> EP5
+    DASH --> EP7
+
+    EP1 & EP2 --> T1
+    EP3 --> T2
+    EP4 --> T3
+    EP7 --> T4
+
+    EP4 --> GEMINI
+    EP4 -.->|fallback| OLLAMA
+    EP1 & EP2 & EP3 --> ZOHO
+    EP5 --> SM
+    EP6 --> GEMINI
+    CR --> SM
+
+    JS --> PAYPAL
+    EMP --> BEJOBY
+    HP & SVC --> CALENDLY
+    HP --> WA
+
+    GH -->|push dev| CIDEV
+    GH -->|merge PR → qa| CIQA
+    GH -->|merge PR → main| CIPROD
+    CIDEV --> DEV
+    CIQA --> QA
+    CIPROD --> PROD
+
+    TF --> CR
+    TF --> BQ
+    TF --> GCS
+    TF --> BUDGET
+    TF --> IAM`;
+
+        document.getElementById('mermaid-src').textContent = rawSrc;
+
+        // ── Pan & Zoom ──
+        const canvas = document.getElementById('canvas');
+        const wrap = document.getElementById('diagram-wrap');
+        const svg = wrap.querySelector('svg');
+
+        let scale = 1, panX = 0, panY = 0;
+        let isDragging = false, startX = 0, startY = 0;
+        const MIN_SCALE = 0.2, MAX_SCALE = 5;
+
+        function applyTransform(smooth) {
+            if (smooth) { wrap.classList.add('smooth'); } else { wrap.classList.remove('smooth'); }
+            wrap.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+            document.getElementById('zoom-label').textContent = Math.round(scale * 100) + '%';
+            updateMinimap();
+        }
+
+        // Expose globals
+        window.scale = scale;
+        window.zoomTo = function(s) {
+            scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, s));
+            window.scale = scale;
+            applyTransform(true);
+        };
+        window.resetView = function() {
+            const cw = canvas.clientWidth, ch = canvas.clientHeight;
+            const sw = svg.getBBox().width || svg.clientWidth || 1200;
+            const sh = svg.getBBox().height || svg.clientHeight || 800;
+            scale = Math.min(cw / sw, ch / sh) * 0.85;
+            window.scale = scale;
+            panX = (cw - sw * scale) / 2;
+            panY = (ch - sh * scale) / 2;
+            applyTransform(true);
+        };
+        window.toggleCode = function() {
+            document.getElementById('code-panel').classList.toggle('open');
+        };
+
+        // Mouse wheel zoom
+        canvas.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+
+            const prevS = scale;
+            const delta = e.deltaY > 0 ? -0.08 : 0.08;
+            scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale + delta * scale));
+            window.scale = scale;
+
+            panX = mx - (mx - panX) * (scale / prevS);
+            panY = my - (my - panY) * (scale / prevS);
+            applyTransform(false);
+        }, { passive: false });
+
+        // Mouse drag pan
+        canvas.addEventListener('mousedown', function(e) {
+            isDragging = true; startX = e.clientX - panX; startY = e.clientY - panY;
+            canvas.classList.add('dragging');
+        });
+        window.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            panX = e.clientX - startX; panY = e.clientY - startY;
+            applyTransform(false);
+        });
+        window.addEventListener('mouseup', function() {
+            isDragging = false; canvas.classList.remove('dragging');
+        });
+
+        // Touch support
+        let lastTouchDist = 0;
+        canvas.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 1) {
+                isDragging = true; startX = e.touches[0].clientX - panX; startY = e.touches[0].clientY - panY;
+            } else if (e.touches.length === 2) {
+                lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+            }
+        }, { passive: true });
+        canvas.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 1 && isDragging) {
+                panX = e.touches[0].clientX - startX; panY = e.touches[0].clientY - startY;
+                applyTransform(false);
+            } else if (e.touches.length === 2) {
+                const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale * (d / lastTouchDist)));
+                window.scale = scale;
+                lastTouchDist = d;
+                applyTransform(false);
+            }
+        }, { passive: true });
+        canvas.addEventListener('touchend', function() { isDragging = false; });
+
+        // ── Minimap ──
+        function updateMinimap() {
+            const vp = document.getElementById('minimap-vp');
+            const mm = document.getElementById('minimap');
+            const sw = svg.getBBox().width || svg.clientWidth || 1200;
+            const sh = svg.getBBox().height || svg.clientHeight || 800;
+            const cw = canvas.clientWidth, ch = canvas.clientHeight;
+
+            const mmW = mm.clientWidth, mmH = mm.clientHeight;
+            const totalW = sw * scale, totalH = sh * scale;
+            const ratioX = mmW / Math.max(totalW, cw);
+            const ratioY = mmH / Math.max(totalH, ch);
+            const ratio = Math.min(ratioX, ratioY);
+
+            const vpW = cw * ratio, vpH = ch * ratio;
+            const vpL = (-panX) * ratio, vpT = (-panY) * ratio;
+
+            vp.style.width = vpW + 'px'; vp.style.height = vpH + 'px';
+            vp.style.left = Math.max(0, vpL) + 'px'; vp.style.top = Math.max(0, vpT) + 'px';
+        }
+
+        // Initial center
+        setTimeout(() => window.resetView(), 300);
+    </script>
+</body>
+</html>

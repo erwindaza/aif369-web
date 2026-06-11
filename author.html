@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n-title="author.title">Autor - AIF369</title>
-    <meta name="description" data-i18n-content="author.description" content="Conoce al autor detrás de AIF369, su enfoque y experiencia en IA, datos y cloud.">
+    <title>Erwin Daza Castillo — CAIO Advisor | AIF369</title>
+    <meta name="description" content="CAIO Advisor, Data & AI Architect, AI Governance Strategist. Fundador de AIF369 y creador del Método 369.">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 <header class="site-header">
     <nav class="nav container">
-        <div class="logo">AIF369</div>
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
         <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="metodologia.html" style="color: #00D9CC;" data-i18n="nav.metodo">Método 369</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
-            <a href="author.html" class="active" data-i18n="nav.author">Autor</a>
+            <a href="scorecard.html" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" class="active" data-i18n="nav.author">Sobre Erwin</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
@@ -33,29 +38,63 @@
 <main class="container">
     <section class="section author-hero">
         <header class="section-header">
-            <h1 data-i18n="author.title">Sobre el autor</h1>
-            <p data-i18n="author.subtitle">Visión, experiencia y enfoque para ayudar a organizaciones a ejecutar IA, datos y cloud con impacto real.</p>
+            <h1 data-i18n="author.heading1">Sobre Erwin Daza Castillo</h1>
+            <p data-i18n="author.text2">CAIO Advisor · Data & AI Architect · AI Governance Strategist</p>
         </header>
     </section>
 
     <section class="section section-alt author-profile">
         <div class="author-grid">
             <div class="author-card">
-                <img class="author-avatar" src="assets/author-photo.jpg" alt="Erwin Daza Castillo">
-                <h2 data-i18n="author.name">Erwin Daza Castillo</h2>
-                <p class="author-role" data-i18n="author.role">Founder, AIF369</p>
-                <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=erwin-daza-castillo" target="_blank" rel="noopener" data-i18n="author.linkedin">Follow on LinkedIn</a>
+                <img class="author-avatar" src="assets/author-photo.jpg" alt="Erwin Daza Castillo — CAIO, Universidad de Chile">
+                <h2>Erwin Daza Castillo</h2>
+                <!-- Credentials -->
+                <div style="display:flex;flex-direction:column;gap:6px;margin:10px 0;">
+                    <span style="font-size:12px;background:rgba(0,136,255,0.12);color:#93C5FD;border:1px solid rgba(0,136,255,0.25);border-radius:20px;padding:4px 12px;font-weight:600;">🎓 Chief Artificial Intelligence Officer (CAIO)</span>
+                    <span style="font-size:12px;background:rgba(0,217,204,0.1);color:#5EEAD4;border:1px solid rgba(0,217,204,0.2);border-radius:20px;padding:4px 12px;font-weight:600;">🏛️ Universidad de Chile</span>
+                    <span style="font-size:12px;background:rgba(168,85,247,0.1);color:#D8B4FE;border:1px solid rgba(168,85,247,0.2);border-radius:20px;padding:4px 12px;font-weight:600;">⚙️ Senior Data & AI Platform Engineer</span>
+                </div>
+                <!-- Social links -->
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;width:100%;">
+                    <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" class="btn btn-outline" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        LinkedIn
+                    </a>
+                    <a href="https://github.com/erwindaza" target="_blank" rel="noopener" class="btn btn-outline" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;border-color:rgba(255,255,255,0.2);color:var(--text-secondary);">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        GitHub
+                    </a>
+                </div>
             </div>
             <div class="author-bio">
-                <p data-i18n="author.bio1">Acompaña a equipos ejecutivos en la definición y ejecución de iniciativas de IA, datos y cloud con foco en resultados de negocio, gobernanza y escalabilidad.</p>
-                <p data-i18n="author.bio2">Su trabajo se centra en traducir estrategia en arquitectura, productos de datos y operaciones con métricas claras de impacto.</p>
+                <p>Fundador de AIF369 y creador del <strong>Método 369</strong> — framework propietario que estructura la adopción de IA en 3 Capas de Dirección, 6 Fases de Transformación y 9 Métricas de Control CAIO.</p>
+                <p>Chief Artificial Intelligence Officer (CAIO) en la <strong>Universidad de Chile</strong> y Senior Data &amp; AI Platform Engineer con más de 15 años liderando iniciativas de datos, cloud e IA en Latinoamérica. Ha diseñado y desplegado AI Factories, data platforms y modelos de gobierno de IA en banca, retail, salud, energía y educación superior.</p>
+                <p>Su enfoque combina visión estratégica con ejecución técnica: desde el boardroom hasta el pipeline de datos. Cada recomendación tiene un entregable concreto, un responsable y una métrica de impacto.</p>
                 <div class="author-focus">
-                    <h3 data-i18n="author.focus.title">Áreas de enfoque</h3>
+                    <h3>Áreas de especialización</h3>
                     <ul class="simple-list">
-                        <li data-i18n="author.focus.item1">Gobernanza y estrategia de IA.</li>
-                        <li data-i18n="author.focus.item2">Arquitecturas cloud resilientes.</li>
-                        <li data-i18n="author.focus.item3">Operación de ML/LLM en producción.</li>
+                        <li><strong>Data &amp; AI Consulting</strong> — Diagnóstico, hoja de ruta y CAIO-as-a-Service para C-level</li>
+                        <li><strong>AI Strategy &amp; Governance</strong> — Frameworks de gobernanza, riesgo algorítmico y compliance (EU AI Act, Ley 21.719)</li>
+                        <li><strong>AI Platform Engineering</strong> — Data platforms en GCP/AWS/Azure, MLOps/LLMOps, Airflow, Spark, observabilidad</li>
+                        <li><strong>Generative AI &amp; Agents</strong> — LLMs en producción, arquitecturas RAG, agentes inteligentes gobernados</li>
+                        <li><strong>Training &amp; Executive Education</strong> — Cursos, workshops para directorio y certificación AIF369</li>
                     </ul>
+                </div>
+                <!-- Target industries -->
+                <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+                    <p style="font-size:12px;color:var(--text-secondary);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">Sectores con experiencia comprobada</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(0,136,255,0.1);color:#93C5FD;font-weight:600;">Servicios Financieros</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(0,217,204,0.1);color:#5EEAD4;font-weight:600;">Retail / E-commerce</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(168,85,247,0.1);color:#D8B4FE;font-weight:600;">Cajas de Compensación</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(239,68,68,0.1);color:#FCA5A5;font-weight:600;">Medios de Pago</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(34,197,94,0.1);color:#86EFAC;font-weight:600;">Salud</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(245,158,11,0.1);color:#FDE68A;font-weight:600;">Logística / Supply Chain</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(245,158,11,0.08);color:#FDE68A;font-weight:600;">Educación Superior</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(16,185,129,0.1);color:#6EE7B7;font-weight:600;">Manufactura</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(239,68,68,0.12);color:#FCA5A5;font-weight:600;">Energía / Utilities</span>
+                        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(139,92,246,0.1);color:#C4B5FD;font-weight:600;">Telecomunicaciones</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,9 +102,12 @@
 
     <section class="section author-cta">
         <header class="section-header">
-            <h2 data-i18n="author.cta.title">¿Quieres conversar?</h2>
-            <p data-i18n="author.cta.subtitle">Coordina una conversación para explorar oportunidades y necesidades concretas.</p>
-            <a href="index.html#contacto" class="btn btn-primary" data-i18n="author.cta.button">Agendar conversación</a>
+            <h2 data-i18n="author.heading14">¿Quieres conversar?</h2>
+            <p data-i18n="author.text15">Coordina una conversación para explorar cómo el Método 369 puede ayudar a tu organización.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.agendar_conv">📅 Agendar conversación</a>
+                <a href="metodologia.html" class="btn btn-outline" data-i18n="cta.conocer_metodo2">Conocer la metodología →</a>
+            </div>
         </header>
     </section>
 </main>
@@ -73,22 +115,30 @@
 <footer class="site-footer">
     <div class="container footer-layout">
         <div>
-            <div class="logo">AIF369</div>
-            <p class="footer-text" data-i18n="author.footer.text">IA, datos y cloud para la empresa moderna.</p>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text">AI Factory, Governance, Risk and Business Value.</p>
         </div>
         <div class="footer-links">
-            <a href="index.html" data-i18n="nav.home">Inicio</a>
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
-        
-            <a href="author.html" data-i18n="nav.author">Autor</a></div>
+            <a href="index.html">Inicio</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
+            <a href="blog.html">Insights</a>
+            <a href="author.html">Sobre Erwin</a></div>
         <div class="footer-social">
-            <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=erwin-daza-castillo" target="_blank" rel="noopener">Follow on LinkedIn</a>
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+            </a>
+            <a href="https://github.com/erwindaza" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-left:16px;color:var(--text-secondary);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
     </div>
 </footer>
 
+<script src="_config.js"></script>
 <script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,173 @@
+# ============================================================
+# QA Pipeline: deploy to QA environment
+# Triggered on push to qa branch (promotion from dev via PR)
+# Nothing goes to production without passing QA first.
+# ============================================================
+name: deploy-qa
+
+on:
+  push:
+    branches: [qa]
+
+env:
+  PROJECT_ID: aif369-backend
+  REGION: us-central1
+  ENVIRONMENT: qa
+  DATASET_ID: aif369_analytics_qa
+  SERVICE_NAME: aif369-backend-api-qa
+
+jobs:
+  # ── Run full test suite ──────────────────────────────────
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Run tests (QA gate)
+        run: pytest tests/ -v --tb=short
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          DATASET_ID: ${{ env.DATASET_ID }}
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+          SMTP_PASSWORD: ""
+
+  # ── Terraform apply QA ──────────────────────────────────
+  terraform-apply-qa:
+    needs: [tests]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform plan (QA)
+        run: terraform plan -var-file=terraform.tfvars.qa -out=tfplan
+
+      - name: Terraform apply (QA)
+        run: terraform apply -auto-approve tfplan
+        continue-on-error: true
+
+  # ── Deploy backend to QA ─────────────────────────────────
+  deploy-backend-qa:
+    needs: [tests]
+    if: always() && needs.tests.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build and push Docker image
+        run: |
+          gcloud auth configure-docker gcr.io --quiet
+          docker build --platform linux/amd64 \
+            -t gcr.io/$PROJECT_ID/aif369-backend-qa:${{ github.sha }} \
+            -t gcr.io/$PROJECT_ID/aif369-backend-qa:latest \
+            backend/
+          docker push gcr.io/$PROJECT_ID/aif369-backend-qa:${{ github.sha }}
+          docker push gcr.io/$PROJECT_ID/aif369-backend-qa:latest
+
+      - name: Deploy to Cloud Run (QA)
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --image gcr.io/$PROJECT_ID/aif369-backend-qa:${{ github.sha }} \
+            --platform managed \
+            --region $REGION \
+            --project $PROJECT_ID \
+            --allow-unauthenticated \
+            --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
+            --set-env-vars "PROJECT_ID=$PROJECT_ID,DATASET_ID=$DATASET_ID,ENVIRONMENT=$ENVIRONMENT" \
+            --set-env-vars "SMTP_USER=edaza@aif369.com,NOTIFICATION_EMAIL=edaza@aif369.com,CC_EMAIL=erwin.daza@gmail.com" \
+            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest,CONTENT_API_KEY=aif369-content-api-key:latest,PAYPAL_CLIENT_ID=aif369-paypal-client-id:latest,PAYPAL_SECRET=aif369-paypal-secret:latest"
+
+      - name: Health check (QA)
+        run: |
+          QA_URL=$(gcloud run services describe $SERVICE_NAME \
+            --region $REGION --project $PROJECT_ID \
+            --format='value(status.url)')
+          echo "QA URL: $QA_URL"
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$QA_URL")
+          if [ "$HTTP_CODE" -ne 200 ]; then
+            echo "❌ QA health check failed: HTTP $HTTP_CODE"; exit 1
+          fi
+          echo "✅ QA health check passed"
+
+      - name: QA deployment summary
+        run: |
+          echo "╔══════════════════════════════════════════╗"
+          echo "║  ✅ QA Deployment Complete               ║"
+          echo "║  Environment: QA                         ║"
+          echo "║  Dataset: $DATASET_ID                    ║"
+          echo "║  Service: $SERVICE_NAME                  ║"
+          echo "║                                          ║"
+          echo "║  Next step: Create PR from qa → main     ║"
+          echo "║  to promote to PRODUCTION.               ║"
+          echo "╚══════════════════════════════════════════╝"
+
+  # ── Post-deploy QA Agent (automated smoke tests) ─────────
+  qa-agent:
+    needs: [deploy-backend-qa]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install test dependencies
+        run: pip install requests
+
+      - name: Run QA Agent against deployed QA
+        run: python backend/tests/qa_agent.py --env=qa --fix-report
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+
+      - name: Upload QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-report
+          path: qa-report-*.json

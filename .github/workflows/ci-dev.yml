@@ -1,0 +1,182 @@
+# ============================================================
+# CI Pipeline: dev branch
+# - Lint frontend, test backend, validate Terraform
+# - Deploy backend to Cloud Run DEV
+# - Deploy infra to DEV dataset
+# ============================================================
+name: ci-dev
+
+on:
+  push:
+    branches: [dev]
+
+env:
+  PROJECT_ID: aif369-backend
+  REGION: us-central1
+  ENVIRONMENT: dev
+  DATASET_ID: aif369_analytics_dev
+  SERVICE_NAME: aif369-backend-api-dev
+
+jobs:
+  # ── Frontend checks ──────────────────────────────────────
+  frontend-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate HTML structure
+        run: |
+          echo "Checking all HTML files have doctype…"
+          for f in *.html; do
+            if ! head -1 "$f" | grep -qi "doctype"; then
+              echo "❌ Missing DOCTYPE in $f"; exit 1
+            fi
+          done
+          echo "✅ All HTML files pass"
+
+      - name: Check no hardcoded localhost
+        run: |
+          if grep -rn "localhost" *.html *.js *.css 2>/dev/null | grep -v "//"; then
+            echo "⚠️  localhost references found (review)"
+          else
+            echo "✅ No hardcoded localhost"
+          fi
+
+  # ── Backend tests ────────────────────────────────────────
+  backend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          DATASET_ID: ${{ env.DATASET_ID }}
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+          SMTP_PASSWORD: ""
+
+  # ── Terraform validate ───────────────────────────────────
+  terraform-validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init (validation only)
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+  # ── Deploy backend to DEV ────────────────────────────────
+  deploy-backend-dev:
+    needs: [frontend-checks, backend-tests, terraform-validate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build and push Docker image
+        run: |
+          gcloud auth configure-docker gcr.io --quiet
+          docker build --platform linux/amd64 \
+            -t gcr.io/$PROJECT_ID/aif369-backend-dev:${{ github.sha }} \
+            -t gcr.io/$PROJECT_ID/aif369-backend-dev:latest \
+            backend/
+          docker push gcr.io/$PROJECT_ID/aif369-backend-dev:${{ github.sha }}
+          docker push gcr.io/$PROJECT_ID/aif369-backend-dev:latest
+
+      - name: Deploy to Cloud Run (DEV)
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --image gcr.io/$PROJECT_ID/aif369-backend-dev:${{ github.sha }} \
+            --platform managed \
+            --region $REGION \
+            --project $PROJECT_ID \
+            --allow-unauthenticated \
+            --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
+            --set-env-vars "PROJECT_ID=$PROJECT_ID,DATASET_ID=$DATASET_ID,ENVIRONMENT=$ENVIRONMENT" \
+            --set-env-vars "SMTP_USER=edaza@aif369.com,NOTIFICATION_EMAIL=edaza@aif369.com,CC_EMAIL=erwin.daza@gmail.com" \
+            --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest,CONTENT_API_KEY=aif369-content-api-key:latest,PAYPAL_CLIENT_ID=aif369-paypal-client-id:latest,PAYPAL_SECRET=aif369-paypal-secret:latest" \
+            --tag dev
+
+      - name: Health check (DEV)
+        run: |
+          DEV_URL=$(gcloud run services describe $SERVICE_NAME \
+            --region $REGION --project $PROJECT_ID \
+            --format='value(status.url)')
+          echo "DEV URL: $DEV_URL"
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$DEV_URL")
+          if [ "$HTTP_CODE" -ne 200 ]; then
+            echo "❌ DEV health check failed: HTTP $HTTP_CODE"; exit 1
+          fi
+          echo "✅ DEV health check passed"
+
+  # ── Terraform apply DEV ──────────────────────────────────
+  terraform-apply-dev:
+    needs: [terraform-validate]
+    if: contains(github.event.head_commit.modified, 'infra/') || contains(github.event.head_commit.message, '[infra]')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform plan (DEV)
+        run: terraform plan -var-file=terraform.tfvars.dev -out=tfplan
+
+      - name: Terraform apply (DEV)
+        run: terraform apply -auto-approve tfplan

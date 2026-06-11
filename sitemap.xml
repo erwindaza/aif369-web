@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://aif369.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://aif369.com/services.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aif369.com/education.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aif369.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aif369.com/scorecard.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/metodologia.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/portfolio.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/author.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <!-- Services -->
+  <url><loc>https://aif369.com/service-diagnostico.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/service-gobierno.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/service-implementacion.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Courses -->
+  <url><loc>https://aif369.com/cursos-ia.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/guia-caio.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/recursos-digitales.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/course-desarrollo-ia.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/course-guias-practicas.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/course-material-caio.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/big-data-ia.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/automatizacion-airflow.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/airflow-ia-avanzada.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/curso-mlops.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Education extras -->
+  <url><loc>https://aif369.com/coaching-data.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/encuentra-empleo.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aif369.com/catalogo-soluciones-ia.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aif369.com/ejemplos-reales.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aif369.com/historias-reales.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aif369.com/product.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aif369.com/product-detail.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://aif369.com/assessment-caio.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <!-- Blog articles -->
+  <url><loc>https://aif369.com/blog-que-es-un-caio.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-por-que-fallan-proyectos-ia.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-gobernanza-ia-guia-practica.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-ia-generativa-empresas.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-armar-equipo-datos-ia.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-agentes-ia-2026.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-post-2026-ia-decide.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-roi-ia-j-curve.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-ia-regulacion-latam-2026.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-caio-vs-cto-quien-decide.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-data-quality-ai-production.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-agentic-ai-enterprise-2026.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aif369.com/blog-costo-real-llm-produccion.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <!-- Case studies -->
+  <url><loc>https://aif369.com/caso-ai-factory-ecommerce.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+</urlset>

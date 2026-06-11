@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "date": "2026-04-10",
+    "source": "Proyecto AI Content Generation - Produccion",
+    "purpose": "Instrucciones para el agente web de AIF369 - publicar servicios y capacidades demostradas en produccion",
+    "target": "https://www.aif369.com",
+    "governance": "Metodo 369 - AIF369 Artificial Intelligence Factory"
+  },
+  "servicios_publicados": 8,
+  "paginas_creadas": ["caso-ai-factory-ecommerce.html"],
+  "paginas_editadas": ["services.html"],
+  "fecha_publicacion": "2026-04-12"
+}

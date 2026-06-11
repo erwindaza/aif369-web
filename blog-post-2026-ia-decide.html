@@ -9,22 +9,27 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 <header class="site-header">
     <nav class="nav container">
-        <div class="logo">AIF369</div>
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
         <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="metodologia.html" style="color: #00D9CC;" data-i18n="nav.metodo">Método 369</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="blog.html" class="active" data-i18n="nav.blog">Blog</a>
-            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="scorecard.html" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="blog.html" class="active" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
@@ -79,21 +84,24 @@
 <footer class="site-footer">
     <div class="container footer-layout">
         <div>
-            <div class="logo">AIF369</div>
-            <p class="footer-text" data-i18n="article.footer.text">IA, datos y cloud para la empresa moderna.</p>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text" data-i18n="article.footer.text">AI Factory, Governance, Risk and Business Value.</p>
         </div>
         <div class="footer-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
         </div>
             <div class="footer-social">
-            <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=erwin-daza-castillo" target="_blank" rel="noopener">Follow on LinkedIn</a>
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" data-i18n="footer.linkedin">LinkedIn de Erwin →</a>
         </div>
 </div>
 </footer>
 
+<script src="_config.js"></script>
 <script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

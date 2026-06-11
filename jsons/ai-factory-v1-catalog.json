@@ -1,0 +1,659 @@
+{
+  "project_name": "AIF369 AI Factory",
+  "version": "1.0",
+  "language": "es",
+  "purpose": "Definir la arquitectura funcional y el catálogo inicial de soluciones de la fábrica de IA de AIF369 para resolver problemas de negocio con distintos niveles de estructura y madurez.",
+  "business_context": {
+    "vision": "Convertir problemas reales de negocio en soluciones de IA aplicadas, escalables y con foco en valor.",
+    "positioning": "Fábrica de IA orientada a negocio, datos, automatización y adopción empresarial.",
+    "design_principles": [
+      "Vender problemas resueltos y no solo tecnología",
+      "Priorizar impacto de negocio, factibilidad de datos y velocidad de implementación",
+      "Diseñar soluciones modulares, reutilizables y escalables",
+      "Separar capacidades core de la fábrica de los casos de uso por industria",
+      "Incluir gobernanza, trazabilidad y medición de ROI desde el inicio"
+    ]
+  },
+  "problem_framework": {
+    "problem_types": [
+      "analisis",
+      "agrupacion",
+      "deteccion",
+      "busqueda",
+      "filtrado",
+      "estimacion",
+      "prediccion",
+      "clasificacion",
+      "evaluacion",
+      "completar",
+      "recomendar",
+      "planificacion",
+      "optimizacion",
+      "reconocimiento",
+      "automatizacion",
+      "segmentacion"
+    ],
+    "structure_levels": {
+      "estructurado": {
+        "definition": "Se especifica la incognita, se ofrece la informacion necesaria y existe un algoritmo o metodo claro para llegar a la solucion.",
+        "recommended_approach": [
+          "ML clasico",
+          "reglas de negocio",
+          "optimizacion matematica",
+          "BI y analitica avanzada"
+        ]
+      },
+      "semi_estructurado": {
+        "definition": "Existe parte de la informacion y una formulacion parcial del problema, pero requiere interpretacion, iteracion y apoyo de expertos.",
+        "recommended_approach": [
+          "ML supervisado",
+          "LLMs con RAG",
+          "human in the loop",
+          "workflows orquestados"
+        ]
+      },
+      "no_estructurado": {
+        "definition": "No existe una formulacion cerrada, hay poca informacion inicial y puede haber varias soluciones validas.",
+        "recommended_approach": [
+          "GenAI",
+          "agentes",
+          "busqueda semantica",
+          "copilotos",
+          "experimentacion iterativa"
+        ]
+      }
+    }
+  },
+  "ai_factory_capabilities": {
+    "core_modules": [
+      {
+        "id": "discovery",
+        "name": "Discovery de Casos de Uso",
+        "objective": "Levantar, priorizar y definir problemas de negocio con criterio de valor y factibilidad."
+      },
+      {
+        "id": "data_readiness",
+        "name": "Evaluacion de Madurez de Datos",
+        "objective": "Revisar disponibilidad, calidad, trazabilidad, permisos y utilidad de los datos."
+      },
+      {
+        "id": "solution_design",
+        "name": "Diseno de Solucion IA",
+        "objective": "Traducir el problema en arquitectura funcional, tecnica y de negocio."
+      },
+      {
+        "id": "modeling",
+        "name": "Modelado y Experimentacion",
+        "objective": "Construir, evaluar e iterar modelos, prompts, pipelines y agentes."
+      },
+      {
+        "id": "deployment",
+        "name": "Despliegue e Integracion",
+        "objective": "Poner la solucion en ambientes reales, conectada con procesos y sistemas."
+      },
+      {
+        "id": "monitoring",
+        "name": "Monitoreo y Observabilidad",
+        "objective": "Medir calidad, adopcion, performance, drift, costo y retorno."
+      },
+      {
+        "id": "governance",
+        "name": "Gobernanza y Riesgo",
+        "objective": "Asegurar cumplimiento, seguridad, etica y control operacional."
+      }
+    ],
+    "cross_cutting_concerns": [
+      "seguridad",
+      "privacidad",
+      "gobernanza de datos",
+      "explicabilidad",
+      "human in the loop",
+      "gestion del cambio",
+      "medicion de roi",
+      "versionado",
+      "auditoria",
+      "multicloud opcional"
+    ]
+  },
+  "solution_catalog": [
+    {
+      "id": "sol_001",
+      "name": "Prediccion de Demanda",
+      "business_domain": "operaciones",
+      "industry_targets": ["retail", "manufactura", "distribucion"],
+      "problem_type": ["prediccion", "estimacion", "planificacion"],
+      "structure_level": "estructurado",
+      "business_problem": "La empresa no logra anticipar correctamente la demanda y genera quiebres de stock o sobreinventario.",
+      "expected_value": [
+        "mejor planificacion",
+        "menos quiebres de stock",
+        "menor sobreinventario",
+        "mejor disponibilidad"
+      ],
+      "required_data": [
+        "ventas historicas",
+        "calendario",
+        "promociones",
+        "estacionalidad",
+        "inventario",
+        "catalogo de productos"
+      ],
+      "solution_pattern": "modelo predictivo + dashboard + alertas",
+      "delivery_mode": ["diagnostico", "poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_002",
+      "name": "Deteccion de Fraude",
+      "business_domain": "riesgo",
+      "industry_targets": ["banca", "fintech", "ecommerce", "pagos"],
+      "problem_type": ["deteccion", "clasificacion", "evaluacion"],
+      "structure_level": "estructurado",
+      "business_problem": "La empresa pierde dinero o confianza por transacciones y comportamientos fraudulentos.",
+      "expected_value": [
+        "reduccion de fraude",
+        "deteccion temprana",
+        "menor riesgo operativo",
+        "mejor control"
+      ],
+      "required_data": [
+        "transacciones",
+        "usuarios",
+        "dispositivos",
+        "geolocalizacion si aplica",
+        "historial de alertas",
+        "casos confirmados"
+      ],
+      "solution_pattern": "scoring de riesgo + deteccion de anomalias + alertas",
+      "delivery_mode": ["diagnostico", "poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_003",
+      "name": "Analisis de Sentimiento",
+      "business_domain": "marketing",
+      "industry_targets": ["retail", "servicios", "telecom", "medios"],
+      "problem_type": ["analisis", "clasificacion", "evaluacion"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "La empresa no entiende rapidamente la percepcion de clientes en canales digitales y encuestas.",
+      "expected_value": [
+        "mejor entendimiento del cliente",
+        "deteccion de problemas reputacionales",
+        "priorizacion de acciones"
+      ],
+      "required_data": [
+        "comentarios",
+        "reviews",
+        "tickets",
+        "redes sociales",
+        "encuestas",
+        "transcripciones"
+      ],
+      "solution_pattern": "NLP/LLM + clasificacion de sentimiento + resumen ejecutivo",
+      "delivery_mode": ["diagnostico", "poc", "mvp"]
+    },
+    {
+      "id": "sol_004",
+      "name": "Segmentacion Inteligente de Clientes",
+      "business_domain": "marketing_ventas",
+      "industry_targets": ["retail", "banca", "seguros", "educacion", "saas"],
+      "problem_type": ["segmentacion", "agrupacion", "analisis"],
+      "structure_level": "estructurado",
+      "business_problem": "La empresa trata a todos los clientes igual y pierde efectividad comercial.",
+      "expected_value": [
+        "campanas mas efectivas",
+        "mejor personalizacion",
+        "mejor uso del presupuesto comercial"
+      ],
+      "required_data": [
+        "clientes",
+        "compras",
+        "interacciones",
+        "canales",
+        "preferencias",
+        "demografia si aplica"
+      ],
+      "solution_pattern": "clustering + scoring + activacion comercial",
+      "delivery_mode": ["diagnostico", "poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_005",
+      "name": "Optimizacion de Rutas",
+      "business_domain": "logistica",
+      "industry_targets": ["logistica", "retail", "distribucion", "ultima_milla"],
+      "problem_type": ["optimizacion", "planificacion", "estimacion"],
+      "structure_level": "estructurado",
+      "business_problem": "La empresa tiene rutas ineficientes, mayores costos y entregas lentas.",
+      "expected_value": [
+        "menos costo logistico",
+        "mejor tiempo de entrega",
+        "mejor utilizacion de flota"
+      ],
+      "required_data": [
+        "pedidos",
+        "ubicaciones",
+        "ventanas horarias",
+        "flota",
+        "trafico si aplica",
+        "historial operativo"
+      ],
+      "solution_pattern": "motor de optimizacion + mapa operativo + simulacion",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_006",
+      "name": "Mantenimiento Predictivo",
+      "business_domain": "operaciones_industriales",
+      "industry_targets": ["manufactura", "energia", "mineria", "iot"],
+      "problem_type": ["prediccion", "deteccion", "evaluacion"],
+      "structure_level": "estructurado",
+      "business_problem": "Las fallas no se anticipan y generan detenciones costosas.",
+      "expected_value": [
+        "menos downtime",
+        "mejor continuidad operacional",
+        "menor costo de mantencion correctiva"
+      ],
+      "required_data": [
+        "sensores",
+        "telemetria",
+        "bitacoras",
+        "mantenciones",
+        "eventos de falla"
+      ],
+      "solution_pattern": "series de tiempo + scoring de falla + alertas",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_007",
+      "name": "Automatizacion Inteligente de Atencion al Cliente",
+      "business_domain": "servicio",
+      "industry_targets": ["retail", "banca", "salud", "educacion", "servicios"],
+      "problem_type": ["automatizacion", "busqueda", "completar", "reconocimiento"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "Los equipos de atencion no dan abasto y la experiencia del cliente es inconsistente.",
+      "expected_value": [
+        "atencion 24x7",
+        "menos tiempo de respuesta",
+        "descongestion del soporte",
+        "mejor experiencia"
+      ],
+      "required_data": [
+        "faq",
+        "base de conocimiento",
+        "tickets",
+        "politicas",
+        "manuales",
+        "historial conversacional"
+      ],
+      "solution_pattern": "chatbot/copiloto + RAG + handoff a humano",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_008",
+      "name": "Prediccion de Churn",
+      "business_domain": "clientes",
+      "industry_targets": ["telecom", "saas", "retail", "educacion", "finanzas"],
+      "problem_type": ["prediccion", "clasificacion", "evaluacion"],
+      "structure_level": "estructurado",
+      "business_problem": "La empresa pierde clientes sin detectar señales tempranas de abandono.",
+      "expected_value": [
+        "mayor retencion",
+        "priorizacion comercial",
+        "mejores acciones preventivas"
+      ],
+      "required_data": [
+        "clientes",
+        "compras o uso",
+        "soporte",
+        "quejas",
+        "antiguedad",
+        "campanas"
+      ],
+      "solution_pattern": "modelo de propension + segmentacion de riesgo + recomendaciones",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_009",
+      "name": "Reconocimiento de Voz y Analitica Conversacional",
+      "business_domain": "experiencia_cliente",
+      "industry_targets": ["salud", "telecom", "contact_center", "servicios"],
+      "problem_type": ["reconocimiento", "clasificacion", "analisis"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "La empresa no aprovecha las conversaciones para entender causas, calidad y oportunidades.",
+      "expected_value": [
+        "mas visibilidad sobre interacciones",
+        "mejor control de calidad",
+        "insights de servicio"
+      ],
+      "required_data": [
+        "audios",
+        "transcripciones",
+        "metadata de llamadas",
+        "tipificaciones",
+        "encuestas post atencion"
+      ],
+      "solution_pattern": "speech to text + analitica conversacional + resumen",
+      "delivery_mode": ["poc", "mvp"]
+    },
+    {
+      "id": "sol_010",
+      "name": "Vision IA para Control de Calidad",
+      "business_domain": "calidad",
+      "industry_targets": ["manufactura", "industrial", "logistica"],
+      "problem_type": ["clasificacion", "deteccion", "reconocimiento"],
+      "structure_level": "estructurado",
+      "business_problem": "La empresa depende de inspeccion manual lenta o inconsistente para asegurar calidad.",
+      "expected_value": [
+        "mejor deteccion de defectos",
+        "menos error humano",
+        "mayor velocidad de inspeccion"
+      ],
+      "required_data": [
+        "imagenes",
+        "videos",
+        "etiquetas de calidad",
+        "defectos historicos"
+      ],
+      "solution_pattern": "vision computacional + clasificacion de defectos + evidencia",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_011",
+      "name": "Scoring de Credito y Riesgo",
+      "business_domain": "riesgo_financiero",
+      "industry_targets": ["banca", "fintech", "credito", "seguros"],
+      "problem_type": ["clasificacion", "estimacion", "evaluacion"],
+      "structure_level": "estructurado",
+      "business_problem": "Las decisiones de credito o riesgo son lentas, inconsistentes o poco precisas.",
+      "expected_value": [
+        "mejor aprobacion",
+        "menor mora",
+        "mayor velocidad de evaluacion"
+      ],
+      "required_data": [
+        "historial financiero",
+        "solicitudes",
+        "comportamiento de pago",
+        "atributos del cliente"
+      ],
+      "solution_pattern": "scoring + reglas + explicabilidad",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_012",
+      "name": "Prediccion y Optimizacion de Precios",
+      "business_domain": "pricing",
+      "industry_targets": ["retail", "real_estate", "turismo", "ecommerce"],
+      "problem_type": ["prediccion", "optimizacion", "estimacion"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "La empresa fija precios sin suficiente soporte analitico y pierde margen o competitividad.",
+      "expected_value": [
+        "mejor margen",
+        "mejor competitividad",
+        "mejor reaccion al mercado"
+      ],
+      "required_data": [
+        "precios historicos",
+        "ventas",
+        "inventario",
+        "competencia",
+        "promociones",
+        "elasticidad si existe"
+      ],
+      "solution_pattern": "forecast + elasticidad + recomendacion de precio",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_013",
+      "name": "Optimizacion de Anuncios Publicitarios",
+      "business_domain": "marketing_performance",
+      "industry_targets": ["publicidad", "ecommerce", "retail", "saas"],
+      "problem_type": ["optimizacion", "evaluacion", "segmentacion"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "Las campanas digitales no asignan bien presupuesto ni creatividad.",
+      "expected_value": [
+        "mejor ROAS",
+        "mejor conversion",
+        "mejor asignacion de presupuesto"
+      ],
+      "required_data": [
+        "campanas",
+        "audiencias",
+        "creatividades",
+        "conversiones",
+        "costos",
+        "canales"
+      ],
+      "solution_pattern": "modelos de rendimiento + recomendador de presupuesto",
+      "delivery_mode": ["poc", "mvp"]
+    },
+    {
+      "id": "sol_014",
+      "name": "Analitica de Comportamiento Web",
+      "business_domain": "digital_analytics",
+      "industry_targets": ["ecommerce", "saas", "medios", "educacion"],
+      "problem_type": ["analisis", "segmentacion", "evaluacion"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "La empresa no entiende bien los recorridos digitales ni las fugas de conversion.",
+      "expected_value": [
+        "mejor conversion",
+        "mejor UX",
+        "mejor priorizacion de mejoras"
+      ],
+      "required_data": [
+        "eventos web",
+        "sesiones",
+        "funnels",
+        "fuentes de trafico",
+        "conversiones"
+      ],
+      "solution_pattern": "analitica comportamental + clustering + insights",
+      "delivery_mode": ["diagnostico", "poc", "mvp"]
+    },
+    {
+      "id": "sol_015",
+      "name": "Inventario Inteligente",
+      "business_domain": "supply_chain",
+      "industry_targets": ["retail", "distribucion", "logistica", "consumo_masivo"],
+      "problem_type": ["prediccion", "optimizacion", "planificacion"],
+      "structure_level": "estructurado",
+      "business_problem": "La empresa no balancea bien disponibilidad, rotacion y capital inmovilizado.",
+      "expected_value": [
+        "menos stock inmovilizado",
+        "mejor nivel de servicio",
+        "menor merma"
+      ],
+      "required_data": [
+        "inventario",
+        "ventas",
+        "abastecimiento",
+        "lead_times",
+        "quiebres",
+        "catalogo"
+      ],
+      "solution_pattern": "forecast + politica de inventario + alertas",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_016",
+      "name": "Diagnostico Asistido por IA",
+      "business_domain": "salud",
+      "industry_targets": ["clinicas", "salud_digital", "laboratorios"],
+      "problem_type": ["clasificacion", "reconocimiento", "evaluacion"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "Los profesionales necesitan apoyo para revisar imagenes, antecedentes o priorizar casos.",
+      "expected_value": [
+        "apoyo a decision clinica",
+        "mas velocidad de analisis",
+        "mejor priorizacion"
+      ],
+      "required_data": [
+        "imagenes medicas",
+        "fichas",
+        "resultados",
+        "etiquetas clinicas"
+      ],
+      "solution_pattern": "copiloto clinico o clasificador asistido",
+      "delivery_mode": ["poc"],
+      "notes": "Requiere fuertes controles regulatorios, eticos y validacion especializada."
+    },
+    {
+      "id": "sol_017",
+      "name": "Analisis de Productividad de Empleados",
+      "business_domain": "rrhh",
+      "industry_targets": ["corporativo", "servicios", "contact_center"],
+      "problem_type": ["analisis", "evaluacion", "segmentacion"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "La empresa no identifica cuellos de botella, cargas o patrones de productividad.",
+      "expected_value": [
+        "mejor distribucion de trabajo",
+        "mas visibilidad de desempeno",
+        "deteccion de fricciones"
+      ],
+      "required_data": [
+        "tareas",
+        "tiempos",
+        "sistemas de trabajo",
+        "cumplimiento de objetivos"
+      ],
+      "solution_pattern": "analitica de procesos + dashboards + alertas",
+      "delivery_mode": ["diagnostico", "poc"],
+      "notes": "Debe cuidarse privacidad, percepcion de vigilancia y gobernanza."
+    },
+    {
+      "id": "sol_018",
+      "name": "Recomendador de Productos",
+      "business_domain": "ventas",
+      "industry_targets": ["retail", "streaming", "ecommerce", "marketplace"],
+      "problem_type": ["recomendar", "segmentacion", "prediccion"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "La empresa no personaliza bien la oferta y desaprovecha oportunidades de venta.",
+      "expected_value": [
+        "mas conversion",
+        "mayor ticket promedio",
+        "mejor experiencia de usuario"
+      ],
+      "required_data": [
+        "productos",
+        "clientes",
+        "clics",
+        "compras",
+        "atributos",
+        "sesiones"
+      ],
+      "solution_pattern": "recomendador + ranking + personalizacion",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    },
+    {
+      "id": "sol_019",
+      "name": "Moderacion de Contenido",
+      "business_domain": "trust_safety",
+      "industry_targets": ["medios", "redes_sociales", "educacion", "comunidades"],
+      "problem_type": ["deteccion", "clasificacion", "filtrado"],
+      "structure_level": "semi_estructurado",
+      "business_problem": "La empresa no puede revisar a escala contenido potencialmente ofensivo o riesgoso.",
+      "expected_value": [
+        "mejor seguridad de plataforma",
+        "menos riesgo reputacional",
+        "mayor velocidad de moderacion"
+      ],
+      "required_data": [
+        "texto",
+        "imagenes",
+        "videos",
+        "reglas de comunidad",
+        "casos etiquetados"
+      ],
+      "solution_pattern": "clasificador + filtros + cola de revision humana",
+      "delivery_mode": ["poc", "mvp", "produccion"]
+    }
+  ],
+  "priority_offers": [
+    {
+      "rank": 1,
+      "solution_id": "sol_007",
+      "reason": "Alta demanda transversal, rapida demostracion de valor y reusable en muchas industrias."
+    },
+    {
+      "rank": 2,
+      "solution_id": "sol_001",
+      "reason": "Caso clasico de alto valor para retail, distribucion y manufactura."
+    },
+    {
+      "rank": 3,
+      "solution_id": "sol_004",
+      "reason": "Muy vendible para crecimiento comercial y personalizacion."
+    },
+    {
+      "rank": 4,
+      "solution_id": "sol_008",
+      "reason": "Conecta directamente con retencion e ingresos."
+    },
+    {
+      "rank": 5,
+      "solution_id": "sol_018",
+      "reason": "Potente en ecommerce y cross sell."
+    }
+  ],
+  "factory_roadmap": {
+    "phase_1_foundation": [
+      "definir arquitectura base de la fabrica",
+      "definir modelo de onboarding de clientes",
+      "crear scorecard de madurez IA y datos",
+      "crear plantillas de discovery, poc, mvp y produccion",
+      "definir stack tecnico inicial",
+      "definir seguridad, monitoreo y observabilidad"
+    ],
+    "phase_2_core_products": [
+      "desarrollar oferta de automatizacion inteligente de atencion",
+      "desarrollar oferta de prediccion de demanda",
+      "desarrollar oferta de segmentacion y churn",
+      "desarrollar dashboards ejecutivos en tiempo real"
+    ],
+    "phase_3_industry_expansion": [
+      "agregar fraude, pricing, inventario y recomendacion",
+      "crear adaptadores por industria",
+      "incorporar agentes y flujos semiautonomos"
+    ],
+    "phase_4_scale": [
+      "multicliente",
+      "plantillas reutilizables",
+      "marketplace interno de componentes",
+      "gobernanza avanzada",
+      "model registry y evaluacion continua"
+    ]
+  },
+  "technical_guidance_for_agent": {
+    "architecture_style": "modular, API-first, desacoplada y orientada a componentes reutilizables",
+    "recommended_layers": [
+      "frontend comercial y operativo",
+      "backend de orquestacion",
+      "capa de datos",
+      "motor de modelos y agentes",
+      "observabilidad y monitoreo",
+      "seguridad y gobierno"
+    ],
+    "required_features": [
+      "catalogo de soluciones",
+      "wizard de discovery",
+      "scorecard de madurez",
+      "ingesta de datos configurable",
+      "motor de pipelines",
+      "evaluacion de modelos",
+      "dashboards en tiempo real",
+      "gestion de clientes y proyectos",
+      "reportes ejecutivos"
+    ],
+    "non_functional_requirements": [
+      "escalabilidad",
+      "auditabilidad",
+      "trazabilidad",
+      "explicabilidad basica",
+      "seguridad por tenant si aplica",
+      "bajo costo para MVP",
+      "facil despliegue self-hosted o cloud"
+    ]
+  },
+  "pending_input_from_user": {
+    "data_processes_to_integrate": [],
+    "notes": "Cuando el usuario entregue los procesos de datos, se deben mapear contra las soluciones, la arquitectura y los flujos operativos de la fabrica."
+  }
+}

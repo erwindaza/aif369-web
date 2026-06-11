@@ -5,26 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n-title="blog.title">Blog AIF369 - IA, Datos y Cloud</title>
     <meta name="description" data-i18n-content="blog.description" content="Blog de AIF369 con análisis y contenidos de vanguardia sobre inteligencia artificial, datos y cloud para ejecutivos y equipos técnicos.">
+    <link rel="canonical" href="https://aif369.com/blog.html">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aif369.com/blog.html">
+    <meta property="og:title" content="Blog AIF369 — IA, Datos y Cloud">
+    <meta property="og:description" content="Análisis y contenidos de vanguardia sobre inteligencia artificial, datos y cloud.">
+    <meta property="og:image" content="https://aif369.com/assets/img/og-default.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 <header class="site-header">
     <nav class="nav container">
-        <div class="logo">AIF369</div>
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
         <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="blog.html" class="active" data-i18n="nav.blog">Blog</a>
-            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
+            <a href="blog.html" class="active" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
@@ -39,6 +51,157 @@
 
         <div class="blog-layout">
             <div class="blog-main">
+                <!-- ★ ANUNCIO FACEBOOK ★ -->
+                <article class="card blog-card" style="border:2px solid rgba(59,130,246,0.4);background:linear-gradient(135deg,rgba(59,130,246,0.07),rgba(0,136,255,0.04));position:relative;overflow:hidden;">
+                    <div style="position:absolute;top:0;right:0;background:#3B82F6;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:0 0 0 8px;">📣 ANUNCIO AIF369</div>
+                    <p class="tag" style="background:rgba(59,130,246,0.15);color:#60A5FA;margin-bottom:12px;">🚀 Planificación y Ejecución de IA — Método 369</p>
+                    <h2 style="font-size:1.2rem;line-height:1.4;margin-bottom:12px;">¿Tu empresa sigue experimentando con IA o ya la tiene generando valor real?</h2>
+                    <p style="color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:14px;">
+                        Pasar de un prototipo a tener IA operando en producción de forma segura y rentable es el gran desafío actual en LATAM.
+                        Nos complace anunciar el despliegue de nuestro plan de <strong>Planificación y Ejecución de IA bajo el Método 369</strong>.
+                    </p>
+                    <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px;">
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <span style="color:#0088FF;font-size:16px;flex-shrink:0;">🔹</span>
+                            <div style="font-size:13px;color:var(--text-secondary);"><strong style="color:var(--text-primary);">Impacto en el Negocio:</strong> Automatización de procesos clave con ROI claro y medible.</div>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <span style="color:#00D9CC;font-size:16px;flex-shrink:0;">🔹</span>
+                            <div style="font-size:13px;color:var(--text-secondary);"><strong style="color:var(--text-primary);">Tecnología y Datos:</strong> Arquitectura en la nube segura, datos limpios y monitoreo en tiempo real.</div>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <span style="color:#A855F7;font-size:16px;flex-shrink:0;">🔹</span>
+                            <div style="font-size:13px;color:var(--text-secondary);"><strong style="color:var(--text-primary);">Gobernanza y Compliance:</strong> Mitigación de riesgos algorítmicos y cumplimiento de normativas vigentes.</div>
+                        </div>
+                    </div>
+                    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">
+                        📊 Todo el proceso auditado bajo <strong>9 métricas de éxito</strong> que garantizan desde la seguridad de datos hasta la adopción cultural interna.
+                    </p>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <a href="https://facebook.com/aif369" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#3B82F6;color:#60A5FA;font-size:13px;">👍 Ver en Facebook →</a>
+                        <a href="" class="btn btn-primary" style="font-size:13px;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">¿Cómo aplicamos el Método 369 en tu sector? →</a>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-secondary);margin-top:10px;">#InteligenciaArtificial #Metodo369 #TransformacionDigital #IAenProduccion #GobernanzaIA</p>
+                </article>
+
+                <!-- Metodología destacada -->
+                <article class="card blog-card" style="border-left: 3px solid var(--accent);">
+                    <p class="tag" style="background: var(--accent); color: var(--dark);">Metodología</p>
+                    <h2><a href="metodologia.html">Método 369 — El framework de AIF369 para implementar IA</a></h2>
+                    <p class="blog-meta">3 fases · 6 capacidades · 9 checkpoints</p>
+                    <p data-i18n="blog.card.method_desc">Nuestra metodología propia para diagnosticar, diseñar y desplegar inteligencia artificial con impacto medible. Conozca cómo trabajamos.</p>
+                    <a href="metodologia.html" class="btn btn-link" data-i18n="cta.conocer_metodo2">Conocer la metodología →</a>
+                </article>
+
+                <!-- BLOG-008: J-Curve ROI -->
+                <article class="card blog-card" style="border-left: 3px solid var(--accent);">
+                    <p class="tag">ROI & Impacto</p>
+                    <h2><a href="blog-roi-ia-j-curve.html" data-i18n="blog.b008.title">La curva J de la IA: por qué el ROI tarda y cómo acelerar el punto de inflexión</a></h2>
+                    <p class="blog-meta" data-i18n="blog.b008.meta">Abril 2026 · 12 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.b008.text">El 72% de los proyectos de IA no alcanzan ROI en 18 meses. Modelo de 7 Factores para acelerar el punto de inflexión.</p>
+                    <a href="blog-roi-ia-j-curve.html" class="btn btn-link" data-i18n="blog.b008.link">Leer artículo →</a>
+                </article>
+
+                <!-- BLOG-013: Costo LLMs -->
+                <article class="card blog-card">
+                    <p class="tag">Implementación & Costos</p>
+                    <h2><a href="blog-costo-real-llm-produccion.html" data-i18n="blog.b013.title">El costo real de LLMs en producción: la factura de inferencia</a></h2>
+                    <p class="blog-meta" data-i18n="blog.b013.meta">Abril 2026 · 14 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.b013.text">De $50 en POC a $50K en producción. Calculadora TCO y 5 estrategias de optimización que funcionan.</p>
+                    <a href="blog-costo-real-llm-produccion.html" class="btn btn-link" data-i18n="blog.b013.link">Leer artículo →</a>
+                </article>
+
+                <!-- BLOG-009: Regulación LATAM -->
+                <article class="card blog-card">
+                    <p class="tag">Estrategia & Gobernanza</p>
+                    <h2><a href="blog-ia-regulacion-latam-2026.html" data-i18n="blog.b009.title">Regulación de IA en LATAM 2026: lo que todo CTO debe saber</a></h2>
+                    <p class="blog-meta" data-i18n="blog.b009.meta">Abril 2026 · 14 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.b009.text">Chile, Brasil, Colombia y México avanzan en regulación. Matriz de riesgo regulatorio y checklist de compliance.</p>
+                    <a href="blog-ia-regulacion-latam-2026.html" class="btn btn-link" data-i18n="blog.b009.link">Leer artículo →</a>
+                </article>
+
+                <!-- BLOG-010: CAIO vs CTO -->
+                <article class="card blog-card">
+                    <p class="tag">Liderazgo de IA</p>
+                    <h2><a href="blog-caio-vs-cto-quien-decide.html" data-i18n="blog.b010.title">CAIO vs CTO: quién toma las decisiones de IA en 2026</a></h2>
+                    <p class="blog-meta" data-i18n="blog.b010.meta">Abril 2026 · 8 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.b010.text">El 58% de las Fortune 500 tienen CAIO, pero solo el 23% tiene autoridad clara. Modelo RACI para desbloquear la parálisis.</p>
+                    <a href="blog-caio-vs-cto-quien-decide.html" class="btn btn-link" data-i18n="blog.b010.link">Leer artículo →</a>
+                </article>
+
+                <!-- BLOG-011: Data Quality -->
+                <article class="card blog-card">
+                    <p class="tag">Datos & Calidad</p>
+                    <h2><a href="blog-data-quality-ai-production.html" data-i18n="blog.b011.title">Sin datos limpios no hay IA en producción: guía ejecutiva</a></h2>
+                    <p class="blog-meta" data-i18n="blog.b011.meta">Abril 2026 · 13 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.b011.text">La mala calidad de datos cuesta $12.9M/año. Framework DQ-369 con 3 dimensiones, 6 controles y 9 métricas.</p>
+                    <a href="blog-data-quality-ai-production.html" class="btn btn-link" data-i18n="blog.b011.link">Leer artículo →</a>
+                </article>
+
+                <!-- BLOG-012: Agentic AI -->
+                <article class="card blog-card">
+                    <p class="tag">Tendencias</p>
+                    <h2><a href="blog-agentic-ai-enterprise-2026.html" data-i18n="blog.b012.title">IA Agéntica en la empresa: más allá del chatbot</a></h2>
+                    <p class="blog-meta" data-i18n="blog.b012.meta">Abril 2026 · 8 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.b012.text">33% de las apps empresariales tendrán IA agéntica para 2028. 4 niveles de autonomía y framework de gobernanza.</p>
+                    <a href="blog-agentic-ai-enterprise-2026.html" class="btn btn-link" data-i18n="blog.b012.link">Leer artículo →</a>
+                </article>
+
+                <!-- Post: Por qué fallan -->
+                <article class="card blog-card">
+                    <p class="tag">Estrategia de IA</p>
+                    <h2><a href="blog-por-que-fallan-proyectos-ia.html">Por qué el 87% de los proyectos de IA no llegan a producción</a></h2>
+                    <p class="blog-meta">Marzo 2026 · 8 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.card.why_fail_desc">Las 5 razones más comunes por las que los proyectos de IA fracasan — y el framework para evitarlo.</p>
+                    <a href="blog-por-que-fallan-proyectos-ia.html" class="btn btn-link" data-i18n="cta.leer_articulo">Leer artículo →</a>
+                </article>
+
+                <!-- Post: CAIO -->
+                <article class="card blog-card">
+                    <p class="tag">Liderazgo de IA</p>
+                    <h2><a href="blog-que-es-un-caio.html">Qué es un CAIO y por qué su empresa necesita uno</a></h2>
+                    <p class="blog-meta">Marzo 2026 · 7 min · Por Erwin Daza</p>
+                    <p>El Chief AI Officer explicado: qué hace, qué no hace, cuándo contratarlo y la alternativa CAIO-as-a-Service.</p>
+                    <a href="blog-que-es-un-caio.html" class="btn btn-link" data-i18n="cta.leer_articulo">Leer artículo →</a>
+                </article>
+
+                <!-- Post: Gobernanza -->
+                <article class="card blog-card">
+                    <p class="tag">Gobernanza</p>
+                    <h2><a href="blog-gobernanza-ia-guia-practica.html">Gobernanza de IA: guía práctica para empresas chilenas</a></h2>
+                    <p class="blog-meta">Marzo 2026 · 9 min · Por Erwin Daza</p>
+                    <p data-i18n="blog.card.governance_desc">Los 4 pilares de la gobernanza, contexto regulatorio en Chile y un checklist para evaluar si su empresa está preparada.</p>
+                    <a href="blog-gobernanza-ia-guia-practica.html" class="btn btn-link" data-i18n="cta.leer_articulo">Leer artículo →</a>
+                </article>
+
+                <!-- Post: Agentes -->
+                <article class="card blog-card">
+                    <p class="tag">IA Aplicada</p>
+                    <h2><a href="blog-agentes-ia-2026.html">Agentes de IA en 2026: qué son, cómo funcionan y cuándo implementarlos</a></h2>
+                    <p class="blog-meta">Marzo 2026 · 8 min · Por Erwin Daza</p>
+                    <p>Chatbot vs copiloto vs agente. Casos de uso reales, arquitectura y pre-requisitos para implementar agentes.</p>
+                    <a href="blog-agentes-ia-2026.html" class="btn btn-link" data-i18n="cta.leer_articulo">Leer artículo →</a>
+                </article>
+
+                <!-- Post: Equipo -->
+                <article class="card blog-card">
+                    <p class="tag">Talento</p>
+                    <h2><a href="blog-armar-equipo-datos-ia.html">Cómo armar un equipo de datos e IA desde cero</a></h2>
+                    <p class="blog-meta">Marzo 2026 · 8 min · Por Erwin Daza</p>
+                    <p>La estructura ideal por etapas: roles, perfiles, organigrama y cuándo contratar a quién.</p>
+                    <a href="blog-armar-equipo-datos-ia.html" class="btn btn-link" data-i18n="cta.leer_articulo">Leer artículo →</a>
+                </article>
+
+                <!-- Post: IA Generativa -->
+                <article class="card blog-card">
+                    <p class="tag">IA Generativa</p>
+                    <h2><a href="blog-ia-generativa-empresas.html">IA generativa para empresas: más allá de ChatGPT</a></h2>
+                    <p class="blog-meta">Marzo 2026 · 9 min · Por Erwin Daza</p>
+                    <p>De shadow AI a IA empresarial en 5 pasos. Arquitectura, modelos open vs propietarios y gestión de riesgos.</p>
+                    <a href="blog-ia-generativa-empresas.html" class="btn btn-link" data-i18n="cta.leer_articulo">Leer artículo →</a>
+                </article>
+
+                <!-- Post original -->
                 <article class="card blog-card">
                     <p class="tag" data-i18n="blog.post1.tag">Estrategia de IA</p>
                     <h2><a href="blog-post-2026-ia-decide.html" data-i18n="blog.post1.title">2026: cuando la IA deja de asistir y empieza a decidir</a></h2>
@@ -46,25 +209,49 @@
                     <p data-i18n="blog.post1.text">Qué ocurre cuando los agentes y modelos empiezan a tomar decisiones operativas, y qué deben cambiar el CAIO, el CIO y los equipos de riesgo para gobernarlas.</p>
                     <a href="blog-post-2026-ia-decide.html" class="btn btn-link" data-i18n="blog.post1.link">Leer artículo completo</a>
                 </article>
-
-                <article class="card blog-card">
-                    <p class="tag" data-i18n="blog.post2.tag">Arquitectura de datos</p>
-                    <h2 data-i18n="blog.post2.title">De data lake a plataforma de decisiones - una ruta práctica</h2>
-                    <p class="blog-meta" data-i18n="blog.post2.meta">Próximamente - En revisión editorial</p>
-                    <p data-i18n="blog.post2.text">Este análisis estará disponible pronto con ejemplos y marcos prácticos para líderes de datos.</p>
-                    <span class="btn btn-link" data-i18n="blog.post2.link">Disponible pronto</span>
-                </article>
             </div>
 
             <aside class="blog-aside">
+                <div class="card">
+                    <h3>Erwin Daza Castillo</h3>
+                    <p>Founder de AIF369. Consultor en IA, datos y cloud. Creador del Método 369.</p>
+                    <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top: 0.5rem; display: inline-block;" data-i18n="cta.ver_linkedin2">Ver LinkedIn →</a>
+                </div>
+
+                <div class="card" style="border-left: 3px solid var(--accent);">
+                    <h3>Método 369</h3>
+                    <p data-i18n="blog.aside.method_desc">3 fases · 6 capacidades · 9 checkpoints. Nuestra metodología propia para implementar IA.</p>
+                    <a href="metodologia.html" class="btn btn-link" data-i18n="cta.conocer_metodo2">Conocer la metodología →</a>
+                </div>
+
                 <div class="card">
                     <h3 data-i18n="blog.aside.title">Para quién escribimos</h3>
                     <p data-i18n="blog.aside.text">CAIO, CIO, CDO, CTO, CEOs y líderes de transformación que necesitan convertir IA en resultados trazables.</p>
                 </div>
 
                 <div class="card">
-                    <h3 data-i18n="blog.aside2.title">Recibir próximos artículos</h3>
-                    <p data-i18n="blog.aside2.text">Regístrate para recibir alertas ejecutivas, benchmarks y playbooks cada mes.</p>
+                    <h3>Evalúe su madurez en IA</h3>
+                    <p>AI Readiness Scorecard — gratuito, 5 minutos, resultados inmediatos.</p>
+                    <a href="scorecard.html" class="btn btn-primary" style="margin-top: 0.5rem; display: inline-block;" data-i18n="cta.hacer_scorecard2">Hacer el Scorecard →</a>
+                </div>
+
+                <!-- DONATE -->
+                <div class="card" style="border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.05);">
+                    <h3 style="color:#F59E0B;">☕ Apoya el contenido gratuito</h3>
+                    <p style="font-size:14px;color:var(--text-secondary);line-height:1.6;">Todo el blog, los recursos y la comunidad son gratuitos. Si te ayudan, puedes apoyar con una donación voluntaria.</p>
+                    <a href="https://www.paypal.com/donate/?hosted_button_id=AIFDONATION&amount=10" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;margin-top:12px;text-align:center;background:#F59E0B;border-color:#F59E0B;color:#0A1628;font-weight:700;">
+                        💛 Donar vía PayPal
+                    </a>
+                    <p style="font-size:11px;color:var(--text-secondary);margin-top:8px;text-align:center;">Cualquier monto ayuda · Gracias ❤️</p>
+                </div>
+
+                <!-- FACEBOOK CTA -->
+                <div class="card" style="border:1px solid rgba(59,130,246,0.3);background:rgba(59,130,246,0.05);">
+                    <h3 style="color:#60A5FA;">📣 Síguenos en Facebook</h3>
+                    <p style="font-size:14px;color:var(--text-secondary);line-height:1.6;">Noticias, anuncios y comunidad IA en LATAM. Publicamos novedades del Método 369 y casos reales.</p>
+                    <a href="https://facebook.com/aif369" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;margin-top:12px;text-align:center;border-color:#60A5FA;color:#60A5FA;">
+                        👍 Seguir AIF369 en Facebook
+                    </a>
                 </div>
             </aside>
         </div>
@@ -74,22 +261,32 @@
 <footer class="site-footer">
     <div class="container footer-layout">
         <div>
-            <div class="logo">AIF369</div>
-            <p class="footer-text" data-i18n="blog.footer.text">IA, datos y cloud para la empresa moderna.</p>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text" data-i18n="blog.footer.text">AI Factory, Governance, Risk and Business Value.</p>
         </div>
         <div class="footer-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
         </div>
-            <div class="footer-social">
-            <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=erwin-daza-castillo" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+            </a>
+            <a href="https://github.com/erwindaza" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-left:16px;color:var(--text-secondary);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
 </div>
 </footer>
 
+<script src="_config.js"></script>
 <script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso MLOps & ML Engineering — AIF369</title>
+    <meta name="description" content="Aprende MLOps y ML Engineering: desde experimentación hasta despliegue y monitoreo de modelos en producción. Curso práctico con proyectos reales.">
+    <meta name="keywords" content="MLOps, ML Engineering, Machine Learning, Producción, MLflow, Docker, Kubernetes, Airflow, AIF369">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Aprende IA · Encuentra Empleo</span></a>
+        <button class="nav-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="education.html">Cursos</a>
+            <a href="cursos-ia.html">IA</a>
+            <a href="big-data-ia.html">Big Data</a>
+            <a href="automatizacion-airflow.html">Airflow</a>
+            <a href="curso-mlops.html" class="active" style="color:#00D9CC;">MLOps</a>
+            <a href="historias-reales.html">Historias</a>
+            <a href="coaching-data.html">Coaching</a>
+            <a href="https://bejoby.com" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#10B981;color:#10B981;">💼 BeJoby.com</a>
+            <button class="lang-toggle" type="button">EN</button>
+        </div>
+    </nav>
+</header>
+
+<main>
+
+    <!-- Breadcrumb -->
+    <section class="section" style="padding-bottom:0;">
+        <div class="container">
+            <a href="education.html" class="btn btn-link">← Volver al catálogo</a>
+        </div>
+    </section>
+
+    <!-- Hero -->
+    <section class="section">
+        <div class="container">
+            <header class="section-header">
+                <span class="catalog-card-badge" style="display:inline-block;margin-bottom:16px;">MLOps · MLE</span>
+                <h1>MLOps & ML Engineering</h1>
+                <p style="font-size:1.2rem;max-width:680px;margin:0 auto;">Lleva tus modelos de machine learning a producción. Aprende a experimentar, desplegar, orquestar y monitorear pipelines ML en entornos reales.</p>
+                <div class="bw-banner" style="margin-top:var(--space-5);">
+                    <span class="bw-tag">🎓 9 semanas · Autoguiado · Gratuito</span>
+                    <div class="bw-pricing">
+                        <span class="bw-new">USD $0 — Open Source</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Requisitos -->
+            <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);padding:var(--space-5);margin-top:var(--space-6);max-width:700px;margin-left:auto;margin-right:auto;">
+                <h3 style="margin-bottom:var(--space-3);">Requisitos previos</h3>
+                <ul style="list-style:none;padding:0;display:grid;gap:8px;">
+                    <li>✅ Python intermedio</li>
+                    <li>✅ Conocimientos básicos de ML</li>
+                    <li>✅ Docker y línea de comandos</li>
+                    <li>✅ 1+ año de experiencia programando</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stack tecnológico -->
+    <section class="section" style="background:var(--bg-secondary);padding-top:var(--space-6);padding-bottom:var(--space-6);">
+        <div class="container">
+            <h2 style="text-align:center;margin-bottom:var(--space-5);">Stack que aprenderás</h2>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+                <span class="catalog-card-badge">MLflow</span>
+                <span class="catalog-card-badge">Prefect</span>
+                <span class="catalog-card-badge">Docker</span>
+                <span class="catalog-card-badge">Flask</span>
+                <span class="catalog-card-badge">AWS Lambda</span>
+                <span class="catalog-card-badge">Kinesis</span>
+                <span class="catalog-card-badge">Prometheus</span>
+                <span class="catalog-card-badge">Grafana</span>
+                <span class="catalog-card-badge">Evidently</span>
+                <span class="catalog-card-badge">GitHub Actions</span>
+                <span class="catalog-card-badge">Terraform</span>
+                <span class="catalog-card-badge">MongoDB</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulos -->
+    <section class="section">
+        <div class="container">
+            <h2 style="text-align:center;margin-bottom:var(--space-6);">Programa del Curso</h2>
+            <div style="display:grid;gap:var(--space-4);max-width:800px;margin:0 auto;">
+
+                <!-- Módulo 1 -->
+                <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);padding:var(--space-5);border-left:4px solid #00D9CC;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-3);">
+                        <span style="background:#00D9CC;color:#000;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</span>
+                        <h3 style="margin:0;">Introducción a MLOps</h3>
+                    </div>
+                    <ul style="list-style:none;padding:0;display:grid;gap:6px;color:var(--text-secondary);">
+                        <li>→ ¿Qué es MLOps y por qué importa?</li>
+                        <li>→ Modelo de madurez MLOps</li>
+                        <li>→ Dataset NYC Taxi (caso de estudio real)</li>
+                        <li>→ Configuración del entorno de trabajo</li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 2 -->
+                <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);padding:var(--space-5);border-left:4px solid #00D9CC;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-3);">
+                        <span style="background:#00D9CC;color:#000;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</span>
+                        <h3 style="margin:0;">Experiment Tracking & Model Registry</h3>
+                    </div>
+                    <ul style="list-style:none;padding:0;display:grid;gap:6px;color:var(--text-secondary);">
+                        <li>→ Fundamentos de experiment tracking</li>
+                        <li>→ MLflow: seguimiento de experimentos</li>
+                        <li>→ Guardar y cargar modelos</li>
+                        <li>→ Model Registry: gestión del ciclo de vida</li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 3 -->
+                <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);padding:var(--space-5);border-left:4px solid #00D9CC;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-3);">
+                        <span style="background:#00D9CC;color:#000;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</span>
+                        <h3 style="margin:0;">Orquestación & ML Pipelines</h3>
+                    </div>
+                    <ul style="list-style:none;padding:0;display:grid;gap:6px;color:var(--text-secondary);">
+                        <li>→ ¿Qué es la orquestación de workflows?</li>
+                        <li>→ Prefect para pipelines ML</li>
+                        <li>→ Automatización de entrenamiento</li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 4 -->
+                <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);padding:var(--space-5);border-left:4px solid #00D9CC;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-3);">
+                        <span style="background:#00D9CC;color:#000;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">4</span>
+                        <h3 style="margin:0;">Model Deployment</h3>
+                    </div>
+                    <ul style="list-style:none;padding:0;display:grid;gap:6px;color:var(--text-secondary);">
+                        <li>→ Online vs. offline deployment</li>
+                        <li>→ Web service con Flask</li>
+                        <li>→ Streaming: AWS Kinesis & Lambda</li>
+                        <li>→ Batch scoring para producción</li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 5 -->
+                <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);padding:var(--space-5);border-left:4px solid #00D9CC;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-3);">
+                        <span style="background:#00D9CC;color:#000;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">5</span>
+                        <h3 style="margin:0;">Model Monitoring</h3>
+                    </div>
+                    <ul style="list-style:none;padding:0;display:grid;gap:6px;color:var(--text-secondary);">
+                        <li>→ Monitoreo de servicios ML en producción</li>
+                        <li>→ Stack: Prometheus + Grafana + Evidently</li>
+                        <li>→ Detección de data drift</li>
+                        <li>→ Batch monitoring con MongoDB</li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 6 -->
+                <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);padding:var(--space-5);border-left:4px solid #00D9CC;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-3);">
+                        <span style="background:#00D9CC;color:#000;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">6</span>
+                        <h3 style="margin:0;">Best Practices</h3>
+                    </div>
+                    <ul style="list-style:none;padding:0;display:grid;gap:6px;color:var(--text-secondary);">
+                        <li>→ Unit e integration testing para ML</li>
+                        <li>→ Linting, formatting y pre-commit hooks</li>
+                        <li>→ CI/CD con GitHub Actions</li>
+                        <li>→ Infrastructure as Code con Terraform</li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 7 -->
+                <div style="background:linear-gradient(135deg,#00D9CC11,#6C63FF11);border-radius:var(--radius-lg);padding:var(--space-5);border:1px solid #00D9CC44;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-3);">
+                        <span style="background:linear-gradient(135deg,#00D9CC,#6C63FF);color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">🏆</span>
+                        <h3 style="margin:0;">Proyecto Final</h3>
+                    </div>
+                    <p style="color:var(--text-secondary);margin:0;">Proyecto end-to-end integrando todos los conceptos del curso: desde la experimentación hasta el despliegue y monitoreo en producción.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="background:var(--bg-secondary);">
+        <div class="container" style="text-align:center;">
+            <h2>¿Listo para llevar tus modelos a producción?</h2>
+            <p style="color:var(--text-secondary);margin-bottom:var(--space-5);">Este curso es open source y self-paced. Accede al material en cualquier momento.</p>
+            <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+                <a href="https://github.com/DataTalksClub/mlops-zoomcamp" target="_blank" rel="noopener" class="btn btn-primary">
+                    Ver Material en GitHub →
+                </a>
+                <a href="coaching-data.html" class="btn btn-outline">
+                    Solicitar Coaching 1:1
+                </a>
+            </div>
+            <p style="color:var(--text-tertiary);margin-top:var(--space-4);font-size:0.875rem;">
+                Material original: <a href="https://github.com/DataTalksClub/mlops-zoomcamp" target="_blank" rel="noopener" style="color:var(--accent);">DataTalks.Club MLOps Zoomcamp</a> (licencia open source)
+            </p>
+        </div>
+    </section>
+
+    <!-- También te puede interesar -->
+    <section class="section">
+        <div class="container">
+            <h2 style="text-align:center;margin-bottom:var(--space-5);">También te puede interesar</h2>
+            <div class="catalog-grid" style="max-width:900px;margin:0 auto;">
+                <a href="cursos-ia.html" class="catalog-card">
+                    <div class="catalog-card-header">
+                        <span class="catalog-card-badge">Fundamentos</span>
+                    </div>
+                    <h3>Curso de Inteligencia Artificial</h3>
+                    <p>Conceptos fundamentales y aplicaciones reales de IA.</p>
+                </a>
+                <a href="big-data-ia.html" class="catalog-card">
+                    <div class="catalog-card-header">
+                        <span class="catalog-card-badge">Big Data</span>
+                    </div>
+                    <h3>Big Data & IA</h3>
+                    <p>Procesamiento a escala con Spark, Kafka y arquitecturas modernas.</p>
+                </a>
+                <a href="automatizacion-airflow.html" class="catalog-card">
+                    <div class="catalog-card-header">
+                        <span class="catalog-card-badge">Orquestación</span>
+                    </div>
+                    <h3>Automatización con Airflow</h3>
+                    <p>Pipelines de datos modernos con Apache Airflow e IA.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="logo" style="margin-bottom:var(--space-3);"><span class="logo-name">AIF369</span></div>
+                <p style="color:var(--text-tertiary);font-size:0.875rem;">Aprende IA · Encuentra Empleo</p>
+            </div>
+            <div>
+                <h4>Cursos</h4>
+                <ul>
+                    <li><a href="cursos-ia.html">Inteligencia Artificial</a></li>
+                    <li><a href="big-data-ia.html">Big Data & IA</a></li>
+                    <li><a href="automatizacion-airflow.html">Airflow</a></li>
+                    <li><a href="curso-mlops.html">MLOps & MLE</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>AIF369</h4>
+                <ul>
+                    <li><a href="coaching-data.html">Coaching</a></li>
+                    <li><a href="historias-reales.html">Historias</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+        <p style="text-align:center;color:var(--text-tertiary);font-size:0.8rem;margin-top:var(--space-5);">© 2026 AIF369. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<script src="scripts.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

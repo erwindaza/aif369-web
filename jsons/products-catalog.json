@@ -1,0 +1,336 @@
+{
+  "_meta": {
+    "version": "2.0",
+    "updated": "2026-05-07",
+    "currency": "USD",
+    "note": "Precios reales. Descuento VIP solo para emails autorizados (vip_discount_emails en backend). Todo automatico via PayPal."
+  },
+
+  "courses": [
+    {
+      "id": "course-ia-fundamentals",
+      "slug": "cursos-ia",
+      "name": "Inteligencia Artificial para Empresas",
+      "subtitle": "De cero a casos de negocio reales con IA",
+      "target": "Profesionales, gerentes medios, analistas, equipos operativos",
+      "level": "Fundamentos",
+      "price_full": 197,
+      "price_vip": 10,
+      "price_display": "$197 USD",
+      "badge": "Más vendido",
+      "duration": "6 módulos · ~12 horas",
+      "deliverables": [
+        "Acceso de por vida a materiales",
+        "Proyecto final con feedback",
+        "Certificado AIF369",
+        "Acceso a comunidad privada",
+        "Acceso a BeJoby.com (30 días premium)"
+      ],
+      "modules": [
+        "Fundamentos de IA y Machine Learning",
+        "Casos de uso de negocio con IA",
+        "Prompting y LLMs para trabajo diario",
+        "IA en datos y automatización",
+        "Ética, riesgos y gobernanza básica",
+        "Proyecto final: diseña tu caso de uso de IA"
+      ],
+      "paypal_plan_id": null,
+      "status": "active"
+    },
+    {
+      "id": "course-bigdata-ia",
+      "slug": "big-data-ia",
+      "name": "Big Data + IA: Arquitecturas Modernas",
+      "subtitle": "Diseña y opera pipelines de datos para IA a escala",
+      "target": "Data Engineers, Arquitectos de datos, Tech Leads",
+      "level": "Intermedio-Avanzado",
+      "price_full": 297,
+      "price_vip": 10,
+      "price_display": "$297 USD",
+      "badge": "Técnico",
+      "duration": "8 módulos · ~20 horas",
+      "deliverables": [
+        "Acceso de por vida",
+        "Labs prácticos con código real",
+        "Certificado AIF369",
+        "Acceso a comunidad de datos"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "course-mlops",
+      "slug": "curso-mlops",
+      "name": "MLOps: De Modelos a Producción",
+      "subtitle": "CI/CD para modelos, monitoreo y gobierno de ML en producción",
+      "target": "ML Engineers, Data Scientists que quieren llevar modelos a prod",
+      "level": "Avanzado",
+      "price_full": 347,
+      "price_vip": 10,
+      "price_display": "$347 USD",
+      "badge": "Nuevo",
+      "duration": "7 módulos · ~18 horas",
+      "status": "active"
+    },
+    {
+      "id": "course-airflow",
+      "slug": "automatizacion-airflow",
+      "name": "Automatización con Apache Airflow",
+      "subtitle": "Orquesta pipelines de datos y procesos IA con Airflow",
+      "target": "Data Engineers, Analistas de datos",
+      "level": "Intermedio",
+      "price_full": 247,
+      "price_vip": 10,
+      "price_display": "$247 USD",
+      "badge": null,
+      "duration": "6 módulos · ~15 horas",
+      "status": "active"
+    }
+  ],
+
+  "document_pricing_tiers": [
+    { "tier": "micro",    "pages_min": 1,   "pages_max": 20,  "price": 10,  "label": "Hasta 20 páginas",     "price_display": "$10 USD"  },
+    { "tier": "small",    "pages_min": 21,  "pages_max": 50,  "price": 15,  "label": "21–50 páginas",         "price_display": "$15 USD"  },
+    { "tier": "medium",   "pages_min": 51,  "pages_max": 100, "price": 20,  "label": "51–100 páginas",        "price_display": "$20 USD"  },
+    { "tier": "large",    "pages_min": 101, "pages_max": 200, "price": 35,  "label": "101–200 páginas",       "price_display": "$35 USD"  },
+    { "tier": "xl",       "pages_min": 201, "pages_max": 999, "price": 50,  "label": "Más de 200 páginas",    "price_display": "$50 USD"  }
+  ],
+
+  "digital_products": [
+    {
+      "id": "guide-caio",
+      "slug": "guia-caio",
+      "name": "Guía CAIO: Cómo Liderar la IA en tu Empresa",
+      "subtitle": "El manual ejecutivo para implementar Inteligencia Artificial con gobierno, estrategia y valor real",
+      "target": "CEO, COO, CTO, Gerentes Generales, Directores, Dueños de empresa",
+      "target_level": "C-Suite y alta gerencia",
+      "price": 500,
+      "price_display": "$500 USD",
+      "badge": "Nuevo · Solo digital",
+      "format": "PDF + acceso web",
+      "pages": "~180 páginas",
+      "deliverables": [
+        "Guía completa en PDF (180+ páginas)",
+        "Plantillas editables: AI Readiness, Roadmap 369, RACI, KPIs",
+        "Checklist de 9 decisiones críticas que todo CAIO debe tomar",
+        "Casos reales anonimizados de LATAM",
+        "Acceso a actualizaciones durante 12 meses",
+        "Acceso a comunidad privada de CAIOs"
+      ],
+      "chapters": [
+        "Por qué tu empresa necesita un CAIO (no solo un CTO)",
+        "El Método 369: de la idea al gobierno real",
+        "Cómo priorizar casos de uso con criterio de negocio",
+        "Gobernanza de IA: políticas, riesgos y compliance",
+        "Construir el equipo de datos e IA correcto",
+        "Medir el ROI de la IA sin mentirse",
+        "Regulación IA en LATAM: lo que viene y cómo prepararse",
+        "Errores que cometen las empresas y cómo evitarlos",
+        "Hoja de ruta para los próximos 12 meses"
+      ],
+      "paypal_plan_id": null,
+      "status": "coming_soon",
+      "launch_date": "2026-06-01"
+    },
+    {
+      "id": "doc-prompt-engineering",
+      "slug": "recursos-digitales",
+      "name": "Guía de Prompting para Empresas",
+      "subtitle": "Técnicas avanzadas de prompting para equipos de negocio y tecnología",
+      "target": "Profesionales, analistas, PMs, equipos de datos",
+      "pages": 18,
+      "pricing_tier": "micro",
+      "price": 10,
+      "price_display": "$10 USD",
+      "format": "PDF descargable",
+      "status": "active",
+      "paypal_button_id": null,
+      "_note": "paypal.me/ErwinDaza954/10 — el botón YJX3BT86XLQEY está configurado a $500, NO usar"
+    },
+    {
+      "id": "doc-ai-readiness",
+      "slug": "recursos-digitales",
+      "name": "AI Readiness Assessment — Plantilla Completa",
+      "subtitle": "Herramienta de diagnóstico de madurez IA con 120+ criterios y scoring automático",
+      "target": "CEO, COO, Directores de Transformación Digital",
+      "pages": 34,
+      "pricing_tier": "small",
+      "price": 15,
+      "price_display": "$15 USD",
+      "format": "PDF + Excel editable",
+      "status": "active",
+      "paypal_button_id": null
+    },
+    {
+      "id": "doc-roadmap-369",
+      "slug": "recursos-digitales",
+      "name": "Roadmap 369: Plantilla de 12 Meses",
+      "subtitle": "Plantilla ejecutiva para planificar la adopción de IA en 3, 6 y 9 meses",
+      "target": "CEO, CTO, Gerentes de Innovación",
+      "pages": 22,
+      "pricing_tier": "small",
+      "price": 15,
+      "price_display": "$15 USD",
+      "format": "PDF + PowerPoint editable",
+      "status": "active",
+      "paypal_button_id": null
+    },
+    {
+      "id": "doc-gobierno-ia",
+      "slug": "recursos-digitales",
+      "name": "Pack de Gobierno IA: Políticas y Templates",
+      "subtitle": "10 documentos listos para implementar gobernanza de IA en tu empresa",
+      "target": "COO, Director Legal, Compliance, Directorio",
+      "pages": 87,
+      "pricing_tier": "medium",
+      "price": 20,
+      "price_display": "$20 USD",
+      "format": "PDF + Word editable",
+      "status": "active",
+      "paypal_button_id": null
+    },
+    {
+      "id": "doc-casos-uso-latam",
+      "slug": "recursos-digitales",
+      "name": "30 Casos de Uso de IA para LATAM",
+      "subtitle": "Casos reales de implementación IA en retail, finanzas, salud, logística y gobierno",
+      "target": "Alta gerencia, estrategia, innovación",
+      "pages": 145,
+      "pricing_tier": "large",
+      "price": 35,
+      "price_display": "$35 USD",
+      "format": "PDF + presentación ejecutiva",
+      "status": "coming_soon",
+      "paypal_button_id": null
+    }
+  ],
+
+  "services": [
+    {
+      "id": "service-gobernanza-datos-ia",
+      "slug": "gobernanza-datos-ia",
+      "name": "Gobernanza de Datos para IA",
+      "subtitle": "Auditoría DAMA/DMBOK + compliance Ley 21.719 + preparación de datos para sistemas de IA.",
+      "target": "CEO, COO, Director de Datos, Legal/Compliance, empresas reguladas",
+      "target_level": "C-Suite · Empresas con datos sensibles",
+      "price_from": 6000,
+      "price_display": "Desde $6,000 USD",
+      "duration": "6-10 semanas",
+      "format": "Remoto · talleres presenciales según requerimiento",
+      "highlight": "Nuevo servicio estrella — AIF369 + especialista certificado DAMA/DMBOK",
+      "urgency": "Ley 21.719 (protección de datos personales Chile) entra en vigor diciembre 2026",
+      "deliverables_aif369": [
+        "Diagnóstico de madurez de datos con Método 369",
+        "Mapa de riesgo regulatorio (Ley 21.719)",
+        "Presentación ejecutiva al directorio",
+        "Supervisión y coordinación del proyecto DAMA",
+        "Hoja de ruta de 90 días"
+      ],
+      "deliverables_dama": [
+        "Auditoría de calidad de datos",
+        "Data catalog y data lineage",
+        "Glosario de negocio",
+        "Roles: Data Steward, Data Owner, Data Governance Committee",
+        "Plan de compliance Ley 21.719 (bases legales, derechos ARCO, registro de tratamientos)"
+      ],
+      "pricing_tiers": [
+        {"name": "Starter", "price": 6000, "scope": "Empresa hasta 200 emp · 1-2 dominios", "duration": "6 sem"},
+        {"name": "Business", "price": 12000, "scope": "Empresa 200-1000 emp · 2-3 dominios", "duration": "8-10 sem"},
+        {"name": "Enterprise", "price": 18000, "scope": "Empresa grande · múltiples dominios", "duration": "según alcance"}
+      ],
+      "status": "active",
+      "_note": "Servicio conjunto: AIF369 lidera estrategia, especialista externo DAMA/DMBOK ejecuta auditoría técnica. El boletín 16821-19 es proyecto de ley de IA (no vigente). La Ley 21.719 es protección de datos (vigente dic 2026)."
+    },
+    {
+      "id": "service-diagnostico-ejecutivo",
+      "slug": "service-diagnostico",
+      "name": "Diagnóstico IA Ejecutivo",
+      "subtitle": "Evaluación de madurez IA en 1 semana. Entregable ejecutivo listo para directorio.",
+      "target": "CEO, Gerente General, Directorio",
+      "target_level": "C-Suite",
+      "price_from": 2000,
+      "price_display": "Desde $2,000 USD",
+      "duration": "1 semana",
+      "format": "Remoto",
+      "deliverables": [
+        "AI Readiness Assessment (informe ejecutivo)",
+        "Matriz de riesgo por área de negocio",
+        "Top 5 casos de uso priorizados por ROI",
+        "Roadmap de 90 días para arrancar",
+        "Presentación al directorio incluida"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "service-caio-as-service",
+      "slug": "service-gobierno",
+      "name": "CAIO-as-a-Service",
+      "subtitle": "Tu Chief AI Officer externo. Estrategia, gobierno y ejecución sin contratar un equipo interno.",
+      "target": "CEO, Gerente General, Dueño de empresa mediana",
+      "target_level": "C-Suite · Empresas $5M+ ingresos",
+      "price_from": 3000,
+      "price_display": "Desde $3,000 USD/mes",
+      "duration": "Mínimo 3 meses",
+      "format": "Remoto · sesiones semanales",
+      "deliverables": [
+        "Sesiones semanales de estrategia IA (2h)",
+        "Hoja de ruta y portafolio de proyectos IA",
+        "Gobierno y políticas de IA de la empresa",
+        "Supervisión de implementaciones en curso",
+        "Reportes mensuales al directorio",
+        "Acceso directo por WhatsApp/Slack"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "service-implementacion-sprint",
+      "slug": "service-implementacion",
+      "name": "AI Factory Sprint",
+      "subtitle": "Implementa tu primer caso de uso de IA en 4 semanas. Resultado garantizado o te devolvemos el dinero.",
+      "target": "CTO, COO, Gerente de Operaciones",
+      "target_level": "C-Suite y N-1",
+      "price_from": 5000,
+      "price_display": "Desde $5,000 USD",
+      "duration": "4 semanas",
+      "format": "Remoto + sesiones síncronas",
+      "deliverables": [
+        "Caso de uso funcionando en producción",
+        "Documentación técnica y de negocio",
+        "Controles de gobierno y monitoreo",
+        "Transferencia de conocimiento al equipo",
+        "30 días de soporte post-entrega"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "service-gobierno-ia",
+      "slug": "service-gobierno",
+      "name": "Marco de Gobierno IA",
+      "subtitle": "Diseña las políticas, controles y estructura de gobierno para operar IA de forma segura y auditable.",
+      "target": "CRO, CCO, Gerente Legal, Compliance",
+      "target_level": "C-Suite y Risk",
+      "price_from": 3500,
+      "price_display": "Desde $3,500 USD",
+      "duration": "3-4 semanas",
+      "format": "Remoto",
+      "deliverables": [
+        "Política de uso de IA de la organización",
+        "Matriz de riesgo IA por proceso",
+        "RACI de gobierno IA",
+        "Checklist de compliance regulatorio LATAM",
+        "Marco de auditoría interna de IA"
+      ],
+      "status": "active"
+    }
+  ],
+
+  "pricing_rules": {
+    "vip_discount": {
+      "description": "Usuarios con email VIP pagan $10 en cualquier curso (precio de lanzamiento / aliados / invitados)",
+      "vip_emails_env_var": "VIP_EMAILS",
+      "note": "Lista separada por comas en variable de entorno. Nunca hardcodeada en código."
+    },
+    "services_note": "Los servicios no tienen precio fijo público — el formulario deriva a contacto/Calendly. Precio mínimo $2,000 USD.",
+    "refund_policy": "Cursos: reembolso en 7 días si no está satisfecho. Servicios: según contrato.",
+    "currency": "USD. Equivalente CLP/COP disponible por WhatsApp."
+  }
+}

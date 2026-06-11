@@ -1,208 +1,484 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- ═══ METADATOS: Configuración técnica (SEO, título, descripción) ═══ -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n-title="index.title">AIF369 - Equipos de IA, Datos y Cloud para Corporaciones</title>
-    <meta name="description" data-i18n-content="index.description" content="AIF369 ofrece equipos senior de IA, datos y cloud para ejecutar proyectos de alto impacto con ROI medible en empresas y corporaciones.">
+    <title>AIF369 — Data & AI Consulting LATAM · Erwin Daza · CAIO · Universidad de Chile</title>
+    <meta name="description" content="Consultoría especializada en Data Platforms, AI Strategy & Governance, AI Platform Engineering, Generative AI & Agents y Executive Education. Servicios financieros, retail, cajas de compensación. Erwin Daza — CAIO, Universidad de Chile.">
+    <link rel="canonical" href="https://aif369.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aif369.com/">
+    <meta property="og:title" content="AIF369 — AI Factory, Governance, Risk and Business Value">
+    <meta property="og:description" content="AIF369 ayuda a organizaciones a adoptar inteligencia artificial de forma estratégica, segura, ética y medible.">
+    <meta property="og:image" content="https://aif369.com/assets/img/og-default.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <!-- ═══ ESTILOS: Hoja de estilos principal + fuente Inter ═══ -->
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVEGACIÓN PRINCIPAL
+     Barra superior fija con logo, menú y selector de idioma.
+     En celulares se colapsa en menú hamburguesa (☰).
+     ═══════════════════════════════════════════════════════════ -->
 <header class="site-header">
     <nav class="nav container">
-        <div class="logo">AIF369</div>
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
         <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="metodologia.html" style="color: #00D9CC;" data-i18n="nav.metodo">Método 369</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
-            <a href="#contacto" class="btn btn-outline" data-i18n="nav.diagnosis">Diagnóstico</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
+            <a href="scorecard.html" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
+            <a href="" class="btn btn-outline" data-i18n="nav.cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
 </header>
 
-<main>
-    <!-- HERO -->
+<main id="main-content">
+    <!-- ═══════════════════════════════════════════════════
+         HERO — Banner principal
+         Lo primero que ve el visitante al entrar al sitio.
+         Contiene: título, descripción, botones de acción y foto.
+         ═══════════════════════════════════════════════════ -->
     <section class="hero container">
         <div class="hero-content">
-            <p class="badge" data-i18n="hero.badge">IA aplicada - Datos vivos - Cloud escalable</p>
-            <h1 data-i18n="hero.title">Equipos de IA, Datos y Cloud para acelerar su empresa.</h1>
-            <p class="hero-subtitle" data-i18n="hero.subtitle">
-                Diseñamos y desplegamos arquitecturas modernas, agentes inteligentes y sistemas de datos que generan ROI medible,
-                con foco en gobierno, seguridad y operación continua.
-            </p>
-            <div class="hero-actions">
-                <a href="services.html" class="btn btn-primary" data-i18n="hero.cta.services">Ver servicios</a>
-                <a href="blog.html" class="btn btn-link" data-i18n="hero.cta.blog">Leer el último insight</a>
+            <!-- Founder chip -->
+            <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(0,136,255,0.1);border:1px solid rgba(0,136,255,0.25);border-radius:30px;padding:6px 14px;margin-bottom:18px;">
+                <span style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0088FF,#00D9CC);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;">E</span>
+                <span style="font-size:12px;color:var(--text-secondary);">Erwin Daza — CAIO · Universidad de Chile · Senior Data &amp; AI Platform Engineer</span>
             </div>
-            <p class="hero-note" data-i18n="hero.note">
-                Hablamos el lenguaje del negocio y el lenguaje técnico. Trabajamos con su CIO, CDO, CAIO y equipos de arquitectura.
+            <p class="badge">Data &amp; AI Consulting · LATAM</p>
+            <h1>Implementa IA en tu empresa.<br><span style="background:linear-gradient(135deg,#00D9CC,#0088FF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Con datos. Con gobierno. Con ROI.</span></h1>
+            <p class="hero-subtitle">
+                Consultoría especializada en <strong>Data Platforms, AI Strategy, AI Governance y Generative AI</strong> para empresas en Latinoamérica. De la estrategia al código en producción.
             </p>
+            <!-- 5 service pills -->
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
+                <span style="font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(0,136,255,0.12);color:#60A5FA;border:1px solid rgba(0,136,255,0.2);font-weight:600;">Data &amp; AI Consulting</span>
+                <span style="font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(168,85,247,0.12);color:#C084FC;border:1px solid rgba(168,85,247,0.2);font-weight:600;">AI Strategy &amp; Governance</span>
+                <span style="font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(0,217,204,0.12);color:#2DD4BF;border:1px solid rgba(0,217,204,0.2);font-weight:600;">AI Platform Engineering</span>
+                <span style="font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,0.12);color:#4ADE80;border:1px solid rgba(34,197,94,0.2);font-weight:600;">Generative AI &amp; Agents</span>
+                <span style="font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(245,158,11,0.12);color:#FCD34D;border:1px solid rgba(245,158,11,0.2);font-weight:600;">Training &amp; Executive Education</span>
+            </div>
+            <div class="hero-actions">
+                <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar diagnóstico gratuito</a>
+                <a href="services.html" class="btn btn-outline">Ver servicios →</a>
+            </div>
+            <!-- Social proof / contact row -->
+            <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);">
+                <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#60A5FA;font-weight:600;text-decoration:none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    LinkedIn
+                </a>
+                <a href="https://github.com/erwindaza" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);font-weight:600;text-decoration:none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="https://wa.me/56997547192" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#4ADE80;font-weight:600;text-decoration:none;">
+                    💬 WhatsApp +56 9 9754 7192
+                </a>
+            </div>
         </div>
         <div class="hero-media">
-            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80" alt="Equipo avanzado trabajando en soluciones de IA" class="hero-image">
+            <img src="assets/img/hero-team.jpg" alt="Erwin Daza — CAIO Advisor, Data & AI Consulting LATAM" class="hero-image" loading="eager" width="1200" height="800">
         </div>
     </section>
 
-    <!-- VALUE PROPOSITION -->
-    <section class="section container">
+    <!-- ═══════════════════════════════════════════════════
+         PROPUESTA DE VALOR
+         3 tarjetas que explican por qué elegir AIF369:
+         control, negocio y cumplimiento.
+         ═══════════════════════════════════════════════════ -->
+    <!-- 5 SERVICE AREAS -->
+    <section class="section">
+        <div class="container">
         <header class="section-header">
-            <h2 data-i18n="index.value.title">Qué hacemos</h2>
-            <p data-i18n="index.value.subtitle">Convertimos ideas de IA en sistemas que generan resultado financiero, cumplimiento regulatorio y ventaja competitiva.</p>
+            <h2>Qué hacemos</h2>
+            <p>Consultoría end-to-end en Data e IA — desde la estrategia hasta el código en producción. Sectores: finanzas, retail, logística, medios de pago, salud y más.</p>
         </header>
-        <div class="grid-3">
-            <article class="card">
-                <h3 data-i18n="index.value.card1.title">IA aplicada a procesos reales</h3>
-                <p data-i18n="index.value.card1.text">Agentes, modelos y automatizaciones que se integran con sus sistemas actuales - SAP, core bancario, e-commerce, CRM y canales de clientes.</p>
+
+        <!-- Ley 21.719 urgency banner -->
+        <div style="background:linear-gradient(135deg,rgba(168,85,247,0.12),rgba(124,58,237,0.12));border:1px solid rgba(168,85,247,0.3);border-radius:14px;padding:18px 24px;margin-bottom:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:24px;">⚖️</span>
+            <div style="flex:1;min-width:240px;">
+                <strong style="color:#D8B4FE;font-size:13px;">Ley 21.719 — Protección de Datos Personales · Vigencia diciembre 2026</strong>
+                <div style="font-size:13px;color:var(--text-secondary);line-height:1.5;margin-top:3px;">Si usas IA con datos de clientes o empleados, debes cumplir. <strong style="color:#fff;">El prerequisito es buena gobernanza de datos.</strong></div>
+            </div>
+            <a href="gobernanza-datos-ia.html" class="btn btn-outline" style="border-color:#A855F7;color:#A855F7;white-space:nowrap;font-size:13px;">Ver servicio →</a>
+        </div>
+
+        <!-- 5 service area cards -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:40px;">
+
+            <article class="card" style="border-top:3px solid #0088FF;">
+                <div style="font-size:28px;margin-bottom:10px;">🎯</div>
+                <h3 style="font-size:16px;margin-bottom:8px;">Data &amp; AI Consulting</h3>
+                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Diagnóstico de madurez, hoja de ruta ejecutiva y CAIO-as-a-Service. Tu Chief AI Officer externo sin el costo fijo de un C-level.</p>
+                <a href="services.html" style="font-size:13px;color:#0088FF;font-weight:600;margin-top:10px;display:inline-block;">Ver servicio →</a>
             </article>
-            <article class="card">
-                <h3 data-i18n="index.value.card2.title">Plataformas de datos modernas</h3>
-                <p data-i18n="index.value.card2.text">Data Lakes, Lakehouse, MLOps y real time streaming con gobernanza activa, catálogo de datos y trazabilidad de extremo a extremo.</p>
+
+            <article class="card" style="border-top:3px solid #A855F7;">
+                <div style="font-size:28px;margin-bottom:10px;">🛡️</div>
+                <h3 style="font-size:16px;margin-bottom:8px;">AI Strategy &amp; Governance</h3>
+                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Frameworks de gobernanza IA, gestión de riesgo algorítmico, políticas corporativas y compliance regulatorio (EU AI Act, Ley 21.719).</p>
+                <a href="gobernanza-datos-ia.html" style="font-size:13px;color:#A855F7;font-weight:600;margin-top:10px;display:inline-block;">Ver servicio →</a>
             </article>
-            <article class="card">
-                <h3 data-i18n="index.value.card3.title">Cloud empresarial</h3>
-                <p data-i18n="index.value.card3.text">Arquitecturas en AWS, GCP y Azure con prácticas de ingeniería de alto estándar, CI/CD, observabilidad y seguridad desde el diseño.</p>
+
+            <article class="card" style="border-top:3px solid #00D9CC;">
+                <div style="font-size:28px;margin-bottom:10px;">⚙️</div>
+                <h3 style="font-size:16px;margin-bottom:8px;">AI Platform Engineering</h3>
+                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Data platforms en GCP/AWS/Azure, pipelines de datos con Apache Airflow y Spark, MLOps, observabilidad LLM y despliegue en producción.</p>
+                <a href="services.html#produccion" style="font-size:13px;color:#00D9CC;font-weight:600;margin-top:10px;display:inline-block;">Ver capacidades →</a>
             </article>
+
+            <article class="card" style="border-top:3px solid #22C55E;">
+                <div style="font-size:28px;margin-bottom:10px;">🤖</div>
+                <h3 style="font-size:16px;margin-bottom:8px;">Generative AI &amp; Agents</h3>
+                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">LLMs en producción, arquitecturas RAG, agentes inteligentes y sistemas de IA generativa con gobernanza, trazabilidad y control de costos.</p>
+                <a href="caso-ai-factory-ecommerce.html" style="font-size:13px;color:#22C55E;font-weight:600;margin-top:10px;display:inline-block;">Ver caso de estudio →</a>
+            </article>
+
+            <article class="card" style="border-top:3px solid #F59E0B;">
+                <div style="font-size:28px;margin-bottom:10px;">🎓</div>
+                <h3 style="font-size:16px;margin-bottom:8px;">Training &amp; Executive Education</h3>
+                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Cursos prácticos de IA, Big Data y MLOps + workshops ejecutivos para directorios y C-level. Certificado AIF369, 100% online.</p>
+                <a href="education.html" style="font-size:13px;color:#F59E0B;font-weight:600;margin-top:10px;display:inline-block;">Ver cursos →</a>
+            </article>
+
+        </div>
+
+        <!-- 6 service lines (compact) -->
+        <div style="background:var(--bg-tertiary);border:1px solid var(--border);border-radius:14px;padding:24px 28px;">
+            <div style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Líneas de servicio</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#0088FF;flex-shrink:0;"></span>
+                    <span style="font-size:14px;font-weight:600;">Data Platforms</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#00D9CC;flex-shrink:0;"></span>
+                    <span style="font-size:14px;font-weight:600;">Data Engineering</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#22C55E;flex-shrink:0;"></span>
+                    <span style="font-size:14px;font-weight:600;">AI Platforms</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#A855F7;flex-shrink:0;"></span>
+                    <span style="font-size:14px;font-weight:600;">Generative AI</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#F59E0B;flex-shrink:0;"></span>
+                    <span style="font-size:14px;font-weight:600;">AI Governance</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#EF4444;flex-shrink:0;"></span>
+                    <span style="font-size:14px;font-weight:600;">AI Adoption Roadmaps</span>
+                </div>
+            </div>
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                <span style="font-size:12px;color:var(--text-secondary);margin-right:4px;">Sectores:</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(0,136,255,0.1);color:#93C5FD;font-weight:600;">Servicios Financieros</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(0,217,204,0.1);color:#5EEAD4;font-weight:600;">Retail / E-commerce</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(168,85,247,0.1);color:#D8B4FE;font-weight:600;">Cajas de Compensación</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(34,197,94,0.1);color:#86EFAC;font-weight:600;">Salud</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(245,158,11,0.1);color:#FDE68A;font-weight:600;">Logística / Supply Chain</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(239,68,68,0.1);color:#FCA5A5;font-weight:600;">Medios de Pago</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(59,130,246,0.1);color:#93C5FD;font-weight:600;">Gobierno / Sector Público</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(16,185,129,0.1);color:#6EE7B7;font-weight:600;">Manufactura</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(234,88,12,0.1);color:#FDBA74;font-weight:600;">Energía / Utilities</span>
+                <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(139,92,246,0.1);color:#C4B5FD;font-weight:600;">Telecomunicaciones</span>
+            </div>
+        </div>
         </div>
     </section>
 
-    <!-- INDUSTRIES -->
+    <!-- ═══════════════════════════════════════════════════
+         BARRA DE CONFIANZA
+         Etiquetas que muestran las áreas de expertise.
+         ═══════════════════════════════════════════════════ -->
+    <!-- TRUST BAR -->
+    <section class="section">
+        <div class="container">
+            <div class="industries-grid">
+                <div class="industry-pill">Estrategia IA</div>
+                <div class="industry-pill">Gobernanza IA</div>
+                <div class="industry-pill" style="background:rgba(168,85,247,0.15);color:#D8B4FE;border-color:rgba(168,85,247,0.3);">🗄️ Gobernanza de Datos</div>
+                <div class="industry-pill">Riesgo & Compliance</div>
+                <div class="industry-pill" style="background:rgba(239,68,68,0.12);color:#FCA5A5;border-color:rgba(239,68,68,0.3);">⚖️ Ley 21.719</div>
+                <div class="industry-pill">DAMA / DMBOK</div>
+                <div class="industry-pill">Observabilidad LLM</div>
+                <div class="industry-pill">AI Factory</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         MÉTODO 369 — Resumen de la metodología
+         3 Capas, 6 Fases, 9 Métricas. Con link a la
+         página completa y descarga de PDF.
+         ═══════════════════════════════════════════════════ -->
+    <!-- METHODOLOGY OVERVIEW -->
     <section class="section section-alt">
         <div class="container">
             <header class="section-header">
-                <h2 data-i18n="index.industries.title">Industrias donde trabajamos</h2>
-                <p data-i18n="index.industries.subtitle">Adaptamos un mismo lenguaje de arquitectura y datos a contextos de negocio muy distintos.</p>
+                <h2>Método 369</h2>
+                <p data-i18n="index.method.desc">Un marco práctico para descubrir oportunidades, diseñar controles, desplegar pilotos gobernados y escalar IA con valor de negocio.</p>
             </header>
-            <div class="industries-grid">
-                <div class="industry-pill" data-i18n="index.industries.fintech">FinTech y banca</div>
-                <div class="industry-pill" data-i18n="index.industries.retail">Retail y e-commerce</div>
-                <div class="industry-pill" data-i18n="index.industries.health">Salud y seguros</div>
-                <div class="industry-pill" data-i18n="index.industries.manufacturing">Manufactura</div>
-                <div class="industry-pill" data-i18n="index.industries.telecom">Telecom</div>
-                <div class="industry-pill" data-i18n="index.industries.financial">Servicios financieros</div>
+            <div class="grid-3">
+                <article class="card">
+                    <div class="method-heading">
+                        <span class="method-circle" style="background: linear-gradient(135deg, #00D9CC, #0088FF);">3</span>
+                        <h3>Capas de Dirección</h3>
+                    </div>
+                    <p>Estrategia, Riesgo y Cumplimiento, Implementación. Tres perspectivas que deben estar alineadas.</p>
+                </article>
+                <article class="card">
+                    <div class="method-heading">
+                        <span class="method-circle" style="background: linear-gradient(135deg, #7C3AED, #A855F7);">6</span>
+                        <h3>Fases de Transformación</h3>
+                    </div>
+                    <p>Descubrir → Diagnosticar → Diseñar → Desplegar → Dominar → Escalar. Sin saltar etapas.</p>
+                </article>
+                <article class="card">
+                    <div class="method-heading">
+                        <span class="method-circle" style="background: linear-gradient(135deg, #E11D48, #F43F5E);">9</span>
+                        <h3>Métricas de Control CAIO</h3>
+                    </div>
+                    <p>Desde estrategia y datos hasta ética, observabilidad y ROI. 9 dimensiones de gobierno.</p>
+                </article>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="metodologia.html" class="btn btn-outline" data-i18n="cta.conocer_metodo_completa">Conocer la metodología completa →</a>
+                <a href="resources/proyecto-ley-ia-chile-boletin-16821-19.pdf" target="_blank" rel="noopener" class="btn btn-link" style="margin-left: 1rem;" data-i18n="cta.descargar_ley_ia">📄 Descargar Proyecto de Ley IA Chile (PDF)</a>
             </div>
         </div>
     </section>
 
-    <!-- FEATURED CONTENT -->
-    <section class="section container">
-        <header class="section-header">
-            <h2 data-i18n="index.content.title">Contenido para líderes</h2>
-            <p data-i18n="index.content.subtitle">Artículos, guías y modelos para CAIO, CIO, CDO y equipos ejecutivos que toman decisiones sobre IA.</p>
-        </header>
-        <div class="grid-2">
-            <article class="card card-highlight">
-                <h3 data-i18n="index.content.featured.title">Insight destacado</h3>
-                <p class="tag" data-i18n="index.content.featured.tag">Artículo</p>
-                <h4 data-i18n="index.content.featured.headline">2026: cuando la IA deja de asistir y empieza a decidir</h4>
-                <p data-i18n="index.content.featured.text">
-                    Qué significa que la IA empiece a tomar decisiones operativas en vez de solo asistir a las personas,
-                    y cómo deben adaptarse los modelos de gobierno, riesgo y compliance.
-                </p>
-                <a href="blog-post-2026-ia-decide.html" class="btn btn-link" data-i18n="index.content.featured.link">Leer artículo</a>
-            </article>
-
-            <article class="card">
-                <h3 data-i18n="index.content.academy.title">Academia AIF369</h3>
-                <p data-i18n="index.content.academy.text">
-                    Una línea editorial que combina práctica de campo, estándares de arquitectura y marcos de gobierno de IA.
-                    Ideal para equipos de datos, arquitectura y transformación digital.
-                </p>
-                <ul class="simple-list">
-                    <li data-i18n="index.content.academy.item1">Guías prácticas para implementar agentes en producción.</li>
-                    <li data-i18n="index.content.academy.item2">Patrones de arquitecturas de datos y ML en la nube.</li>
-                    <li data-i18n="index.content.academy.item3">Plantillas para comités de IA y documentación CAIO.</li>
-                </ul>
-                <a href="education.html" class="btn btn-link" data-i18n="index.content.academy.link">Ver contenido educativo</a>
-            </article>
+    <!-- ═══════════════════════════════════════════════════
+         CLIENTES IDEALES
+         4 tarjetas con los perfiles que más se
+         benefician de la consultoría AIF369.
+         ═══════════════════════════════════════════════════ -->
+    <!-- IDEAL CLIENTS -->
+    <section class="section">
+        <div class="container">
+            <header class="section-header">
+                <h2>Para quién trabajamos</h2>
+                <p data-i18n="index.clients.intro">Perfiles que se benefician directamente de nuestra asesoría integral en IA.</p>
+            </header>
+            <div class="grid-2">
+                <article class="card">
+                    <h3>Empresas que quieren usar IA sin exponerse</h3>
+                    <p>No tienen gobierno formal, hay experimentos aislados y la gerencia pide resultados rápidos. Necesitan método.</p>
+                </article>
+                <article class="card">
+                    <h3>Empresas reguladas con datos sensibles</h3>
+                    <p>Finanzas, salud, retail, gobierno. Deben cumplir con la Ley 21.719 (datos personales, dic 2026) y necesitan gobernanza de datos antes de escalar IA.</p>
+                    <a href="gobernanza-datos-ia.html" style="font-size:13px;color:#A855F7;font-weight:600;display:inline-block;margin-top:10px;">Ver servicio de Gobernanza de Datos →</a>
+                </article>
+                <article class="card">
+                    <h3>Directorios y C-level</h3>
+                    <p>Falta de claridad sobre qué preguntar, temor a aprobar IA sin controles, necesidad de priorizar inversión.</p>
+                </article>
+                <article class="card">
+                    <h3>Equipos de datos y digital</h3>
+                    <p>Tienen capacidad técnica pero no marco ejecutivo. Necesitan pasar de PoC a operación con patrocinio directivo.</p>
+                </article>
+            </div>
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════
+         THOUGHT LEADERSHIP
+         Links al blog y a la metodología. Posiciona
+         a Erwin como referente en IA.
+         ═══════════════════════════════════════════════════ -->
+    <!-- THOUGHT LEADERSHIP -->
+    <section class="section section-alt">
+        <div class="container">
+        <header class="section-header">
+            <h2 data-i18n="index.insights.title">Ideas para líderes que no quieren improvisar con IA</h2>
+            <p>Publicaciones originales sobre estrategia, regulación, ética, riesgo y operación de IA.</p>
+        </header>
+        <div class="grid-3">
+            <article class="card card-highlight">
+                <p class="tag">Metodología</p>
+                <h4>Método 369 — El framework de AIF369</h4>
+                <p>3 capas de dirección, 6 fases de transformación, 9 métricas de control. El método completo para gobernar IA.</p>
+                <a href="metodologia.html" class="btn btn-link" data-i18n="cta.ver_metodo">Ver metodología →</a>
+            </article>
+
+            <article class="card card-highlight">
+                <p class="tag">Caso de estudio</p>
+                <h4>AI Content Factory en produccion</h4>
+                <p>Generacion de contenido de marketing a escala con LLMs gobernados, bias detection y trazabilidad completa.</p>
+                <a href="caso-ai-factory-ecommerce.html" class="btn btn-link" data-i18n="cta.ver_caso">Ver caso de estudio →</a>
+            </article>
+
+            <article class="card">
+                <p class="tag">Insights</p>
+                <h4>Blog AIF369</h4>
+                <p>Briefings ejecutivos sobre gobernanza, riesgo, compliance, CAIO, agentes de IA y más.</p>
+                <a href="blog.html" class="btn btn-link" data-i18n="cta.ver_insights">Ver todos los insights →</a>
+            </article>
+        </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL / FACEBOOK ANNOUNCEMENT -->
+    <section class="section">
+        <div class="container">
+            <header class="section-header">
+                <h2>Únete a la comunidad AIF369</h2>
+                <p>Noticias, casos de uso, debates y contenido gratuito sobre IA, Datos y Gobernanza en LATAM.</p>
+            </header>
+            <div class="grid-2" style="gap:24px;align-items:stretch;">
+                <!-- Facebook announcement -->
+                <article class="card" style="border:1px solid rgba(59,130,246,0.3);background:linear-gradient(135deg,rgba(59,130,246,0.06),rgba(0,136,255,0.03));">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                        <div style="width:38px;height:38px;border-radius:50%;background:#1877F2;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;">f</div>
+                        <div>
+                            <div style="font-weight:700;font-size:14px;">AIF369</div>
+                            <div style="font-size:12px;color:var(--text-secondary);">Planificación y Ejecución de IA — Método 369</div>
+                        </div>
+                    </div>
+                    <p style="font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:14px;">
+                        🚀 <strong style="color:var(--text-primary);">¿Tu empresa sigue experimentando con IA o ya la tiene generando valor real?</strong><br><br>
+                        Nos complace anunciar el despliegue de nuestro plan bajo el <strong>Método 369</strong>:
+                        <br>🔹 Impacto en el Negocio con ROI medible
+                        <br>🔹 Tecnología y Datos con arquitectura segura
+                        <br>🔹 Gobernanza y Compliance desde el día 1
+                        <br><br>📊 Todo auditado bajo 9 métricas de éxito.
+                    </p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <a href="https://facebook.com/aif369" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#1877F2;color:#60A5FA;font-size:13px;">👍 Ver en Facebook</a>
+                        <a href="blog.html" class="btn btn-link" style="font-size:13px;">Ver más insights →</a>
+                    </div>
+                </article>
+                <!-- Donate + community -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <article class="card" style="border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.04);">
+                        <h3 style="font-size:16px;">☕ Apoya el contenido gratuito</h3>
+                        <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;">El blog, el Scorecard y los recursos son gratuitos. Si te generan valor, puedes apoyar con una donación voluntaria.</p>
+                        <a href="https://www.paypal.com/donate/?hosted_button_id=AIFDONATION" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#F59E0B;color:#F59E0B;font-size:13px;display:block;text-align:center;">💛 Donar vía PayPal</a>
+                    </article>
+                    <article class="card" style="border:1px solid rgba(0,136,255,0.25);">
+                        <h3 style="font-size:16px;">📅 Asesoría gratuita 30 min</h3>
+                        <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;">¿Quieres saber cómo el Método 369 aplica en tu sector? Agenda una sesión de diagnóstico sin costo.</p>
+                        <a href="" class="btn btn-primary" style="font-size:13px;display:block;text-align:center;" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;">📅 Agendar ahora →</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATÁLOGO DE SOLUCIONES IA -->
+    <section class="section">
+        <header class="section-header">
+            <h2>19 Soluciones de IA listas para tu negocio</h2>
+            <p>Accede al catálogo completo: qué problema resuelve cada solución, qué datos necesitas tener listos y cómo empezar — con asesoría Gemini CAIO o consultoría personalizada.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <a href="catalogo-soluciones-ia.html" class="btn btn-primary" data-i18n="cta.ver_catalogo_ia">Ver Catálogo de Soluciones IA →</a>
+            </div>
+        </header>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         FORMULARIO DE CONTACTO (#contacto)
+         Formulario principal para agendar llamada.
+         Los datos se guardan en BigQuery + envían email.
+         ═══════════════════════════════════════════════════ -->
     <!-- CALL TO ACTION -->
     <section id="contacto" class="section section-alt">
         <div class="container">
             <header class="section-header">
-                <h2 data-i18n="index.cta.title">Agendar diagnóstico ejecutivo</h2>
-                <p data-i18n="index.cta.subtitle">Una conversación de 45 minutos para entender el estado actual de su organización y posibles rutas de acción.</p>
+                <h2 data-i18n="index.cta.title">Conversemos sobre su próximo paso en IA</h2>
+                <p data-i18n="index.cta.subtitle">30 minutos para entender su contexto y recomendarle la ruta más rápida para generar valor con IA, datos o cloud.</p>
             </header>
             <div class="contact-layout">
             <form class="contact-form" data-contact-form data-endpoint="/api/contact">
+                    <input type="hidden" name="form_type" value="home-contacto">
                     <input type="text" name="fullName" placeholder="Nombre y apellido" data-i18n-placeholder="index.form.name" autocomplete="name" required>
                     <input type="email" name="email" placeholder="Email corporativo" data-i18n-placeholder="index.form.email" autocomplete="email" required>
                     <input type="text" name="role" placeholder="Cargo o rol" data-i18n-placeholder="index.form.role" autocomplete="organization-title" required>
                     <textarea rows="4" name="context" placeholder="Contexto breve de su interés en IA, datos o cloud" data-i18n-placeholder="index.form.context" autocomplete="off"></textarea>
-                    <button type="submit" class="btn btn-primary" data-i18n="index.form.button">Solicitar diagnóstico</button>
-                    <p class="form-success" hidden data-i18n="form.success">Gracias, recibimos tu solicitud. Te contactaremos pronto.</p>
+                    <button type="submit" class="btn btn-primary btn-submit" data-i18n="index.form.button">Solicitar conversación</button>
+                    <p class="form-status" hidden></p>
+                    <p class="form-success" hidden data-i18n="form.success">Solicitud enviada correctamente. Nuestro equipo te contactará dentro de las próximas 24 horas.</p>
+                    <p class="form-error" hidden>No pudimos enviar tu solicitud en este momento. Inténtalo nuevamente.</p>
                 </form>
                 <div class="contact-side">
-                    <h3 data-i18n="index.cta.includes">Qué incluye</h3>
+                    <h3 data-i18n="index.cta.includes">¿Qué incluye la conversación?</h3>
                     <ul class="simple-list">
-                        <li data-i18n="index.cta.item1">Radiografía rápida de capacidades actuales.</li>
-                        <li data-i18n="index.cta.item2">Mapa de oportunidades de alto impacto.</li>
-                        <li data-i18n="index.cta.item3">Riesgos clave de datos y gobernanza a revisar.</li>
-                        <li data-i18n="index.cta.item4">Propuesta de siguiente paso clara y accionable.</li>
+                        <li data-i18n="index.cta.item1">Radiografía rápida de su situación actual.</li>
+                        <li data-i18n="index.cta.item2">Identificación de oportunidades de alto impacto.</li>
+                        <li data-i18n="index.cta.item3">Recomendación del servicio ideal según su situación.</li>
+                        <li data-i18n="index.cta.item4">Siguiente paso claro y sin compromisos.</li>
                     </ul>
-                    <p class="contact-note" data-i18n="index.cta.note">Sesión ejecutiva enfocada en claridad estratégica y técnica, sin compromisos comerciales.</p>
+                    <p class="contact-note" data-i18n="index.cta.note">Sin costo, sin compromiso. Si no somos los indicados, se lo diremos con honestidad.</p>
                 </div>
             </div>
         </div>
     </section>
 </main>
 
-<div class="modal-overlay" data-modal hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="assessment-modal-title">
-        <div class="modal-header">
-            <h3 id="assessment-modal-title" data-i18n="index.modal.title">Resumen de solicitud enviada</h3>
-            <button class="modal-close" type="button" aria-label="Cerrar" data-i18n-aria-label="index.modal.closeAria" data-modal-close>×</button>
-        </div>
-        <p class="modal-text" data-i18n="index.modal.subtitle">Estos son los datos enviados. Guarda este resumen y revisa dónde se almacenan.</p>
-        <ul class="modal-list">
-            <li><strong data-i18n="index.modal.nameLabel">Nombre:</strong> <span data-summary="fullName">-</span></li>
-            <li><strong data-i18n="index.modal.emailLabel">Email:</strong> <span data-summary="email">-</span></li>
-            <li><strong data-i18n="index.modal.roleLabel">Cargo:</strong> <span data-summary="role">-</span></li>
-            <li><strong data-i18n="index.modal.contextLabel">Contexto:</strong> <span data-summary="context">-</span></li>
-        </ul>
-        <p class="modal-note" data-i18n="index.modal.storageNote">Tu solicitud fue enviada a nuestro equipo. Te contactaremos pronto.</p>
-        <p class="modal-note" data-email-note data-i18n="index.modal.emailNote">Si necesitas añadir detalles, escríbenos a edaza@aif369.com.</p>
-        <div class="modal-actions">
-            <a class="btn btn-primary" href="#" data-email-link data-i18n="index.modal.emailButton">Enviar email</a>
-            <button class="btn btn-outline" type="button" data-modal-close data-i18n="index.modal.closeButton">Cerrar</button>
-        </div>
-    </div>
-</div>
-
+<!-- ═════════════════════════════════════════════════════
+     PIE DE PÁGINA
+     Logo, links de navegación, link a LinkedIn.
+     Aparece en todas las páginas.
+     ═════════════════════════════════════════════════════ -->
 <footer class="site-footer">
     <div class="container footer-layout">
         <div>
-            <div class="logo">AIF369</div>
-            <p class="footer-text" data-i18n="index.footer.text">IA, datos y cloud para la empresa moderna. AIF369 SpA - Chile.</p>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text" data-i18n="index.footer.text">AI Factory, Governance, Risk and Business Value. AIF369 SpA — Chile.</p>
         </div>
         <div class="footer-links">
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
-            <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="metodologia.html">Método 369</a>
+            <a href="services.html">Servicios</a>
+            <a href="gobernanza-datos-ia.html">Gobernanza de Datos</a>
+            <a href="education.html">Cursos IA</a>
+            <a href="blog.html">Insights</a>
+            <a href="scorecard.html">Scorecard IA</a>
+            <a href="author.html">Sobre Erwin</a>
         </div>
-            <div class="footer-social">
-            <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=erwin-daza-castillo" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+            </a>
+            <a href="https://github.com/erwindaza" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-left:16px;color:var(--text-secondary);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
 </div>
 </footer>
 
+<!-- ═══ SCRIPTS: Lógica del sitio + Chat widget con IA ═══ -->
+<script src="_config.js"></script>
 <script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

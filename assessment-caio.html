@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment CAIO 369 — Evaluación de madurez de IA para tu empresa | AIF369</title>
+    <meta name="description" content="Assessment profesional con el Método 369: 3 capas de dirección, 6 fases de transformación, 9 métricas de control. Levantamos el estado real de IA en tu organización.">
+    <link rel="canonical" href="https://aif369.com/assessment-caio.html">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aif369.com/assessment-caio.html">
+    <meta property="og:title" content="Assessment CAIO 369 — Evaluación de madurez de IA | AIF369">
+    <meta property="og:description" content="Levantamos el estado real de IA en tu organización con el Método 369. 3 capas, 6 fases, 9 métricas.">
+    <meta property="og:image" content="https://aif369.com/assets/img/og-default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <style>
+        .phase-timeline { display: flex; gap: 0; margin: 2rem 0; overflow-x: auto; }
+        .phase-step { flex: 1; min-width: 150px; padding: 1.5rem 1rem; text-align: center; position: relative; border-top: 3px solid var(--border); }
+        .phase-step.active { border-top-color: var(--color-primary); }
+        .phase-step .phase-num { display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .phase-num-1 { background: linear-gradient(135deg, #00D9CC, #0088FF); color: white; }
+        .phase-num-2 { background: linear-gradient(135deg, #0088FF, #7C3AED); color: white; }
+        .phase-num-3 { background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; }
+        .phase-num-4 { background: linear-gradient(135deg, #A855F7, #E11D48); color: white; }
+        .phase-num-5 { background: linear-gradient(135deg, #E11D48, #F97316); color: white; }
+        .phase-num-6 { background: linear-gradient(135deg, #F97316, #EAB308); color: white; }
+        .metric-card { padding: 1.25rem; border-left: 3px solid var(--color-primary); background: var(--bg-alt, #f8f9fa); border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 0.75rem; }
+        .metric-card h4 { margin-bottom: 0.25rem; font-size: 0.95rem; }
+        .metric-card p { font-size: 0.85rem; color: var(--text-secondary); margin: 0; }
+        .layer-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+        .layer-strategy { background: rgba(0,217,204,0.15); color: #00D9CC; }
+        .layer-risk { background: rgba(124,58,237,0.15); color: #A855F7; }
+        .layer-implementation { background: rgba(0,136,255,0.15); color: #0088FF; }
+        .maturity-scale { display: flex; gap: 0.25rem; margin-top: 0.5rem; }
+        .maturity-dot { flex: 1; height: 6px; border-radius: 3px; background: var(--border); }
+        .maturity-dot.filled { background: var(--color-primary); }
+        .procedure-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .procedure-card h4 { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .deliverable-tag { display: inline-block; background: rgba(0,136,255,0.1); color: var(--color-primary); padding: 0.2rem 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 600; margin: 0.15rem; }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+
+    <!-- HERO -->
+    <section class="section">
+        <header class="section-header">
+            <span class="badge" style="margin-bottom: 1rem; display: inline-block;" data-i18n="assess.label1">Método 369</span>
+            <h1>Assessment CAIO <span style="color: var(--accent, #00D9CC);">369</span></h1>
+            <p>Un assessment profesional para levantar el estado real de IA en tu organización. Evaluamos estrategia, riesgo, datos, arquitectura y madurez con las <strong data-i18n="assess.bold2">3 capas de dirección</strong>, <strong data-i18n="assess.bold3">6 fases de transformación</strong> y <strong data-i18n="assess.bold4">9 métricas de control CAIO</strong>.</p>
+            <p style="margin-top: 1rem; opacity: 0.7;" data-i18n="assess.text5">El CAIO asesora, evalúa y dirige. No escribe código. Hands-off advisory.</p>
+        </header>
+    </section>
+
+    <!-- 7 FACTORES QUE IMPULSAN EL RETORNO DE INVERSIONES EN IA -->
+    <section class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="assess.heading6">El viaje que recorres con tu CAIO advisor</h2>
+            <p data-i18n="assess.text7">7 factores clave que impulsan el retorno de las inversiones en IA. Cada assessment te guía a través de este camino — desde la claridad del valor hasta el reporte formal al directorio.</p>
+        </header>
+
+        <div style="display: flex; gap: 0; overflow-x: auto; padding-bottom: 1rem;">
+            <!-- Factor 1 -->
+            <div style="flex: 1; min-width: 150px; padding: 1.25rem 1rem; text-align: center; background: linear-gradient(180deg, #006D77, #004E57); border-radius: var(--radius) 0 0 var(--radius); color: white;">
+                <div style="width: 2.5rem; height: 2.5rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-weight: 700; font-size: 1.1rem;">1</div>
+                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: white;" data-i18n="assess.subheading8">Claridad del Valor Buscado</h4>
+                <p style="font-size: 0.75rem; opacity: 0.85; margin: 0;" data-i18n="assess.text9">Definir metas: eficiencia a corto plazo vs transformación a largo plazo.</p>
+            </div>
+            <!-- Factor 2 -->
+            <div style="flex: 1; min-width: 150px; padding: 1.25rem 1rem; text-align: center; background: linear-gradient(180deg, #0088A3, #006680); color: white;">
+                <div style="width: 2.5rem; height: 2.5rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-weight: 700; font-size: 1.1rem;">2</div>
+                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: white;" data-i18n="assess.subheading10">Enfoque en Procesos y Productos</h4>
+                <p style="font-size: 0.75rem; opacity: 0.85; margin: 0;" data-i18n="assess.text11">Eficiencia interna y nuevos productos/servicios.</p>
+            </div>
+            <!-- Factor 3 -->
+            <div style="flex: 1; min-width: 150px; padding: 1.25rem 1rem; text-align: center; background: linear-gradient(180deg, #2E8B57, #1E6B3E); color: white;">
+                <div style="width: 2.5rem; height: 2.5rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-weight: 700; font-size: 1.1rem;">3</div>
+                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: white;" data-i18n="assess.subheading12">Primero el Problema de Negocio</h4>
+                <p style="font-size: 0.75rem; opacity: 0.85; margin: 0;" data-i18n="assess.text13">Solucionar retos concretos, no usar tecnología por moda.</p>
+            </div>
+            <!-- Factor 4 -->
+            <div style="flex: 1; min-width: 150px; padding: 1.25rem 1rem; text-align: center; background: linear-gradient(180deg, #F5A623, #D4891C); color: white;">
+                <div style="width: 2.5rem; height: 2.5rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-weight: 700; font-size: 1.1rem;">4</div>
+                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: white;" data-i18n="assess.subheading14">Foco en el Cambio Humano</h4>
+                <p style="font-size: 0.75rem; opacity: 0.85; margin: 0;" data-i18n="assess.text15">Adopción cultural, capacitación y cambio de comportamiento.</p>
+            </div>
+            <!-- Factor 5 -->
+            <div style="flex: 1; min-width: 150px; padding: 1.25rem 1rem; text-align: center; background: linear-gradient(180deg, #E67E22, #C0651A); color: white;">
+                <div style="width: 2.5rem; height: 2.5rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-weight: 700; font-size: 1.1rem;">5</div>
+                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: white;" data-i18n="assess.subheading16">Medición Post-Implementación</h4>
+                <p style="font-size: 0.75rem; opacity: 0.85; margin: 0;" data-i18n="assess.text17">Medir el impacto económico real de cada caso de uso.</p>
+            </div>
+            <!-- Factor 6 -->
+            <div style="flex: 1; min-width: 150px; padding: 1.25rem 1rem; text-align: center; background: linear-gradient(180deg, #C0392B, #962D22); color: white;">
+                <div style="width: 2.5rem; height: 2.5rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-weight: 700; font-size: 1.1rem;">6</div>
+                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: white;" data-i18n="assess.subheading18">Evaluación Agregada del Portafolio</h4>
+                <p style="font-size: 0.75rem; opacity: 0.85; margin: 0;" data-i18n="assess.text19">Valor total vs costo total de todos los proyectos.</p>
+            </div>
+            <!-- Factor 7 -->
+            <div style="flex: 1; min-width: 150px; padding: 1.25rem 1rem; text-align: center; background: linear-gradient(180deg, #7C3AED, #5B2CA0); color: white; border-radius: 0 var(--radius) var(--radius) 0;">
+                <div style="width: 2.5rem; height: 2.5rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-weight: 700; font-size: 1.1rem;">7</div>
+                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: white;" data-i18n="assess.subheading20">Reporte Formal</h4>
+                <p style="font-size: 0.75rem; opacity: 0.85; margin: 0;" data-i18n="assess.text21">Rigor ante la junta directiva y accionistas.</p>
+            </div>
+        </div>
+
+        <!-- Cobertura por paquete -->
+        <div class="grid-3" style="margin-top: 1.5rem;">
+            <div style="padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+                <p class="small-text" style="font-weight: 600;" data-i18n="assess.text22">Assessment Starter</p>
+                <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary);" data-i18n="assess.text23">1 → 3</p>
+                <p class="small-text" style="color: var(--text-secondary);" data-i18n="assess.text24">Claridad + Enfoque + Problema de negocio</p>
+            </div>
+            <div style="padding: 1rem; border: 2px solid var(--color-primary); border-radius: var(--radius); text-align: center;">
+                <p class="small-text" style="font-weight: 600;" data-i18n="assess.text25">⭐ Governed Pilot</p>
+                <p style="font-size: 2rem; font-weight: 700; color: var(--accent, #00D9CC);" data-i18n="assess.text26">1 → 5</p>
+                <p class="small-text" style="color: var(--text-secondary);" data-i18n="assess.text27">+ Cambio humano + Medición post-implementación</p>
+            </div>
+            <div style="padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+                <p class="small-text" style="font-weight: 600;" data-i18n="assess.text28">Enterprise</p>
+                <p style="font-size: 2rem; font-weight: 700; color: #7C3AED;" data-i18n="assess.text29">1 → 7</p>
+                <p class="small-text" style="color: var(--text-secondary);" data-i18n="assess.text30">+ Evaluación portafolio + Reporte formal a directorio</p>
+            </div>
+        </div>
+
+        <p class="small-text" style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">El CAIO te guía en todo el viaje como advisor estratégico. Si necesitas construir sistemas de IA, coordinamos talento especializado vía <a href="https://bejoby.com" target="_blank" rel="noopener"><strong data-i18n="assess.bold314">BeJoby</strong></a>.</p>
+    </section>
+
+    <!-- 3 CAPAS DE EVALUACIÓN -->
+    <section class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="assess.heading32">Qué evaluamos: 3 Capas de Dirección</h2>
+            <p data-i18n="assess.text33">Toda organización que use IA debe gobernarse desde tres perspectivas simultáneas. El assessment las evalúa todas.</p>
+        </header>
+
+        <div class="grid-3">
+            <!-- CAPA ESTRATÉGICA -->
+            <article class="card">
+                <span class="layer-badge layer-strategy" data-i18n="assess.label34">Capa 1 · Estrategia</span>
+                <h3 style="margin-top: 1rem;" data-i18n="assess.subheading35">Dirección Estratégica</h3>
+                <p class="small-text" data-i18n="assess.text36">El negocio decide qué resolver y por qué.</p>
+
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading37">S1. Visión y Alineamiento</h4>
+                    <p data-i18n="assess.text38">¿Existe visión clara de IA? ¿Quién es el sponsor?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading39">S2. Portafolio de Casos de Uso</h4>
+                    <p data-i18n="assess.text40">¿Están priorizados por valor, factibilidad y riesgo?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading41">S3. Modelo Operativo</h4>
+                    <p data-i18n="assess.text42">¿Cómo se organizan equipos y presupuesto?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading43">S4. Ventaja Competitiva</h4>
+                    <p data-i18n="assess.text44">¿La IA genera diferenciación medible?</p>
+                </div>
+            </article>
+
+            <!-- CAPA RIESGO -->
+            <article class="card card-highlight">
+                <span class="layer-badge layer-risk" data-i18n="assess.label45">Capa 2 · Riesgo</span>
+                <h3 style="margin-top: 1rem;" data-i18n="assess.subheading46">Dirección de Riesgo y Cumplimiento</h3>
+                <p class="small-text" data-i18n="assess.text47">El gobierno define qué proteger y cómo.</p>
+
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading48">R1. Riesgos de IA</h4>
+                    <p data-i18n="assess.text49">¿Existe risk register y clasificación de riesgo?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading50">R2. Privacidad y Ética</h4>
+                    <p data-i18n="assess.text51">¿Se evalúa sesgo, fairness y privacy by design?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading52">R3. Seguridad de IA</h4>
+                    <p data-i18n="assess.text53">¿Hay controles contra adversarial, prompt injection?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading54">R4. Legal y Compliance</h4>
+                    <p data-i18n="assess.text55">¿Se conoce EU AI Act, Ley 21.719, Boletín 16821-19?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading56">R5. Trazabilidad y Controles</h4>
+                    <p data-i18n="assess.text57">¿Se puede rastrear cada decisión de IA?</p>
+                </div>
+            </article>
+
+            <!-- CAPA IMPLEMENTACIÓN -->
+            <article class="card">
+                <span class="layer-badge layer-implementation" data-i18n="assess.label58">Capa 3 · Implementación</span>
+                <h3 style="margin-top: 1rem;" data-i18n="assess.subheading59">Dirección de Implementación</h3>
+                <p class="small-text" data-i18n="assess.text60">La ingeniería construye, despliega y opera.</p>
+
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading61">I1. Arquitectura y Stack</h4>
+                    <p data-i18n="assess.text62">¿Hay arquitectura de referencia y componentes reutilizables?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading63">I2. Datos y Calidad</h4>
+                    <p data-i18n="assess.text64">¿Existe catálogo, ownership y data governance?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading65">I3. MLOps y LLMOps</h4>
+                    <p data-i18n="assess.text66">¿Hay pipelines automatizados y versionado?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading67">I4. Observabilidad</h4>
+                    <p data-i18n="assess.text68">¿Se monitorea drift, costos y performance?</p>
+                </div>
+                <div class="metric-card">
+                    <h4 data-i18n="assess.subheading69">I5. Integración y Despliegue</h4>
+                    <p data-i18n="assess.text70">¿Hay CI/CD, rollback y estrategia de deploy?</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- 9 MÉTRICAS DE CONTROL -->
+    <section class="section">
+        <header class="section-header">
+            <h2 data-i18n="assess.heading71">9 Métricas de Control CAIO</h2>
+            <p data-i18n="assess.text72">El assessment mide el nivel de madurez de tu organización contra cada métrica. Escala 1 (inicial) a 5 (optimizado).</p>
+        </header>
+
+        <div class="grid-3">
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading73">1 · Estrategia y Portafolio</h4>
+                <p class="small-text" data-i18n="assess.text74">¿Qué problemas vale la pena resolver con IA?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading75">2 · Datos y Calidad</h4>
+                <p class="small-text" data-i18n="assess.text76">¿Tenemos datos suficientes, trazables y confiables?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading77">3 · Arquitectura e Integración</h4>
+                <p class="small-text" data-i18n="assess.text78">¿Cómo se integra la IA con procesos y sistemas?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading79">4 · Riesgo y Seguridad</h4>
+                <p class="small-text" data-i18n="assess.text80">¿Qué daños puede generar el sistema?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading81">5 · Legal, Privacidad y Compliance</h4>
+                <p class="small-text" data-i18n="assess.text82">¿Qué base legal y obligaciones regulatorias aplican?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading83">6 · Ética y Derechos Fundamentales</h4>
+                <p class="small-text" data-i18n="assess.text84">¿Existe sesgo o impacto desproporcionado?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading85">7 · Operación y Observabilidad</h4>
+                <p class="small-text" data-i18n="assess.text86">¿Cómo monitoreamos drift y alucinaciones?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading87">8 · Personas y Adopción</h4>
+                <p class="small-text" data-i18n="assess.text88">¿El negocio puede operar IA con criterio?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+            <div class="card">
+                <h4 style="font-size: 0.9rem;" data-i18n="assess.subheading89">9 · Valor y ROI</h4>
+                <p class="small-text" data-i18n="assess.text90">¿Cómo medimos impacto real y retorno?</p>
+                <div class="maturity-scale"><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div><div class="maturity-dot"></div></div>
+            </div>
+        </div>
+
+        <p class="small-text" style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);" data-i18n="assess.text91">Cada métrica se evalúa con evidencia: documentos, entrevistas, sistemas y artefactos existentes. No es opinión, es diagnóstico basado en hechos.</p>
+    </section>
+
+    <!-- 6 FASES: PROCEDIMIENTO DETALLADO -->
+    <section class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="assess.heading92">6 Fases de Transformación: Procedimiento</h2>
+            <p data-i18n="assess.text93">El assessment sigue las 6 fases del Método 369. Cada fase tiene actividades, inputs, outputs y herramientas definidas.</p>
+        </header>
+
+        <!-- Timeline visual -->
+        <div class="phase-timeline">
+            <div class="phase-step active">
+                <div class="phase-num phase-num-1">1</div>
+                <h4 style="font-size: 0.85rem; margin: 0;" data-i18n="assess.subheading94">Descubrir</h4>
+                <p class="small-text" data-i18n="assess.text95">1-2 sem</p>
+            </div>
+            <div class="phase-step active">
+                <div class="phase-num phase-num-2">2</div>
+                <h4 style="font-size: 0.85rem; margin: 0;" data-i18n="assess.subheading96">Diagnosticar</h4>
+                <p class="small-text" data-i18n="assess.text97">1-3 sem</p>
+            </div>
+            <div class="phase-step active">
+                <div class="phase-num phase-num-3">3</div>
+                <h4 style="font-size: 0.85rem; margin: 0;" data-i18n="assess.subheading98">Diseñar</h4>
+                <p class="small-text" data-i18n="assess.text99">2-4 sem</p>
+            </div>
+            <div class="phase-step">
+                <div class="phase-num phase-num-4">4</div>
+                <h4 style="font-size: 0.85rem; margin: 0;" data-i18n="assess.subheading100">Desplegar</h4>
+                <p class="small-text" data-i18n="assess.text101">4-8 sem</p>
+            </div>
+            <div class="phase-step">
+                <div class="phase-num phase-num-5">5</div>
+                <h4 style="font-size: 0.85rem; margin: 0;" data-i18n="assess.subheading102">Dominar</h4>
+                <p class="small-text" data-i18n="assess.text103">Continuo</p>
+            </div>
+            <div class="phase-step">
+                <div class="phase-num phase-num-6">6</div>
+                <h4 style="font-size: 0.85rem; margin: 0;" data-i18n="assess.subheading104">Escalar</h4>
+                <p class="small-text" data-i18n="assess.text105">3-12 m</p>
+            </div>
+        </div>
+
+        <!-- FASE 1 -->
+        <div class="procedure-card">
+            <h4><span class="phase-num phase-num-1" style="width: 2rem; height: 2rem; font-size: 0.9rem;">1</span> Descubrir</h4>
+            <p data-i18n="assess.text106">Entender negocio, dolores, madurez y oportunidades.</p>
+
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text195">Actividades:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item108">Kick-off con sponsor ejecutivo (60 min)</li>
+                        <li data-i18n="assess.item109">Entrevistas con 3-5 stakeholders (45 min c/u)</li>
+                        <li data-i18n="assess.item110">Cuestionario AI Readiness Scorecard 369</li>
+                        <li data-i18n="assess.item111">Inventario de iniciativas de IA existentes</li>
+                        <li data-i18n="assess.item112">Mapa de stakeholders y decision-makers</li>
+                        <li data-i18n="assess.item113">Identificación de quick wins potenciales</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text153">Qué necesitamos del cliente:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item115">Plan estratégico o prioridades del negocio</li>
+                        <li data-i18n="assess.item116">Organigrama con áreas relevantes</li>
+                        <li data-i18n="assess.item117">Listado de iniciativas de IA actuales o pasadas</li>
+                        <li data-i18n="assess.item118">Contacto del sponsor ejecutivo</li>
+                    </ul>
+                    <p class="small-text" style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;" data-i18n="assess.text174">Entregables:</p>
+                    <div>
+                        <span class="deliverable-tag" data-i18n="assess.label120">Matriz de madurez</span>
+                        <span class="deliverable-tag" data-i18n="assess.label121">Inventario de casos</span>
+                        <span class="deliverable-tag" data-i18n="assess.label122">Mapa de stakeholders</span>
+                        <span class="deliverable-tag" data-i18n="assess.label123">Score AI Readiness</span>
+                        <span class="deliverable-tag" data-i18n="assess.label124">Informe Fase 1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FASE 2 -->
+        <div class="procedure-card">
+            <h4><span class="phase-num phase-num-2" style="width: 2rem; height: 2rem; font-size: 0.9rem;">2</span> Diagnosticar</h4>
+            <p data-i18n="assess.text125">Identificar datos, riesgos, restricciones legales y viabilidad.</p>
+
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text181">Actividades:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item127">Inventario de datos disponibles por caso</li>
+                        <li data-i18n="assess.item128">Evaluación de calidad de datos</li>
+                        <li data-i18n="assess.item129">Risk assessment por caso de uso</li>
+                        <li data-i18n="assess.item130">Análisis regulatorio (EU AI Act, Ley 21.719)</li>
+                        <li data-i18n="assess.item131">Gap analysis: estado actual vs deseado</li>
+                        <li data-i18n="assess.item132">Evaluación de infraestructura y stack</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text133">Qué necesitamos del cliente:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item134">Acceso a catálogo de datos o fuentes</li>
+                        <li data-i18n="assess.item135">Documentación de sistemas existentes</li>
+                        <li data-i18n="assess.item136">Políticas de seguridad y privacidad vigentes</li>
+                    </ul>
+                    <p class="small-text" style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;" data-i18n="assess.text157">Entregables:</p>
+                    <div>
+                        <span class="deliverable-tag" data-i18n="assess.label138">Data landscape</span>
+                        <span class="deliverable-tag" data-i18n="assess.label139">Matriz de riesgo</span>
+                        <span class="deliverable-tag" data-i18n="assess.label140">Análisis regulatorio</span>
+                        <span class="deliverable-tag" data-i18n="assess.label141">Gap analysis</span>
+                        <span class="deliverable-tag" data-i18n="assess.label142">Caso(s) priorizado(s)</span>
+                        <span class="deliverable-tag" data-i18n="assess.label143">Informe Fase 2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FASE 3 -->
+        <div class="procedure-card">
+            <h4><span class="phase-num phase-num-3" style="width: 2rem; height: 2rem; font-size: 0.9rem;">3</span> Diseñar</h4>
+            <p data-i18n="assess.text144">Definir arquitectura, gobierno, controles y plan de implementación.</p>
+
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text165">Actividades:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item146">Diseño del target operating model</li>
+                        <li data-i18n="assess.item147">Blueprint de arquitectura funcional y técnica</li>
+                        <li data-i18n="assess.item148">Marco de gobernanza: roles, RACI, políticas</li>
+                        <li data-i18n="assess.item149">Diseño de controles por nivel de riesgo</li>
+                        <li data-i18n="assess.item150">Plan de implementación con hitos</li>
+                        <li data-i18n="assess.item151">Estimación de ROI y business case</li>
+                        <li data-i18n="assess.item152">Definición de KPIs y KRIs</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text114">Qué necesitamos del cliente:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item154">Diagnóstico completo de Fase 2</li>
+                        <li data-i18n="assess.item155">Restricciones técnicas y presupuestarias</li>
+                        <li data-i18n="assess.item156">Requisitos regulatorios identificados</li>
+                    </ul>
+                    <p class="small-text" style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;" data-i18n="assess.text137">Entregables:</p>
+                    <div>
+                        <span class="deliverable-tag" data-i18n="assess.label158">Target Operating Model</span>
+                        <span class="deliverable-tag" data-i18n="assess.label159">Blueprint de arquitectura</span>
+                        <span class="deliverable-tag" data-i18n="assess.label160">Marco de gobernanza + RACI</span>
+                        <span class="deliverable-tag" data-i18n="assess.label161">Policy pack</span>
+                        <span class="deliverable-tag" data-i18n="assess.label162">Plan de implementación</span>
+                        <span class="deliverable-tag" data-i18n="assess.label163">Business case + ROI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FASE 4 -->
+        <div class="procedure-card">
+            <h4><span class="phase-num phase-num-4" style="width: 2rem; height: 2rem; font-size: 0.9rem;">4</span> Desplegar</h4>
+            <p data-i18n="assess.text164">Construir pilotos o MVPs controlados con medición y resguardos.</p>
+
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text145">Actividades:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item166">Setup de ambientes (dev, staging, producción)</li>
+                        <li data-i18n="assess.item167">Implementación del caso priorizado</li>
+                        <li data-i18n="assess.item168">Aplicación de controles de gobernanza</li>
+                        <li data-i18n="assess.item169">Configuración de dashboards y observabilidad</li>
+                        <li data-i18n="assess.item170">Testing: funcional, seguridad, sesgo</li>
+                        <li data-i18n="assess.item171">Despliegue controlado y onboarding</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text172">Quién ejecuta:</p>
+                    <p class="small-text">El CAIO supervisa y gobierna. El <strong data-i18n="assess.bold173">equipo de desarrollo (BeJoby)</strong> construye, despliega y opera el sistema.</p>
+                    <p class="small-text" style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;" data-i18n="assess.text119">Entregables:</p>
+                    <div>
+                        <span class="deliverable-tag" data-i18n="assess.label175">PoC o MVP funcionando</span>
+                        <span class="deliverable-tag" data-i18n="assess.label176">Dashboard de métricas</span>
+                        <span class="deliverable-tag" data-i18n="assess.label177">Alertas configuradas</span>
+                        <span class="deliverable-tag" data-i18n="assess.label178">Reporte de testing</span>
+                        <span class="deliverable-tag" data-i18n="assess.label179">Informe Fase 4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FASE 5 -->
+        <div class="procedure-card">
+            <h4><span class="phase-num phase-num-5" style="width: 2rem; height: 2rem; font-size: 0.9rem;">5</span> Dominar</h4>
+            <p data-i18n="assess.text180">Operar con disciplina, monitoreo, mejora continua y accountability.</p>
+
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text126">Actividades:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item182">Monitoreo continuo de KPIs y KRIs</li>
+                        <li data-i18n="assess.item183">Gestión de incidentes de IA</li>
+                        <li data-i18n="assess.item184">Auditoría interna periódica</li>
+                        <li data-i18n="assess.item185">Revisión de drift y degradación</li>
+                        <li data-i18n="assess.item186">Revisión de costos vs valor</li>
+                        <li data-i18n="assess.item187">Reportes ejecutivos mensuales</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text202">Entregables:</p>
+                    <div>
+                        <span class="deliverable-tag" data-i18n="assess.label189">Runbooks operacionales</span>
+                        <span class="deliverable-tag" data-i18n="assess.label190">Reporte KPIs/KRIs mensual</span>
+                        <span class="deliverable-tag" data-i18n="assess.label191">Log de incidentes</span>
+                        <span class="deliverable-tag" data-i18n="assess.label192">Auditoría interna</span>
+                        <span class="deliverable-tag" data-i18n="assess.label193">Plan de mejora continua</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FASE 6 -->
+        <div class="procedure-card">
+            <h4><span class="phase-num phase-num-6" style="width: 2rem; height: 2rem; font-size: 0.9rem;">6</span> Escalar</h4>
+            <p data-i18n="assess.text194">Expandir capacidades y replicar patrones seguros a nivel organizacional.</p>
+
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text107">Actividades:</p>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item196">Creación de playbooks por dominio</li>
+                        <li data-i18n="assess.item197">Catálogo de casos reutilizables</li>
+                        <li data-i18n="assess.item198">Diseño del centro de excelencia IA</li>
+                        <li data-i18n="assess.item199">Programa de AI literacy empresarial</li>
+                        <li data-i18n="assess.item200">Roadmap de escalamiento 12-24 meses</li>
+                        <li data-i18n="assess.item201">Expansión de gobernanza a nuevas áreas</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="small-text" style="font-weight: 600; margin-bottom: 0.5rem;" data-i18n="assess.text188">Entregables:</p>
+                    <div>
+                        <span class="deliverable-tag" data-i18n="assess.label203">Playbooks por dominio</span>
+                        <span class="deliverable-tag" data-i18n="assess.label204">Catálogo reutilizable</span>
+                        <span class="deliverable-tag" data-i18n="assess.label205">Centro de excelencia</span>
+                        <span class="deliverable-tag" data-i18n="assess.label206">Programa AI literacy</span>
+                        <span class="deliverable-tag" data-i18n="assess.label207">Roadmap 12-24 meses</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIMULADOR CURVA J — HERRAMIENTA EJECUTIVA -->
+    <section class="section">
+        <div style="border: 2px solid var(--accent, #00D9CC); border-radius: var(--radius); padding: 2rem; background: linear-gradient(135deg, rgba(0,217,204,0.05), rgba(0,136,255,0.05));">
+            <div class="grid-2" style="align-items: center;">
+                <div>
+                    <p class="tag" style="background: var(--accent, #00D9CC); color: #000;" data-i18n="assess.text208">Incluido en el Assessment</p>
+                    <h3 style="margin-top: 0.75rem;" data-i18n="assess.subheading209">Simulador de Curva J para Inversiones en IA</h3>
+                    <p data-i18n="assess.text210">Toda inversión en IA tiene una curva en J: primero baja la productividad (costos de cambio) y luego sube por encima del punto de partida (retorno real). El problema es que muchos ejecutivos abandonan en el valle.</p>
+                    <p style="margin-top: 1rem;">Con nuestro simulador interactivo, calibramos la curva J de <strong data-i18n="assess.bold211">tu caso específico</strong> ajustando 3 variables: costos de ajuste, velocidad de integración y beneficio futuro estimado. Así ves exactamente <strong data-i18n="assess.bold212">cuándo y cuánto retorna tu inversión</strong>.</p>
+                    <ul class="simple-list" style="margin-top: 1rem;">
+                        <li data-i18n="assess.item213">Visualización clara de la fase de inversión vs la fase de retorno</li>
+                        <li data-i18n="assess.item214">Variables ajustables a los parámetros reales de tu proyecto</li>
+                        <li data-i18n="assess.item215">Gráfico listo para presentar a directorio o inversionistas</li>
+                        <li data-i18n="assess.item216">Incluido en todos los assessments Governed Pilot y Enterprise</li>
+                    </ul>
+                    <a href="https://colab.research.google.com/drive/1DGW-WOwCnw1-2fDhJMK4yvlf75jKlHgX?usp=sharing" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top: 1rem;" data-i18n="cta.probar_simulador">Probar simulador gratuito →</a>
+                </div>
+                <div style="text-align: center;">
+                    <div style="background: var(--bg-alt, #f8f9fa); border-radius: var(--radius); padding: 1.5rem;">
+                        <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;" data-i18n="assess.text217">Simulador: Curva en J en Inversiones de IA</p>
+                        <div style="position: relative; height: 180px; overflow: hidden;">
+                            <!-- J-Curve visual representation -->
+                            <svg viewBox="0 0 400 180" style="width: 100%; height: 100%;">
+                                <!-- Baseline -->
+                                <line x1="30" y1="90" x2="380" y2="90" stroke="#E11D48" stroke-width="2" stroke-dasharray="8,4" />
+                                <!-- J-Curve path -->
+                                <path d="M 30 90 Q 80 90, 100 130 Q 120 155, 140 145 Q 180 120, 220 90 Q 280 40, 350 35 L 380 35" fill="none" stroke="#00D9CC" stroke-width="3" />
+                                <!-- Cost area (below baseline) -->
+                                <path d="M 30 90 Q 80 90, 100 130 Q 120 155, 140 145 Q 180 120, 220 90 L 220 90 L 30 90 Z" fill="rgba(225,29,72,0.1)" />
+                                <!-- ROI area (above baseline) -->
+                                <path d="M 220 90 Q 280 40, 350 35 L 380 35 L 380 90 L 220 90 Z" fill="rgba(0,217,204,0.15)" />
+                                <!-- Labels -->
+                                <text x="90" y="170" font-size="11" fill="#E11D48" font-weight="600">Fase de Costos</text>
+                                <text x="280" y="25" font-size="11" fill="#00D9CC" font-weight="600">Fase de ROI</text>
+                                <text x="5" y="93" font-size="10" fill="#888">100</text>
+                                <text x="5" y="40" font-size="10" fill="#888">200</text>
+                            </svg>
+                        </div>
+                        <p class="small-text" style="color: var(--text-secondary); margin-top: 0.5rem;" data-i18n="assess.text218">Costos de ajuste → Valle → Recuperación → Retorno sobre la inversión</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAQUETES DE ASSESSMENT -->
+    <section class="section">
+        <header class="section-header">
+            <h2 data-i18n="assess.heading219">Elige el nivel de profundidad que tu empresa necesita</h2>
+            <p data-i18n="assess.text220">Tres paquetes concretos con entregables definidos, sesiones comprometidas y tiempos claros. Tú eliges hasta dónde llegar.</p>
+        </header>
+
+        <!-- STARTER -->
+        <div style="border: 2px solid var(--border); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <p class="tag" data-i18n="assess.text221">4-6 semanas</p>
+                    <h3 style="margin-top: 0.5rem;" data-i18n="assess.subheading222">Assessment Starter 369</h3>
+                    <p style="font-size: 0.8rem; color: var(--color-primary); font-weight: 600; margin-top: 0.25rem;" data-i18n="assess.text223">Factores 1 → 3</p>
+                    <p data-i18n="assess.text224">En 6 semanas sabrás exactamente dónde está tu empresa frente a IA, qué oportunidades tienes y por dónde empezar. Sin rodeos.</p>
+                </div>
+            </div>
+
+            <div class="grid-2" style="margin-top: 1.5rem;">
+                <div>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading225">📄 Documentos que recibes (PDF + editable):</h4>
+                    <ul class="simple-list">
+                        <li><strong data-i18n="assess.bold226">Informe de AI Readiness</strong> (20-30 págs) — Diagnóstico de madurez en las 3 capas: estrategia, riesgo e implementación. Score de 1-5 en cada una de las 9 métricas CAIO.</li>
+                        <li><strong data-i18n="assess.bold227">Matriz de madurez visual</strong> — Gráfico radar con tu score actual vs nivel objetivo. Listo para presentar al directorio.</li>
+                        <li><strong data-i18n="assess.bold228">Mapa de casos de uso priorizados</strong> — Todos los casos de IA identificados, rankeados por valor de negocio × factibilidad × riesgo.</li>
+                        <li><strong data-i18n="assess.bold229">Gap analysis</strong> — Estado actual vs deseado en cada capa, con brechas clasificadas por criticidad.</li>
+                        <li><strong data-i18n="assess.bold230">Hoja de ruta ejecutiva 90 días</strong> — Quick wins (0-30 días) + proyectos estructurales (30-90 días) con responsables y dependencias.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading231">🎯 Sesiones incluidas:</h4>
+                    <ul class="simple-list">
+                        <li><strong data-i18n="assess.bold232">1 kick-off</strong> con tu sponsor ejecutivo (60 min, videollamada)</li>
+                        <li><strong data-i18n="assess.bold233">3-5 entrevistas</strong> con stakeholders clave (45 min cada una)</li>
+                        <li><strong data-i18n="assess.bold234">1 presentación de hallazgos</strong> al equipo ejecutivo (90 min)</li>
+                        <li><strong data-i18n="assess.bold235">Scorecard 369 online</strong> — tus stakeholders lo completan antes de las entrevistas</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading285">⏱️ Tu inversión de tiempo:</h4>
+                    <p class="small-text" data-i18n="assess.text237">~6 horas en total durante 4-6 semanas. El CAIO hace el trabajo pesado.</p>
+
+                    <h4 style="font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading238">📋 Qué necesitamos de tu empresa:</h4>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item239">Un sponsor ejecutivo como contacto principal</li>
+                        <li data-i18n="assess.item240">Acceso a 3-5 personas para entrevistas</li>
+                        <li data-i18n="assess.item241">Plan estratégico o prioridades de negocio (si existe)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <p class="small-text" style="color: var(--text-secondary);"><strong data-i18n="assess.bold292">Formato:</strong> 100% remote por videollamada. Documentos en PDF + Google Docs editables.</p>
+                    <p class="small-text" style="color: var(--text-secondary);"><strong data-i18n="assess.bold293">No incluye:</strong> desarrollo de software, construcción de modelos ni despliegue de sistemas.</p>
+                </div>
+                <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.solicitar_starter">Solicitar Starter →</a>
+            </div>
+        </div>
+
+        <!-- GOVERNED PILOT -->
+        <div style="border: 2px solid var(--color-primary, #0088FF); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <p class="tag" style="background: var(--accent, #00D9CC); color: #000;" data-i18n="assess.text244">⭐ Recomendado · 8-12 semanas</p>
+                    <h3 style="margin-top: 0.5rem;" data-i18n="assess.subheading245">Assessment Governed Pilot 369</h3>
+                    <p style="font-size: 0.8rem; color: var(--accent, #00D9CC); font-weight: 600; margin-top: 0.25rem;" data-i18n="assess.text246">Factores 1 → 5</p>
+                    <p data-i18n="assess.text247">Todo lo del Starter + el diseño completo de tu primer caso de IA con gobernanza, arquitectura, business case y especificación técnica lista para construir.</p>
+                </div>
+            </div>
+
+            <div class="grid-2" style="margin-top: 1.5rem;">
+                <div>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading272">📄 Documentos adicionales que recibes:</h4>
+                    <ul class="simple-list">
+                        <li><strong data-i18n="assess.bold249">Blueprint de arquitectura funcional</strong> — Componentes, flujos de datos, integraciones y tecnologías recomendadas para el caso priorizado.</li>
+                        <li><strong data-i18n="assess.bold250">Risk assessment</strong> — Matriz de riesgo del caso: impacto × probabilidad, controles requeridos, clasificación según EU AI Act y Ley IA Chile.</li>
+                        <li><strong data-i18n="assess.bold251">Marco de gobernanza aplicado</strong> — RACI (quién decide, quién ejecuta), políticas aplicables, checklist de controles pre-despliegue.</li>
+                        <li><strong data-i18n="assess.bold252">Business case con ROI estimado + Simulador Curva J</strong> — Costos, beneficios, timeline de retorno, métricas de éxito (KPIs y KRIs) y simulación interactiva de la curva J calibrada con los parámetros reales de tu caso.</li>
+                        <li><strong data-i18n="assess.bold253">Plan de implementación con hitos</strong> — Cronograma con responsables, dependencias y criterios de go/no-go.</li>
+                        <li><strong data-i18n="assess.bold254">Especificación técnica para desarrollo</strong> — Documento listo para que un equipo construya: requerimientos, datos de entrada/salida, criterios de aceptación.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading279">🎯 Sesiones adicionales:</h4>
+                    <ul class="simple-list">
+                        <li><strong data-i18n="assess.bold256">Todo lo del Starter</strong> (kick-off + entrevistas + presentación)</li>
+                        <li><strong data-i18n="assess.bold257">2 workshops de diseño</strong> con tu equipo técnico y de negocio (90 min c/u)</li>
+                        <li><strong data-i18n="assess.bold258">1 revisión de arquitectura</strong> con TI (60 min)</li>
+                        <li><strong data-i18n="assess.bold259">1 risk review</strong> con legal/compliance si aplica (60 min)</li>
+                        <li><strong data-i18n="assess.bold260">Supervisión quincenal</strong> si se avanza a construcción (30 min × 4-6 sesiones)</li>
+                        <li><strong data-i18n="assess.bold261">1 presentación final</strong> al directorio (90 min)</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading262">⏱️ Tu inversión de tiempo:</h4>
+                    <p class="small-text" data-i18n="assess.text263">~15-20 horas en 8-12 semanas, distribuidas entre sponsor, equipo técnico y stakeholders.</p>
+
+                    <h4 style="font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading264">🔧 ¿Y si necesitas que alguien construya?</h4>
+                    <p class="small-text">El CAIO entrega la especificación técnica completa. Tu equipo interno puede ejecutar, o coordinamos talento especializado vía <strong data-i18n="assess.bold265">BeJoby</strong> (cotización separada).</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <p class="small-text" style="color: var(--text-secondary);"><strong data-i18n="assess.bold266">Formato:</strong> Remote o presencial (LATAM). Documentos en PDF + Google Docs + Slides para directorio.</p>
+                    <p class="small-text" style="color: var(--text-secondary);"><strong data-i18n="assess.bold267">No incluye:</strong> escritura de código ni operación de sistemas. El CAIO diseña y gobierna, tu equipo construye.</p>
+                </div>
+                <a href="" class="btn btn-primary" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.solicitar_governed">Solicitar Governed Pilot →</a>
+            </div>
+        </div>
+
+        <!-- ENTERPRISE -->
+        <div style="border: 2px solid var(--border); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <p class="tag" style="background: #7C3AED; color: white;" data-i18n="assess.text268">3-6 meses</p>
+                    <h3 style="margin-top: 0.5rem;" data-i18n="assess.subheading269">Assessment Enterprise 369</h3>
+                    <p style="font-size: 0.8rem; color: #7C3AED; font-weight: 600; margin-top: 0.25rem;" data-i18n="assess.text270">Factores 1 → 7 (viaje completo)</p>
+                    <p data-i18n="assess.text271">Transformación organizacional completa: desde el diagnóstico hasta el modelo operativo de IA con gobernanza, comité, políticas y roadmap de 12-24 meses.</p>
+                </div>
+            </div>
+
+            <div class="grid-2" style="margin-top: 1.5rem;">
+                <div>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading248">📄 Documentos adicionales que recibes:</h4>
+                    <ul class="simple-list">
+                        <li><strong data-i18n="assess.bold273">AI Governance Framework completo</strong> (40-60 págs) — Principios, estructura de gobierno, roles, comités, procesos de aprobación, escalamiento y controles por nivel de riesgo.</li>
+                        <li><strong data-i18n="assess.bold274">Diseño del Comité de IA</strong> — Estructura, mandato, integrantes, frecuencia de reuniones, agenda tipo y proceso de decisiones.</li>
+                        <li><strong data-i18n="assess.bold275">Policy Pack ejecutivo</strong> — 5-8 políticas listas para aprobar: IA Responsable, Datos para IA, Riesgo de IA, Privacidad, Compliance, Seguridad.</li>
+                        <li><strong data-i18n="assess.bold276">Portfolio management de IA</strong> — Herramienta (spreadsheet + proceso) para gestionar pipeline de casos: scoring, priorización, estado, responsables.</li>
+                        <li><strong data-i18n="assess.bold277">Programa de AI Literacy</strong> — Plan de capacitación por rol: directorio, gerentes, equipos técnicos y usuarios finales. Incluye temario.</li>
+                        <li><strong data-i18n="assess.bold278">Roadmap de escalamiento 12-24 meses</strong> — Hitos trimestrales, inversiones estimadas, equipo requerido y dependencias. Incluye simulación de Curva J por cada fase de inversión.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading255">🎯 Sesiones adicionales:</h4>
+                    <ul class="simple-list">
+                        <li><strong data-i18n="assess.bold280">Todo lo del Governed Pilot</strong></li>
+                        <li><strong data-i18n="assess.bold281">3-5 workshops temáticos</strong> (governance, riesgo, datos, arquitectura, adopción) 90 min c/u</li>
+                        <li><strong data-i18n="assess.bold282">Seguimiento mensual</strong> con el sponsor (60 min × 3-6 meses)</li>
+                        <li><strong data-i18n="assess.bold283">1 kick-off del Comité de IA</strong> — El CAIO facilita la primera reunión (120 min)</li>
+                        <li><strong data-i18n="assess.bold284">Revisión trimestral de roadmap</strong> con directorio (90 min)</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading236">⏱️ Tu inversión de tiempo:</h4>
+                    <p class="small-text" data-i18n="assess.text286">~40-60 horas en 3-6 meses. Equivale a ~3-4 horas por semana para el sponsor.</p>
+
+                    <h4 style="font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem;" data-i18n="assess.subheading287">🏢 Para quién es:</h4>
+                    <ul class="simple-list">
+                        <li data-i18n="assess.item288">Empresas con 200+ empleados que van en serio con IA</li>
+                        <li data-i18n="assess.item289">Organizaciones reguladas (banca, salud, seguros)</li>
+                        <li data-i18n="assess.item290">Corporaciones que reportan avance a directorio</li>
+                        <li data-i18n="assess.item291">Empresas que quieren un CAIO externo como partner estratégico</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <p class="small-text" style="color: var(--text-secondary);"><strong data-i18n="assess.bold242">Formato:</strong> Remote + presencial (kick-off del comité y workshops clave). PDF + Google Docs + Slides + Spreadsheets.</p>
+                    <p class="small-text" style="color: var(--text-secondary);"><strong data-i18n="assess.bold243">No incluye:</strong> escritura de código. El CAIO construye el marco estratégico y de gobierno. Implementación técnica vía BeJoby o tu equipo.</p>
+                </div>
+                <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.solicitar_enterprise">Solicitar Enterprise →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASESORÍA vs DESARROLLO -->
+    <section class="section section-alt">
+        <header class="section-header">
+            <h2 data-i18n="assess.heading294">Asesoría estratégica, no consultoría genérica</h2>
+            <p data-i18n="assess.text295">El CAIO trabaja contigo como director de IA externo. Diseña, gobierna y supervisa. El desarrollo lo hace tu equipo o lo coordinamos con BeJoby.</p>
+        </header>
+
+        <div class="grid-2">
+            <article class="card card-highlight">
+                <h3 data-i18n="assess.subheading296">✅ Lo que SÍ incluye el Assessment</h3>
+                <ul class="simple-list">
+                    <li data-i18n="assess.item297">Diagnóstico profesional con informes ejecutivos</li>
+                    <li data-i18n="assess.item298">Entrevistas y workshops con tus equipos</li>
+                    <li data-i18n="assess.item299">Score de madurez con evidencia, no opinión</li>
+                    <li data-i18n="assess.item300">Identificación concreta de oportunidades y riesgos</li>
+                    <li data-i18n="assess.item301">Hoja de ruta con acciones, responsables y plazos</li>
+                    <li data-i18n="assess.item302">Arquitectura funcional y especificación técnica</li>
+                    <li data-i18n="assess.item303">Marco de gobernanza, políticas y controles</li>
+                    <li data-i18n="assess.item304">Presentación lista para tu directorio</li>
+                    <li data-i18n="assess.item305">Supervisión estratégica si avanzas a construcción</li>
+                </ul>
+            </article>
+            <article class="card">
+                <h3 data-i18n="assess.subheading306">🚫 Lo que NO incluye</h3>
+                <ul class="simple-list">
+                    <li data-i18n="assess.item307">Desarrollo de software ni escritura de código</li>
+                    <li data-i18n="assess.item308">Construcción de modelos de ML o LLM</li>
+                    <li data-i18n="assess.item309">Despliegue de infraestructura cloud</li>
+                    <li data-i18n="assess.item310">Operación ni soporte técnico 24/7</li>
+                    <li data-i18n="assess.item311">Capacitación técnica hands-on</li>
+                    <li data-i18n="assess.item312">Auditoría financiera ni legal formal</li>
+                </ul>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-alt, #f8f9fa); border-radius: var(--radius);">
+                    <p class="small-text"><strong data-i18n="assess.bold313">¿Necesitas desarrollo?</strong> El CAIO entrega la especificación técnica completa. Si no tienes equipo interno, coordinamos talento especializado vía <strong data-i18n="assess.bold31">BeJoby</strong>: Data Engineers, ML Engineers, LLM Engineers, Backend, Frontend, DevOps. Cotización según perfil y duración del proyecto.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- CÓMO EMPEZAR -->
+    <section class="section">
+        <header class="section-header">
+            <h2 data-i18n="assess.heading315">Empieza en 5 minutos, gratis</h2>
+        </header>
+
+        <div class="grid-3">
+            <article class="card">
+                <h3 style="font-size: 1rem;" data-i18n="assess.subheading316">1. Scorecard online gratuito</h3>
+                <p class="small-text">Haz el <strong data-i18n="assess.bold317">AI Readiness Scorecard 369</strong> online: 9 preguntas, 5 minutos, score inmediato de madurez. Sin costo, sin compromiso.</p>
+                <a href="scorecard.html" class="btn btn-link" data-i18n="cta.hacer_scorecard">Hacer Scorecard →</a>
+            </article>
+            <article class="card">
+                <h3 style="font-size: 1rem;" data-i18n="assess.subheading318">2. Llamada exploratoria de 30 min</h3>
+                <p class="small-text" data-i18n="assess.text319">Revisamos tu score, entendemos tu contexto y te recomendamos el paquete de assessment más adecuado. Gratis.</p>
+                <a href="" class="btn btn-link" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.agendar_llamada">Agendar llamada →</a>
+            </article>
+            <article class="card">
+                <h3 style="font-size: 1rem;" data-i18n="assess.subheading320">3. Propuesta formal y arranque</h3>
+                <p class="small-text" data-i18n="assess.text321">Recibes propuesta con alcance, entregables, timeline y precio. Sin sorpresas. Aceptas y arrancamos cuando tú decidas.</p>
+            </article>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="scorecard.html" class="btn btn-primary" style="font-size: 1.1rem;" data-i18n="cta.hacer_scorecard_free">Hacer el Scorecard gratuito →</a>
+            <p class="small-text" style="margin-top: 0.75rem; color: var(--text-secondary);" data-i18n="assess.text322">El Scorecard es el primer paso. El Assessment CAIO 369 es el diagnóstico profesional completo con entregables ejecutivos.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text">AI Factory, Governance, Risk and Business Value.</p>
+        </div>
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="services.html">Servicios</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
+            <a href="blog.html">Insights</a>
+            <a href="author.html">Sobre Erwin</a>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" data-i18n="footer.linkedin">LinkedIn de Erwin →</a>
+        </div>
+    </div>
+</footer>
+
+<script src="_config.js"></script>
+<script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -5,26 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n-title="course.guias.title">Guías prácticas de IA - AIF369 Academia</title>
     <meta name="description" data-i18n-content="course.guias.description" content="Guías prácticas para llevar pilotos de IA a producción, crear comités efectivos y conectar datos con negocio.">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Calendly -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 <header class="site-header">
     <nav class="nav container">
-        <div class="logo">AIF369</div>
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
         <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links" id="nav-menu">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="education.html" class="active" data-i18n="nav.education">Educación</a>
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="portfolio.html" data-i18n="nav.portfolio">Portafolio</a>
-            <a href="author.html" data-i18n="nav.author">Autor</a>
-            <a href="product.html" data-i18n="nav.product">Producto IA</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="education.html" class="active" data-i18n="nav.education">Academia</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
             <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
         </div>
     </nav>
@@ -222,7 +224,6 @@
                     <li data-i18n="course.guias.pricing.individual.item3">Ejemplos y casos de uso</li>
                     <li data-i18n="course.guias.pricing.individual.item4">Actualizaciones por 6 meses</li>
                 </ul>
-                <p class="tag" data-i18n="course.guias.pricing.individual.price">USD 300 por guía</p>
             </article>
 
             <article class="card card-highlight">
@@ -234,7 +235,6 @@
                     <li data-i18n="course.guias.pricing.bundle.item3">Sesión de Q&A de 60 minutos</li>
                     <li data-i18n="course.guias.pricing.bundle.item4">Actualizaciones ilimitadas</li>
                 </ul>
-                <p class="tag" data-i18n="course.guias.pricing.bundle.price">USD 1.200 (ahorro de 40%)</p>
             </article>
         </div>
     </section>
@@ -243,30 +243,109 @@
         <header class="section-header">
             <h2 data-i18n="course.guias.cta.title">Solicitar guías</h2>
             <p data-i18n="course.guias.cta.subtitle">Contáctenos para recibir acceso a las guías y coordinar la sesión de Q&A si aplica.</p>
-            <a href="education.html#contacto-educacion" class="btn btn-primary" data-i18n="course.guias.cta.button">Solicitar acceso a guías prácticas</a>
         </header>
+
+        <div class="container" style="max-width:520px;margin:0 auto;">
+            <div class="enrollment-wrapper" data-course="Guías prácticas de IA y datos">
+                <div class="enrollment-steps">
+                    <div class="enrollment-step active" data-step="1"><span class="step-num">1</span> Tus datos</div>
+                    <div class="enrollment-step" data-step="2"><span class="step-num">2</span> Pago</div>
+                </div>
+
+                <form class="enrollment-form">
+                    <div class="form-group">
+                        <label>Nombre completo *</label>
+                        <input type="text" name="name" required autocomplete="name" placeholder="Tu nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label>Correo electrónico *</label>
+                        <input type="email" name="email" required autocomplete="email" placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono / WhatsApp *</label>
+                        <input type="tel" name="phone" required autocomplete="tel" placeholder="+56 9 1234 5678">
+                    </div>
+                    <div class="form-group">
+                        <label>País *</label>
+                        <select name="country" required>
+                            <option value="">Selecciona tu país</option>
+                            <option value="CL">Chile</option>
+                            <option value="CO">Colombia</option>
+                            <option value="MX">México</option>
+                            <option value="AR">Argentina</option>
+                            <option value="PE">Perú</option>
+                            <option value="EC">Ecuador</option>
+                            <option value="BO">Bolivia</option>
+                            <option value="VE">Venezuela</option>
+                            <option value="UY">Uruguay</option>
+                            <option value="PY">Paraguay</option>
+                            <option value="CR">Costa Rica</option>
+                            <option value="PA">Panamá</option>
+                            <option value="GT">Guatemala</option>
+                            <option value="DO">Rep. Dominicana</option>
+                            <option value="HN">Honduras</option>
+                            <option value="SV">El Salvador</option>
+                            <option value="NI">Nicaragua</option>
+                            <option value="ES">España</option>
+                            <option value="US">Estados Unidos</option>
+                            <option value="BR">Brasil</option>
+                            <option value="OTHER">Otro</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;font-size:var(--text-lg);padding:14px 28px;" data-i18n="cta.continuar_pago">Continuar al pago →</button>
+                </form>
+
+                <div class="enrollment-payment" style="display:none;">
+                    <div class="enrollment-summary card">
+                        <p><strong>Alumno:</strong> <span class="summary-name"></span></p>
+                        <p><strong>Email:</strong> <span class="summary-email"></span></p>
+                        <p><strong>Curso:</strong> Guías prácticas de IA y datos</p>
+                        <p style="font-size:1.25rem;margin-top:8px;"><strong>Total:</strong> <span style="color:#00D9CC;">USD $10</span></p>
+                    </div>
+                    <div class="paypal-btn-container" style="margin-top:20px;"></div>
+                    <p style="margin-top:12px;font-size:13px;color:var(--text-muted);text-align:center;">Pago seguro con PayPal · Tarjeta de crédito/débito aceptada</p>
+                    <button type="button" class="btn btn-link enrollment-back" style="width:100%;margin-top:8px;" data-i18n="cta.volver_editar">← Volver a editar datos</button>
+                </div>
+
+                <div class="enrollment-success" style="display:none;text-align:center;padding:40px 0;">
+                    <div style="font-size:3rem;margin-bottom:16px;">✅</div>
+                    <h3>¡Inscripción exitosa!</h3>
+                    <p>Gracias por inscribirte en <strong>Guías prácticas de IA y datos</strong>.</p>
+                    <p style="color:var(--text-muted);margin-top:8px;">Te enviaremos los detalles de acceso a tu correo electrónico.</p>
+                </div>
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="cta.dudas_conversemos">📅 ¿Dudas? Conversemos</a>
+                <a href="https://wa.me/56997547192?text=Hola%2C%20quiero%20las%20gu%C3%ADas%20pr%C3%A1cticas%20de%20IA" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:#25D366;color:#25D366;" data-i18n="cta.whatsapp">💬 WhatsApp</a>
+            </div>
+        </div>
     </section>
 </main>
 
 <footer class="site-footer">
     <div class="container footer-layout">
         <div>
-            <div class="logo">AIF369</div>
-            <p class="footer-text" data-i18n="course.guias.footer.text">IA, datos y cloud para la empresa moderna.</p>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text" data-i18n="course.guias.footer.text">AI Factory, Governance, Risk and Business Value.</p>
         </div>
         <div class="footer-links">
             <a href="index.html" data-i18n="nav.home">Inicio</a>
             <a href="services.html" data-i18n="nav.services">Servicios</a>
-            <a href="blog.html" data-i18n="nav.blog">Blog</a>
-            <a href="education.html" data-i18n="nav.education">Educación</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="blog.html" data-i18n="nav.blog">Insights</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
         
-            <a href="author.html" data-i18n="nav.author">Autor</a></div>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a></div>
             <div class="footer-social">
-            <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=erwin-daza-castillo" target="_blank" rel="noopener">Follow on LinkedIn</a>
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" data-i18n="footer.linkedin">LinkedIn de Erwin →</a>
         </div>
 </div>
 </footer>
 
+<script src="_config.js"></script>
 <script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

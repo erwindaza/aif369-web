@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n-title="b011.title">Sin datos limpios no hay IA en producción — Guía ejecutiva — Blog AIF369</title>
+    <meta name="description" data-i18n-content="b011.description" content="La mala calidad de datos cuesta $12.9M al año. Framework DQ-369 con 3 dimensiones, 6 controles y 9 métricas para producción de IA.">
+    <link rel="canonical" href="https://aif369.com/blog-data-quality-ai-production.html">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://aif369.com/blog-data-quality-ai-production.html">
+    <meta property="og:title" content="Sin datos limpios no hay IA en producción — AIF369">
+    <meta property="og:description" content="Framework DQ-369: 3 dimensiones × 6 controles × 9 métricas para calidad de datos en IA.">
+    <meta property="og:image" content="https://aif369.com/assets/img/og-default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Sin datos limpios no hay IA en producción: guía ejecutiva de calidad de datos",
+        "author": {"@type": "Person", "name": "Erwin Daza Castillo", "url": "https://aif369.com/author.html"},
+        "publisher": {"@type": "Organization", "name": "AIF369", "url": "https://aif369.com"},
+        "datePublished": "2026-04-13",
+        "dateModified": "2026-04-13",
+        "description": "Framework DQ-369 para calidad de datos en producción de IA.",
+        "mainEntityOfPage": "https://aif369.com/blog-data-quality-ai-production.html"
+    }
+    </script>
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+        <button class="nav-toggle" aria-label="Abrir menú" data-i18n-aria-label="nav.toggle"><span></span><span></span><span></span></button>
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="metodologia.html" data-i18n="nav.metodo">Método 369</a>
+            <a href="blog.html" class="active" data-i18n="nav.blog">Insights</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
+            <a href="encuentra-empleo.html" data-i18n="nav.empleo">💼 Empleo</a>
+            <a href="education.html" class="btn btn-primary" data-i18n="nav.cursos">🎓 Cursos IA</a>
+            <a href="" class="btn btn-outline" onclick="Calendly.initPopupWidget({url:'https://calendly.com/edaza-aif369/30min'});return false;" data-i18n="nav.cta">📅 Agendar llamada</a>
+            <button class="lang-toggle" type="button" data-i18n="lang.switch" data-i18n-aria-label="lang.switchAria">EN</button>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    <article class="section article">
+        <p class="tag" data-i18n="b011.tag">Datos & Calidad</p>
+        <h1 data-i18n="b011.h1">Sin datos limpios no hay IA en producción: guía ejecutiva de calidad de datos</h1>
+        <p class="blog-meta" data-i18n="b011.meta">Abril 2026 · Lectura de 13 minutos · Por <a href="author.html">Erwin Daza</a></p>
+
+        <p data-i18n="b011.intro">La mala calidad de datos cuesta a las organizaciones $12.9M al año en promedio (Gartner, 2025). Pero en proyectos de IA, el costo es 5-10x mayor que en analytics tradicional: un modelo entrenado con datos deficientes no solo produce resultados incorrectos — toma decisiones incorrectas a escala y velocidad. Y la mayoría de las empresas lo descubre en producción, no en el laboratorio.</p>
+
+        <h2 data-i18n="b011.s1h">El multiplicador de IA: por qué la calidad de datos importa más</h2>
+        <p data-i18n="b011.s1p1">En un dashboard de BI, un dato incorrecto produce un número equivocado en un reporte. Un analista puede detectarlo y corregirlo. En un modelo de IA en producción, un dato incorrecto produce miles de decisiones equivocadas por minuto — scoring crediticio, recomendaciones, pronósticos de demanda — sin que nadie lo note hasta que el daño está hecho.</p>
+        <p data-i18n="b011.s1p2">MIT Sloan reportó que las empresas Fortune 1000 tienen una tasa de error del 3.1% en datos estructurados. Suena pequeño. Pero en un modelo de ML que procesa 1M de registros diarios, eso son 31,000 decisiones potencialmente contaminadas cada día.</p>
+        <p data-i18n="b011.s1p3">McKinsey estimó que los problemas de calidad de datos causan el 60% de los retrasos en proyectos de IA. No la complejidad del modelo, no la infraestructura, no el talento. Los datos.</p>
+
+        <h2 data-i18n="b011.s2h">Framework DQ-369: 3 dimensiones × 6 controles × 9 métricas</h2>
+        <p data-i18n="b011.s2p1">Hemos desarrollado un framework de calidad de datos específico para IA en producción. Se llama DQ-369 y se alinea con nuestro Método 369 de implementación.</p>
+
+        <h3 data-i18n="b011.d1h">3 Dimensiones de calidad</h3>
+        <ul>
+            <li data-i18n="b011.d1l1"><strong>Intrínseca:</strong> ¿Los datos son correctos en sí mismos? Precisión, consistencia, valores nulos, duplicados. Un catálogo de productos con 15% de precios erróneos destruye cualquier modelo de pricing.</li>
+            <li data-i18n="b011.d1l2"><strong>Contextual:</strong> ¿Los datos son relevantes para el caso de uso? Completitud, temporalidad, granularidad. Datos de transacciones de hace 3 años pueden ser irrelevantes para un modelo de comportamiento post-pandemia.</li>
+            <li data-i18n="b011.d1l3"><strong>Representacional:</strong> ¿Los datos son interpretables por el modelo? Formato, esquema, encoding, sesgo de representación. Un dataset de clientes sesgado hacia un segmento demográfico produce un modelo sesgado.</li>
+        </ul>
+
+        <h3 data-i18n="b011.d2h">6 Controles operativos</h3>
+        <ol>
+            <li data-i18n="b011.d2l1"><strong>Validación en ingesta:</strong> Schema enforcement, type checking, range validation en cada pipeline de datos. Si entra basura, nunca sale calidad.</li>
+            <li data-i18n="b011.d2l2"><strong>Profiling automatizado:</strong> Estadísticas descriptivas, distribuciones y anomalías calculadas automáticamente por cada tabla y cada batch. No manual, no opcional.</li>
+            <li data-i18n="b011.d2l3"><strong>Lineage y trazabilidad:</strong> Saber de dónde viene cada dato, por qué transformaciones pasó, y quién lo modificó. Imprescindible para compliance regulatorio.</li>
+            <li data-i18n="b011.d2l4"><strong>Testing de datos:</strong> Tests unitarios para datos (Great Expectations, Deequ, custom). Si testeamos código, ¿por qué no testeamos datos?</li>
+            <li data-i18n="b011.d2l5"><strong>Monitoreo de drift:</strong> Los datos cambian. Los modelos re-entrenados con datos drifted degradan silenciosamente. Alertas automáticas cuando distribuciones cambian más de 2 desviaciones estándar.</li>
+            <li data-i18n="b011.d2l6"><strong>Data contracts:</strong> Acuerdos formales entre productores y consumidores de datos sobre esquema, SLA de calidad, y responsabilidades. Sin contracts, la calidad es aspiracional.</li>
+        </ol>
+
+        <h3 data-i18n="b011.d3h">9 Métricas de monitoreo</h3>
+        <p data-i18n="b011.d3p1">Para cada dataset crítico en IA, monitoreamos:</p>
+        <ol>
+            <li data-i18n="b011.d3m1"><strong>Completitud:</strong> % de campos obligatorios presentes. Target: >98%.</li>
+            <li data-i18n="b011.d3m2"><strong>Precisión:</strong> % de valores que coinciden con la fuente de verdad. Target: >99%.</li>
+            <li data-i18n="b011.d3m3"><strong>Frescura:</strong> Latencia entre generación y disponibilidad del dato. SLA según caso de uso.</li>
+            <li data-i18n="b011.d3m4"><strong>Unicidad:</strong> % de duplicados detectados y eliminados. Target: <0.1%.</li>
+            <li data-i18n="b011.d3m5"><strong>Consistencia:</strong> Concordancia entre fuentes para el mismo dato. Target: >99.5%.</li>
+            <li data-i18n="b011.d3m6"><strong>Validez:</strong> % de valores que cumplen reglas de negocio (rangos, formatos, enums).</li>
+            <li data-i18n="b011.d3m7"><strong>Drift score:</strong> Divergencia estadística vs baseline. Alerta si PSI > 0.2.</li>
+            <li data-i18n="b011.d3m8"><strong>Cobertura de tests:</strong> % de tablas con tests automatizados. Target: 100% para tablas en producción IA.</li>
+            <li data-i18n="b011.d3m9"><strong>Data quality score:</strong> Promedio ponderado de las 8 métricas anteriores. Score organizacional publicado mensualmente.</li>
+        </ol>
+
+        <h2 data-i18n="b011.s3h">Impacto en números</h2>
+        <ul>
+            <li data-i18n="b011.n1">Empresas con data quality score > 90%: time-to-production de modelos 60% menor (Gartner)</li>
+            <li data-i18n="b011.n2">Costo de corrección de datos: $1 en ingesta vs $100 en producción vs $1,000 post-incidente</li>
+            <li data-i18n="b011.n3">Modelo re-entrenado con datos limpios vs contaminados: +23% de accuracy promedio en clasificación</li>
+            <li data-i18n="b011.n4">ROI de programa de data quality: 5-8x en el primer año, compuesto después</li>
+        </ul>
+
+        <h2 data-i18n="b011.s4h">Conclusión ejecutiva</h2>
+        <p data-i18n="b011.s4p1">Invertir en IA sin invertir en calidad de datos es construir un rascacielos sobre arena. La buena noticia: la calidad de datos es un problema de ingeniería con soluciones conocidas. Framework DQ-369, herramientas open source maduras, y una disciplina organizacional que priorice "data as a product". El primer paso es medir: no puede mejorar lo que no mide.</p>
+        <p data-i18n="b011.s4p2">Evalúe la madurez de datos de su organización con nuestro AI Readiness Scorecard — incluye sección dedicada a calidad de datos.</p>
+
+        <p><a href="scorecard.html" class="btn btn-primary" data-i18n="b011.cta">Hacer el AI Readiness Scorecard →</a></p>
+        <p><a href="blog.html" class="btn btn-link" data-i18n="b011.back">← Volver al blog</a></p>
+    </article>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
+            <a href="index.html" class="logo"><span class="logo-name">AIF369</span><span class="logo-tagline">Artificial Intelligence Factory</span></a>
+            <p class="footer-text" data-i18n="b011.footer">AI Factory, Governance, Risk and Business Value.</p>
+        </div>
+        <div class="footer-links">
+            <a href="index.html" data-i18n="nav.home">Inicio</a>
+            <a href="services.html" data-i18n="nav.services">Servicios</a>
+            <a href="scorecard.html" style="color: #00D9CC;" data-i18n="nav.scorecard">Scorecard IA</a>
+            <a href="author.html" data-i18n="nav.author">Sobre Erwin</a>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/erwin-daza-castillo/" target="_blank" rel="noopener" data-i18n="footer.linkedin">LinkedIn de Erwin →</a>
+        </div>
+    </div>
+</footer>
+
+<script src="_config.js"></script>
+<script src="scripts.js"></script>
+<script src="chat-widget.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

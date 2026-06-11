@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /backend/
+Disallow: /infra/
+Disallow: /jsons/
+Disallow: /docs/
+Disallow: /_config.js
+Disallow: /cost-dashboard.html
+
+Sitemap: https://aif369.com/sitemap.xml
