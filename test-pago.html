@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Pago - AIF369</title>
+    <meta name="description" content="Página de prueba interna para verificar integración PayPal.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=AdN-X5WXZQ_97lqXnPl7yzjkK0chtgZHJUbMwxrMttpDGsPctp1aT2v9PhuYM9pBkRMAqw1zi-nm8yA3&currency=USD"></script>
+    <style>
+        .test-warning {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 32px;
+            color: #92400e;
+        }
+        .test-warning strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .payment-section {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f9fafb;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+        .payment-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .payment-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+        .payment-header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .price-display {
+            text-align: center;
+            margin: 32px 0;
+            padding: 32px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #dbeafe;
+        }
+        .price-amount {
+            font-size: 48px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+        .price-currency {
+            font-size: 20px;
+            color: #6b7280;
+        }
+        #paypal-button-container {
+            margin: 32px 0;
+            min-height: 50px;
+        }
+        .test-info {
+            background: #dbeafe;
+            border-left: 4px solid #0284c7;
+            padding: 16px;
+            margin-top: 32px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #0c4a6e;
+        }
+        .test-info strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+            display: block;
+        }
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+            display: block;
+        }
+        .loading {
+            text-align: center;
+            color: #6b7280;
+            display: none;
+        }
+        .spinner {
+            border: 3px solid #e5e7eb;
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <div class="logo">AIF369</div>
+        <a href="index.html" style="color: #6b7280; text-decoration: none; font-size: 14px;">← Volver</a>
+    </nav>
+</header>
+
+<main class="container" style="padding: 60px 20px;">
+    <section class="section">
+        <div class="test-warning">
+            <strong>⚠️ Página de prueba interna</strong>
+            Pago real de $1 USD para verificar integración PayPal. Eliminar tras verificación.
+        </div>
+
+        <div class="payment-section">
+            <div class="payment-header">
+                <h1>Test de Pago — $1 USD</h1>
+                <p>Verificación del flujo completo de PayPal</p>
+            </div>
+
+            <div class="price-display">
+                <span class="price-currency">USD </span>
+                <span class="price-amount">$1</span>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Procesando pago...</p>
+            </div>
+
+            <div id="paypal-button-container"></div>
+
+            <div id="checkoutMessage" class="message"></div>
+
+            <div class="test-info">
+                <strong>ℹ️ Información de prueba:</strong>
+                <div style="margin-top: 8px;">
+                    • Este pago es real (USD $1)<br>
+                    • ID de orden aparecerá en consola<br>
+                    • Verificar en PayPal Business Account<br>
+                    • Confirmar webhook en backend<br>
+                    • Revisar logs en Google Cloud Run
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
+            <div class="logo">AIF369</div>
+            <p class="footer-text">Test de integración PayPal</p>
+        </div>
+    </div>
+</footer>
+
+<script src="test-pago.js"></script>
+</body>
+</html>

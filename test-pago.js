@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const messageContainer = document.getElementById("checkoutMessage");
     const loadingDiv = document.getElementById("loading");
+
+    // URLs del backend - se actualizan automáticamente según el entorno
     const PROD_BACKEND_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
     const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-es7l2buwdq-uc.a.run.app';
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
@@ -16,12 +18,15 @@ document.addEventListener("DOMContentLoaded", function () {
         loadingDiv.style.display = show ? 'block' : 'none';
     }
 
+    console.log('🔧 PayPal Test Page Initialized');
+    console.log('Backend URL:', BACKEND_URL);
+    console.log('Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
+
     // Inicializar PayPal Buttons
     paypal.Buttons({
         async createOrder(data, actions) {
             try {
                 showLoading(true);
-
                 console.log('📤 Enviando solicitud al backend para crear orden...');
 
                 const response = await fetch(`${BACKEND_URL}/api/paypal/create-order`, {
@@ -32,14 +37,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     body: JSON.stringify({
                         amount: '1.00',
                         currency: 'USD',
-                        description: 'Test Payment - Prueba de integración PayPal',
+                        description: 'Test Payment - Prueba de integración PayPal AIF369',
                         source_page: window.location.href
                     })
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || 'Error al crear orden');
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
                 }
 
                 const order = await response.json();
@@ -50,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return order.id;
             } catch (error) {
                 console.error('❌ Error creating order:', error);
-                showMessage(`Error: ${error.message}`, 'error');
+                showMessage(`Error al crear orden: ${error.message}`, 'error');
                 showLoading(false);
                 throw error;
             }
@@ -73,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || 'Error al capturar orden');
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
                 }
 
                 const orderData = await response.json();
@@ -81,19 +86,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 showLoading(false);
                 showMessage(
-                    `✓ Pago exitoso!\n\nID de transacción: ${data.orderID}\n\nVerifica en PayPal Business Account.`,
+                    `✓ ¡Pago exitoso!\n\nID de transacción: ${data.orderID}\nMonto: $1.00 USD\n\nVerifica en PayPal Business Account.`,
                     'success'
                 );
 
                 // Log para debugging
                 console.log('=== PAYPAL PAYMENT SUCCESS ===');
                 console.log('Order ID:', data.orderID);
+                console.log('Status:', orderData.status);
                 console.log('Timestamp:', new Date().toISOString());
                 console.log('Amount: $1.00 USD');
                 console.log('=======================');
             } catch (error) {
                 console.error('❌ Error capturing order:', error);
-                showMessage(`Error: ${error.message}`, 'error');
+                showMessage(`Error al capturar pago: ${error.message}`, 'error');
                 showLoading(false);
             }
         },
@@ -102,21 +108,17 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('❌ PayPal Error:', err);
             console.error('Error details:', {
                 message: err.message,
-                name: err.name,
-                stack: err.stack
+                name: err.name
             });
             showLoading(false);
 
-            // Determinar mensaje de error específico
             let errorMessage = 'Ocurrió un error con el pago.';
             if (err.message === 'User closed the popup') {
                 errorMessage = 'Pago cancelado por el usuario.';
             } else if (err.message.includes('network')) {
                 errorMessage = 'Error de conexión. Verifica tu internet.';
             } else if (err.message.includes('401') || err.message.includes('authentication')) {
-                errorMessage = '❌ Error de autenticación PayPal. Verifica credenciales en backend.';
-            } else if (err.message.includes('Failed to authenticate')) {
-                errorMessage = '❌ Backend no puede conectarse a PayPal. Falta configurar PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET.';
+                errorMessage = 'Error de autenticación PayPal. Verifica credenciales.';
             }
 
             showMessage(errorMessage, 'error');
@@ -128,8 +130,4 @@ document.addEventListener("DOMContentLoaded", function () {
             showLoading(false);
         }
     }).render('#paypal-button-container');
-
-    console.log('🔧 PayPal Test Page Initialized');
-    console.log('Backend URL:', BACKEND_URL);
-    console.log('Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
 });
