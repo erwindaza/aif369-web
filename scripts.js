@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Configuración del backend según el entorno
     const PROD_BACKEND_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
-    const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
+    const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-es7l2buwdq-uc.a.run.app';
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction ? PROD_BACKEND_URL : DEV_BACKEND_URL;
 

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const messageContainer = document.getElementById("checkoutMessage");
     const loadingDiv = document.getElementById("loading");
     const PROD_BACKEND_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
-    const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
+    const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-es7l2buwdq-uc.a.run.app';
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction ? PROD_BACKEND_URL : DEV_BACKEND_URL;
 
@@ -100,6 +100,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         onError(err) {
             console.error('❌ PayPal Error:', err);
+            console.error('Error details:', {
+                message: err.message,
+                name: err.name,
+                stack: err.stack
+            });
             showLoading(false);
 
             // Determinar mensaje de error específico
@@ -108,6 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 errorMessage = 'Pago cancelado por el usuario.';
             } else if (err.message.includes('network')) {
                 errorMessage = 'Error de conexión. Verifica tu internet.';
+            } else if (err.message.includes('401') || err.message.includes('authentication')) {
+                errorMessage = '❌ Error de autenticación PayPal. Verifica credenciales en backend.';
+            } else if (err.message.includes('Failed to authenticate')) {
+                errorMessage = '❌ Backend no puede conectarse a PayPal. Falta configurar PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET.';
             }
 
             showMessage(errorMessage, 'error');
