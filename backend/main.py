@@ -38,7 +38,7 @@ NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL", "erwin.daza@gmail.com")
 
 # Configuración PayPal
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
-PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET")
+PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_SECRET") or os.getenv("PAYPAL_CLIENT_SECRET")
 PAYPAL_MODE = os.getenv("PAYPAL_MODE", "sandbox")  # sandbox o live
 PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com" if PAYPAL_MODE == "sandbox" else "https://api-m.paypal.com"
 PAYPAL_TABLE_ID = "paypal_transactions"
