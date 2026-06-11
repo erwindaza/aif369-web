@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=AdN-X5WXZQ_97lqXnPl7yzjkK0chtgZHJUbMwxrMttpDGsPctp1aT2v9PhuYM9pBkRMAqw1zi-nm8yA3&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=BAANUYwNGYfaASXdJEVNswSOTPqtQUpjqBifJ0i6HhpiM-MV9ReWI30T_89pkKw5IY1yt_aqgF5yd0fRts&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
     <style>
         .test-warning {
             background: #fef3c7;
@@ -62,9 +62,10 @@
             font-size: 20px;
             color: #6b7280;
         }
-        #paypal-button-container {
+        #paypal-container-SYER3N7LWPLRG {
             margin: 32px 0;
-            min-height: 50px;
+            display: flex;
+            justify-content: center;
         }
         .test-info {
             background: #dbeafe;
@@ -78,45 +79,6 @@
         .test-info strong {
             display: block;
             margin-bottom: 8px;
-        }
-        .message {
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-        .message.success {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #86efac;
-            display: block;
-        }
-        .message.error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-            display: block;
-        }
-        .loading {
-            text-align: center;
-            color: #6b7280;
-            display: none;
-        }
-        .spinner {
-            border: 3px solid #e5e7eb;
-            border-top: 3px solid #2563eb;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 8px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -146,14 +108,12 @@
                 <span class="price-amount">$1</span>
             </div>
 
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Procesando pago...</p>
-            </div>
-
-            <div id="paypal-button-container"></div>
-
-            <div id="checkoutMessage" class="message"></div>
+            <div id="paypal-container-SYER3N7LWPLRG"></div>
+            <script>
+              paypal.HostedButtons({
+                hostedButtonId: "SYER3N7LWPLRG",
+              }).render("#paypal-container-SYER3N7LWPLRG")
+            </script>
 
             <div class="test-info">
                 <strong>ℹ️ Información de prueba:</strong>
