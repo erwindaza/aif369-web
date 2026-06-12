@@ -1,73 +1,143 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Pago $1 — AIF369</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Pago - AIF369</title>
+    <meta name="description" content="Página de prueba interna para verificar integración PayPal.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=BAANUYwNGYfaASXdJEVNswSOTPqtQUpjqBifJ0i6HhpiM-MV9ReWI30T_89pkKw5IY1yt_aqgF5yd0fRts&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+    <style>
+        .test-warning {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 32px;
+            color: #92400e;
+        }
+        .test-warning strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .payment-section {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f9fafb;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+        .payment-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .payment-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+        .payment-header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .price-display {
+            text-align: center;
+            margin: 32px 0;
+            padding: 32px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #dbeafe;
+        }
+        .price-amount {
+            font-size: 48px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+        .price-currency {
+            font-size: 20px;
+            color: #6b7280;
+        }
+        #paypal-container-SYER3N7LWPLRG {
+            margin: 32px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .test-info {
+            background: #dbeafe;
+            border-left: 4px solid #0284c7;
+            padding: 16px;
+            margin-top: 32px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #0c4a6e;
+        }
+        .test-info strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
 <header class="site-header">
-  <nav class="nav container">
-    <a href="index.html" class="logo"><span class="logo-name">AIF369</span></a>
-  </nav>
+    <nav class="nav container">
+        <div class="logo">AIF369</div>
+        <a href="index.html" style="color: #6b7280; text-decoration: none; font-size: 14px;">← Volver</a>
+    </nav>
 </header>
-<main>
-  <section class="section" id="comprar">
-    <div class="container" style="max-width:560px;">
-      <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:#FCD34D;">
-        ⚠️ <strong>Página de prueba interna</strong> — Pago real de $1 USD para verificar integración PayPal. Eliminar tras verificación.
-      </div>
-      <header class="section-header">
-        <h2>Test de Pago — $1 USD</h2>
-        <p style="color:var(--text-secondary);">Verificación del flujo completo de PayPal</p>
-        <div class="bw-pricing" style="margin:12px 0;">
-          <span class="bw-new price-display" style="font-size:2rem;">USD $1</span>
+
+<main class="container" style="padding: 60px 20px;">
+    <section class="section">
+        <div class="test-warning">
+            <strong>⚠️ Página de prueba interna</strong>
+            Pago real de $1 USD para verificar integración PayPal. Eliminar tras verificación.
         </div>
-      </header>
-      <div class="enrollment-wrapper" data-course="Test Pago AIF369">
-        <form class="enrollment-form">
-          <div class="form-group">
-            <label>Nombre completo *</label>
-            <input type="text" name="name" required value="Test Usuario" autocomplete="name">
-          </div>
-          <div class="form-group">
-            <label>Email *</label>
-            <input type="email" name="email" required value="testpago@aif369.com" autocomplete="email">
-          </div>
-          <div class="form-group">
-            <label>Teléfono *</label>
-            <input type="tel" name="phone" required value="+56997547192" autocomplete="tel">
-          </div>
-          <div class="form-group">
-            <label>País *</label>
-            <select name="country" required>
-              <option value="CL" selected>Chile</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;">Continuar al pago $1 →</button>
-        </form>
-        <div class="enrollment-payment" style="display:none;">
-          <div class="enrollment-summary card">
-            <p><strong>Alumno:</strong> <span class="summary-name"></span></p>
-            <p><strong>Email:</strong> <span class="summary-email"></span></p>
-            <p><strong>Producto:</strong> Test Pago AIF369</p>
-            <p style="font-size:1.25rem;margin-top:8px;"><strong>Total:</strong> <span style="color:#00D9CC;" class="summary-total price-display">USD $1</span></p>
-          </div>
-          <div class="paypal-btn-container" style="margin-top:20px;"></div>
-          <p style="margin-top:12px;font-size:13px;color:var(--text-secondary);text-align:center;">Pago seguro con PayPal · Tarjeta aceptada sin cuenta PayPal</p>
-          <button type="button" class="btn btn-link enrollment-back" style="width:100%;margin-top:8px;">← Volver</button>
+
+        <div class="payment-section">
+            <div class="payment-header">
+                <h1>Test de Pago — $1 USD</h1>
+                <p>Verificación del flujo completo de PayPal</p>
+            </div>
+
+            <div class="price-display">
+                <span class="price-currency">USD </span>
+                <span class="price-amount">$1</span>
+            </div>
+
+            <div id="paypal-container-SYER3N7LWPLRG"></div>
+            <script>
+              paypal.HostedButtons({
+                hostedButtonId: "SYER3N7LWPLRG",
+              }).render("#paypal-container-SYER3N7LWPLRG")
+            </script>
+
+            <div class="test-info">
+                <strong>ℹ️ Información de prueba:</strong>
+                <div style="margin-top: 8px;">
+                    • Este pago es real (USD $1)<br>
+                    • ID de orden aparecerá en consola<br>
+                    • Verificar en PayPal Business Account<br>
+                    • Confirmar webhook en backend<br>
+                    • Revisar logs en Google Cloud Run
+                </div>
+            </div>
         </div>
-        <div class="enrollment-success" style="display:none;text-align:center;padding:40px 0;">
-          <div style="font-size:48px;margin-bottom:16px;">✅</div>
-          <h3 style="margin-bottom:8px;">¡Pago de $1 exitoso!</h3>
-          <p style="color:var(--text-secondary);">PayPal funciona correctamente. Order ID: <span class="success-order-id" style="color:#00D9CC;font-weight:700;"></span></p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 </main>
-<script src="_config.js"></script>
-<script src="scripts.js"></script>
+
+<footer class="site-footer">
+    <div class="container footer-layout">
+        <div>
+            <div class="logo">AIF369</div>
+            <p class="footer-text">Test de integración PayPal</p>
+        </div>
+    </div>
+</footer>
+
+<script src="test-pago.js"></script>
 </body>
 </html>

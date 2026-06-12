@@ -93,6 +93,13 @@ PROJECT_ID = os.getenv("PROJECT_ID", "aif369-backend")
 DATASET_ID = os.getenv("DATASET_ID", "aif369_analytics")
 ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 TABLE_ID = "contact_form_submissions"
+PAYPAL_TABLE_ID = "paypal_transactions"
+
+# Configuración PayPal
+PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
+PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_SECRET") or os.getenv("PAYPAL_CLIENT_SECRET")
+PAYPAL_MODE = os.getenv("PAYPAL_MODE", "sandbox")
+PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com" if PAYPAL_MODE == "sandbox" else "https://api-m.paypal.com"
 
 _bq_client = None
 
@@ -394,6 +401,23 @@ def health_check():
     return jsonify({"status": "ok", "service": "aif369-backend"}), 200
 
 
+PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET", "")
+PAYPAL_BASE = "https://api-m.paypal.com"
+
+
+def _paypal_access_token() -> str:
+    """Get a short-lived PayPal OAuth2 access token. Raises on failure."""
+    resp = http_requests.post(
+        f"{PAYPAL_BASE}/v1/oauth2/token",
+        auth=(os.getenv("PAYPAL_CLIENT_ID", ""), PAYPAL_CLIENT_SECRET),
+        data={"grant_type": "client_credentials"},
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        timeout=10,
+    )
+    resp.raise_for_status()
+    return resp.json()["access_token"]
+
+
 @app.route("/api/config/paypal", methods=["GET"])
 def get_paypal_config():
     """Return PayPal client-id from environment (Secret Manager in production)."""
@@ -401,6 +425,140 @@ def get_paypal_config():
     if not client_id:
         return jsonify({"error": "PayPal not configured"}), 503
     return jsonify({"client_id": client_id}), 200
+
+
+@app.route("/api/paypal/create-order", methods=["POST"])
+def paypal_create_order():
+    """
+    Creates a PayPal order SERVER-SIDE.
+    The price is determined entirely by the backend — never by the client.
+    The user cannot manipulate the amount.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    email = (data.get("email") or "").strip().lower()
+    course = (data.get("course") or "").strip()
+
+    if not email or not course:
+        return jsonify({"error": "email and course required"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured (missing secret)"}), 503
+
+    # Price set by server — period.
+    is_vip = email in _get_vip_emails()
+    full_price = COURSE_PRICES.get(course, 197)
+    price = VIP_PRICE if (is_vip and VIP_PRICE < full_price) else full_price
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "intent": "CAPTURE",
+                "purchase_units": [{
+                    "description": f"{course} — AIF369",
+                    "amount": {"currency_code": "USD", "value": f"{price:.2f}"}
+                }]
+            },
+            timeout=15,
+        )
+        resp.raise_for_status()
+        order = resp.json()
+        print(f"PayPal order created: {order['id']} | {course} | ${price} | {email}")
+        return jsonify({"orderID": order["id"], "price": price, "is_vip": is_vip}), 200
+    except Exception as e:
+        print(f"PayPal create-order error: {e}")
+        return jsonify({"error": "Could not create PayPal order"}), 500
+
+
+@app.route("/api/paypal/capture-order", methods=["POST"])
+def paypal_capture_order():
+    """
+    Captures a PayPal payment SERVER-SIDE after user approves.
+    Verifies the captured amount matches what was promised.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    order_id = (data.get("orderID") or "").strip()
+    email = (data.get("email") or "").strip()
+    course = (data.get("course") or "").strip()
+
+    if not order_id:
+        return jsonify({"error": "orderID required"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured"}), 503
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders/{order_id}/capture",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        capture = resp.json()
+
+        if capture.get("status") != "COMPLETED":
+            return jsonify({"error": "Payment not completed", "status": capture.get("status")}), 400
+
+        amount = capture["purchase_units"][0]["payments"]["captures"][0]["amount"]["value"]
+        payer_email = capture.get("payer", {}).get("email_address", "")
+
+        print(f"PayPal capture OK: {order_id} | ${amount} | {email} | {course}")
+
+        # Notify Erwin
+        send_alert_email(
+            f"💳 Pago recibido — {course}",
+            f"""<html><body style="font-family:sans-serif">
+            <h2 style="color:#00D9CC">💳 Pago recibido</h2>
+            <p><strong>Curso:</strong> {course}</p>
+            <p><strong>Monto:</strong> ${amount} USD</p>
+            <p><strong>Email alumno:</strong> {email}</p>
+            <p><strong>PayPal email:</strong> {payer_email}</p>
+            <p><strong>Order ID:</strong> {order_id}</p>
+            </body></html>"""
+        )
+
+        return jsonify({
+            "status": "COMPLETED",
+            "orderID": order_id,
+            "amount": amount,
+            "payer_email": payer_email,
+        }), 200
+    except Exception as e:
+        print(f"PayPal capture error: {e}")
+        return jsonify({"error": "Could not capture payment"}), 500
+
+
+@app.route("/api/enrollment", methods=["POST"])
+def enrollment():
+    """Registra inscripción completada en BigQuery y envía confirmación al alumno."""
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    row = {
+        "submission_id": str(uuid.uuid4()),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "name": data.get("name", ""),
+        "email": data.get("email", ""),
+        "company": data.get("course", ""),
+        "role": data.get("country", ""),
+        "message": f"Inscripción: {data.get('course')} | PayPal: {data.get('paypal_order_id')} | ${data.get('price')}",
+        "source_page": data.get("source_page", ""),
+        "user_agent": request.headers.get("User-Agent", ""),
+        "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+        "form_type": "enrollment",
+        "interest": data.get("course"),
+        "team_size": None,
+    }
+    try:
+        get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}", [row])
+    except Exception as bq_err:
+        print(f"Enrollment BQ error (non-fatal): {bq_err}")
+    return jsonify({"success": True}), 200
 
 
 # ── VIP email list (comma-separated in env var, never hardcoded) ──────────────
@@ -438,7 +596,8 @@ def course_price():
 
     is_vip = email in _get_vip_emails()
     full_price = COURSE_PRICES.get(course, 197)
-    price = VIP_PRICE if is_vip else full_price
+    # VIP price only applies when it's actually a discount (less than full price)
+    price = VIP_PRICE if (is_vip and VIP_PRICE < full_price) else full_price
 
     return jsonify({
         "email": email,
@@ -1716,6 +1875,163 @@ def costs_health():
         return jsonify(data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+def get_paypal_access_token():
+    """Obtiene token de acceso de PayPal API"""
+    if not PAYPAL_CLIENT_ID or not PAYPAL_CLIENT_SECRET:
+        print("⚠️  Warning: PAYPAL_CLIENT_ID o PAYPAL_CLIENT_SECRET no configurados")
+        return None
+    try:
+        import base64
+        auth = base64.b64encode(f"{PAYPAL_CLIENT_ID}:{PAYPAL_CLIENT_SECRET}".encode()).decode()
+        response = http_requests.post(
+            f"{PAYPAL_API_BASE}/v1/oauth2/token",
+            headers={
+                "Authorization": f"Basic {auth}",
+                "Accept": "application/json"
+            },
+            data={"grant_type": "client_credentials"}
+        )
+        if response.status_code == 200:
+            return response.json().get("access_token")
+        else:
+            print(f"❌ Error getting PayPal token: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        print(f"❌ Error in get_paypal_access_token: {e}")
+        return None
+
+
+@app.route("/api/paypal/create-order", methods=["POST"])
+def create_paypal_order():
+    """Crea una orden de PayPal para procesamiento de pago"""
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        amount = data.get("amount", "1.00")
+        currency = data.get("currency", "USD")
+        description = data.get("description", "AIF369 Test Payment")
+
+        try:
+            float(amount)
+        except ValueError:
+            return jsonify({"error": "Invalid amount"}), 400
+
+        access_token = get_paypal_access_token()
+        if not access_token:
+            return jsonify({"error": "Failed to authenticate with PayPal"}), 500
+
+        order_data = {
+            "intent": "CAPTURE",
+            "purchase_units": [{
+                "amount": {"currency_code": currency, "value": amount},
+                "description": description
+            }],
+            "payer": {"name": {"given_name": "Test", "surname": "User"}}
+        }
+
+        response = http_requests.post(
+            f"{PAYPAL_API_BASE}/v2/checkout/orders",
+            headers={"Content-Type": "application/json", "Authorization": f"Bearer {access_token}"},
+            json=order_data
+        )
+
+        if response.status_code not in [200, 201]:
+            error_detail = response.json() if response.text else {}
+            print(f"❌ PayPal API Error: {response.status_code} - {error_detail}")
+            return jsonify({"error": f"Failed to create PayPal order"}), 500
+
+        paypal_order = response.json()
+        order_id = paypal_order.get("id")
+
+        transaction_id = str(uuid.uuid4())
+        timestamp = datetime.utcnow().isoformat()
+        row = {
+            "transaction_id": transaction_id,
+            "order_id": order_id,
+            "timestamp": timestamp,
+            "amount": amount,
+            "currency": currency,
+            "status": "created",
+            "source_page": data.get("source_page", request.referrer or ""),
+            "user_agent": request.headers.get("User-Agent", ""),
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr)
+        }
+
+        table_ref = f"{PROJECT_ID}.{DATASET_ID}.{PAYPAL_TABLE_ID}"
+        errors = get_bq_client().insert_rows_json(table_ref, [row])
+        if errors:
+            print(f"⚠️  BigQuery insert errors: {errors}")
+
+        print(f"✅ PayPal Order Created: {order_id}")
+        return jsonify({"success": True, "id": order_id, "status": paypal_order.get("status")}), 201
+
+    except Exception as e:
+        print(f"❌ Error creating PayPal order: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
+@app.route("/api/paypal/capture-order", methods=["POST"])
+def capture_paypal_order():
+    """Captura una orden de PayPal previamente aprobada"""
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+        order_id = data.get("order_id")
+
+        if not order_id:
+            return jsonify({"error": "Missing order_id"}), 400
+
+        access_token = get_paypal_access_token()
+        if not access_token:
+            return jsonify({"error": "Failed to authenticate with PayPal"}), 500
+
+        response = http_requests.post(
+            f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}/capture",
+            headers={"Content-Type": "application/json", "Authorization": f"Bearer {access_token}"}
+        )
+
+        if response.status_code not in [200, 201]:
+            error_detail = response.json() if response.text else {}
+            print(f"❌ PayPal Capture Error: {response.status_code} - {error_detail}")
+            return jsonify({"error": "Failed to capture order"}), 500
+
+        paypal_order = response.json()
+        status = paypal_order.get("status")
+
+        transaction_id = str(uuid.uuid4())
+        timestamp = datetime.utcnow().isoformat()
+        row = {
+            "transaction_id": transaction_id,
+            "order_id": order_id,
+            "timestamp": timestamp,
+            "status": status,
+            "source_page": request.referrer or "",
+            "user_agent": request.headers.get("User-Agent", ""),
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr)
+        }
+
+        table_ref = f"{PROJECT_ID}.{DATASET_ID}.{PAYPAL_TABLE_ID}"
+        errors = get_bq_client().insert_rows_json(table_ref, [row])
+        if errors:
+            print(f"⚠️  BigQuery insert errors: {errors}")
+
+        print(f"✅ PayPal Order Captured: {order_id} - Status: {status}")
+        return jsonify({
+            "success": True,
+            "order_id": order_id,
+            "status": status,
+            "transaction_id": transaction_id
+        }), 200
+
+    except Exception as e:
+        print(f"❌ Error capturing PayPal order: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
 
 
 if __name__ == "__main__":

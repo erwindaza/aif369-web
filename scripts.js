@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ── Configuración del backend según el entorno ──
     // En producción (aif369.com) usa el backend real; en desarrollo usa uno de prueba
     const PROD_BACKEND_URL = 'https://aif369-backend-api-830685315001.us-central1.run.app';
-    const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-830685315001.us-central1.run.app';
+    const DEV_BACKEND_URL = 'https://aif369-backend-api-dev-es7l2buwdq-uc.a.run.app';
     const isProduction = window.location.hostname === 'aif369.com' || window.location.hostname === 'www.aif369.com';
     const BACKEND_URL = isProduction ? PROD_BACKEND_URL : DEV_BACKEND_URL;
 
@@ -770,7 +770,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (!paypalRendered) {
                     paypalRendered = true;
-                    renderPayPal(finalPrice);
+                    renderPayPal();
                 }
                 paymentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             })
@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 form.style.display = 'none';
                 paymentDiv.style.display = 'block';
                 setStep(2);
-                if (!paypalRendered) { paypalRendered = true; renderPayPal(finalPrice); }
+                if (!paypalRendered) { paypalRendered = true; renderPayPal(); }
                 paymentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             })
             .finally(function () {
@@ -798,33 +798,67 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        function renderPayPal(price) {
+        function renderPayPal() {
+            // Price is set SERVER-SIDE — user cannot manipulate the amount.
             loadPayPalSDK().then(function () {
                 if (typeof paypal === 'undefined' || !paypal.Buttons) return;
                 paypal.Buttons({
                     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 45 },
-                    createOrder: function (data, actions) {
-                        return actions.order.create({
-                            purchase_units: [{
-                                description: courseName + ' — AIF369',
-                                amount: { currency_code: 'USD', value: price.toFixed(2) }
-                            }]
+                    createOrder: function () {
+                        // Backend creates the order with the authoritative price
+                        return fetch(BACKEND_URL + '/api/paypal/create-order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: enrollmentData.email,
+                                course: courseName
+                            })
+                        })
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            if (!data.orderID) throw new Error(data.error || 'No orderID');
+                            // Update displayed price with server value (authoritative)
+                            if (data.price) {
+                                var label = (data.is_vip ? '$' + data.price + ' USD (precio especial)' : '$' + data.price + ' USD');
+                                wrapper.querySelectorAll('.price-display, .summary-total').forEach(function(el) {
+                                    el.textContent = label;
+                                });
+                                enrollmentData.price = data.price;
+                                finalPrice = data.price;
+                            }
+                            return data.orderID;
                         });
                     },
-                    onApprove: function (data, actions) {
-                        return actions.order.capture().then(function (details) {
+                    onApprove: function (data) {
+                        // Capture server-side — backend verifies and records the payment
+                        return fetch(BACKEND_URL + '/api/paypal/capture-order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                orderID: data.orderID,
+                                email: enrollmentData.email,
+                                course: courseName
+                            })
+                        })
+                        .then(function (r) { return r.json(); })
+                        .then(function (captureData) {
+                            if (captureData.status !== 'COMPLETED') {
+                                throw new Error('Payment not completed');
+                            }
                             enrollmentData.paypal_order_id = data.orderID;
-                            enrollmentData.payer_email = details.payer && details.payer.email_address ? details.payer.email_address : '';
+                            enrollmentData.payer_email = captureData.payer_email || '';
                             enrollmentData.payment_status = 'completed';
                             sendEnrollment(enrollmentData);
                             paymentDiv.style.display = 'none';
                             successDiv.style.display = 'block';
                             wrapper.querySelector('.enrollment-steps').style.display = 'none';
+                            var orderEl = successDiv.querySelector('.success-order-id');
+                            if (orderEl) orderEl.textContent = data.orderID;
                         });
                     },
                     onError: function (err) {
                         console.error('PayPal error:', err);
-                        alert('Hubo un error con el pago. Por favor intenta de nuevo o contáctanos por WhatsApp.');
+                        alert('Hubo un error con el pago. Por favor intenta de nuevo o escríbenos por WhatsApp: +56 9 9754 7192');
                     }
                 }).render(paypalContainer);
             });
