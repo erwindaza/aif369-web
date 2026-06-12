@@ -20,7 +20,7 @@ gcloud config set project "$PROJECT"
 # PASO 1: Deshabilitar la clave de API de Gemini comprometida
 # ------------------------------------------------------------
 echo "⚠️  PASO 1: Ve a https://aistudio.google.com/apikey"
-echo "   Elimina la clave: AIzaSyA9hdZ7oPuj2uiuTIQ9IA2FuXovoQen0AY"
+echo "   Elimina la clave anterior (esta fue expuesta, debe ser rotada)."
 echo "   Genera una nueva clave y pégala aquí abajo."
 echo ""
 read -rsp "Nueva GEMINI_API_KEY: " NEW_GEMINI_KEY
