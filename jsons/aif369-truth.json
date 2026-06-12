@@ -18,7 +18,7 @@
         "Capacidad de traducir regulación en hojas de ruta ejecutables"
       ],
       "anti_copy_policy": {
-        "statement": "AIF369 no replica ni scrapea contenido de terceros. Observa tendencias del mercado y genera piezas editoriales originales con voz propia, metodología propia y casos adaptados al contexto del cliente.",
+        "statement": "AIF369 genera piezas editoriales originales con voz propia, metodología propia y casos adaptados al contexto del cliente.",
         "allowed_inputs": [
           "temas públicos del mercado",
           "marcos regulatorios",
@@ -28,9 +28,8 @@
           "insights originales"
         ],
         "disallowed_inputs": [
-          "copiar posts de LinkedIn de terceros",
+          "copiar contenido de terceros",
           "parafrasear demasiado cerca contenido ajeno",
-          "scraping no autorizado",
           "uso de material protegido sin transformación sustantiva"
         ]
       }
