@@ -129,6 +129,9 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral:7b")
 SYSTEM_PROMPT = """Eres el asistente virtual de AIF369, una consultora chilena especializada en AI Factory, Governance, Risk y Business Value.
 Tu nombre es AIF369 Assistant. Responde en el mismo idioma que el usuario.
 
+OBJETIVO PRINCIPAL: Convertir visitantes en clientes potenciales calificados.
+ESTRATEGIA: Ser amable, profesional y redirigir a WhatsApp para conversaciones de mayor valor.
+
 IMPORTANTE — REGLAS ESTRICTAS (OBLIGATORIAS):
 1. SOLO hablas de: servicios de AIF369, Método 369, contratación, empleo y temas directamente relacionados con lo que se lista abajo.
 2. Si te preguntan algo que NO está en este prompt, responde: "No tengo esa información. Para consultas específicas, escríbenos por WhatsApp: +56 9 9754 7192"
@@ -136,6 +139,7 @@ IMPORTANTE — REGLAS ESTRICTAS (OBLIGATORIAS):
 4. Si no sabes algo con certeza, di que no lo sabes y redirige a WhatsApp.
 5. Máximo 3-4 oraciones por respuesta. Sé directo y preciso.
 6. No respondas preguntas personales, políticas, de entretenimiento ni de ningún tema ajeno a AIF369.
+7. INTENTA CALIFICAR AL CLIENTE: Identifica su rol, industria, desafío específico y urgencia.
 
 MÉTODO 369 (Metodología propietaria de AIF369):
 - 3 Capas de Dirección: (1) Estratégica — visión, priorización, roadmap; (2) Riesgo y Cumplimiento — risk register, compliance, privacidad; (3) Implementación — arquitectura, MLOps, despliegue.
@@ -143,12 +147,24 @@ MÉTODO 369 (Metodología propietaria de AIF369):
 - 9 Métricas de Control CAIO: Estrategia IA, Gobierno IA, Gestión de Riesgos IA, Privacidad y Datos, AI Factory Design, Observabilidad de Modelos, Ética y Responsible AI, Regulación y Compliance, Formación y Cultura.
 
 SERVICIOS (sin mencionar precios, redirigir a contacto para cotización):
-- CAIO Advisory as a Service — Acompañamiento ejecutivo: estrategia, gobierno, riesgos y adopción de IA.
-- AI Governance & Responsible AI — Marco de gobierno, accountability, políticas, controles y roles.
-- AI Risk, Privacy & Compliance — Evaluación de riesgos, privacidad y preparación regulatoria.
-- AI Factory Design — Diseño de capacidades internas para construir, operar y escalar IA.
-- Executive Workshops & Board Enablement — Talleres para directorio y C-level.
-- Thought Leadership & Content Advisory — Posicionamiento de marca y contenido original.
+- ✓ CAIO Advisory as a Service — Acompañamiento ejecutivo: estrategia, gobierno, riesgos y adopción de IA.
+- ✓ AI Governance & Responsible AI — Marco de gobierno, accountability, políticas, controles y roles.
+- ✓ AI Risk, Privacy & Compliance — Evaluación de riesgos, privacidad y preparación regulatoria.
+- ✓ AI Factory Design — Diseño de capacidades internas para construir, operar y escalar IA.
+- ✓ Executive Workshops & Board Enablement — Talleres para directorio y C-level.
+- ✓ Thought Leadership & Content Advisory — Posicionamiento de marca y contenido original.
+
+CUANDO ALGUIEN PREGUNTA POR SERVICIOS, RESPONDE:
+Ofrecemos consultoría integral en AI Factory, Governance y Business Value. Nuestros servicios cubre:
+✓ Estrategia IA y gobierno corporativo (CAIO Advisory)
+✓ Gestión de riesgos y cumplimiento regulatorio
+✓ Diseño e implementación de AI Factory
+✓ Talleres ejecutivos para directorios
+
+LUEGO PREGUNTA (para calificar):
+- "¿Cuál es tu rol en la empresa?" (CEO, CTO, CDO, otro)
+- "¿En qué industria operan?"
+- "¿Tienen proyectos IA activos o buscan iniciarse?"
 
 PAQUETES DE ENGAGEMENT:
 - Starter 369 (4-6 semanas) — Diagnóstico + hoja de ruta.
@@ -836,6 +852,70 @@ def save_chat_to_bigquery(message_data):
     except Exception as e:
         print(f"Error saving chat to BigQuery: {e}")
         return False
+
+def save_chat_metadata(session_id, user_role=None, industry=None, project_status=None, lead_quality=None):
+    """Guarda metadata de sesión de chat para seguimiento de leads."""
+    try:
+        metadata_table = f"{PROJECT_ID}.{DATASET_ID}.chat_session_metadata"
+        metadata = {
+            "session_id": session_id,
+            "metadata_timestamp": datetime.now(timezone.utc).isoformat(),
+            "user_role": user_role,  # CEO, CTO, CDO, Developer, Other
+            "industry": industry,     # Finanzas, Retail, Tech, Healthcare, etc.
+            "project_status": project_status,  # No tiene IA, Piloto, En producción
+            "lead_quality_score": lead_quality,  # 1-10 based on engagement
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        errors = get_bq_client().insert_rows_json(metadata_table, [metadata])
+        if errors:
+            print(f"Metadata insert errors: {errors}")
+            return False
+        print(f"Metadata saved for session {session_id}")
+        return True
+    except Exception as e:
+        print(f"Error saving metadata: {e}")
+        return False
+
+def ensure_metadata_table():
+    """Crea tabla de metadata si no existe."""
+    try:
+        client = get_bq_client()
+        table_id = f"{PROJECT_ID}.{DATASET_ID}.chat_session_metadata"
+
+        # Verificar si existe
+        try:
+            client.get_table(table_id)
+            return True
+        except Exception:
+            pass
+
+        # Crear tabla
+        from google.cloud import bigquery
+        schema = [
+            bigquery.SchemaField("session_id", "STRING", mode="REQUIRED"),
+            bigquery.SchemaField("metadata_timestamp", "TIMESTAMP", mode="REQUIRED"),
+            bigquery.SchemaField("user_role", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("industry", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("project_status", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("lead_quality_score", "INTEGER", mode="NULLABLE"),
+            bigquery.SchemaField("created_at", "TIMESTAMP", mode="REQUIRED"),
+        ]
+
+        table = bigquery.Table(table_id, schema=schema)
+        table.time_partitioning = bigquery.TimePartitioning(
+            type_=bigquery.TimePartitioningType.DAY,
+            field="created_at"
+        )
+
+        table = client.create_table(table)
+        print(f"Created metadata table {table.project}.{table.dataset_id}.{table.table_id}")
+        return True
+    except Exception as e:
+        print(f"Error ensuring metadata table: {e}")
+        return False
+
+# Crear tabla de metadata en startup
+ensure_metadata_table()
 
 @app.route("/api/scorecard", methods=["POST"])
 def submit_scorecard():
