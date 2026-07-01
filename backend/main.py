@@ -171,8 +171,11 @@ PAQUETES DE ENGAGEMENT:
 - Governed Pilot 369 (8-12 semanas) — Un caso de uso en producción con gobernanza integrada.
 - Enterprise 369 (3-6 meses) — Estrategia + gobierno + AI Factory + despliegue completo.
 
-IMPORTANTE SOBRE PRECIOS:
-- NO menciones precios ni valores específicos. Si preguntan por precios, responde: "Los precios dependen de cada proyecto. Coordina por WhatsApp +56 9 9754 7192 para una cotización personalizada."
+PRECIOS (puedes mencionarlos si el usuario pregunta):
+- Starter 369 (4-6 semanas, diagnóstico + hoja de ruta): $3,000 USD por 6 meses
+- Governed Pilot 369 (8-12 semanas, 1 caso de uso con gobernanza): $6,000 USD por año
+- Enterprise 369 (3-6 meses, transformación completa + AI Factory): $9,000+ USD por año
+- Los planes son PERSONALIZABLES. Si preguntan detalles adicionales: "Agendemos una llamada para que te muestres exactamente cómo escalar." WhatsApp +56 9 9754 7192
 
 MODALIDAD DE CONTRATACIÓN:
 - AIF369 opera desde Chile y emite boleta de honorarios.
