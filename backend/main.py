@@ -2114,6 +2114,141 @@ def capture_paypal_order():
         return jsonify({"error": "Internal server error"}), 500
 
 
+# ════════════════════════════════════════════════════════════════════════
+# ARCO RIGHTS ENDPOINT — Ley 21.719 (Protección de Datos Personales)
+# ════════════════════════════════════════════════════════════════════════
+@app.route("/api/arco-request", methods=["POST"])
+def arco_request():
+    """
+    Procesa solicitudes ARCO (Acceso, Rectificación, Cancelación, Oposición)
+    según la Ley 21.719 de Protección de Datos Personales (Chile)
+    """
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+
+        # Validar campos requeridos
+        required_fields = ["tipo_derecho", "nombre", "run", "email", "consentimiento"]
+        missing = [f for f in required_fields if not data.get(f)]
+        if missing:
+            return jsonify({"error": f"Campos faltantes: {', '.join(missing)}"}), 400
+
+        # Crear solicitud ARCO
+        arco_id = str(uuid.uuid4())
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        arco_data = {
+            "arco_id": arco_id,
+            "timestamp": timestamp,
+            "tipo_derecho": data.get("tipo_derecho"),  # acceso, rectificacion, cancelacion, oposicion
+            "nombre": data.get("nombre", "")[:500],
+            "run": data.get("run", "")[:20],
+            "email": data.get("email", "")[:200],
+            "detalle": data.get("detalle", "")[:2000],
+            "estado": "pendiente",
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+            "user_agent": request.headers.get("User-Agent", "")[:500],
+            "origin": request.headers.get("Origin", "")
+        }
+
+        # Guardar en BigQuery (tabla arco_requests)
+        try:
+            table_ref = f"{PROJECT_ID}.{DATASET_ID}.arco_requests"
+            errors = get_bq_client().insert_rows_json(table_ref, [arco_data])
+            if errors:
+                print(f"BigQuery ARCO insert errors: {errors}")
+        except Exception as e:
+            print(f"Error saving ARCO request to BigQuery: {e}")
+
+        # Enviar email de confirmación al usuario
+        try:
+            tipo_map = {
+                "acceso": "Solicitud de Acceso a Datos",
+                "rectificacion": "Solicitud de Rectificación",
+                "cancelacion": "Solicitud de Cancelación",
+                "oposicion": "Solicitud de Oposición"
+            }
+
+            subject = f"Solicitud ARCO Recibida — {tipo_map.get(data.get('tipo_derecho'), 'ARCO')}"
+            body = f"""
+            <html><body style="font-family:sans-serif;color:#333;">
+            <h2 style="color:#0088FF;">Solicitud ARCO Recibida</h2>
+            <p>Hola {data.get('nombre', 'Usuario')},</p>
+
+            <p>Hemos recibido tu solicitud de {tipo_map.get(data.get('tipo_derecho'), 'ARCO')}.</p>
+
+            <p><strong>ID de Solicitud:</strong> {arco_id}</p>
+            <p><strong>Tipo de Derecho:</strong> {tipo_map.get(data.get('tipo_derecho'), 'Desconocido')}</p>
+            <p><strong>Fecha:</strong> {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</p>
+
+            <p>Conforme a la Ley 21.719, procesaremos tu solicitud dentro de <strong>15 días hábiles</strong>.</p>
+
+            <p>Puedes hacer seguimiento contactando a: <strong>dpd@aif369.com</strong></p>
+
+            <hr style="margin:24px 0;">
+            <p style="font-size:12px;color:#999;">
+            Este es un email automático. Por favor no respondas.
+            Si tienes dudas, contáctanos por WhatsApp: +56 9 9754 7192
+            </p>
+            </body></html>
+            """
+
+            send_confirmation_email({
+                "email": data.get("email"),
+                "nombre": data.get("nombre"),
+                "subject": subject,
+                "body": body
+            })
+        except Exception as e:
+            print(f"Warning: Could not send confirmation email: {e}")
+
+        # Enviar email al DPO (Delegado de Protección de Datos)
+        try:
+            subject_dpo = f"🔒 Nueva Solicitud ARCO — {data.get('tipo_derecho').upper()}"
+            body_dpo = f"""
+            <html><body style="font-family:sans-serif;">
+            <h2>Nueva Solicitud ARCO Recibida</h2>
+            <p><strong>ID:</strong> {arco_id}</p>
+            <p><strong>Tipo:</strong> {data.get('tipo_derecho')}</p>
+            <p><strong>Nombre:</strong> {data.get('nombre')}</p>
+            <p><strong>Email:</strong> {data.get('email')}</p>
+            <p><strong>RUN:</strong> {data.get('run')}</p>
+            <p><strong>Detalle:</strong> {data.get('detalle', 'N/A')}</p>
+            <p><strong>Timestamp:</strong> {timestamp}</p>
+            <p><strong>IP:</strong> {request.headers.get('X-Forwarded-For', request.remote_addr)}</p>
+            </body></html>
+            """
+
+            msg = MIMEMultipart("alternative")
+            msg["Subject"] = subject_dpo
+            msg["From"] = f"AIF369 ARCO <{SMTP_USER}>"
+            msg["To"] = "dpd@aif369.com"
+            msg.attach(MIMEText(body_dpo, "html"))
+
+            if SMTP_PASSWORD:
+                with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as server:
+                    server.starttls()
+                    server.login(SMTP_USER, SMTP_PASSWORD)
+                    server.send_message(msg)
+        except Exception as e:
+            print(f"Warning: Could not send DPO notification: {e}")
+
+        print(f"✅ ARCO Request Received: {arco_id} | Type: {data.get('tipo_derecho')} | User: {data.get('email')}")
+
+        return jsonify({
+            "success": True,
+            "arco_id": arco_id,
+            "mensaje": "Tu solicitud ARCO ha sido recibida. Te responderemos en 15 días hábiles.",
+            "email_confirmacion": f"Confirmaremos el recibo en {data.get('email')}"
+        }), 200
+
+    except Exception as e:
+        print(f"❌ Error processing ARCO request: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False)
