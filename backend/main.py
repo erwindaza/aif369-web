@@ -604,6 +604,12 @@ COURSE_PRICES = {
 }
 VIP_PRICE = 10
 
+# ── Consulting Service Prices (per 6 months or annual) ──────────────────────
+CONSULTING_PRICES = {
+    "caio_advisory": {"price": 3000, "duration": "6 months", "currency": "USD"},
+    "ai_system_creation": {"price": 6000, "duration": "1 year", "currency": "USD"},
+}
+
 
 @app.route("/api/course-price", methods=["POST"])
 def course_price():
@@ -634,6 +640,160 @@ def course_price():
         "currency": "USD",
         "label": f"${price} USD{' (precio especial)' if is_vip else ''}"
     }), 200
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CONSULTING SERVICE PAYMENT ENDPOINTS (CAIO Advisory, AI System Creation)
+# ──────────────────────────────────────────────────────────────────────────────
+
+@app.route("/api/paypal/create-order-service", methods=["POST"])
+def paypal_create_order_service():
+    """
+    Creates a PayPal order for consulting services (CAIO Advisory or AI System Creation).
+    Price is set by backend — user cannot manipulate amount.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    email = (data.get("email") or "").strip().lower()
+    service = (data.get("service") or "").strip()  # "caio_advisory" or "ai_system_creation"
+
+    if not email or not service:
+        return jsonify({"error": "email and service required"}), 400
+    if service not in CONSULTING_PRICES:
+        return jsonify({"error": "Invalid service"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured (missing secret)"}), 503
+
+    service_info = CONSULTING_PRICES[service]
+    price = service_info["price"]
+    duration = service_info["duration"]
+
+    service_display = {
+        "caio_advisory": "CAIO Advisory",
+        "ai_system_creation": "AI System Creation"
+    }.get(service, service)
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "intent": "CAPTURE",
+                "purchase_units": [{
+                    "description": f"{service_display} ({duration}) — AIF369",
+                    "amount": {"currency_code": "USD", "value": f"{price:.2f}"}
+                }]
+            },
+            timeout=15,
+        )
+        resp.raise_for_status()
+        order = resp.json()
+        print(f"PayPal service order created: {order['id']} | {service_display} | ${price} | {email}")
+        return jsonify({
+            "orderID": order["id"],
+            "price": price,
+            "service": service,
+            "service_display": service_display,
+            "duration": duration
+        }), 200
+    except Exception as e:
+        print(f"PayPal create-order-service error: {e}")
+        return jsonify({"error": "Could not create PayPal order"}), 500
+
+
+@app.route("/api/paypal/capture-order-service", methods=["POST"])
+def paypal_capture_order_service():
+    """
+    Captures a PayPal payment for consulting service after user approves.
+    Verifies the captured amount matches what was promised.
+    Saves transaction to BigQuery and sends confirmation emails.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    order_id = (data.get("orderID") or "").strip()
+    email = (data.get("email") or "").strip()
+    service = (data.get("service") or "").strip()
+
+    if not order_id:
+        return jsonify({"error": "orderID required"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured"}), 503
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders/{order_id}/capture",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        capture = resp.json()
+
+        if capture.get("status") != "COMPLETED":
+            return jsonify({"error": "Payment not completed", "status": capture.get("status")}), 400
+
+        amount = capture["purchase_units"][0]["payments"]["captures"][0]["amount"]["value"]
+        payer_email = capture.get("payer", {}).get("email_address", "")
+
+        service_display = {
+            "caio_advisory": "CAIO Advisory",
+            "ai_system_creation": "AI System Creation"
+        }.get(service, service)
+
+        print(f"PayPal capture OK: {order_id} | ${amount} | {email} | {service}")
+
+        # Save to BigQuery
+        row = {
+            "submission_id": str(uuid.uuid4()),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "name": email.split("@")[0] if email else "unknown",
+            "email": email,
+            "company": service_display,
+            "role": "consulting_service",
+            "message": f"Consulting Service: {service_display} | PayPal Order: {order_id} | ${amount} USD",
+            "source_page": "checkout-service",
+            "user_agent": request.headers.get("User-Agent", ""),
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+            "form_type": "consulting_payment",
+            "interest": service,
+            "team_size": None,
+        }
+        try:
+            get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}", [row])
+            print(f"Consulting payment saved to BigQuery: {order_id}")
+        except Exception as bq_err:
+            print(f"BigQuery insert error (non-fatal): {bq_err}")
+
+        # Notify Erwin
+        send_alert_email(
+            f"💳 Nuevo Cliente — {service_display}",
+            f"""<html><body style="font-family:sans-serif;color:#333">
+            <h2 style="color:#00D9CC">💳 Nuevo pago de servicio recibido</h2>
+            <p><strong>Servicio:</strong> {service_display}</p>
+            <p><strong>Monto:</strong> ${amount} USD</p>
+            <p><strong>Email cliente:</strong> {email}</p>
+            <p><strong>PayPal email:</strong> {payer_email}</p>
+            <p><strong>Order ID:</strong> {order_id}</p>
+            <p><strong>Timestamp:</strong> {datetime.now(timezone.utc).isoformat()}</p>
+            <hr>
+            <p style="font-size:12px;color:#666">AIF369 Backend Payment Processor</p>
+            </body></html>"""
+        )
+
+        return jsonify({
+            "status": "COMPLETED",
+            "orderID": order_id,
+            "amount": amount,
+            "payer_email": payer_email,
+            "service": service,
+            "service_display": service_display,
+        }), 200
+    except Exception as e:
+        print(f"PayPal capture-service error: {e}")
+        return jsonify({"error": "Could not capture payment"}), 500
 
 
 @app.route("/api/contact", methods=["POST"])

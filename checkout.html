@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contratar Consultoría — AIF369</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PayPal SDK will be loaded dynamically -->
+</head>
+<body>
+<a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span></a>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="pricing.html">Precios</a>
+            <a href="checkout.html" style="color: #00D9CC;">Contratar</a>
+        </div>
+    </nav>
+</header>
+
+<main id="main-content">
+    <section class="hero container" style="padding-top:60px;padding-bottom:40px;">
+        <div class="hero-content">
+            <h1 style="font-size:2.5rem;margin-bottom:16px;">
+                Contrata Tu Consultoría
+            </h1>
+            <p style="font-size:18px;color:var(--text-secondary);max-width:700px;">
+                Elige el plan que mejor se adapta a tu necesidad. Pago seguro con PayPal.
+            </p>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div style="max-width:1000px;margin:0 auto;">
+
+            <!-- SERVICE SELECTION -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;margin-bottom:60px;">
+
+                <!-- CAIO ADVISORY -->
+                <div style="background:var(--bg-secondary);border:2px solid #0088FF;border-radius:14px;padding:32px;display:flex;flex-direction:column;text-align:center;">
+                    <h2 style="font-size:24px;color:#60A5FA;margin-bottom:8px;">
+                        CAIO Advisory
+                    </h2>
+                    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:24px;">
+                        Diagnóstico + Hoja de ruta
+                    </p>
+
+                    <div style="margin-bottom:32px;padding:24px;background:rgba(0,136,255,0.1);border-radius:8px;">
+                        <div style="font-size:42px;font-weight:700;color:#60A5FA;">$3,000</div>
+                        <div style="font-size:13px;color:var(--text-secondary);">USD por 6 meses</div>
+                    </div>
+
+                    <ul style="flex-grow:1;margin-bottom:32px;font-size:14px;line-height:1.8;text-align:left;padding-left:20px;">
+                        <li>✓ Diagnóstico de madurez IA</li>
+                        <li>✓ Hoja de ruta ejecutiva</li>
+                        <li>✓ 2 sesiones de alineación</li>
+                        <li>✓ Reporte de brechas</li>
+                        <li>✓ Acceso a plantillas</li>
+                    </ul>
+
+                    <button class="btn btn-primary" onclick="initPayPalCheckout('caio_advisory', 3000, 'CAIO Advisory')" style="width:100%;cursor:pointer;">
+                        Contratar Ahora
+                    </button>
+                </div>
+
+                <!-- AI SYSTEM CREATION -->
+                <div style="background:var(--bg-secondary);border:2px solid #A855F7;border-radius:14px;padding:32px;display:flex;flex-direction:column;text-align:center;position:relative;">
+                    <div style="position:absolute;top:-12px;right:20px;background:linear-gradient(135deg,#A855F7,#EC4899);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">POPULAR</div>
+
+                    <h2 style="font-size:24px;color:#D8B4FE;margin-bottom:8px;">
+                        AI System Creation
+                    </h2>
+                    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:24px;">
+                        Deploy con CAIO integrado
+                    </p>
+
+                    <div style="margin-bottom:32px;padding:24px;background:rgba(168,85,247,0.1);border-radius:8px;">
+                        <div style="font-size:42px;font-weight:700;color:#D8B4FE;">$6,000</div>
+                        <div style="font-size:13px;color:var(--text-secondary);">USD por año</div>
+                    </div>
+
+                    <ul style="flex-grow:1;margin-bottom:32px;font-size:14px;line-height:1.8;text-align:left;padding-left:20px;">
+                        <li>✓ Todo de CAIO Advisory</li>
+                        <li>✓ 1 caso de uso en producción</li>
+                        <li>✓ Arquitectura de datos/IA</li>
+                        <li>✓ Marco de gobernanza</li>
+                        <li>✓ 6 sesiones mensuales</li>
+                        <li>✓ Validación en producción</li>
+                    </ul>
+
+                    <button class="btn btn-primary" onclick="initPayPalCheckout('ai_system_creation', 6000, 'AI System Creation')" style="width:100%;cursor:pointer;background:#A855F7;border-color:#A855F7;">
+                        Contratar Ahora
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- CHECKOUT FORM (hidden by default, shown when user clicks button) -->
+            <div id="checkout-form" style="display:none;max-width:600px;margin:0 auto;background:var(--bg-secondary);border:1px solid var(--border);border-radius:14px;padding:40px;margin-bottom:60px;">
+                <h2 style="margin-bottom:24px;">Datos de Contacto</h2>
+
+                <form id="service-checkout-form" style="display:flex;flex-direction:column;gap:16px;">
+                    <div>
+                        <label style="display:block;margin-bottom:6px;font-weight:600;">Email *</label>
+                        <input type="email" id="checkout-email" name="email" required placeholder="tu@email.com" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-secondary);color:#fff;">
+                    </div>
+
+                    <div>
+                        <label style="display:block;margin-bottom:6px;font-weight:600;">Nombre Completo *</label>
+                        <input type="text" id="checkout-name" name="name" required placeholder="Tu nombre" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-secondary);color:#fff;">
+                    </div>
+
+                    <div>
+                        <label style="display:block;margin-bottom:6px;font-weight:600;">Empresa</label>
+                        <input type="text" id="checkout-company" name="company" placeholder="Tu empresa" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-secondary);color:#fff;">
+                    </div>
+
+                    <div style="background:rgba(0,217,204,0.1);border-left:4px solid #00D9CC;padding:16px;border-radius:8px;font-size:14px;">
+                        <p style="margin:0;">
+                            <strong id="checkout-service-display">Servicio</strong><br>
+                            <span id="checkout-price-display">$0</span>
+                        </p>
+                    </div>
+
+                    <!-- PayPal Button Container -->
+                    <div id="paypal-button-container" style="margin-top:24px;"></div>
+
+                    <button type="button" onclick="closeCheckout()" style="background:transparent;border:1px solid var(--border);padding:12px;border-radius:8px;cursor:pointer;color:#fff;">
+                        Cancelar
+                    </button>
+                </form>
+            </div>
+
+            <!-- FAQ -->
+            <div style="max-width:900px;margin:0 auto;margin-bottom:60px;">
+                <h2 style="font-size:28px;margin-bottom:32px;text-align:center;">Preguntas Frecuentes</h2>
+
+                <div style="display:grid;gap:24px;">
+                    <div style="background:var(--bg-secondary);padding:24px;border-radius:12px;border-left:4px solid #0088FF;">
+                        <h3 style="color:#60A5FA;margin-bottom:12px;">¿Qué incluye exactamente cada plan?</h3>
+                        <p>CAIO Advisory es diagnóstico + hoja de ruta (4-6 semanas). AI System Creation incluye todo eso más un caso de uso real en producción con gobernanza integrada (3-6 meses).</p>
+                    </div>
+
+                    <div style="background:var(--bg-secondary);padding:24px;border-radius:12px;border-left:4px solid #A855F7;">
+                        <h3 style="color:#D8B4FE;margin-bottom:12px;">¿Es seguro pagar con PayPal?</h3>
+                        <p>Sí. PayPal utiliza encriptación de nivel bancario y protección de comprador. Tus datos de pago nunca se comparten con nosotros.</p>
+                    </div>
+
+                    <div style="background:var(--bg-secondary);padding:24px;border-radius:12px;border-left:4px solid #22C55E;">
+                        <h3 style="color:#86EFAC;margin-bottom:12px;">¿Puedo cambiar de plan después?</h3>
+                        <p>Sí. Si comienzas con CAIO Advisory y luego quieres escalar a AI System Creation, ajustamos el valor según el tiempo transcurrido.</p>
+                    </div>
+
+                    <div style="background:var(--bg-secondary);padding:24px;border-radius:12px;border-left:4px solid #F59E0B;">
+                        <h3 style="color:#FCD34D;margin-bottom:12px;">¿Hay período de prueba?</h3>
+                        <p>Los primeros 30 días son de evaluación mutua. Si no somos los indicados para tu proyecto, devolvemos el 100% del pago.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer style="border-top:1px solid var(--border);padding:40px 20px;margin-top:60px;">
+    <div class="container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;text-align:center;font-size:13px;color:var(--text-secondary);">
+        <div><p><a href="index.html" style="color:#60A5FA;text-decoration:none;">Inicio</a></p></div>
+        <div><p><a href="pricing.html" style="color:#60A5FA;text-decoration:none;">Precios</a></p></div>
+        <div><p><a href="checkout.html" style="color:#60A5FA;text-decoration:none;">Checkout</a></p></div>
+        <div><p>© 2026 AIF369 Consultores</p></div>
+    </div>
+</footer>
+
+<script>
+// Global state for checkout
+let currentService = null;
+let currentPrice = null;
+let currentServiceDisplay = null;
+
+function initPayPalCheckout(service, price, displayName) {
+    currentService = service;
+    currentPrice = price;
+    currentServiceDisplay = displayName;
+
+    // Show checkout form
+    document.getElementById('checkout-form').style.display = 'block';
+    document.getElementById('checkout-service-display').textContent = displayName;
+    document.getElementById('checkout-price-display').textContent = `$${price.toFixed(2)} USD`;
+
+    // Scroll to form
+    document.getElementById('checkout-form').scrollIntoView({ behavior: 'smooth' });
+
+    // Render PayPal buttons
+    renderPayPalButtons();
+}
+
+function closeCheckout() {
+    document.getElementById('checkout-form').style.display = 'none';
+    document.getElementById('paypal-button-container').innerHTML = '';
+}
+
+function renderPayPalButtons() {
+    const container = document.getElementById('paypal-button-container');
+    container.innerHTML = ''; // Clear previous buttons
+
+    paypal.Buttons({
+        createOrder: async function(data, actions) {
+            const email = document.getElementById('checkout-email').value.trim();
+
+            if (!email) {
+                alert('Por favor ingresa tu email');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/paypal/create-order-service', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        service: currentService
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create order');
+                }
+
+                const orderData = await response.json();
+                return orderData.orderID;
+            } catch (error) {
+                console.error('Order creation error:', error);
+                alert('Error al crear la orden. Intenta nuevamente.');
+            }
+        },
+        onApprove: async function(data, actions) {
+            const email = document.getElementById('checkout-email').value.trim();
+
+            try {
+                const response = await fetch('/api/paypal/capture-order-service', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderID: data.orderID,
+                        email: email,
+                        service: currentService
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to capture order');
+                }
+
+                const captureData = await response.json();
+
+                // Success!
+                alert(`¡Pago recibido!\n\nGracias por contratar ${captureData.service_display}.\nNos pondremos en contacto en 24 horas.`);
+
+                // Redirect to confirmation page
+                window.location.href = '/confirmation.html?orderID=' + captureData.orderID + '&service=' + currentService;
+            } catch (error) {
+                console.error('Capture error:', error);
+                alert('Error al procesar el pago. Por favor intenta nuevamente.');
+            }
+        },
+        onError: function(err) {
+            console.error('PayPal error:', err);
+            alert('Error con PayPal. Por favor intenta nuevamente.');
+        }
+    }).render('#paypal-button-container');
+}
+
+// Load PayPal SDK dynamically
+(async function() {
+    try {
+        const response = await fetch('/api/config/paypal');
+        if (!response.ok) {
+            throw new Error('Failed to get PayPal config');
+        }
+
+        const config = await response.json();
+        if (!config.client_id) {
+            throw new Error('No client_id in config');
+        }
+
+        // Inject PayPal SDK script
+        const script = document.createElement('script');
+        script.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(config.client_id)}&currency=USD`;
+        script.async = true;
+        script.onload = function() {
+            console.log('PayPal SDK loaded successfully');
+        };
+        script.onerror = function() {
+            console.error('Failed to load PayPal SDK');
+            showPayPalError();
+        };
+        document.head.appendChild(script);
+    } catch (error) {
+        console.error('PayPal config error:', error);
+        showPayPalError();
+    }
+})();
+
+function showPayPalError() {
+    const errorMsg = document.createElement('div');
+    errorMsg.style.cssText = 'color:red;text-align:center;margin-top:20px;padding:20px;background:rgba(239,68,68,0.1);border-radius:8px;';
+    errorMsg.innerHTML = '⚠️ <strong>Sistema de pagos no disponible</strong><br>Por favor contáctanos por WhatsApp: <a href="https://wa.me/56997547192" style="color:#60A5FA;">+56 9 9754 7192</a>';
+    document.body.appendChild(errorMsg);
+}
+</script>
+</body>
+</html>

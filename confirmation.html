@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Confirmado — AIF369</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span></a>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="pricing.html">Precios</a>
+        </div>
+    </nav>
+</header>
+
+<main id="main-content">
+    <section class="section container" style="padding:120px 20px;text-align:center;min-height:60vh;">
+        <div style="max-width:600px;margin:0 auto;">
+
+            <div style="font-size:64px;margin-bottom:24px;">
+                ✅
+            </div>
+
+            <h1 style="font-size:42px;margin-bottom:16px;">
+                ¡Pago Confirmado!
+            </h1>
+
+            <p style="font-size:18px;color:var(--text-secondary);margin-bottom:32px;line-height:1.6;">
+                Tu pago ha sido procesado exitosamente. Te enviaremos un email con los detalles y próximos pasos en los siguientes minutos.
+            </p>
+
+            <div style="background:rgba(0,217,204,0.1);border-left:4px solid #00D9CC;padding:24px;border-radius:12px;margin-bottom:32px;text-align:left;">
+                <h3 style="color:#2DD4BF;margin-bottom:12px;">Qué sigue:</h3>
+                <ol style="padding-left:20px;margin:0;">
+                    <li style="margin-bottom:12px;">📧 Recibirás email de confirmación con detalles del contrato</li>
+                    <li style="margin-bottom:12px;">📅 En 24 horas te agendaremos la primera sesión</li>
+                    <li style="margin-bottom:12px;">🚀 Comenzaremos con diagnóstico e investigación</li>
+                    <li>💬 Puedes escribir a <strong>edaza@aif369.com</strong> si necesitas algo</li>
+                </ol>
+            </div>
+
+            <div style="margin-bottom:32px;padding:20px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;">
+                <p style="font-size:14px;margin-bottom:8px;color:var(--text-secondary);">
+                    <strong>Order ID:</strong>
+                </p>
+                <p id="order-id" style="font-size:12px;color:#00D9CC;font-family:monospace;word-break:break-all;margin:0;">
+                    Cargando...
+                </p>
+            </div>
+
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="index.html" class="btn btn-primary">
+                    Ir a Inicio
+                </a>
+                <a href="https://wa.me/56997547192?text=Acabo%20de%20contratar%20un%20plan%20en%20AIF369" target="_blank" rel="noopener" class="btn btn-outline">
+                    💬 Contactar por WhatsApp
+                </a>
+            </div>
+
+            <p style="margin-top:40px;font-size:13px;color:var(--text-secondary);">
+                Si no recibiste el email en 10 minutos, revisa tu carpeta de spam o contáctanos.
+            </p>
+
+        </div>
+    </section>
+
+</main>
+
+<footer style="border-top:1px solid var(--border);padding:40px 20px;">
+    <div class="container" style="text-align:center;font-size:13px;color:var(--text-secondary);">
+        <p>© 2026 AIF369 Consultores | Pago Seguro con PayPal</p>
+    </div>
+</footer>
+
+<script>
+// Get order ID from URL
+const params = new URLSearchParams(window.location.search);
+const orderId = params.get('orderID') || 'N/A';
+document.getElementById('order-id').textContent = orderId;
+
+// Optional: Log this for debugging
+console.log('Confirmation page loaded for order:', orderId);
+</script>
+</body>
+</html>
