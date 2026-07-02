@@ -19,6 +19,7 @@ from config import (
     DISCOVERY_SYSTEM,
     SCORECARD_SYSTEM,
 )
+from agents_phase2 import ArchitectureAgent, ROIAgent, ProposalGenerator
 
 client = anthropic.Anthropic()
 memory = MemorySaver()
@@ -28,6 +29,9 @@ class AgentOrchestrator:
     """Manages multi-agent flow for sales discovery"""
 
     def __init__(self):
+        self.architecture_agent = ArchitectureAgent()
+        self.roi_agent = ROIAgent()
+        self.proposal_agent = ProposalGenerator()
         self.graph = self._build_graph()
 
     def _build_graph(self):
@@ -38,6 +42,9 @@ class AgentOrchestrator:
         workflow.add_node("concierge", self._concierge_agent)
         workflow.add_node("discovery", self._discovery_agent)
         workflow.add_node("scorecard", self._scorecard_agent)
+        workflow.add_node("architecture", self._architecture_agent)
+        workflow.add_node("roi", self._roi_agent)
+        workflow.add_node("proposal", self._proposal_agent)
         workflow.add_node("summarize", self._summarize_engagement)
 
         # Add edges with routing logic
@@ -59,7 +66,10 @@ class AgentOrchestrator:
             },
         )
 
-        workflow.add_edge("scorecard", "summarize")
+        workflow.add_edge("scorecard", "architecture")
+        workflow.add_edge("architecture", "roi")
+        workflow.add_edge("roi", "proposal")
+        workflow.add_edge("proposal", "summarize")
         workflow.add_edge("summarize", END)
 
         # Set entry point
@@ -294,6 +304,128 @@ SIGUIENTE FASE:
             {"role": "system", "content": summary}
         )
         state["stage"] = "ready_for_proposal"
+
+        return state
+
+    def _architecture_agent(self, state: PlatformState) -> PlatformState:
+        """Architecture: Design infrastructure recommendation"""
+
+        import asyncio
+
+        async def run():
+            result = await self.architecture_agent.generate_architecture(state)
+            return result
+
+        try:
+            result = asyncio.run(run())
+            architecture = result.get("architecture", "")
+            state["messages"].append({
+                "role": "assistant",
+                "content": f"""✅ ARQUITECTURA RECOMENDADA
+
+{architecture}
+
+Ahora voy a calcular el impacto financiero..."""
+            })
+            state["current_agent"] = "architecture"
+            state["stage"] = "architecture"
+        except Exception as e:
+            self.log(f"Architecture error: {e}")
+            state["messages"].append({
+                "role": "assistant",
+                "content": f"Error en arquitectura: {e}"
+            })
+
+        return state
+
+    def _roi_agent(self, state: PlatformState) -> PlatformState:
+        """ROI: Calculate financial impact"""
+
+        import asyncio
+
+        async def run():
+            # Get architecture from messages
+            architecture = ""
+            for msg in reversed(state["messages"]):
+                if "ARQUITECTURA" in msg.get("content", ""):
+                    architecture = msg["content"]
+                    break
+
+            result = await self.roi_agent.calculate_roi(state, architecture)
+            return result
+
+        try:
+            result = asyncio.run(run())
+            roi = result.get("roi_analysis", "")
+            state["messages"].append({
+                "role": "assistant",
+                "content": f"""💰 ANÁLISIS FINANCIERO
+
+{roi}
+
+Generando propuesta completa..."""
+            })
+            state["current_agent"] = "roi"
+            state["stage"] = "roi"
+        except Exception as e:
+            self.log(f"ROI error: {e}")
+            state["messages"].append({
+                "role": "assistant",
+                "content": f"Error en ROI: {e}"
+            })
+
+        return state
+
+    def _proposal_agent(self, state: PlatformState) -> PlatformState:
+        """Proposal: Generate complete proposal document"""
+
+        import asyncio
+
+        async def run():
+            # Extract architecture and ROI from messages
+            architecture = ""
+            roi = ""
+            for msg in reversed(state["messages"]):
+                if "ARQUITECTURA" in msg.get("content", "") and not architecture:
+                    architecture = msg["content"]
+                elif "ANÁLISIS FINANCIERO" in msg.get("content", "") and not roi:
+                    roi = msg["content"]
+
+            result = await self.proposal_agent.generate_proposal(state, architecture, roi)
+            return result
+
+        try:
+            result = asyncio.run(run())
+            proposal = result.get("proposal", "")
+
+            # Store proposal
+            state["proposal"] = proposal
+
+            state["messages"].append({
+                "role": "assistant",
+                "content": f"""📄 PROPUESTA COMERCIAL GENERADA
+
+Tu propuesta completa está lista. Incluye:
+✅ Executive Brief
+✅ Evaluación de Madurez (Scorecard 369)
+✅ Arquitectura Recomendada
+✅ Análisis Financiero (ROI)
+✅ Plan de Implementación
+✅ Términos Comerciales
+
+La propuesta ha sido enviada a {state.get('email', 'tu email')}.
+
+¿Deseas agendar una llamada para revisar la propuesta?
+Puedes hacerlo en: https://calendly.com/edaza-aif369/30min"""
+            })
+            state["current_agent"] = "proposal"
+            state["stage"] = "proposal_generated"
+        except Exception as e:
+            self.log(f"Proposal error: {e}")
+            state["messages"].append({
+                "role": "assistant",
+                "content": f"Error generando propuesta: {e}"
+            })
 
         return state
 
