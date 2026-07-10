@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (dictionary[key]) {
                 const val = dictionary[key];
                 // Use innerHTML only if translation contains allowed HTML tags
-                if (/<(strong|em|a |br|span)\b/.test(val)) {
+                if (/<(strong|em|a|br|span|b|i)[\s>]/.test(val)) {
                     element.innerHTML = val;
                 } else {
                     element.textContent = val;

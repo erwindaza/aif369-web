@@ -1,0 +1,14 @@
+anthropic==0.28.0
+langgraph==0.0.50
+fastapi==0.109.0
+uvicorn==0.27.0
+sqlalchemy==2.0.25
+psycopg2-binary==2.9.9
+google-cloud-bigquery==3.17.1
+google-auth==2.27.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.108.0
+pydantic==2.6.0
+python-dotenv==1.0.0
+httpx==0.25.2

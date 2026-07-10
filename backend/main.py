@@ -129,6 +129,9 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral:7b")
 SYSTEM_PROMPT = """Eres el asistente virtual de AIF369, una consultora chilena especializada en AI Factory, Governance, Risk y Business Value.
 Tu nombre es AIF369 Assistant. Responde en el mismo idioma que el usuario.
 
+OBJETIVO PRINCIPAL: Convertir visitantes en clientes potenciales calificados.
+ESTRATEGIA: Ser amable, profesional y redirigir a WhatsApp para conversaciones de mayor valor.
+
 IMPORTANTE — REGLAS ESTRICTAS (OBLIGATORIAS):
 1. SOLO hablas de: servicios de AIF369, Método 369, contratación, empleo y temas directamente relacionados con lo que se lista abajo.
 2. Si te preguntan algo que NO está en este prompt, responde: "No tengo esa información. Para consultas específicas, escríbenos por WhatsApp: +56 9 9754 7192"
@@ -136,6 +139,7 @@ IMPORTANTE — REGLAS ESTRICTAS (OBLIGATORIAS):
 4. Si no sabes algo con certeza, di que no lo sabes y redirige a WhatsApp.
 5. Máximo 3-4 oraciones por respuesta. Sé directo y preciso.
 6. No respondas preguntas personales, políticas, de entretenimiento ni de ningún tema ajeno a AIF369.
+7. INTENTA CALIFICAR AL CLIENTE: Identifica su rol, industria, desafío específico y urgencia.
 
 MÉTODO 369 (Metodología propietaria de AIF369):
 - 3 Capas de Dirección: (1) Estratégica — visión, priorización, roadmap; (2) Riesgo y Cumplimiento — risk register, compliance, privacidad; (3) Implementación — arquitectura, MLOps, despliegue.
@@ -143,28 +147,44 @@ MÉTODO 369 (Metodología propietaria de AIF369):
 - 9 Métricas de Control CAIO: Estrategia IA, Gobierno IA, Gestión de Riesgos IA, Privacidad y Datos, AI Factory Design, Observabilidad de Modelos, Ética y Responsible AI, Regulación y Compliance, Formación y Cultura.
 
 SERVICIOS (sin mencionar precios, redirigir a contacto para cotización):
-- CAIO Advisory as a Service — Acompañamiento ejecutivo: estrategia, gobierno, riesgos y adopción de IA.
-- AI Governance & Responsible AI — Marco de gobierno, accountability, políticas, controles y roles.
-- AI Risk, Privacy & Compliance — Evaluación de riesgos, privacidad y preparación regulatoria.
-- AI Factory Design — Diseño de capacidades internas para construir, operar y escalar IA.
-- Executive Workshops & Board Enablement — Talleres para directorio y C-level.
-- Thought Leadership & Content Advisory — Posicionamiento de marca y contenido original.
+- ✓ CAIO Advisory as a Service — Acompañamiento ejecutivo: estrategia, gobierno, riesgos y adopción de IA.
+- ✓ AI Governance & Responsible AI — Marco de gobierno, accountability, políticas, controles y roles.
+- ✓ AI Risk, Privacy & Compliance — Evaluación de riesgos, privacidad y preparación regulatoria.
+- ✓ AI Factory Design — Diseño de capacidades internas para construir, operar y escalar IA.
+- ✓ Executive Workshops & Board Enablement — Talleres para directorio y C-level.
+- ✓ Thought Leadership & Content Advisory — Posicionamiento de marca y contenido original.
+
+CUANDO ALGUIEN PREGUNTA POR SERVICIOS, RESPONDE:
+Ofrecemos consultoría integral en AI Factory, Governance y Business Value. Nuestros servicios cubre:
+✓ Estrategia IA y gobierno corporativo (CAIO Advisory)
+✓ Gestión de riesgos y cumplimiento regulatorio
+✓ Diseño e implementación de AI Factory
+✓ Talleres ejecutivos para directorios
+
+LUEGO PREGUNTA (para calificar):
+- "¿Cuál es tu rol en la empresa?" (CEO, CTO, CDO, otro)
+- "¿En qué industria operan?"
+- "¿Tienen proyectos IA activos o buscan iniciarse?"
 
 PAQUETES DE ENGAGEMENT:
 - Starter 369 (4-6 semanas) — Diagnóstico + hoja de ruta.
 - Governed Pilot 369 (8-12 semanas) — Un caso de uso en producción con gobernanza integrada.
 - Enterprise 369 (3-6 meses) — Estrategia + gobierno + AI Factory + despliegue completo.
 
-IMPORTANTE SOBRE PRECIOS:
-- NO menciones precios ni valores específicos. Si preguntan por precios, responde: "Los precios dependen de cada proyecto. Coordina por WhatsApp +56 9 9754 7192 para una cotización personalizada."
+PRECIOS (puedes mencionarlos si el usuario pregunta):
+- Starter 369 (4-6 semanas, diagnóstico + hoja de ruta): $3,000 USD por 6 meses
+- Governed Pilot 369 (8-12 semanas, 1 caso de uso con gobernanza): $6,000 USD por año
+- Enterprise 369 (3-6 meses, transformación completa + AI Factory): $9,000+ USD por año
+- Los planes son PERSONALIZABLES. Si preguntan detalles adicionales: "Agendemos una llamada para que te muestres exactamente cómo escalar." WhatsApp +56 9 9754 7192
 
 MODALIDAD DE CONTRATACIÓN:
 - AIF369 opera desde Chile y emite boleta de honorarios.
 - Los servicios se contratan directamente con AIF369.
 - Para coordinar contratación, forma de pago o facturación: WhatsApp +56 9 9754 7192
 
-HERRAMIENTA GRATUITA:
+HERRAMIENTAS GRATUITAS:
 - AI Readiness Scorecard: Evaluación gratuita de madurez en IA en 5 minutos. Disponible en aif369.com/scorecard.html
+- Compliance-CL: Generador automático de documentos para cumplimiento Ley 21.719 (Protección de Datos). Genera RAT, Política de Privacidad, DPA, Plan de Brechas, Código de Ética, Matriz de Riesgos. Disponible en aif369.com/compliance-tool.html
 
 SOBRE AIF369:
 - Fundada por Erwin Daza Castillo — CAIO Advisor, Data & AI Architect, AI Governance Strategist.
@@ -174,8 +194,15 @@ SOBRE AIF369:
 
 CONTEXTO REGULATORIO:
 - EU AI Act: marco de referencia para clasificación de riesgo de sistemas IA.
-- Chile Ley 21.719: Protección de datos personales, vigencia 1 dic 2026.
+- Chile Ley 21.719: Protección de datos personales, vigencia 1 dic 2026. IMPORTANTE: Si el cliente pregunta sobre datos personales, privacidad, o cumplimiento ARCO, SIEMPRE menciona que tienen disponible Compliance-CL para generar automáticamente los documentos requeridos.
 - Boletín 16821-19: Proyecto de ley de IA en Chile, actualmente en tramitación.
+
+COMPLIANCE-CL (Herramienta de Cumplimiento Automático):
+- ¿QUÉ ES?: Skill de Claude Code que analiza tu código y genera automáticamente documentos de cumplimiento para Ley 21.719 (Protección de Datos) y Ley 21.595 (Delitos Económicos).
+- ¿QUÉ GENERA?: RAT (Registro de Actividades de Tratamiento), Política de Privacidad personalizada, DPA (Data Processing Agreements) para proveedores, Plan de Brechas de datos, Código de Ética, Matriz de Riesgos.
+- ¿CUÁNDO MENCIONARLO?: Cuando el cliente pregunta sobre privacidad, datos personales, ARCO, regulación, compliance, derechos de usuarios, o cualquier tema de protección de datos.
+- ¿CÓMO MENCIONARLO?: "Tenemos una herramienta automatizada llamada Compliance-CL que puede generar todos los documentos de cumplimiento (RAT, DPA, Política, etc.) en una sola corrida. Te ahorra meses de trabajo legal. Más info en aif369.com/compliance-tool.html o escribemos por WhatsApp."
+- NO ES UN SERVICIO DE PAGO: Compliance-CL es una herramienta automatizada y gratuita. Para implementación completa con auditoría y training, ofrecemos planes de consultoría (Starter $3k/6m, Governed $6k/año, Enterprise $9k+/año).
 
 AGENDAR ASESORÍA:
 - Los usuarios pueden agendar una asesoría gratuita de 30 minutos directamente en: https://calendly.com/edaza-aif369/30min
@@ -577,6 +604,12 @@ COURSE_PRICES = {
 }
 VIP_PRICE = 10
 
+# ── Consulting Service Prices (per 6 months or annual) ──────────────────────
+CONSULTING_PRICES = {
+    "caio_advisory": {"price": 3000, "duration": "6 months", "currency": "USD"},
+    "ai_system_creation": {"price": 6000, "duration": "1 year", "currency": "USD"},
+}
+
 
 @app.route("/api/course-price", methods=["POST"])
 def course_price():
@@ -607,6 +640,160 @@ def course_price():
         "currency": "USD",
         "label": f"${price} USD{' (precio especial)' if is_vip else ''}"
     }), 200
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CONSULTING SERVICE PAYMENT ENDPOINTS (CAIO Advisory, AI System Creation)
+# ──────────────────────────────────────────────────────────────────────────────
+
+@app.route("/api/paypal/create-order-service", methods=["POST"])
+def paypal_create_order_service():
+    """
+    Creates a PayPal order for consulting services (CAIO Advisory or AI System Creation).
+    Price is set by backend — user cannot manipulate amount.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    email = (data.get("email") or "").strip().lower()
+    service = (data.get("service") or "").strip()  # "caio_advisory" or "ai_system_creation"
+
+    if not email or not service:
+        return jsonify({"error": "email and service required"}), 400
+    if service not in CONSULTING_PRICES:
+        return jsonify({"error": "Invalid service"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured (missing secret)"}), 503
+
+    service_info = CONSULTING_PRICES[service]
+    price = service_info["price"]
+    duration = service_info["duration"]
+
+    service_display = {
+        "caio_advisory": "CAIO Advisory",
+        "ai_system_creation": "AI System Creation"
+    }.get(service, service)
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "intent": "CAPTURE",
+                "purchase_units": [{
+                    "description": f"{service_display} ({duration}) — AIF369",
+                    "amount": {"currency_code": "USD", "value": f"{price:.2f}"}
+                }]
+            },
+            timeout=15,
+        )
+        resp.raise_for_status()
+        order = resp.json()
+        print(f"PayPal service order created: {order['id']} | {service_display} | ${price} | {email}")
+        return jsonify({
+            "orderID": order["id"],
+            "price": price,
+            "service": service,
+            "service_display": service_display,
+            "duration": duration
+        }), 200
+    except Exception as e:
+        print(f"PayPal create-order-service error: {e}")
+        return jsonify({"error": "Could not create PayPal order"}), 500
+
+
+@app.route("/api/paypal/capture-order-service", methods=["POST"])
+def paypal_capture_order_service():
+    """
+    Captures a PayPal payment for consulting service after user approves.
+    Verifies the captured amount matches what was promised.
+    Saves transaction to BigQuery and sends confirmation emails.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    order_id = (data.get("orderID") or "").strip()
+    email = (data.get("email") or "").strip()
+    service = (data.get("service") or "").strip()
+
+    if not order_id:
+        return jsonify({"error": "orderID required"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured"}), 503
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders/{order_id}/capture",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        capture = resp.json()
+
+        if capture.get("status") != "COMPLETED":
+            return jsonify({"error": "Payment not completed", "status": capture.get("status")}), 400
+
+        amount = capture["purchase_units"][0]["payments"]["captures"][0]["amount"]["value"]
+        payer_email = capture.get("payer", {}).get("email_address", "")
+
+        service_display = {
+            "caio_advisory": "CAIO Advisory",
+            "ai_system_creation": "AI System Creation"
+        }.get(service, service)
+
+        print(f"PayPal capture OK: {order_id} | ${amount} | {email} | {service}")
+
+        # Save to BigQuery
+        row = {
+            "submission_id": str(uuid.uuid4()),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "name": email.split("@")[0] if email else "unknown",
+            "email": email,
+            "company": service_display,
+            "role": "consulting_service",
+            "message": f"Consulting Service: {service_display} | PayPal Order: {order_id} | ${amount} USD",
+            "source_page": "checkout-service",
+            "user_agent": request.headers.get("User-Agent", ""),
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+            "form_type": "consulting_payment",
+            "interest": service,
+            "team_size": None,
+        }
+        try:
+            get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}", [row])
+            print(f"Consulting payment saved to BigQuery: {order_id}")
+        except Exception as bq_err:
+            print(f"BigQuery insert error (non-fatal): {bq_err}")
+
+        # Notify Erwin
+        send_alert_email(
+            f"💳 Nuevo Cliente — {service_display}",
+            f"""<html><body style="font-family:sans-serif;color:#333">
+            <h2 style="color:#00D9CC">💳 Nuevo pago de servicio recibido</h2>
+            <p><strong>Servicio:</strong> {service_display}</p>
+            <p><strong>Monto:</strong> ${amount} USD</p>
+            <p><strong>Email cliente:</strong> {email}</p>
+            <p><strong>PayPal email:</strong> {payer_email}</p>
+            <p><strong>Order ID:</strong> {order_id}</p>
+            <p><strong>Timestamp:</strong> {datetime.now(timezone.utc).isoformat()}</p>
+            <hr>
+            <p style="font-size:12px;color:#666">AIF369 Backend Payment Processor</p>
+            </body></html>"""
+        )
+
+        return jsonify({
+            "status": "COMPLETED",
+            "orderID": order_id,
+            "amount": amount,
+            "payer_email": payer_email,
+            "service": service,
+            "service_display": service_display,
+        }), 200
+    except Exception as e:
+        print(f"PayPal capture-service error: {e}")
+        return jsonify({"error": "Could not capture payment"}), 500
 
 
 @app.route("/api/contact", methods=["POST"])
@@ -836,6 +1023,70 @@ def save_chat_to_bigquery(message_data):
     except Exception as e:
         print(f"Error saving chat to BigQuery: {e}")
         return False
+
+def save_chat_metadata(session_id, user_role=None, industry=None, project_status=None, lead_quality=None):
+    """Guarda metadata de sesión de chat para seguimiento de leads."""
+    try:
+        metadata_table = f"{PROJECT_ID}.{DATASET_ID}.chat_session_metadata"
+        metadata = {
+            "session_id": session_id,
+            "metadata_timestamp": datetime.now(timezone.utc).isoformat(),
+            "user_role": user_role,  # CEO, CTO, CDO, Developer, Other
+            "industry": industry,     # Finanzas, Retail, Tech, Healthcare, etc.
+            "project_status": project_status,  # No tiene IA, Piloto, En producción
+            "lead_quality_score": lead_quality,  # 1-10 based on engagement
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        errors = get_bq_client().insert_rows_json(metadata_table, [metadata])
+        if errors:
+            print(f"Metadata insert errors: {errors}")
+            return False
+        print(f"Metadata saved for session {session_id}")
+        return True
+    except Exception as e:
+        print(f"Error saving metadata: {e}")
+        return False
+
+def ensure_metadata_table():
+    """Crea tabla de metadata si no existe."""
+    try:
+        client = get_bq_client()
+        table_id = f"{PROJECT_ID}.{DATASET_ID}.chat_session_metadata"
+
+        # Verificar si existe
+        try:
+            client.get_table(table_id)
+            return True
+        except Exception:
+            pass
+
+        # Crear tabla
+        from google.cloud import bigquery
+        schema = [
+            bigquery.SchemaField("session_id", "STRING", mode="REQUIRED"),
+            bigquery.SchemaField("metadata_timestamp", "TIMESTAMP", mode="REQUIRED"),
+            bigquery.SchemaField("user_role", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("industry", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("project_status", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("lead_quality_score", "INTEGER", mode="NULLABLE"),
+            bigquery.SchemaField("created_at", "TIMESTAMP", mode="REQUIRED"),
+        ]
+
+        table = bigquery.Table(table_id, schema=schema)
+        table.time_partitioning = bigquery.TimePartitioning(
+            type_=bigquery.TimePartitioningType.DAY,
+            field="created_at"
+        )
+
+        table = client.create_table(table)
+        print(f"Created metadata table {table.project}.{table.dataset_id}.{table.table_id}")
+        return True
+    except Exception as e:
+        print(f"Error ensuring metadata table: {e}")
+        return False
+
+# Crear tabla de metadata en startup
+ensure_metadata_table()
 
 @app.route("/api/scorecard", methods=["POST"])
 def submit_scorecard():
@@ -2031,6 +2282,141 @@ def capture_paypal_order():
 
     except Exception as e:
         print(f"❌ Error capturing PayPal order: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
+# ════════════════════════════════════════════════════════════════════════
+# ARCO RIGHTS ENDPOINT — Ley 21.719 (Protección de Datos Personales)
+# ════════════════════════════════════════════════════════════════════════
+@app.route("/api/arco-request", methods=["POST"])
+def arco_request():
+    """
+    Procesa solicitudes ARCO (Acceso, Rectificación, Cancelación, Oposición)
+    según la Ley 21.719 de Protección de Datos Personales (Chile)
+    """
+    try:
+        if not request.is_json:
+            return jsonify({"error": "Content-Type must be application/json"}), 400
+
+        data = request.get_json()
+
+        # Validar campos requeridos
+        required_fields = ["tipo_derecho", "nombre", "run", "email", "consentimiento"]
+        missing = [f for f in required_fields if not data.get(f)]
+        if missing:
+            return jsonify({"error": f"Campos faltantes: {', '.join(missing)}"}), 400
+
+        # Crear solicitud ARCO
+        arco_id = str(uuid.uuid4())
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        arco_data = {
+            "arco_id": arco_id,
+            "timestamp": timestamp,
+            "tipo_derecho": data.get("tipo_derecho"),  # acceso, rectificacion, cancelacion, oposicion
+            "nombre": data.get("nombre", "")[:500],
+            "run": data.get("run", "")[:20],
+            "email": data.get("email", "")[:200],
+            "detalle": data.get("detalle", "")[:2000],
+            "estado": "pendiente",
+            "ip_address": request.headers.get("X-Forwarded-For", request.remote_addr),
+            "user_agent": request.headers.get("User-Agent", "")[:500],
+            "origin": request.headers.get("Origin", "")
+        }
+
+        # Guardar en BigQuery (tabla arco_requests)
+        try:
+            table_ref = f"{PROJECT_ID}.{DATASET_ID}.arco_requests"
+            errors = get_bq_client().insert_rows_json(table_ref, [arco_data])
+            if errors:
+                print(f"BigQuery ARCO insert errors: {errors}")
+        except Exception as e:
+            print(f"Error saving ARCO request to BigQuery: {e}")
+
+        # Enviar email de confirmación al usuario
+        try:
+            tipo_map = {
+                "acceso": "Solicitud de Acceso a Datos",
+                "rectificacion": "Solicitud de Rectificación",
+                "cancelacion": "Solicitud de Cancelación",
+                "oposicion": "Solicitud de Oposición"
+            }
+
+            subject = f"Solicitud ARCO Recibida — {tipo_map.get(data.get('tipo_derecho'), 'ARCO')}"
+            body = f"""
+            <html><body style="font-family:sans-serif;color:#333;">
+            <h2 style="color:#0088FF;">Solicitud ARCO Recibida</h2>
+            <p>Hola {data.get('nombre', 'Usuario')},</p>
+
+            <p>Hemos recibido tu solicitud de {tipo_map.get(data.get('tipo_derecho'), 'ARCO')}.</p>
+
+            <p><strong>ID de Solicitud:</strong> {arco_id}</p>
+            <p><strong>Tipo de Derecho:</strong> {tipo_map.get(data.get('tipo_derecho'), 'Desconocido')}</p>
+            <p><strong>Fecha:</strong> {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</p>
+
+            <p>Conforme a la Ley 21.719, procesaremos tu solicitud dentro de <strong>15 días hábiles</strong>.</p>
+
+            <p>Puedes hacer seguimiento contactando a: <strong>dpd@aif369.com</strong></p>
+
+            <hr style="margin:24px 0;">
+            <p style="font-size:12px;color:#999;">
+            Este es un email automático. Por favor no respondas.
+            Si tienes dudas, contáctanos por WhatsApp: +56 9 9754 7192
+            </p>
+            </body></html>
+            """
+
+            send_confirmation_email({
+                "email": data.get("email"),
+                "nombre": data.get("nombre"),
+                "subject": subject,
+                "body": body
+            })
+        except Exception as e:
+            print(f"Warning: Could not send confirmation email: {e}")
+
+        # Enviar email al DPO (Delegado de Protección de Datos)
+        try:
+            subject_dpo = f"🔒 Nueva Solicitud ARCO — {data.get('tipo_derecho').upper()}"
+            body_dpo = f"""
+            <html><body style="font-family:sans-serif;">
+            <h2>Nueva Solicitud ARCO Recibida</h2>
+            <p><strong>ID:</strong> {arco_id}</p>
+            <p><strong>Tipo:</strong> {data.get('tipo_derecho')}</p>
+            <p><strong>Nombre:</strong> {data.get('nombre')}</p>
+            <p><strong>Email:</strong> {data.get('email')}</p>
+            <p><strong>RUN:</strong> {data.get('run')}</p>
+            <p><strong>Detalle:</strong> {data.get('detalle', 'N/A')}</p>
+            <p><strong>Timestamp:</strong> {timestamp}</p>
+            <p><strong>IP:</strong> {request.headers.get('X-Forwarded-For', request.remote_addr)}</p>
+            </body></html>
+            """
+
+            msg = MIMEMultipart("alternative")
+            msg["Subject"] = subject_dpo
+            msg["From"] = f"AIF369 ARCO <{SMTP_USER}>"
+            msg["To"] = "dpd@aif369.com"
+            msg.attach(MIMEText(body_dpo, "html"))
+
+            if SMTP_PASSWORD:
+                with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as server:
+                    server.starttls()
+                    server.login(SMTP_USER, SMTP_PASSWORD)
+                    server.send_message(msg)
+        except Exception as e:
+            print(f"Warning: Could not send DPO notification: {e}")
+
+        print(f"✅ ARCO Request Received: {arco_id} | Type: {data.get('tipo_derecho')} | User: {data.get('email')}")
+
+        return jsonify({
+            "success": True,
+            "arco_id": arco_id,
+            "mensaje": "Tu solicitud ARCO ha sido recibida. Te responderemos en 15 días hábiles.",
+            "email_confirmacion": f"Confirmaremos el recibo en {data.get('email')}"
+        }), 200
+
+    except Exception as e:
+        print(f"❌ Error processing ARCO request: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
 
 
