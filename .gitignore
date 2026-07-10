@@ -77,3 +77,13 @@ secrets.yaml
 secrets.yml
 gcloud-key.json
 keyfile.json
+
+# Planning & Design Documents (local drafts, not for version control)
+ARCHITECTURE_DECISION.md
+COST_OPTIMIZED_STACK.md
+AGENTIC_DATA_PLATFORM_PLAN.md
+BEJOBY_COMPLIANCE_MODULE.md
+*.md
+!README.md
+!docs/README.md
+!CHANGELOG.md
