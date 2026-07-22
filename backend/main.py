@@ -16,6 +16,9 @@ import google.generativeai as genai
 # Cost Monitor module
 import cost_monitor
 
+# Udemy API client
+from udemy_client import get_udemy_client
+
 # Load .env file for local development (ignored in production)
 try:
     from dotenv import load_dotenv
@@ -2418,6 +2421,93 @@ def arco_request():
     except Exception as e:
         print(f"❌ Error processing ARCO request: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
+
+
+@app.route("/api/udemy/courses", methods=["GET"])
+def get_udemy_courses():
+    """
+    GET /api/udemy/courses
+
+    Returns list of courses with Udemy metadata (price, students, rating, etc).
+
+    This endpoint reads from:
+    1. udemy_courses_registry.json — local mapping of courses to Udemy IDs
+    2. Udemy API (if credentials available) — fetches live price, rating, student count
+
+    If Udemy API is not configured, returns courses with status "not_configured".
+
+    Response:
+    {
+        "courses": [
+            {
+                "slug": "curso-entorno-desarrollo",
+                "title": "Professional Development Environment...",
+                "aif369_price_usd": 12.99,
+                "udemy_course_id": 5123456,  // null if not yet published
+                "status": "published",  // or "content_ready", "not_configured", etc
+                "udemy_data": {
+                    "price": 12.99,
+                    "currency": "USD",
+                    "num_subscribers": 42,
+                    "rating": 4.8,
+                    "url": "https://www.udemy.com/course/...",
+                    "fetched_at": "2026-07-22T..."
+                }
+            },
+            ...
+        ],
+        "status": "ok"
+    }
+    """
+    try:
+        # Load registry from file
+        registry_path = os.path.join(os.path.dirname(__file__), "udemy_courses_registry.json")
+        with open(registry_path, "r") as f:
+            registry = json.load(f)
+
+        udemy_client = get_udemy_client()
+        courses = []
+
+        for course in registry.get("courses", []):
+            course_info = {
+                "slug": course.get("slug"),
+                "title": course.get("title"),
+                "aif369_price_usd": course.get("aif369_price_usd"),
+                "udemy_course_id": course.get("udemy_course_id"),
+                "status": course.get("status"),
+                "description": course.get("description"),
+                "udemy_data": None
+            }
+
+            # If course is published on Udemy and credentials are available, fetch live data
+            if course.get("udemy_course_id") and udemy_client.is_configured():
+                udemy_data = udemy_client.get_course(course.get("udemy_course_id"))
+                if udemy_data:
+                    course_info["udemy_data"] = udemy_data
+                    course_info["status"] = "published"  # Override status if live on Udemy
+            elif course.get("udemy_course_id") and not udemy_client.is_configured():
+                course_info["status"] = "published_no_api"
+
+            courses.append(course_info)
+
+        return jsonify({
+            "courses": courses,
+            "status": "ok",
+            "udemy_api_configured": udemy_client.is_configured()
+        }), 200
+
+    except FileNotFoundError:
+        return jsonify({
+            "error": "udemy_courses_registry.json not found",
+            "courses": []
+        }), 500
+
+    except Exception as e:
+        print(f"❌ Error fetching Udemy courses: {str(e)}")
+        return jsonify({
+            "error": "Internal server error",
+            "courses": []
+        }), 500
 
 
 if __name__ == "__main__":

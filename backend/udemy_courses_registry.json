@@ -1,0 +1,41 @@
+{
+  "courses": [
+    {
+      "slug": "curso-entorno-desarrollo",
+      "title": "Professional Development Environment for AI Engineering",
+      "aif369_price_usd": 12.99,
+      "udemy_course_id": null,
+      "udemy_target_price_usd": 12.99,
+      "status": "content_ready",
+      "description": "Master Git, Python, Docker, and APIs. Build your first AI agent in 2 hours.",
+      "notes": "Course content completed, ready for recording and publishing to Udemy"
+    },
+    {
+      "slug": "curso-agentes",
+      "title": "Agents: Discovery, Design & Evaluation",
+      "aif369_price_usd": 14.99,
+      "udemy_course_id": null,
+      "udemy_target_price_usd": 14.99,
+      "status": "planned",
+      "description": "Build multi-tool agents with LangChain, learn evaluation frameworks, production deployment",
+      "notes": "Planned for Phase 2 course development"
+    },
+    {
+      "slug": "curso-rag",
+      "title": "RAG: Retrieval-Augmented Generation",
+      "aif369_price_usd": 14.99,
+      "udemy_course_id": null,
+      "udemy_target_price_usd": 14.99,
+      "status": "planned",
+      "description": "Build production RAG systems with vector databases, semantic search, evaluation",
+      "notes": "Planned for Phase 3"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-07-22",
+    "notes": "Update `udemy_course_id` when course is published to Udemy. Set `status` to 'published' when live.",
+    "pricing_strategy": "Udemy courses priced at $10-15 USD as acquisition/funnel channel. NOT a replacement for direct AIF369 sales.",
+    "sync_frequency": "15-minute cache on /api/udemy/courses endpoint"
+  }
+}
