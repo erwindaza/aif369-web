@@ -1,0 +1,245 @@
+{
+  "quizzes": [
+    {
+      "section": 2,
+      "title": "Python & Terminal Basics Quiz",
+      "questions": [
+        {
+          "id": "q2.1",
+          "type": "multiple_choice",
+          "question": "What command lists all files in the current directory?",
+          "options": [
+            "cd",
+            "ls (Mac/Linux) or dir (Windows)",
+            "mkdir",
+            "pwd"
+          ],
+          "correct": 1,
+          "explanation": "ls (Mac/Linux) and dir (Windows) list directory contents. cd changes directories, mkdir creates folders, pwd shows current path."
+        },
+        {
+          "id": "q2.2",
+          "type": "multiple_choice",
+          "question": "How do you check if Python is installed?",
+          "options": [
+            "python -v",
+            "python --version",
+            "pip --version",
+            "Both A and B"
+          ],
+          "correct": 1,
+          "explanation": "python --version (or python -V) shows the installed Python version. pip --version shows pip's version, not Python's."
+        },
+        {
+          "id": "q2.3",
+          "type": "true_false",
+          "question": "The absolute path '/home/user/projects/my-project' is different from relative path './my-project' depending on where you are in the file system.",
+          "correct": true,
+          "explanation": "Absolute paths (starting with /) always refer to the same location. Relative paths (like .) depend on your current directory."
+        }
+      ]
+    },
+    {
+      "section": 4,
+      "title": "Git & GitHub Basics Quiz",
+      "questions": [
+        {
+          "id": "q4.1",
+          "type": "multiple_choice",
+          "question": "What does 'git commit' do?",
+          "options": [
+            "Uploads code to GitHub",
+            "Saves a snapshot of changes in your local repository",
+            "Creates a new branch",
+            "Deletes a file"
+          ],
+          "correct": 1,
+          "explanation": "git commit saves changes to your local repo with a message. git push uploads to GitHub. Commit = local save point."
+        },
+        {
+          "id": "q4.2",
+          "type": "multiple_choice",
+          "question": "Why is SSH better than HTTPS for GitHub authentication?",
+          "options": [
+            "SSH is slower but safer",
+            "SSH uses keys instead of passwords; no need to enter credentials each time",
+            "SSH works on Windows but HTTPS doesn't",
+            "There's no difference"
+          ],
+          "correct": 1,
+          "explanation": "SSH uses public/private key pairs. HTTPS requires username/password each time. SSH is more convenient and just as secure."
+        },
+        {
+          "id": "q4.3",
+          "type": "true_false",
+          "question": "You should commit your private SSH key to GitHub for backup.",
+          "correct": false,
+          "explanation": "NEVER commit private keys anywhere. Keep them local, protected. Only public keys go into GitHub settings."
+        }
+      ]
+    },
+    {
+      "section": 6,
+      "title": "Secrets & Security Quiz",
+      "questions": [
+        {
+          "id": "q6.1",
+          "type": "multiple_choice",
+          "question": "What's the danger of hardcoding an API key in your Python file?",
+          "options": [
+            "It makes the code slower",
+            "It exposes the key if the file is committed to GitHub; bots scan and exploit it within minutes",
+            "It only works on your machine",
+            "No danger; APIs are public anyway"
+          ],
+          "correct": 1,
+          "explanation": "Public GitHub repos are scanned constantly. Exposed API keys = credit card being used, compute resources stolen, data breach. Always use .env"
+        },
+        {
+          "id": "q6.2",
+          "type": "true_false",
+          "question": ".env files should be committed to GitHub so everyone has the same configuration.",
+          "correct": false,
+          "explanation": ".env should NEVER be committed. It contains secrets. Use .gitignore to prevent accidental commits. Share .env.example instead."
+        },
+        {
+          "id": "q6.3",
+          "type": "multiple_choice",
+          "question": "What should you put in .env.example?",
+          "options": [
+            "Your actual API keys and passwords",
+            "A template showing what variables are needed, without real values",
+            "Nothing; it's not used",
+            "A copy of .env encrypted"
+          ],
+          "correct": 1,
+          "explanation": ".env.example documents which secrets the project needs. Commit this. So others know what to configure, but have no secrets exposed."
+        }
+      ]
+    },
+    {
+      "section": 7,
+      "title": "Docker Basics Quiz",
+      "questions": [
+        {
+          "id": "q7.1",
+          "type": "multiple_choice",
+          "question": "What is a Docker container?",
+          "options": [
+            "A lightweight virtual machine with your app, OS, and dependencies packaged together",
+            "A GitHub repository for Docker files",
+            "A way to encrypt your code",
+            "A cloud service like AWS"
+          ],
+          "correct": 0,
+          "explanation": "A container bundles everything needed: OS (lightweight), Python, libraries, code. Makes deployments consistent across machines."
+        },
+        {
+          "id": "q7.2",
+          "type": "true_false",
+          "question": "You should commit the 'venv' folder (virtual environment) to GitHub.",
+          "correct": false,
+          "explanation": "Never commit venv, .venv, or Docker images. They're huge and platform-specific. Commit pyproject.toml and Dockerfile instead."
+        },
+        {
+          "id": "q7.3",
+          "type": "multiple_choice",
+          "question": "What does 'docker build -t my-app:v1 .' do?",
+          "options": [
+            "Runs your app in a container",
+            "Uploads your app to Docker Hub",
+            "Creates an image (blueprint) named 'my-app' with tag 'v1' from the Dockerfile in the current directory",
+            "Downloads an app from Docker Hub"
+          ],
+          "correct": 2,
+          "explanation": "docker build creates an image (blueprint). docker run executes it. -t names it. . means 'use Dockerfile in current folder.'"
+        }
+      ]
+    },
+    {
+      "section": 8,
+      "title": "AI APIs Quiz",
+      "questions": [
+        {
+          "id": "q8.1",
+          "type": "multiple_choice",
+          "question": "Which of these is NOT a good reason to use environment variables for API keys?",
+          "options": [
+            "Secrets aren't exposed in code or logs",
+            "You can use different keys in dev vs production without code changes",
+            "Environment variables are cheaper than APIs",
+            "Sharing code is safer because secrets aren't in the repository"
+          ],
+          "correct": 2,
+          "explanation": "Environment variables improve security and configuration, not cost. Never commit to repo without protecting secrets first."
+        },
+        {
+          "id": "q8.2",
+          "type": "true_false",
+          "question": "OpenAI, Google Gemini, and Anthropic Claude have identical API interfaces.",
+          "correct": false,
+          "explanation": "Different providers have different APIs (different endpoints, parameters, response formats). But high-level patterns are similar."
+        },
+        {
+          "id": "q8.3",
+          "type": "multiple_choice",
+          "question": "What's the first thing you should do before making API calls in production?",
+          "options": [
+            "Call the API as many times as possible to test",
+            "Set usage limits and billing alerts to avoid unexpected charges",
+            "Publish your code to GitHub immediately",
+            "Nothing; just go ahead"
+          ],
+          "correct": 1,
+          "explanation": "APIs can be expensive. Always set limits and alerts FIRST, then test carefully. Unexpected bills are no fun."
+        }
+      ]
+    },
+    {
+      "section": 10,
+      "title": "AI Agents Quiz",
+      "questions": [
+        {
+          "id": "q10.1",
+          "type": "multiple_choice",
+          "question": "What's the main difference between a script and an agent?",
+          "options": [
+            "Scripts are longer",
+            "Agents can decide what to do next based on the situation; scripts follow a fixed sequence",
+            "Agents are faster",
+            "No difference; they're the same"
+          ],
+          "correct": 1,
+          "explanation": "Script: 'Do X, then Y, then Z.' Agent: 'Do the task. I'll figure out which tools to use and in what order.'"
+        },
+        {
+          "id": "q10.2",
+          "type": "true_false",
+          "question": "A 'tool' in LangChain is just a Python function that the agent can call.",
+          "correct": true,
+          "explanation": "Exactly. A tool wraps a function so the agent knows: name, description, what it does. Then the agent decides if/when to use it."
+        },
+        {
+          "id": "q10.3",
+          "type": "multiple_choice",
+          "question": "When you run an agent with verbose=True, what do you see?",
+          "options": [
+            "More error messages",
+            "The thinking process: how the agent decides which tools to use and what it learns",
+            "Faster execution",
+            "A graphical interface"
+          ],
+          "correct": 1,
+          "explanation": "verbose=True logs the agent's decision-making in real-time. Super useful for debugging and understanding what it's doing."
+        },
+        {
+          "id": "q10.4",
+          "type": "true_false",
+          "question": "An agent can only use one tool per execution.",
+          "correct": false,
+          "explanation": "Agents can use multiple tools in sequence. E.g., get data from Tool A, process it, use Tool B to refine, then answer."
+        }
+      ]
+    }
+  ]
+}
