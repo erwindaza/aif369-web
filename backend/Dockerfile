@@ -7,6 +7,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
 COPY cost_monitor.py .
+COPY udemy_client.py .
+COPY udemy_courses_registry.json .
 
 ENV PORT=8080
 ENV PYTHONUNBUFFERED=1
