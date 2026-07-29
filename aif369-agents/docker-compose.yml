@@ -1,0 +1,89 @@
+version: '3.9'
+
+# MacBook (Development) - All services together
+# Run: docker-compose up
+
+services:
+  # ─── Ollama (LLM Engine) ───────────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-dev
+    volumes:
+      - ./models:/root/.ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_NUM_PARALLEL=4
+      - OLLAMA_NUM_THREAD=8
+    command: serve
+    networks:
+      - aif369-agents
+
+  # ─── Agent V1 (Mistral 7B - ReAct) ────────────────────────────────────
+  agent-v1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.v1
+    container_name: agent-v1-dev
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - AGENT_ID=v1
+      - LOG_LEVEL=INFO
+      - DEBUG=true
+    ports:
+      - "8001:8001"
+    depends_on:
+      - ollama
+    networks:
+      - aif369-agents
+    volumes:
+      - ./:/app
+    command: python -m uvicorn agents.v1_agent:app --host 0.0.0.0 --port 8001 --reload
+
+  # ─── Agent V2 (Llama 70B - LangGraph) ──────────────────────────────────
+  agent-v2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.v2
+    container_name: agent-v2-dev
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - AGENT_ID=v2
+      - LOG_LEVEL=INFO
+      - DEBUG=true
+    ports:
+      - "8002:8002"
+    depends_on:
+      - ollama
+    networks:
+      - aif369-agents
+    volumes:
+      - ./:/app
+    command: python -m uvicorn agents.v2_agent:app --host 0.0.0.0 --port 8002 --reload
+
+  # ─── Orchestrator (Coordinator) ────────────────────────────────────────
+  orchestrator:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.orchestrator
+    container_name: orchestrator-dev
+    environment:
+      - LOG_LEVEL=INFO
+      - DEBUG=true
+      - ENVIRONMENT=development
+      - AGENT_V1_URL=http://agent-v1:8001
+      - AGENT_V2_URL=http://agent-v2:8002
+    ports:
+      - "8000:8000"
+    depends_on:
+      - agent-v1
+      - agent-v2
+    networks:
+      - aif369-agents
+    volumes:
+      - ./:/app
+    command: python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+networks:
+  aif369-agents:
+    driver: bridge
