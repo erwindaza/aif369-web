@@ -1,4 +1,4 @@
-"""Main orchestrator - coordinates V1 and V2 agents"""
+"""Orchestrator Agent - Routes requests to specialized Worker Agents"""
 import asyncio
 from typing import Optional, List
 from models import Task, Result, AgentType, TaskStatus
@@ -8,13 +8,18 @@ from core import QueueManager, SchedulerManager, LoggerManager
 
 class Orchestrator:
     """
-    Orchestrator: Coordinates V1 and V2 agents
+    Orchestrator Agent: Coordinates Worker Agents
+
+    Coordinates specialized Worker Agents:
+    - VENTAS Worker (sales specialist)
+    - CAIO Worker (consulting specialist)
+    - DAMABOOK Worker (data governance specialist)
 
     Responsibilities:
-    - Route tasks to appropriate agents
+    - Route tasks to appropriate Worker Agents
     - Manage execution flow
-    - Compare results
-    - Coordinate scheduling
+    - Handle inter-agent communication
+    - Coordinate scheduling and recurring tasks
 
     Single Responsibility: Coordination only
     Dependency Injection: All managers injected

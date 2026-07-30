@@ -1,0 +1,40 @@
+{
+  "linkedin_login_page": {
+    "description": "Coordenadas de campos detectados en LinkedIn login (1440x900 viewport)",
+    "layout": {
+      "email_field": {
+        "label": "Email o teléfono",
+        "x": 688,
+        "y": 400,
+        "width": 186,
+        "height": 48,
+        "confidence": "high",
+        "detected_from": "visual_analysis"
+      },
+      "password_field": {
+        "label": "Contraseña",
+        "x": 688,
+        "y": 485,
+        "width": 186,
+        "height": 48,
+        "confidence": "high",
+        "detected_from": "visual_analysis"
+      },
+      "login_button": {
+        "label": "Iniciar sesión",
+        "x": 688,
+        "y": 632,
+        "width": 186,
+        "height": 48,
+        "confidence": "high"
+      }
+    },
+    "warnings": [
+      "No hacer clic en 'Continuar con Google' (x:688, y:217)",
+      "No hacer clic en 'Iniciar sesión con Apple' (x:688, y:271)",
+      "Popup de Google puede aparecer - cerrar con X"
+    ],
+    "learning_model": "Manual visual analysis + coordinate extraction from screenshots",
+    "last_updated": "2026-06-20T14:30:00Z"
+  }
+}

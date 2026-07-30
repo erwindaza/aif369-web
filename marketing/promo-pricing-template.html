@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIF369 - Consultoría Estratégica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .pricing-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .pricing-card.featured {
+            border-color: #3b82f6;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: "MÁS POPULAR";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            color: #f1f5f9;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .plan-description {
+            color: #a1aec7;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            min-height: 40px;
+        }
+
+        .price-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #a1aec7;
+        }
+
+        .duration {
+            color: #a1aec7;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features li {
+            color: #cbd5e1;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .features li:before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            color: white;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: #60a5fa;
+            border: 2px solid #60a5fa;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+
+        .benefit-section {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 16px;
+            padding: 40px 30px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .benefit-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .benefit-item h3 {
+            color: #e2e8f0;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .benefit-item p {
+            color: #a1aec7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .cta-section p {
+            color: #cbd5e1;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .cta-button-main {
+            padding: 18px 50px;
+            font-size: 1.1rem;
+            display: inline-block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .pricing-grid {
+                gap: 20px;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .pricing-card {
+                padding: 30px 20px;
+            }
+
+            .price {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+
+            .pricing-card {
+                padding: 25px 15px;
+            }
+
+            .plan-name {
+                font-size: 1.3rem;
+            }
+
+            .price {
+                font-size: 1.8rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>AIF369 Consultoría Estratégica</h1>
+            <p>Transforma tu negocio con estrategia de IA, marketing digital y automatización. Elige el plan que se adapte a tu crecimiento.</p>
+        </div>
+
+        <!-- PRICING CARDS -->
+        <div class="pricing-grid">
+            <!-- PLAN BÁSICO -->
+            <div class="pricing-card">
+                <div class="plan-name">Básico</div>
+                <div class="plan-description">Perfecto para startups que inician</div>
+
+                <div class="price-section">
+                    <div class="price">$3.000<span>USD</span></div>
+                    <div class="duration">Por 6 meses</div>
+                </div>
+
+                <ul class="features">
+                    <li>Análisis estratégico inicial</li>
+                    <li>1 sesión de consultoría/mes</li>
+                    <li>Plan de marketing digital básico</li>
+                    <li>Automatización de procesos</li>
+                    <li>Soporte por email</li>
+                </ul>
+
+                <button class="cta-button cta-secondary">Comenzar Ahora</button>
+            </div>
+
+            <!-- PLAN PREMIUM -->
+            <div class="pricing-card">
+                <div class="plan-name">Premium</div>
+                <div class="plan-description">Para negocios en crecimiento</div>
+
+                <div class="price-section">
+                    <div class="price">$6.000<span>USD</span></div>
+                    <div class="duration">Por año</div>
+                </div>
+
+                <ul class="features">
+                    <li>Análisis estratégico profundo</li>
+                    <li>2 sesiones de consultoría/mes</li>
+                    <li>Estrategia marketing completa</li>
+                    <li>Implementación de IA en procesos</li>
+                    <li>Soporte prioritario</li>
+                    <li>Acceso a herramientas premium</li>
+                </ul>
+
+                <button class="cta-button cta-secondary">Comenzar Ahora</button>
+            </div>
+
+            <!-- PLAN STANDARD (FEATURED) -->
+            <div class="pricing-card featured">
+                <div class="plan-name">Standard</div>
+                <div class="plan-description">La opción elegida por líderes</div>
+
+                <div class="price-section">
+                    <div class="price">$9.000<span>USD</span></div>
+                    <div class="duration">Por año</div>
+                </div>
+
+                <ul class="features">
+                    <li>Análisis y auditoría completa</li>
+                    <li>4 sesiones de consultoría/mes</li>
+                    <li>Estrategia integrada 360°</li>
+                    <li>Implementación full-stack de IA</li>
+                    <li>Coaching para tu equipo</li>
+                    <li>Soporte 24/7 VIP</li>
+                    <li>ROI tracking y reportes</li>
+                </ul>
+
+                <button class="cta-button cta-primary">Contratar Plan Standard</button>
+            </div>
+        </div>
+
+        <!-- BENEFITS SECTION -->
+        <div class="benefit-section">
+            <h2>¿Por qué elegir AIF369?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🤖</div>
+                    <h3>Automatización con IA</h3>
+                    <p>Reduce costos operacionales hasta 60% con sistemas inteligentes.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Crecimiento Exponencial</h3>
+                    <p>Estrategias probadas que generan ROI medible desde mes 1.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">👥</div>
+                    <h3>Equipo Experto</h3>
+                    <p>Consultores certificados con 15+ años en transformación digital.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Resultados Garantizados</h3>
+                    <p>Planes personalizados con KPIs claros y seguimiento semanal.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Implementación Rápida</h3>
+                    <p>Primeros resultados en 30 días. Sin procesos burocráticos.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔐</div>
+                    <h3>Confidencialidad Total</h3>
+                    <p>Acuerdos de NDA. Tus datos y estrategia protegidos 100%.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FINAL CTA -->
+        <div class="cta-section">
+            <h2>¿Listo para transformar tu negocio?</h2>
+            <p>Únete a empresas que ya usan AIF369 para escalar inteligentemente.</p>
+            <button class="cta-button cta-primary cta-button-main">Agenda tu Consulta Gratis</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+[14:29:31] 
+🤖 MODELO: Aprendizaje continuo + Visión en tiempo real
+[14:29:31] 💾 MEMORIA: /logs/ml-memory.json
+[14:29:31] 📸 SCREENSHOTS: /tmp/iterN_*.png
+[14:29:31] ================================================================================
+[14:29:31] 🤖 LINKEDIN BOT - CONTINUOUS LEARNING
+[14:29:31] ================================================================================
+[14:29:31] 
+📊 ITERACIÓN 1
+[14:29:31]    Éxitos previos: 0
+[14:29:31]    Fallos previos: 0
+[14:29:31] 
+🔥 Firefox...
+[14:29:33] 📍 LinkedIn...
+[14:29:36] 📸 Screenshot 1: iter1_01_login.png
+[14:29:36] 
+⌨️ EMAIL + PASSWORD...
+[14:29:36] 
+❌ ERROR: 'NoneType' object has no attribute 'get'
+[14:29:36] 
+================================================================================
+[14:29:36] ❌ FALLO
+[14:29:36] ================================================================================
+[14:29:49] 
+🤖 MODELO: Aprendizaje continuo + Visión en tiempo real
+[14:29:49] 💾 MEMORIA: /logs/ml-memory.json
+[14:29:49] 📸 SCREENSHOTS: /tmp/iterN_*.png
+[14:29:49] ================================================================================
+[14:29:49] 🤖 LINKEDIN BOT - CONTINUOUS LEARNING
+[14:29:49] ================================================================================
+[14:29:49] 
+📊 ITERACIÓN 1
+[14:29:49]    Éxitos previos: 0
+[14:29:49]    Fallos previos: 0
+[14:29:49] 
+🔥 Firefox...
+[14:29:51] 📍 LinkedIn...
+[14:29:54] 📸 Screenshot 1: iter1_01_login.png
+[14:29:54] 
+⌨️ EMAIL + PASSWORD...
+[14:29:54]    Click email en (640, 420)...
+[14:29:57]    ✅ Email (24 chars en 0.4s)
+[14:29:59]    ✅ Password (9 chars)
+[14:30:00] 📸 Screenshot 3: iter1_03_credentials.png
+[14:30:00] 
+🔑 ENTER...
+[14:30:02] 
+⏳ Esperando feed (15s)...
+[14:30:12] 
+❌ ERROR: Page.screenshot: Target page, context or browser has been closed
+[14:30:12] 
+================================================================================
+[14:30:12] ❌ FALLO
+[14:30:12] ================================================================================

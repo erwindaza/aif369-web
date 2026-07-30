@@ -1,15 +1,25 @@
 # aif369 Agents - Multi-Agent Orchestration System
 
-Lightweight, portable, zero-cost agent orchestration system comparing **Mistral 7B (V1)** vs **Llama 70B (V2)** for real-time product enrichment.
+Lightweight, portable, zero-cost agent orchestration system with specialized **Worker Agents** for sales, consulting, and data governance.
+
+## Architecture
+
+**Orchestrator Agent** routes requests to specialized **Worker Agents**:
+- **VENTAS Worker** (Mistral 7B) - Sales specialist
+- **CAIO Worker** (Mistral 7B) - Consulting specialist  
+- **DAMABOOK Worker** (Kimi K3/Mistral 7B) - Data governance + Ley 21.719
 
 ## Features
 
 ✅ **Zero Dependencies**: In-memory queue (no Redis)  
 ✅ **Portable**: Runs on MacBook, Lenovo 8GB, Lenovo Legion  
 ✅ **SOLID Principles**: Clean architecture with design patterns  
-✅ **Two Agent Generations**:
-  - **V1 (Mistral 7B)**: Fast (0.4-0.6s), ReAct pattern
-  - **V2 (Llama 70B)**: Accurate (0.8-1.2s), LangGraph state machine  
+✅ **Specialized Worker Agents**:
+  - **VENTAS Worker** (Mistral 7B): Sales specialist, 0.4-0.6s latency
+  - **CAIO Worker** (Mistral 7B): Consulting specialist, 0.4-0.6s latency
+  - **DAMABOOK Worker** (Kimi K3/Mistral): Data governance + Ley 21.719, 0.5-1.0s latency
+✅ **Intelligent Routing**: Intent classification + automatic escalation  
+✅ **Tool Calling**: WhatsApp, Search, Validation, Inter-agent events  
 ✅ **Recurring Tasks**: APScheduler for cron-based execution  
 ✅ **Async/Await**: Non-blocking, high-throughput  
 ✅ **Production-Ready**: Error handling, logging, health checks  

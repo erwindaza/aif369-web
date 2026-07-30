@@ -1,4 +1,4 @@
-"""Ventas Agent - Specializes in selling courses and workshops"""
+"""VENTAS Worker Agent - Sells courses and workshops"""
 import asyncio
 import time
 from typing import Any, Dict
@@ -12,8 +12,11 @@ from core import QueueManager
 
 class VentasAgent(BaseAgent):
     """
-    Specialized Ventas Agent
-    - Sells courses, workshops, materials
+    VENTAS Worker Agent
+    Specializes in selling courses, workshops, and products.
+
+    Responsibilities:
+    - Sells courses, workshops, handles product queries
     - Knows pricing, features, testimonials
     - Can close sales or escalate to CAIO for consulting
 

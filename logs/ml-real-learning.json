@@ -1,0 +1,28 @@
+{
+  "fields": {},
+  "history": [
+    {
+      "type": "initial_analysis",
+      "result": {
+        "fields": [],
+        "width": 1280,
+        "height": 720
+      },
+      "timestamp": "2026-06-20T14:25:54.125630"
+    },
+    {
+      "type": "credentials_entered",
+      "result": {
+        "fields": [],
+        "width": 1280,
+        "height": 720
+      },
+      "timestamp": "2026-06-20T14:26:00.785290"
+    },
+    {
+      "type": "login_failed",
+      "url": "https://www.linkedin.com/login/",
+      "timestamp": "2026-06-20T14:26:13.982958"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+[14:20:31] ================================================================================
+[14:20:31] 🤖 LINKEDIN BOT CORE — Minimalista. Puro.
+[14:20:31] ================================================================================
+[14:20:31] 
+📋 Credenciales:
+[14:20:31]    Email: erwin.andr...
+[14:20:31]    Pass:  *********
+[14:20:32] 
+🔥 Firefox...
+[14:20:33] 📍 LinkedIn...
+[14:20:37]    💾 Aprendizaje guardado: page_loaded
+[14:20:37] 📸 Screenshot: /tmp/start.png
+[14:20:37] 
+⌨️  EMAIL...
+[14:20:37]    Click en campo...
+[14:20:38]    Escribiendo 24 caracteres...
+[14:20:39]    [6/24] 0.9s
+[14:20:39]    [12/24] 1.8s
+[14:20:40]    [18/24] 2.7s
+[14:20:41]    [24/24] 3.5s
+[14:20:41] ✅ EMAIL listo en 3.5s
+[14:20:41]    💾 Aprendizaje guardado: email_written
+[14:20:42] 📸 Screenshot: /tmp/email-done.png
+[14:20:42] 
+⌨️  PASSWORD...
+[14:20:42]    TAB...
+[14:20:42]    Escribiendo 9 caracteres...
+[14:20:43]    [3/9] 0.4s
+[14:20:43]    [6/9] 0.9s
+[14:20:43]    [9/9] 1.3s
+[14:20:43] ✅ PASSWORD listo en 1.3s
+[14:20:43]    💾 Aprendizaje guardado: password_written
+[14:20:44] 📸 Screenshot: /tmp/ready.png
+[14:20:44] 
+🔑 ENTER...
+[14:20:47]    💾 Aprendizaje guardado: enter_pressed
+[14:20:47] 
+⏳ Esperando feed (120s)...
+[14:23:23] ================================================================================
+[14:23:23] 🤖 LINKEDIN BOT CORE — Minimalista. Puro.
+[14:23:23] ================================================================================
+[14:23:23] 
+📋 Credenciales:
+[14:23:23]    Email: erwin.andr...
+[14:23:23]    Pass:  *********
+[14:23:23] 
+🔥 Firefox...
+[14:23:25] 📍 LinkedIn...
+[14:23:29]    💾 Aprendizaje guardado: page_loaded
+[14:23:29] 📸 Screenshot: /tmp/start.png
+[14:23:29] 
+⌨️  EMAIL...
+[14:23:29]    Click en campo...
+[14:23:29]    Escribiendo 24 caracteres...
+[14:23:30]    [6/24] 0.9s
+[14:23:31]    [12/24] 1.8s
+[14:23:32]    [18/24] 2.7s
+[14:23:33]    [24/24] 3.5s
+[14:23:33] ✅ EMAIL listo en 3.5s
+[14:23:33]    💾 Aprendizaje guardado: email_written
+[14:23:33] 📸 Screenshot: /tmp/email-done.png
+[14:23:33] 
+⌨️  PASSWORD...
+[14:23:33]    TAB...
+[14:23:34]    Escribiendo 9 caracteres...
+[14:23:34]    [3/9] 0.4s
+[14:23:35]    [6/9] 0.9s
+[14:23:35]    [9/9] 1.3s
+[14:23:35] ✅ PASSWORD listo en 1.3s
+[14:23:35]    💾 Aprendizaje guardado: password_written
+[14:23:36] 📸 Screenshot: /tmp/ready.png
+[14:23:36] 
+🔑 ENTER...
+[14:23:39]    💾 Aprendizaje guardado: enter_pressed
+[14:23:39] 
+⏳ Esperando feed (10s MAX)...
+[14:23:49] ❌ Login timeout - credenciales no aceptadas
+[14:23:49] 📸 Screenshot: /tmp/failed.png
+[14:23:49]    URL final: https://www.linkedin.com/
+[14:23:49]    💾 Aprendizaje guardado: login_failed
+[14:23:49] 
+================================================================================
+[14:23:49] ❌ FALLO
+[14:23:49] ================================================================================
+[14:23:49] 
+📚 Aprendizaje acumulado: 9 eventos
+[14:23:49]    • page_loaded
+[14:23:49]    • email_written
+[14:23:49]    • password_written
+[14:23:49]    • enter_pressed
+[14:23:49]    • login_failed

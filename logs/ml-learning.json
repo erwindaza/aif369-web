@@ -1,0 +1,9 @@
+{
+  "events": [
+    {
+      "timestamp": "2026-06-20T14:16:13.710445",
+      "type": "error",
+      "error": "Page.screenshot: Target page, context or browser has been closed"
+    }
+  ]
+}

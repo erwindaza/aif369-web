@@ -1,4 +1,4 @@
-"""DAMABOOK Agent - Specializes in Data Governance and Ley 21.719 Compliance"""
+"""DAMABOOK Worker Agent - Data Governance and Ley 21.719 specialist"""
 import asyncio
 import time
 from typing import Any, Dict
@@ -12,11 +12,14 @@ from core import QueueManager
 
 class DamabookAgent(BaseAgent):
     """
-    Specialized DAMABOOK Agent - Data Governance Expert
+    DAMABOOK Worker Agent
+    Specializes in data governance and Ley 21.719 compliance.
+
+    Responsibilities:
     - Ley 21.719 compliance (Protección de Datos Personales - Chile)
     - Data governance strategy and implementation
     - Data quality and metadata management
-    - Multimodal analysis (documents, policies, data structures)
+    - Multimodal document analysis (with Kimi K3)
 
     Ley 21.719 Knowledge:
     - Consentimiento explícito para procesamiento de datos

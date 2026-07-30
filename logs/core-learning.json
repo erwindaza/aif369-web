@@ -1,0 +1,51 @@
+{
+  "events": [
+    {
+      "type": "page_loaded",
+      "url": "linkedin.com/login",
+      "timestamp": "2026-06-20T14:20:37.403534"
+    },
+    {
+      "type": "email_written",
+      "length": 24,
+      "time_seconds": 3.540354013442993,
+      "timestamp": "2026-06-20T14:20:41.711095"
+    },
+    {
+      "type": "password_written",
+      "length": 9,
+      "time_seconds": 1.3079249858856201,
+      "timestamp": "2026-06-20T14:20:43.997833"
+    },
+    {
+      "type": "enter_pressed",
+      "timestamp": "2026-06-20T14:20:47.671918"
+    },
+    {
+      "type": "page_loaded",
+      "url": "linkedin.com/login",
+      "timestamp": "2026-06-20T14:23:29.050442"
+    },
+    {
+      "type": "email_written",
+      "length": 24,
+      "time_seconds": 3.5243618488311768,
+      "timestamp": "2026-06-20T14:23:33.323008"
+    },
+    {
+      "type": "password_written",
+      "length": 9,
+      "time_seconds": 1.3165009021759033,
+      "timestamp": "2026-06-20T14:23:35.613958"
+    },
+    {
+      "type": "enter_pressed",
+      "timestamp": "2026-06-20T14:23:39.286314"
+    },
+    {
+      "type": "login_failed",
+      "url": "https://www.linkedin.com/",
+      "timestamp": "2026-06-20T14:23:49.370274"
+    }
+  ]
+}

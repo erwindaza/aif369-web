@@ -1,4 +1,4 @@
-"""CAIO Agent - Specializes in AI consulting"""
+"""CAIO Worker Agent - Enterprise AI consulting specialist"""
 import asyncio
 import time
 from typing import Any, Dict
@@ -12,11 +12,14 @@ from core import QueueManager
 
 class CAIOAgent(BaseAgent):
     """
-    Specialized CAIO Agent (Chief AI Officer)
-    - Enterprise AI consulting
-    - Strategy, architecture, implementation
-    - ROI analysis, case studies
-    - Escalation from sales
+    CAIO Worker Agent (Chief AI Officer)
+    Specializes in enterprise AI consulting.
+
+    Responsibilities:
+    - Enterprise AI consulting and strategy
+    - Architecture design and implementation planning
+    - ROI analysis and case studies
+    - Handles escalations from VENTAS
 
     Services:
     - AI Audit: $5k USD

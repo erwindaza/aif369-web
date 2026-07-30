@@ -1,0 +1,895 @@
+[2026-06-20 13:26:57] ================================================================================
+[2026-06-20 13:26:57] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-20 13:26:57] ================================================================================
+[2026-06-20 13:26:57] ❌ No se encontró post para: 💡 AI Architecture Saturday
+[2026-06-20 13:26:57] ℹ️  No hay post para publicar hoy
+[2026-06-20 13:28:15] ================================================================================
+[2026-06-20 13:28:15] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-20 13:28:15] ================================================================================
+[2026-06-20 13:28:15] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-20 13:28:15] ❌ No se encontró post para: 💡 AI Architecture Saturday
+[2026-06-20 13:28:15] ℹ️  No hay post para publicar hoy
+[2026-06-20 13:28:48] ================================================================================
+[2026-06-20 13:28:48] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-20 13:28:48] ================================================================================
+[2026-06-20 13:28:48] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-20 13:28:48] ✅ Post obtenido: 💡 Sábado Estratégico...
+[2026-06-20 13:28:48] 
+📄 Contenido a publicar (866 caracteres):
+
+[2026-06-20 13:28:48] ❌ ERROR: LINKEDIN_EMAIL o LINKEDIN_PASSWORD no configurados
+[2026-06-20 13:28:48]    Configura en .env.local:
+[2026-06-20 13:28:48]    LINKEDIN_EMAIL=tu@email.com
+[2026-06-20 13:28:48]    LINKEDIN_PASSWORD=tu_password
+[2026-06-20 13:28:48] ================================================================================
+[2026-06-20 13:28:48] ❌ FALLO - No se pudo publicar
+[2026-06-20 13:28:48] ================================================================================
+[2026-06-20 13:29:37] ================================================================================
+[2026-06-20 13:29:37] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-20 13:29:37] ================================================================================
+[2026-06-20 13:29:37] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-20 13:29:37] ✅ Post obtenido: 💡 Sábado Estratégico...
+[2026-06-20 13:29:37] 
+📄 Contenido a publicar (866 caracteres):
+
+[2026-06-20 13:29:41] 🚀 Iniciando navegador...
+[2026-06-20 13:29:41] 📝 Accediendo a LinkedIn...
+[2026-06-20 13:30:14] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-06-20 13:30:14] ================================================================================
+[2026-06-20 13:30:14] ❌ FALLO - No se pudo publicar
+[2026-06-20 13:30:14] ================================================================================
+[2026-06-20 13:57:45] ================================================================================
+[2026-06-20 13:57:45] 🤖 LINKEDIN BOT V3 — ROBUSTO
+[2026-06-20 13:57:45] ================================================================================
+[2026-06-20 13:57:45] 📅 Día: 5 (0=Lun, 6=Dom)
+[2026-06-20 13:57:45] ✅ Post obtenido: 💡 Sábado Estratégico
+[2026-06-20 13:57:45] 
+📄 POST (866 chars):
+Muchos en LATAM confunden IA con instalar apps. ❌ Gran error. Sin estrategia, solo digitalizan el ca...
+
+[2026-06-20 13:57:45] 🚀 Abriendo Firefox...
+[2026-06-20 13:57:47] 📝 Navegando a LinkedIn...
+[2026-06-20 13:57:48] ⏳ Esperando campo de email (5s)...
+[2026-06-20 13:57:53] 🔍 Buscando campo de email...
+[2026-06-20 13:57:58]    ⚠️  Error llenando campos: Page.wait_for_selector: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("input") to be visible
+    14 × locator resolved to 6 elements. Proceeding with the first one: <input value="" dir="auto" type="email" id="«Refvd3ksopa55j6»" autocomplete="username" aria-describedby="«Refvd3ksopa55j6»-info" class="bad1985e _192e0623 dd6de7ae ddaeb108 a08c8cfe b13c1d8a ead4d4fb _9728bc50 _3b2e5f49 _0b6ecdc1 _011a6aa9 _882105cc _384e5141 _4a99113f f53c3dd0 cdc8438f _7d01c59b _957f18c4 e4374e99 c122a600 _071cf462"/>
+
+[2026-06-20 13:57:58] 
+⏸️  Esperando login (120 segundos)...
+[2026-06-20 13:57:58]     Si aparece 2FA, complétalo manualmente
+
+[2026-06-20 13:59:58] ⚠️  Timeout en login - posible 2FA manual o credenciales incorrectas
+[2026-06-20 13:59:58] 
+❌ ERROR: log() takes 1 positional argument but 2 were given
+[2026-06-20 13:59:58] 
+🔍 DEBUG: Navegador sigue abierto para inspeccionar
+[2026-06-20 14:00:31] ================================================================================
+[2026-06-20 14:00:31] 🤖 LINKEDIN BOT FINAL
+[2026-06-20 14:00:31] ================================================================================
+[2026-06-20 14:00:31] 
+✅ CREDENCIALES CARGADAS:
+[2026-06-20 14:00:31]    EMAIL: erwin.androide@gmail.com
+[2026-06-20 14:00:31]    PASSWORD: *********
+[2026-06-20 14:00:31] 
+✅ POST OBTENIDO (866 chars)
+[2026-06-20 14:00:31] 
+🚀 ABRIENDO FIREFOX...
+[2026-06-20 14:00:33] 
+1️⃣  NAVEGANDO A LINKEDIN...
+[2026-06-20 14:00:34]    ✅ Página cargada
+[2026-06-20 14:00:35]    📸 Screenshot: /tmp/01-linkedin-login.png
+[2026-06-20 14:00:35] 
+2️⃣  ESPERANDO A QUE ESTÉ LISTO...
+[2026-06-20 14:00:38] 
+3️⃣  ESCRIBIENDO CREDENCIALES...
+[2026-06-20 14:00:38]    (Haciendo click en el campo de email)
+[2026-06-20 14:00:43] 
+❌ ERROR: Page.click: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("input")
+    - locator resolved to 6 elements. Proceeding with the first one: <input value="" dir="auto" type="email" id="«Refvd3ksopa55j6»" autocomplete="username" aria-describedby="«Refvd3ksopa55j6»-info" class="bad1985e _192e0623 dd6de7ae ddaeb108 a08c8cfe b13c1d8a ead4d4fb _9728bc50 _3b2e5f49 _0b6ecdc1 _011a6aa9 _882105cc _384e5141 _4a99113f f53c3dd0 cdc8438f _7d01c59b _957f18c4 e4374e99 c122a600 _071cf462"/>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+
+[2026-06-20 14:00:43] 
+📸 Tomando screenshot de debug...
+[2026-06-20 14:00:43]    Screenshot: /tmp/DEBUG-error.png
+[2026-06-20 14:00:43]    URL: https://www.linkedin.com/login/
+[2026-06-20 14:00:43] ================================================================================
+[2026-06-20 14:00:43] ❌ FALLO
+[2026-06-20 14:00:43] ================================================================================
+[2026-06-20 14:01:00] ================================================================================
+[2026-06-20 14:01:00] 🤖 LINKEDIN BOT FINAL
+[2026-06-20 14:01:00] ================================================================================
+[2026-06-20 14:01:00] 
+✅ CREDENCIALES CARGADAS:
+[2026-06-20 14:01:00]    EMAIL: erwin.androide@gmail.com
+[2026-06-20 14:01:00]    PASSWORD: *********
+[2026-06-20 14:01:00] 
+✅ POST OBTENIDO (866 chars)
+[2026-06-20 14:01:00] 
+🚀 ABRIENDO FIREFOX...
+[2026-06-20 14:01:02] 
+1️⃣  NAVEGANDO A LINKEDIN...
+[2026-06-20 14:01:04]    ✅ Página cargada
+[2026-06-20 14:01:04]    📸 Screenshot: /tmp/01-linkedin-login.png
+[2026-06-20 14:01:04] 
+2️⃣  ESPERANDO A QUE ESTÉ LISTO...
+[2026-06-20 14:01:07] 
+3️⃣  ESCRIBIENDO CREDENCIALES...
+[2026-06-20 14:01:07]    (Esperando y usando pyautogui para click)
+[2026-06-20 14:01:10] 
+📝 ESCRIBIENDO EMAIL:
+[2026-06-20 14:01:10]    Texto: erwin.androide@gmail.com
+[2026-06-20 14:01:10]    Longitud: 24 caracteres
+
+[2026-06-20 14:01:10]    [ 1] 'e'
+[2026-06-20 14:01:10]    [ 2] 'r'
+[2026-06-20 14:01:11]    [ 3] 'w'
+[2026-06-20 14:01:11]    [ 4] 'i'
+[2026-06-20 14:01:11]    [ 5] 'n'
+[2026-06-20 14:01:11]    [ 6] '.' → Period
+[2026-06-20 14:01:12]    [ 7] 'a'
+[2026-06-20 14:01:12]    [ 8] 'n'
+[2026-06-20 14:01:12]    [ 9] 'd'
+[2026-06-20 14:01:13]    [10] 'r'
+[2026-06-20 14:01:13]    [11] 'o'
+[2026-06-20 14:01:13]    [12] 'i'
+[2026-06-20 14:01:14]    [13] 'd'
+[2026-06-20 14:01:14]    [14] 'e'
+[2026-06-20 14:01:14]    [15] '@' → Option+2
+[2026-06-20 14:01:15]    [16] 'g'
+[2026-06-20 14:01:15]    [17] 'm'
+[2026-06-20 14:01:15]    [18] 'a'
+[2026-06-20 14:01:16]    [19] 'i'
+[2026-06-20 14:01:16]    [20] 'l'
+[2026-06-20 14:01:16]    [21] '.' → Period
+[2026-06-20 14:01:17]    [22] 'c'
+[2026-06-20 14:01:17]    [23] 'o'
+[2026-06-20 14:01:17]    [24] 'm'
+[2026-06-20 14:01:18] 
+   ✅ 24 caracteres escritos
+
+[2026-06-20 14:01:18]    📸 Screenshot: /tmp/02-email-escrito.png
+[2026-06-20 14:01:18] 4️⃣  TAB AL CAMPO DE CONTRASEÑA...
+[2026-06-20 14:01:18] 
+📝 ESCRIBIENDO PASSWORD:
+[2026-06-20 14:01:18]    Texto: 03380338t
+[2026-06-20 14:01:18]    Longitud: 9 caracteres
+
+[2026-06-20 14:01:18]    [ 1] '0'
+[2026-06-20 14:01:19]    [ 2] '3'
+[2026-06-20 14:01:19]    [ 3] '3'
+[2026-06-20 14:01:19]    [ 4] '8'
+[2026-06-20 14:01:20]    [ 5] '0'
+[2026-06-20 14:01:20]    [ 6] '3'
+[2026-06-20 14:01:20]    [ 7] '3'
+[2026-06-20 14:01:21]    [ 8] '8'
+[2026-06-20 14:01:21]    [ 9] 't'
+[2026-06-20 14:01:21] 
+   ✅ 9 caracteres escritos
+
+[2026-06-20 14:01:21]    📸 Screenshot: /tmp/03-password-escrito.png
+[2026-06-20 14:01:21] 5️⃣  PRESIONANDO ENTER...
+[2026-06-20 14:01:24] 
+6️⃣  ESPERANDO A QUE INICIE SESIÓN (120s)...
+[2026-06-20 14:02:34]    ✅ LOGIN EXITOSO - EN FEED
+[2026-06-20 14:02:44] 
+❌ ERROR: Timeout 10000ms exceeded.
+[2026-06-20 14:02:44] 
+📸 Tomando screenshot de debug...
+[2026-06-20 14:02:44]    Screenshot: /tmp/DEBUG-error.png
+[2026-06-20 14:02:44]    URL: https://www.linkedin.com/m/logout/
+[2026-06-20 14:02:45] ================================================================================
+[2026-06-20 14:02:45] ❌ FALLO
+[2026-06-20 14:02:45] ================================================================================
+[2026-06-20 14:03:01] ================================================================================
+[2026-06-20 14:03:01] 🤖 LINKEDIN BOT FINAL
+[2026-06-20 14:03:01] ================================================================================
+[2026-06-20 14:03:01] 
+✅ CREDENCIALES CARGADAS:
+[2026-06-20 14:03:01]    EMAIL: erwin.androide@gmail.com
+[2026-06-20 14:03:01]    PASSWORD: *********
+[2026-06-20 14:03:01] 
+✅ POST OBTENIDO (866 chars)
+[2026-06-20 14:03:01] 
+🚀 ABRIENDO FIREFOX...
+[2026-06-20 14:03:03] 
+1️⃣  NAVEGANDO A LINKEDIN...
+[2026-06-20 14:03:06]    ✅ Página cargada
+[2026-06-20 14:03:06]    📸 Screenshot: /tmp/01-linkedin-login.png
+[2026-06-20 14:03:06] 
+2️⃣  ESPERANDO A QUE ESTÉ LISTO...
+[2026-06-20 14:03:09] 
+3️⃣  ESCRIBIENDO CREDENCIALES...
+[2026-06-20 14:03:09]    (Esperando y usando pyautogui para click)
+[2026-06-20 14:03:12] 
+📝 ESCRIBIENDO EMAIL:
+[2026-06-20 14:03:12]    Texto: erwin.androide@gmail.com
+[2026-06-20 14:03:12]    Longitud: 24 caracteres
+
+[2026-06-20 14:03:12]    [ 1] 'e'
+[2026-06-20 14:03:13]    [ 2] 'r'
+[2026-06-20 14:03:13]    [ 3] 'w'
+[2026-06-20 14:03:13]    [ 4] 'i'
+[2026-06-20 14:03:14]    [ 5] 'n'
+[2026-06-20 14:03:14]    [ 6] '.' → Period
+[2026-06-20 14:03:14]    [ 7] 'a'
+[2026-06-20 14:03:15]    [ 8] 'n'
+[2026-06-20 14:03:15]    [ 9] 'd'
+[2026-06-20 14:03:15]    [10] 'r'
+[2026-06-20 14:03:16]    [11] 'o'
+[2026-06-20 14:03:16]    [12] 'i'
+[2026-06-20 14:03:16]    [13] 'd'
+[2026-06-20 14:03:17]    [14] 'e'
+[2026-06-20 14:03:17]    [15] '@' → Option+2
+[2026-06-20 14:03:17]    [16] 'g'
+[2026-06-20 14:03:17]    [17] 'm'
+[2026-06-20 14:03:18]    [18] 'a'
+[2026-06-20 14:03:18]    [19] 'i'
+[2026-06-20 14:03:18]    [20] 'l'
+[2026-06-20 14:03:19]    [21] '.' → Period
+[2026-06-20 14:03:19]    [22] 'c'
+[2026-06-20 14:03:19]    [23] 'o'
+[2026-06-20 14:03:20]    [24] 'm'
+[2026-06-20 14:03:20] 
+   ✅ 24 caracteres escritos
+
+[2026-06-20 14:03:20]    📸 Screenshot: /tmp/02-email-escrito.png
+[2026-06-20 14:03:20] 4️⃣  TAB AL CAMPO DE CONTRASEÑA...
+[2026-06-20 14:03:21] 
+📝 ESCRIBIENDO PASSWORD:
+[2026-06-20 14:03:21]    Texto: 03380338t
+[2026-06-20 14:03:21]    Longitud: 9 caracteres
+
+[2026-06-20 14:03:21]    [ 1] '0'
+[2026-06-20 14:03:21]    [ 2] '3'
+[2026-06-20 14:03:21]    [ 3] '3'
+[2026-06-20 14:03:22]    [ 4] '8'
+[2026-06-20 14:03:22]    [ 5] '0'
+[2026-06-20 14:03:22]    [ 6] '3'
+[2026-06-20 14:03:23]    [ 7] '3'
+[2026-06-20 14:03:23]    [ 8] '8'
+[2026-06-20 14:03:23]    [ 9] 't'
+[2026-06-20 14:03:24] 
+   ✅ 9 caracteres escritos
+
+[2026-06-20 14:03:24]    📸 Screenshot: /tmp/03-password-escrito.png
+[2026-06-20 14:03:24] 5️⃣  PRESIONANDO ENTER...
+[2026-06-20 14:03:27] 
+6️⃣  ESPERANDO A QUE INICIE SESIÓN (120s)...
+[2026-06-20 14:03:37]    ⚠️  Timeout esperando feed (posible 2FA)
+[2026-06-20 14:03:37]    ❌ URL actual: https://www.linkedin.com/login/
+[2026-06-20 14:03:37] 
+❌ ERROR: No se logró login
+[2026-06-20 14:03:37] 
+📸 Tomando screenshot de debug...
+[2026-06-20 14:04:18] ================================================================================
+[2026-06-20 14:04:18] 🤖 LINKEDIN BOT FINAL
+[2026-06-20 14:04:18] ================================================================================
+[2026-06-20 14:04:18] 
+✅ CREDENCIALES CARGADAS:
+[2026-06-20 14:04:18]    EMAIL: erwin.androide@gmail.com
+[2026-06-20 14:04:18]    PASSWORD: *********
+[2026-06-20 14:04:18] 
+✅ POST OBTENIDO (866 chars)
+[2026-06-20 14:04:19] 
+🚀 ABRIENDO FIREFOX...
+[2026-06-20 14:04:21] 
+1️⃣  NAVEGANDO A LINKEDIN...
+[2026-06-20 14:04:23]    ✅ Página cargada
+[2026-06-20 14:04:23]    📸 Screenshot: /tmp/01-linkedin-login.png
+[2026-06-20 14:04:23] 
+2️⃣  ESPERANDO A QUE ESTÉ LISTO...
+[2026-06-20 14:04:26] 
+3️⃣  ESCRIBIENDO CREDENCIALES...
+[2026-06-20 14:04:26]    Encontrando coordenadas exactas del campo de email...
+[2026-06-20 14:04:26]    ⚠️  No se pudo obtener bounding box, usando coordenadas aproximadas...
+[2026-06-20 14:04:26] 
+📝 ESCRIBIENDO EMAIL:
+[2026-06-20 14:04:26]    Texto: erwin.androide@gmail.com
+[2026-06-20 14:04:26]    Longitud: 24 caracteres
+
+[2026-06-20 14:04:26]    [ 1] 'e'
+[2026-06-20 14:04:27]    [ 2] 'r'
+[2026-06-20 14:04:27]    [ 3] 'w'
+[2026-06-20 14:04:27]    [ 4] 'i'
+[2026-06-20 14:04:28]    [ 5] 'n'
+[2026-06-20 14:04:28]    [ 6] '.' → Period
+[2026-06-20 14:04:28]    [ 7] 'a'
+[2026-06-20 14:04:29]    [ 8] 'n'
+[2026-06-20 14:04:29]    [ 9] 'd'
+[2026-06-20 14:04:29]    [10] 'r'
+[2026-06-20 14:04:30]    [11] 'o'
+[2026-06-20 14:04:30]    [12] 'i'
+[2026-06-20 14:04:30]    [13] 'd'
+[2026-06-20 14:04:30]    [14] 'e'
+[2026-06-20 14:04:31]    [15] '@' → Option+2
+[2026-06-20 14:04:31]    [16] 'g'
+[2026-06-20 14:04:31]    [17] 'm'
+[2026-06-20 14:04:32]    [18] 'a'
+[2026-06-20 14:04:32]    [19] 'i'
+[2026-06-20 14:04:32]    [20] 'l'
+[2026-06-20 14:04:33]    [21] '.' → Period
+[2026-06-20 14:04:33]    [22] 'c'
+[2026-06-20 14:04:33]    [23] 'o'
+[2026-06-20 14:04:34]    [24] 'm'
+[2026-06-20 14:04:34] 
+   ✅ 24 caracteres escritos
+
+[2026-06-20 14:04:34]    📸 Screenshot: /tmp/02-email-escrito.png
+[2026-06-20 14:04:34] 4️⃣  TAB AL CAMPO DE CONTRASEÑA...
+[2026-06-20 14:04:35] 
+📝 ESCRIBIENDO PASSWORD:
+[2026-06-20 14:04:35]    Texto: 03380338t
+[2026-06-20 14:04:35]    Longitud: 9 caracteres
+
+[2026-06-20 14:04:35]    [ 1] '0'
+[2026-06-20 14:04:35]    [ 2] '3'
+[2026-06-20 14:04:35]    [ 3] '3'
+[2026-06-20 14:04:36]    [ 4] '8'
+[2026-06-20 14:04:36]    [ 5] '0'
+[2026-06-20 14:04:36]    [ 6] '3'
+[2026-06-20 14:04:37]    [ 7] '3'
+[2026-06-20 14:04:37]    [ 8] '8'
+[2026-06-20 14:04:37]    [ 9] 't'
+[2026-06-20 14:04:38] 
+   ✅ 9 caracteres escritos
+
+[2026-06-20 14:04:38]    📸 Screenshot: /tmp/03-password-escrito.png
+[2026-06-20 14:04:38] 5️⃣  PRESIONANDO ENTER...
+[2026-06-20 14:04:41] 
+6️⃣  ESPERANDO A QUE INICIE SESIÓN (120s)...
+[2026-06-20 14:04:59]    ⚠️  Timeout esperando feed (posible 2FA)
+[2026-06-20 14:04:59]    ❌ URL actual: https://www.linkedin.com/
+[2026-06-20 14:04:59] 
+❌ ERROR: No se logró login
+[2026-06-20 14:04:59] 
+📸 Tomando screenshot de debug...
+[2026-06-21 09:00:01] ================================================================================
+[2026-06-21 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-21 09:00:01] ================================================================================
+[2026-06-21 09:00:01] 📅 Día de hoy: 6 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-21 09:00:01] ℹ️  Domingo: Sin publicación programada
+[2026-06-21 09:00:01] ℹ️  No hay post para publicar hoy
+[2026-06-23 09:00:01] ================================================================================
+[2026-06-23 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-23 09:00:01] ================================================================================
+[2026-06-23 09:00:01] 📅 Día de hoy: 1 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-23 09:00:01] ✅ Post obtenido: 📈 Martes de Transformación...
+[2026-06-23 09:00:01] 
+📄 Contenido a publicar (1015 caracteres):
+
+[2026-06-23 09:00:03] 🚀 Iniciando navegador...
+[2026-06-23 09:00:03] 📝 Accediendo a LinkedIn...
+[2026-06-23 09:00:36] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-06-23 09:00:36] ================================================================================
+[2026-06-23 09:00:36] ❌ FALLO - No se pudo publicar
+[2026-06-23 09:00:36] ================================================================================
+[2026-06-25 09:05:01] ================================================================================
+[2026-06-25 09:05:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-25 09:05:01] ================================================================================
+[2026-06-25 09:05:01] 📅 Día de hoy: 3 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-25 09:05:01] ✅ Post obtenido: 🛠️ Jueves de Herramientas...
+[2026-06-25 09:05:01] 
+📄 Contenido a publicar (1115 caracteres):
+
+[2026-06-25 09:05:03] 🚀 Iniciando navegador...
+[2026-06-25 09:05:03] 📝 Accediendo a LinkedIn...
+[2026-06-25 09:05:12] 🔐 Esperando autenticación...
+[2026-06-25 09:10:07] ⏳ Requiere 2FA - esperando 60 segundos para completarlo manualmente...
+[2026-06-25 09:11:09] 📝 Abriendo composer de posts...
+[2026-06-25 09:11:19] ❌ ERROR en publicación: Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("button:has-text('Start a post')") to be visible
+
+[2026-06-25 09:11:19] ================================================================================
+[2026-06-25 09:11:19] ❌ FALLO - No se pudo publicar
+[2026-06-25 09:11:19] ================================================================================
+[2026-06-26 09:01:02] ================================================================================
+[2026-06-26 09:01:02] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-26 09:01:02] ================================================================================
+[2026-06-26 09:01:02] 📅 Día de hoy: 4 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-26 09:01:02] ✅ Post obtenido: 🚀 Viernes del Futuro...
+[2026-06-26 09:01:02] 
+📄 Contenido a publicar (1140 caracteres):
+
+[2026-06-26 09:01:03] 🚀 Iniciando navegador...
+[2026-06-26 09:01:03] 📝 Accediendo a LinkedIn...
+[2026-06-26 09:01:37] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-06-26 09:01:37] ================================================================================
+[2026-06-26 09:01:37] ❌ FALLO - No se pudo publicar
+[2026-06-26 09:01:37] ================================================================================
+[2026-06-27 09:01:04] ================================================================================
+[2026-06-27 09:01:04] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-27 09:01:04] ================================================================================
+[2026-06-27 09:01:04] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-27 09:01:04] ✅ Post obtenido: 💡 Sábado Estratégico...
+[2026-06-27 09:01:04] 
+📄 Contenido a publicar (866 caracteres):
+
+[2026-06-27 09:01:06] 🚀 Iniciando navegador...
+[2026-06-27 09:01:06] 📝 Accediendo a LinkedIn...
+[2026-06-27 09:06:33] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-06-27 09:06:33] ================================================================================
+[2026-06-27 09:06:33] ❌ FALLO - No se pudo publicar
+[2026-06-27 09:06:33] ================================================================================
+[2026-06-29 09:00:03] ================================================================================
+[2026-06-29 09:00:03] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-29 09:00:03] ================================================================================
+[2026-06-29 09:00:03] 📅 Día de hoy: 0 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-29 09:00:03] ✅ Post obtenido: 🤖 Automation Mondays...
+[2026-06-29 09:00:03] 
+📄 Contenido a publicar (1059 caracteres):
+
+[2026-06-29 09:00:05] 🚀 Iniciando navegador...
+[2026-06-29 09:00:05] 📝 Accediendo a LinkedIn...
+[2026-06-29 09:01:51] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-06-29 09:01:51] ================================================================================
+[2026-06-29 09:01:51] ❌ FALLO - No se pudo publicar
+[2026-06-29 09:01:51] ================================================================================
+[2026-06-30 09:01:01] ================================================================================
+[2026-06-30 09:01:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-06-30 09:01:01] ================================================================================
+[2026-06-30 09:01:01] 📅 Día de hoy: 1 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-06-30 09:01:01] ✅ Post obtenido: 📈 Martes de Transformación...
+[2026-06-30 09:01:01] 
+📄 Contenido a publicar (1015 caracteres):
+
+[2026-06-30 09:01:02] 🚀 Iniciando navegador...
+[2026-06-30 09:01:02] 📝 Accediendo a LinkedIn...
+[2026-06-30 09:01:39] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-06-30 09:01:39] ================================================================================
+[2026-06-30 09:01:39] ❌ FALLO - No se pudo publicar
+[2026-06-30 09:01:39] ================================================================================
+[2026-07-01 09:00:01] ================================================================================
+[2026-07-01 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-01 09:00:01] ================================================================================
+[2026-07-01 09:00:01] 📅 Día de hoy: 2 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-01 09:00:01] ✅ Post obtenido: 🎯 Miércoles de Éxito...
+[2026-07-01 09:00:01] 
+📄 Contenido a publicar (1187 caracteres):
+
+[2026-07-01 09:00:03] 🚀 Iniciando navegador...
+[2026-07-01 09:00:03] 📝 Accediendo a LinkedIn...
+[2026-07-01 09:00:37] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-07-01 09:00:37] ================================================================================
+[2026-07-01 09:00:37] ❌ FALLO - No se pudo publicar
+[2026-07-01 09:00:37] ================================================================================
+[2026-07-02 09:00:01] ================================================================================
+[2026-07-02 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-02 09:00:01] ================================================================================
+[2026-07-02 09:00:01] 📅 Día de hoy: 3 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-02 09:00:01] ✅ Post obtenido: 🛠️ Jueves de Herramientas...
+[2026-07-02 09:00:01] 
+📄 Contenido a publicar (1115 caracteres):
+
+[2026-07-02 09:00:03] 🚀 Iniciando navegador...
+[2026-07-02 09:00:03] 📝 Accediendo a LinkedIn...
+[2026-07-02 09:00:37] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-07-02 09:00:37] ================================================================================
+[2026-07-02 09:00:37] ❌ FALLO - No se pudo publicar
+[2026-07-02 09:00:37] ================================================================================
+[2026-07-03 09:00:01] ================================================================================
+[2026-07-03 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-03 09:00:01] ================================================================================
+[2026-07-03 09:00:01] 📅 Día de hoy: 4 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-03 09:00:01] ✅ Post obtenido: 🚀 Viernes del Futuro...
+[2026-07-03 09:00:01] 
+📄 Contenido a publicar (1140 caracteres):
+
+[2026-07-03 09:00:03] 🚀 Iniciando navegador...
+[2026-07-03 09:00:03] 📝 Accediendo a LinkedIn...
+[2026-07-03 09:00:37] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-07-03 09:00:37] ================================================================================
+[2026-07-03 09:00:37] ❌ FALLO - No se pudo publicar
+[2026-07-03 09:00:37] ================================================================================
+[2026-07-04 09:00:01] ================================================================================
+[2026-07-04 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-04 09:00:01] ================================================================================
+[2026-07-04 09:00:01] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-04 09:00:01] ✅ Post obtenido: 💡 Sábado Estratégico...
+[2026-07-04 09:00:01] 
+📄 Contenido a publicar (866 caracteres):
+
+[2026-07-04 09:00:02] 🚀 Iniciando navegador...
+[2026-07-04 09:00:02] 📝 Accediendo a LinkedIn...
+[2026-07-04 09:00:37] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-07-04 09:00:37] ================================================================================
+[2026-07-04 09:00:37] ❌ FALLO - No se pudo publicar
+[2026-07-04 09:00:37] ================================================================================
+[2026-07-05 09:00:01] ================================================================================
+[2026-07-05 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-05 09:00:01] ================================================================================
+[2026-07-05 09:00:01] 📅 Día de hoy: 6 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-05 09:00:01] ℹ️  Domingo: Sin publicación programada
+[2026-07-05 09:00:01] ℹ️  No hay post para publicar hoy
+[2026-07-07 09:00:00] ================================================================================
+[2026-07-07 09:00:00] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-07 09:00:00] ================================================================================
+[2026-07-07 09:00:00] 📅 Día de hoy: 1 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-07 09:00:00] ✅ Post obtenido: 📈 Martes de Transformación...
+[2026-07-07 09:00:00] 
+📄 Contenido a publicar (1015 caracteres):
+
+[2026-07-07 09:00:02] 🚀 Iniciando navegador...
+[2026-07-07 09:00:02] 📝 Accediendo a LinkedIn...
+[2026-07-07 09:00:36] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-07-07 09:00:36] ================================================================================
+[2026-07-07 09:00:36] ❌ FALLO - No se pudo publicar
+[2026-07-07 09:00:36] ================================================================================
+[2026-07-08 09:00:01] ================================================================================
+[2026-07-08 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-08 09:00:01] ================================================================================
+[2026-07-08 09:00:01] 📅 Día de hoy: 2 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-08 09:00:01] ✅ Post obtenido: 🎯 Miércoles de Éxito...
+[2026-07-08 09:00:01] 
+📄 Contenido a publicar (1187 caracteres):
+
+[2026-07-08 09:00:02] 🚀 Iniciando navegador...
+[2026-07-08 09:00:02] 📝 Accediendo a LinkedIn...
+[2026-07-08 09:00:36] ❌ ERROR en publicación: Page.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("input[name='session_key']")
+
+[2026-07-08 09:00:36] ================================================================================
+[2026-07-08 09:00:36] ❌ FALLO - No se pudo publicar
+[2026-07-08 09:00:36] ================================================================================
+[2026-07-09 09:00:02] ================================================================================
+[2026-07-09 09:00:02] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-09 09:00:02] ================================================================================
+[2026-07-09 09:00:02] 📅 Día de hoy: 3 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-09 09:00:02] ✅ Post obtenido: 🛠️ Jueves de Herramientas...
+[2026-07-09 09:00:02] 
+📄 Contenido a publicar (1115 caracteres):
+
+[2026-07-09 09:00:04] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-09 09:00:04] ================================================================================
+[2026-07-09 09:00:04] ❌ FALLO - No se pudo publicar
+[2026-07-09 09:00:04] ================================================================================
+[2026-07-10 09:04:05] ================================================================================
+[2026-07-10 09:04:05] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-10 09:04:05] ================================================================================
+[2026-07-10 09:04:05] 📅 Día de hoy: 4 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-10 09:04:05] ✅ Post obtenido: 🚀 Viernes del Futuro...
+[2026-07-10 09:04:05] 
+📄 Contenido a publicar (1140 caracteres):
+
+[2026-07-10 09:04:06] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-10 09:04:06] ================================================================================
+[2026-07-10 09:04:06] ❌ FALLO - No se pudo publicar
+[2026-07-10 09:04:06] ================================================================================
+[2026-07-11 09:02:03] ================================================================================
+[2026-07-11 09:02:03] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-11 09:02:03] ================================================================================
+[2026-07-11 09:02:03] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-11 09:02:03] ✅ Post obtenido: 💡 Sábado Estratégico...
+[2026-07-11 09:02:03] 
+📄 Contenido a publicar (866 caracteres):
+
+[2026-07-11 09:02:04] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-11 09:02:04] ================================================================================
+[2026-07-11 09:02:04] ❌ FALLO - No se pudo publicar
+[2026-07-11 09:02:04] ================================================================================
+[2026-07-14 09:01:30] ================================================================================
+[2026-07-14 09:01:30] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-14 09:01:30] ================================================================================
+[2026-07-14 09:01:30] 📅 Día de hoy: 1 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-14 09:01:30] ✅ Post obtenido: 📈 Martes de Transformación...
+[2026-07-14 09:01:30] 
+📄 Contenido a publicar (1015 caracteres):
+
+[2026-07-14 09:01:31] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-14 09:01:31] ================================================================================
+[2026-07-14 09:01:31] ❌ FALLO - No se pudo publicar
+[2026-07-14 09:01:31] ================================================================================
+[2026-07-16 09:00:01] ================================================================================
+[2026-07-16 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-16 09:00:01] ================================================================================
+[2026-07-16 09:00:01] 📅 Día de hoy: 3 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-16 09:00:01] ✅ Post obtenido: 🛠️ Jueves de Herramientas...
+[2026-07-16 09:00:01] 
+📄 Contenido a publicar (1115 caracteres):
+
+[2026-07-16 09:00:01] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-16 09:00:01] ================================================================================
+[2026-07-16 09:00:01] ❌ FALLO - No se pudo publicar
+[2026-07-16 09:00:01] ================================================================================
+[2026-07-17 09:00:04] ================================================================================
+[2026-07-17 09:00:04] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-17 09:00:04] ================================================================================
+[2026-07-17 09:00:04] 📅 Día de hoy: 4 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-17 09:00:04] ✅ Post obtenido: 🚀 Viernes del Futuro...
+[2026-07-17 09:00:04] 
+📄 Contenido a publicar (1140 caracteres):
+
+[2026-07-17 09:00:05] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-17 09:00:05] ================================================================================
+[2026-07-17 09:00:05] ❌ FALLO - No se pudo publicar
+[2026-07-17 09:00:05] ================================================================================
+[2026-07-18 09:00:01] ================================================================================
+[2026-07-18 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-18 09:00:01] ================================================================================
+[2026-07-18 09:00:01] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-18 09:00:01] ✅ Post obtenido: 💡 Sábado Estratégico...
+[2026-07-18 09:00:01] 
+📄 Contenido a publicar (866 caracteres):
+
+[2026-07-18 09:00:02] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-18 09:00:02] ================================================================================
+[2026-07-18 09:00:02] ❌ FALLO - No se pudo publicar
+[2026-07-18 09:00:02] ================================================================================
+[2026-07-19 09:00:01] ================================================================================
+[2026-07-19 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-19 09:00:01] ================================================================================
+[2026-07-19 09:00:01] 📅 Día de hoy: 6 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-19 09:00:01] ℹ️  Domingo: Sin publicación programada
+[2026-07-19 09:00:01] ℹ️  No hay post para publicar hoy
+[2026-07-20 09:00:01] ================================================================================
+[2026-07-20 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-20 09:00:01] ================================================================================
+[2026-07-20 09:00:01] 📅 Día de hoy: 0 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-20 09:00:01] ✅ Post obtenido: 🤖 Automation Mondays...
+[2026-07-20 09:00:01] 
+📄 Contenido a publicar (1059 caracteres):
+
+[2026-07-20 09:00:02] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-20 09:00:02] ================================================================================
+[2026-07-20 09:00:02] ❌ FALLO - No se pudo publicar
+[2026-07-20 09:00:02] ================================================================================
+[2026-07-21 09:00:01] ================================================================================
+[2026-07-21 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-21 09:00:01] ================================================================================
+[2026-07-21 09:00:01] 📅 Día de hoy: 1 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-21 09:00:01] ✅ Post obtenido: 📈 Martes de Transformación...
+[2026-07-21 09:00:01] 
+📄 Contenido a publicar (1015 caracteres):
+
+[2026-07-21 09:00:01] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-21 09:00:01] ================================================================================
+[2026-07-21 09:00:01] ❌ FALLO - No se pudo publicar
+[2026-07-21 09:00:01] ================================================================================
+[2026-07-22 09:00:01] ================================================================================
+[2026-07-22 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-22 09:00:01] ================================================================================
+[2026-07-22 09:00:01] 📅 Día de hoy: 2 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-22 09:00:01] ✅ Post obtenido: 🎯 Miércoles de Éxito...
+[2026-07-22 09:00:01] 
+📄 Contenido a publicar (1187 caracteres):
+
+[2026-07-22 09:00:02] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-22 09:00:02] ================================================================================
+[2026-07-22 09:00:02] ❌ FALLO - No se pudo publicar
+[2026-07-22 09:00:02] ================================================================================
+[2026-07-23 09:00:01] ================================================================================
+[2026-07-23 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-23 09:00:01] ================================================================================
+[2026-07-23 09:00:01] 📅 Día de hoy: 3 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-23 09:00:01] ✅ Post obtenido: 🛠️ Jueves de Herramientas...
+[2026-07-23 09:00:01] 
+📄 Contenido a publicar (1115 caracteres):
+
+[2026-07-23 09:00:02] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-23 09:00:02] ================================================================================
+[2026-07-23 09:00:02] ❌ FALLO - No se pudo publicar
+[2026-07-23 09:00:02] ================================================================================
+[2026-07-24 09:00:01] ================================================================================
+[2026-07-24 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-24 09:00:01] ================================================================================
+[2026-07-24 09:00:01] 📅 Día de hoy: 4 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-24 09:00:01] ✅ Post obtenido: 🚀 Viernes del Futuro...
+[2026-07-24 09:00:01] 
+📄 Contenido a publicar (1140 caracteres):
+
+[2026-07-24 09:00:02] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-24 09:00:02] ================================================================================
+[2026-07-24 09:00:02] ❌ FALLO - No se pudo publicar
+[2026-07-24 09:00:02] ================================================================================
+[2026-07-25 09:00:01] ================================================================================
+[2026-07-25 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-25 09:00:01] ================================================================================
+[2026-07-25 09:00:01] 📅 Día de hoy: 5 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-25 09:00:01] ✅ Post obtenido: 💡 Sábado Estratégico...
+[2026-07-25 09:00:01] 
+📄 Contenido a publicar (866 caracteres):
+
+[2026-07-25 09:00:02] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-25 09:00:02] ================================================================================
+[2026-07-25 09:00:02] ❌ FALLO - No se pudo publicar
+[2026-07-25 09:00:02] ================================================================================
+[2026-07-26 09:00:02] ================================================================================
+[2026-07-26 09:00:02] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-26 09:00:02] ================================================================================
+[2026-07-26 09:00:02] 📅 Día de hoy: 6 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-26 09:00:02] ℹ️  Domingo: Sin publicación programada
+[2026-07-26 09:00:02] ℹ️  No hay post para publicar hoy
+[2026-07-28 09:00:03] ================================================================================
+[2026-07-28 09:00:03] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-28 09:00:03] ================================================================================
+[2026-07-28 09:00:03] 📅 Día de hoy: 1 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-28 09:00:03] ✅ Post obtenido: 📈 Martes de Transformación...
+[2026-07-28 09:00:03] 
+📄 Contenido a publicar (1015 caracteres):
+
+[2026-07-28 09:00:05] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-28 09:00:05] ================================================================================
+[2026-07-28 09:00:05] ❌ FALLO - No se pudo publicar
+[2026-07-28 09:00:05] ================================================================================
+[2026-07-29 09:00:01] ================================================================================
+[2026-07-29 09:00:01] 🤖 LINKEDIN AUTO-PUBLISHER BOT — Iniciado
+[2026-07-29 09:00:01] ================================================================================
+[2026-07-29 09:00:01] 📅 Día de hoy: 2 (0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sab, 6=Dom)
+[2026-07-29 09:00:01] ✅ Post obtenido: 🎯 Miércoles de Éxito...
+[2026-07-29 09:00:01] 
+📄 Contenido a publicar (1187 caracteres):
+
+[2026-07-29 09:00:02] ❌ ERROR en publicación: BrowserType.launch: Executable doesn't exist at /Users/macbookpro/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+[2026-07-29 09:00:02] ================================================================================
+[2026-07-29 09:00:02] ❌ FALLO - No se pudo publicar
+[2026-07-29 09:00:02] ================================================================================

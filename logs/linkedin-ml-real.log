@@ -1,0 +1,38 @@
+[14:25:48] 
+📚 MODELO: Análisis visual de píxeles + detección de áreas blancas
+[14:25:48] 💾 APRENDIZAJE: JSON local en /logs/ml-real-learning.json
+[14:25:48] ================================================================================
+[14:25:48] 🤖 LINKEDIN BOT - ML REAL
+[14:25:48] ================================================================================
+[14:25:48] 
+🔥 Firefox...
+[14:25:50] 📍 LinkedIn...
+[14:25:54] 🔍 Analizando /tmp/init.png...
+[14:25:54]    Imagen: 1280x720
+[14:25:54]    ✅ Detectados 0 campos
+[14:25:54] ❌ No se detectaron suficientes campos
+[14:25:54]    Usando fallback: buscando por texto...
+[14:25:54]    Fallback: (640, 420)
+[14:25:54] 
+⌨️ Escribiendo EMAIL en (640, 420)...
+[14:25:58] ✅ Email (24 chars)
+[14:25:58] 
+⌨️ TAB a password...
+[14:26:00] ✅ Password (9 chars)
+[14:26:00] 🔍 Analizando /tmp/before-enter.png...
+[14:26:00]    Imagen: 1280x720
+[14:26:00]    ✅ Detectados 0 campos
+[14:26:00] 
+🔑 ENTER...
+[14:26:03] 
+⏳ Esperando feed (10s)...
+[14:26:13] ❌ Login falló - URL: https://www.linkedin.com/login/
+[14:26:14] 
+================================================================================
+[14:26:14] ❌ FALLO
+[14:26:14] ================================================================================
+[14:26:14] 
+📚 Eventos guardados: 3
+[14:26:14]    • initial_analysis
+[14:26:14]    • credentials_entered
+[14:26:14]    • login_failed
