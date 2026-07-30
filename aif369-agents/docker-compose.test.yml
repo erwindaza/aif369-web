@@ -1,0 +1,45 @@
+version: '3.9'
+
+# Testing with 2 agents locally (MacBook)
+# Run: docker-compose -f docker-compose.test.yml up
+
+services:
+  # ─── Ollama (LLM Engine) ──────────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-test
+    volumes:
+      - ./models:/root/.ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_NUM_PARALLEL=4
+      - OLLAMA_NUM_THREAD=8
+    command: serve
+    networks:
+      - aif369-test
+
+  # ─── Orchestrator ─────────────────────────────────────────────────────
+  orchestrator:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.orchestrator
+    container_name: orchestrator-test
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - LOG_LEVEL=DEBUG
+      - DEBUG=true
+      - ENVIRONMENT=testing
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ollama
+    networks:
+      - aif369-test
+    volumes:
+      - ./:/app
+    command: python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+networks:
+  aif369-test:
+    driver: bridge

@@ -8,7 +8,8 @@ from typing import Optional
 
 from models import Task, AgentType, TaskStatus
 from orchestrator.orchestrator import Orchestrator
-from core import LoggerManager, QueueManager
+from core import LoggerManager, QueueManager, IntentClassifier
+from agents import AgentFactory
 
 
 # ─── Pydantic Models (API schemas only) ───────────────────────────────────
@@ -67,6 +68,7 @@ class ResultResponse(BaseModel):
 
 logger = LoggerManager.get_logger("Main")
 orchestrator = Orchestrator()
+intent_classifier = IntentClassifier()
 task_processor_task: Optional[asyncio.Task] = None
 
 
@@ -344,6 +346,110 @@ async def whatsapp_webhook(message: WhatsAppMessage):
         "status": "submitted",
         "message": "WhatsApp message queued for processing",
         "customer": message.from_,
+    }
+
+
+@app.post("/classify", tags=["Classification"])
+async def classify_intent(request: dict):
+    """
+    Classify user intent and recommend agent
+
+    Example:
+        POST /classify
+        {"query": "¿Cuánto cuesta el curso?"}
+
+    Returns:
+        {
+            "intent": "ventas",
+            "confidence": 0.85,
+            "recommended_agent": "ventas",
+            "suggested_action": "..."
+        }
+    """
+    query = request.get("query", "")
+
+    if not query:
+        raise HTTPException(status_code=400, detail="Query required")
+
+    intent, confidence = intent_classifier.classify(query)
+
+    return {
+        "query": query,
+        "intent": intent,
+        "confidence": confidence,
+        "recommended_agent": intent if intent != "support" else "general",
+        "suggested_action": f"Route to {intent} agent",
+    }
+
+
+@app.post("/submit_auto", tags=["Tasks"])
+async def submit_auto(request: dict):
+    """
+    Submit task with automatic agent selection based on intent
+
+    The system will classify the query and route to the best agent.
+
+    Example:
+        POST /submit_auto
+        {
+            "query": "¿Necesito implementar agentes en mi empresa?",
+            "customer_phone": "+56912345678"
+        }
+    """
+    query = request.get("query", "")
+    customer_phone = request.get("customer_phone")
+
+    if not query:
+        raise HTTPException(status_code=400, detail="Query required")
+
+    # Classify intent
+    agent_type, confidence = intent_classifier.classify(query)
+
+    if agent_type == "support":
+        # Fallback to ventas for now
+        agent_type = "ventas"
+
+    logger.info(f"Auto-routing to {agent_type} (confidence={confidence:.2f})")
+
+    # Create task
+    task = Task(
+        task_id=f"{agent_type}_{int(__import__('time').time() * 1000)}",
+        agent_type=AgentType.V1_MISTRAL if agent_type == "v1_mistral" else AgentType.V2_LLAMA,
+        payload={
+            "message": query,
+            "customer_phone": customer_phone,
+            "type": "customer_inquiry",
+        },
+        priority=2,
+    )
+
+    # Try to route to specialized agent
+    try:
+        agent = AgentFactory.create(agent_type)
+        result = await agent.execute(task)
+
+        return {
+            "task_id": task.task_id,
+            "status": result.status.value,
+            "agent": agent_type,
+            "output": result.to_dict(),
+        }
+    except ValueError:
+        # Fallback to orchestrator
+        task_id = await orchestrator.submit_task(task)
+        return {
+            "task_id": task_id,
+            "status": "queued",
+            "message": "Task queued (agent not available yet)",
+        }
+
+
+@app.get("/agents", tags=["System"])
+async def list_agents():
+    """List all available agents"""
+    return {
+        "available_agents": AgentFactory.list_available(),
+        "created_instances": list(AgentFactory.get_all_agents().keys()),
     }
 
 
