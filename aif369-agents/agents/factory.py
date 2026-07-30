@@ -6,6 +6,7 @@ from agents.v1_agent import V1Agent
 from agents.v2_agent import V2Agent
 from agents.ventas_agent import VentasAgent
 from agents.caio_agent import CAIOAgent
+from agents.damabook_agent import DamabookAgent
 from core import LoggerManager
 
 
@@ -37,6 +38,7 @@ class AgentFactory:
         "v2_llama": ("v2_llama", V2Agent),
         "ventas": ("ventas", VentasAgent),
         "caio": ("caio", CAIOAgent),
+        "damabook": ("damabook", DamabookAgent),
         AgentType.V1_MISTRAL: ("v1_mistral", V1Agent),
         AgentType.V2_LLAMA: ("v2_llama", V2Agent),
     }
@@ -95,6 +97,7 @@ class AgentFactory:
             "v2_llama": "LangGraph agent (Llama 70B)",
             "ventas": "Sales specialist (Courses & products)",
             "caio": "Consulting specialist (Enterprise AI)",
+            "damabook": "Data Governance expert (Ley 21.719 compliance)",
         }
 
     @staticmethod

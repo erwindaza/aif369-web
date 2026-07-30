@@ -81,6 +81,21 @@ class IntentClassifier:
             "política",
             "retención",
             "clasificación",
+            "21.719",
+            "ley protección",
+            "privacidad",
+            "gdpr",
+            "protección datos",
+            "consentimiento",
+            "derechos",
+            "acceso datos",
+            "rectificación",
+            "supresión",
+            "cumplimiento",
+            "damabook",
+            "brechas datos",
+            "seguridad datos",
+            "audit",
         ]
 
     def classify(self, query: str) -> Tuple[str, float]:

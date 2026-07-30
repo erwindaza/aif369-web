@@ -81,6 +81,47 @@ async def test_caio():
                 print(f"Error: {response.status_code}")
 
 
+async def test_damabook():
+    """Test DAMABOOK agent (Ley 21.719 + Data Governance)"""
+    print("\n" + "=" * 60)
+    print("TEST 3: DAMABOOK Agent (Data Governance + Ley 21.719)")
+    print("=" * 60)
+
+    queries = [
+        "¿Cómo cumplo con la Ley 21.719?",
+        "¿Cuáles son los derechos del titular en protección de datos?",
+        "Necesitamos implementar data governance",
+        "¿Qué obligaciones tenemos por Ley 21.719?",
+    ]
+
+    async with httpx.AsyncClient() as client:
+        for query in queries:
+            print(f"\nCliente: {query}")
+
+            response = await client.post(
+                f"{BASE_URL}/submit_and_wait",
+                json={
+                    "agent_type": "damabook",
+                    "payload": {
+                        "message": query,
+                        "customer_phone": "+56912988888",
+                    },
+                    "priority": 1,
+                    "timeout_seconds": 30,
+                },
+            )
+
+            if response.status_code == 200:
+                result = response.json()
+                print(f"Status: {result.get('status')}")
+                print(f"Agent: {result.get('output', {}).get('agent')}")
+                print(f"Model: {result.get('output', {}).get('model_used', 'unknown')}")
+                print(f"Ley 21.719 Relevant: {result.get('output', {}).get('ley_21719_relevant', False)}")
+                print(f"Response: {result.get('output', {}).get('response', '')[:150]}...")
+            else:
+                print(f"Error: {response.status_code}")
+
+
 async def test_orchestrator_routing():
     """Test intent classification and routing"""
     print("\n" + "=" * 60)
@@ -177,6 +218,7 @@ async def main():
         # Run tests
         await test_ventas()
         await test_caio()
+        await test_damabook()
         await test_orchestrator_routing()
         await test_escalation()
 

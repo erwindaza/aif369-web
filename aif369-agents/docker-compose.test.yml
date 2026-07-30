@@ -1,7 +1,12 @@
 version: '3.9'
 
-# Testing with 2 agents locally (MacBook)
+# Testing with 3 specialized agents locally (MacBook)
 # Run: docker-compose -f docker-compose.test.yml up
+#
+# Agents:
+# - VENTAS (Mistral 7B): Sells courses
+# - CAIO (Mistral 7B): Enterprise consulting
+# - DAMABOOK (Kimi K3): Data governance + Ley 21.719
 
 services:
   # ─── Ollama (LLM Engine) ──────────────────────────────────────────────
