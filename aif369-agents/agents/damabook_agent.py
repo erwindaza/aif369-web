@@ -7,6 +7,7 @@ from models import Task
 from agents.base import BaseAgent
 from config import ConfigManager
 from tools import WhatsAppTool, InterAgentEventTool
+from tools.whatsapp_formatter import WhatsAppFormatter
 from core import QueueManager
 
 
@@ -195,9 +196,14 @@ class DamabookAgent(BaseAgent):
 
             # Send WhatsApp if available
             if customer_phone:
+                formatted_msg = WhatsAppFormatter.damabook_response(
+                    ley_21719_relevant=self._is_ley_21719_relevant(customer_query),
+                    compliance_areas=self._extract_compliance_areas(output_text),
+                    escalation_to_legal=should_escalate,
+                )
                 await self.whatsapp_tool.execute(
                     phone=customer_phone,
-                    message=f"📊 Gobernanza de Datos - {output_text[:80]}...\n\nAyudamos con Ley 21.719",
+                    message=formatted_msg,
                 )
 
             return result

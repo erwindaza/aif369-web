@@ -7,6 +7,7 @@ from models import Task
 from agents.base import BaseAgent
 from config import ConfigManager
 from tools import WhatsAppTool, InterAgentEventTool
+from tools.whatsapp_formatter import WhatsAppFormatter
 from core import QueueManager
 
 
@@ -123,9 +124,13 @@ class CAIOAgent(BaseAgent):
 
             # Send WhatsApp if available
             if customer_phone:
+                formatted_msg = WhatsAppFormatter.caio_response(
+                    is_escalation=is_escalation,
+                    services=self._extract_services(output_text),
+                )
                 await self.whatsapp_tool.execute(
                     phone=customer_phone,
-                    message=f"💼 Consultoría IA - {output_text[:80]}...\n\nVamos a agendar una llamada.",
+                    message=formatted_msg,
                 )
 
             return result

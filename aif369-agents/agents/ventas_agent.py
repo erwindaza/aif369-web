@@ -7,6 +7,7 @@ from models import Task
 from agents.base import BaseAgent
 from config import ConfigManager
 from tools import WhatsAppTool, InterAgentEventTool
+from tools.whatsapp_formatter import WhatsAppFormatter
 from core import QueueManager
 
 
@@ -125,10 +126,14 @@ class VentasAgent(BaseAgent):
                 result["escalation_event"] = event_result
 
             # Send WhatsApp if customer phone provided
-            if customer_phone and not should_escalate:
+            if customer_phone:
+                formatted_msg = WhatsAppFormatter.ventas_response(
+                    products_mentioned=self._extract_products(output_text),
+                    has_escalation=should_escalate,
+                )
                 await self.whatsapp_tool.execute(
                     phone=customer_phone,
-                    message=f"🎓 {output_text[:100]}...",
+                    message=formatted_msg,
                 )
 
             return result

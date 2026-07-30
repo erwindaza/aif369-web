@@ -4,6 +4,7 @@ from .whatsapp_tool import WhatsAppTool
 from .search_tool import SearchTool
 from .validation_tool import ValidationTool
 from .inter_agent_tool import InterAgentEventTool
+from .whatsapp_formatter import WhatsAppFormatter
 
 __all__ = [
     "BaseTool",
@@ -11,4 +12,5 @@ __all__ = [
     "SearchTool",
     "ValidationTool",
     "InterAgentEventTool",
+    "WhatsAppFormatter",
 ]
