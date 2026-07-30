@@ -1,13 +1,39 @@
 """WhatsApp message formatter for professional, formatted responses"""
+import os
 
 
 class WhatsAppFormatter:
     """Formats responses for WhatsApp with good UX and clear CTAs"""
 
-    # Base URLs
-    SITE_URL = "https://aif369.com"
-    CHECKOUT_URL = f"{SITE_URL}/checkout"
-    CONTACT_URL = f"{SITE_URL}/contact"
+    @classmethod
+    def _get_base_url(cls) -> str:
+        """Get base URL by environment"""
+        environment = os.getenv("ENVIRONMENT", "dev")
+        if environment == "production":
+            return "https://aif369.com"
+        return os.getenv("SITE_URL", "https://aif369.com")
+
+    @classmethod
+    def _get_checkout_url(cls) -> str:
+        """Get checkout URL with UTM tracking"""
+        base = cls._get_base_url()
+        return f"{base}/checkout?utm_source=whatsapp&utm_medium=agent"
+
+    @classmethod
+    def _get_contact_url(cls) -> str:
+        """Get contact URL with UTM tracking"""
+        base = cls._get_base_url()
+        return f"{base}/contact?utm_source=whatsapp&utm_medium=agent"
+
+    @classmethod
+    def _get_contact_consulting_url(cls) -> str:
+        """Get consulting contact URL"""
+        return f"{cls._get_contact_url()}&service=consulting"
+
+    @classmethod
+    def _get_contact_compliance_url(cls) -> str:
+        """Get compliance contact URL"""
+        return f"{cls._get_contact_url()}&service=compliance"
 
     @staticmethod
     def ventas_response(products_mentioned: list, has_escalation: bool = False) -> str:
@@ -37,9 +63,9 @@ class WhatsAppFormatter:
 
         lines.extend([
             "👉 *COMPRA AHORA:*",
-            f"{WhatsAppFormatter.CHECKOUT_URL}\n",
+            f"{self._get_checkout_url()}\n",
             "¿Dudas? Contáctanos:",
-            f"{WhatsAppFormatter.CONTACT_URL}",
+            f"{self._get_contact_url()}",
         ])
 
         return "\n".join(lines)
@@ -68,7 +94,7 @@ class WhatsAppFormatter:
 
         lines.extend([
             "📞 *AGENDAR CONSULTA:*",
-            f"{WhatsAppFormatter.CONTACT_URL}?service=consulting\n",
+            f"{self._get_contact_consulting_url()}\n",
             "Responde este chat para saber más →",
         ])
 
@@ -118,17 +144,17 @@ class WhatsAppFormatter:
             "✓ Data Quality Framework - $4k USD",
             "✓ Ongoing Support - $2k/mes\n",
             "📞 *CONSULTA GRATIS:*",
-            f"{WhatsAppFormatter.CONTACT_URL}?service=compliance",
+            f"{self._get_contact_compliance_url()}",
         ])
 
         return "\n".join(lines)
 
-    @staticmethod
-    def support_escalation() -> str:
+    @classmethod
+    def support_escalation(cls) -> str:
         """Fallback when need human support"""
         return (
             "💬 *SOPORTE TÉCNICO*\n\n"
             "Necesito ayuda de un especialista.\n"
             "Te conecto con nuestro equipo en 24h.\n\n"
-            f"📧 {WhatsAppFormatter.CONTACT_URL}"
+            f"📧 {cls._get_contact_url()}"
         )
