@@ -1,0 +1,985 @@
+{
+  "schema_version": "1.0.0",
+  "content_language": "es-CL",
+  "program": {
+    "id": "aif369-enterprise-data-ai-governance-master",
+    "slug": "master-enterprise-data-ai-governance",
+    "brand": "AIF369",
+    "official_name": "AIF369 Master en Arquitectura, Gobernanza de Datos e Inteligencia Artificial",
+    "short_name": "Enterprise Data & AI Governance Master",
+    "program_type": "programa_profesional_privado",
+    "academic_disclaimer": "El término Master corresponde al nombre comercial del programa y no implica por sí mismo un grado académico reconocido por el Estado. La publicación deberá adaptarse a la normativa educacional y publicitaria aplicable en cada país.",
+    "positioning": "Programa integral en español para formar arquitectos y líderes capaces de diseñar, gobernar, asegurar, documentar y operar plataformas empresariales de datos e inteligencia artificial.",
+    "vision_2027_2028": "Preparar profesionales para empresas gobernadas por datos, modelos, agentes de IA, conocimiento empresarial y automatización responsable.",
+    "duration_months": 12,
+    "recommended_hours": 420,
+    "delivery_mode": [
+      "online",
+      "asincronico",
+      "sesiones_en_vivo",
+      "laboratorios",
+      "mentoria",
+      "proyecto_capstone"
+    ],
+    "audience": [
+      "Data Architects",
+      "AI Architects",
+      "Solution Architects",
+      "Enterprise Architects",
+      "Data Engineers",
+      "ML Engineers",
+      "AI Engineers",
+      "Data Governance Leads",
+      "AI Governance Leads",
+      "CIO, CDO, CAIO y CTO en formación",
+      "Consultores de transformación digital, datos, privacidad, seguridad e IA"
+    ],
+    "entry_requirements": {
+      "required": [
+        "Experiencia básica en tecnología, datos, arquitectura, seguridad, gestión o inteligencia artificial",
+        "Capacidad para leer documentación técnica"
+      ],
+      "recommended": [
+        "Conocimientos básicos de cloud",
+        "SQL y Python a nivel introductorio",
+        "Experiencia en proyectos empresariales"
+      ]
+    },
+    "graduate_profile": {
+      "summary": "Profesional capaz de alinear estrategia, arquitectura empresarial, gobierno de datos, privacidad, seguridad, gobierno de IA y plataformas de agentes con objetivos de negocio y cumplimiento.",
+      "target_roles": [
+        "Enterprise Data & AI Architect",
+        "AI Governance Lead",
+        "Data Governance Lead",
+        "Responsible AI Architect",
+        "Chief AI Officer",
+        "Chief Data Officer",
+        "AI Platform Architect",
+        "Data & AI Transformation Lead",
+        "Enterprise Architecture Manager",
+        "AI Risk and Compliance Lead"
+      ]
+    }
+  },
+  "learning_outcomes": [
+    "Diseñar arquitecturas empresariales de datos e IA alineadas con capacidades y objetivos de negocio.",
+    "Aplicar TOGAF, ArchiMate, C4, ADR, BPMN, UML y técnicas de modelado arquitectónico.",
+    "Implementar prácticas de gobierno de datos basadas en DAMA-DMBOK y DCAM.",
+    "Diseñar controles de seguridad y privacidad alineados con ISO/IEC 27001, 27002 y 27701.",
+    "Diseñar un sistema de gestión de IA alineado con ISO/IEC 42001 y NIST AI RMF.",
+    "Incorporar derechos de titulares, incluyendo acceso, rectificación, supresión o cancelación, oposición, portabilidad, bloqueo y derechos relacionados con decisiones automatizadas, según la legislación aplicable.",
+    "Diseñar plataformas cloud de datos, GenAI, RAG, agentes, MLOps y LLMOps.",
+    "Documentar arquitecturas profesionales con Draw.io, Lucidchart, Mermaid, PlantUML y Structurizr.",
+    "Evaluar riesgos, controles, proveedores, modelos, datos, agentes y decisiones automatizadas.",
+    "Construir y defender un proyecto empresarial completo, auditable y desplegable."
+  ],
+  "competency_domains": [
+    {
+      "id": "enterprise_architecture",
+      "name": "Arquitectura empresarial",
+      "frameworks": [
+        "TOGAF",
+        "ArchiMate",
+        "Zachman",
+        "C4 Model",
+        "ADR",
+        "DDD",
+        "Event Storming",
+        "BPMN",
+        "UML"
+      ]
+    },
+    {
+      "id": "data_architecture",
+      "name": "Arquitectura de datos",
+      "topics": [
+        "Data Warehouse",
+        "Data Lake",
+        "Lakehouse",
+        "Data Mesh",
+        "Data Fabric",
+        "Data Products",
+        "CDC",
+        "Streaming",
+        "Event-Driven Architecture",
+        "Semantic Layer",
+        "Knowledge Graphs"
+      ]
+    },
+    {
+      "id": "data_governance",
+      "name": "Gobernanza de datos",
+      "frameworks": [
+        "DAMA-DMBOK",
+        "CDMP",
+        "DCAM"
+      ],
+      "topics": [
+        "Data Ownership",
+        "Data Stewardship",
+        "Data Quality",
+        "Metadata",
+        "Lineage",
+        "Catalog",
+        "MDM",
+        "Reference Data",
+        "Data Contracts",
+        "Data Policy"
+      ]
+    },
+    {
+      "id": "security_privacy",
+      "name": "Seguridad y privacidad",
+      "frameworks": [
+        "ISO/IEC 27001",
+        "ISO/IEC 27002",
+        "ISO/IEC 27701",
+        "NIST CSF",
+        "Zero Trust"
+      ],
+      "topics": [
+        "IAM",
+        "MFA",
+        "KMS",
+        "Secrets",
+        "DLP",
+        "Logging",
+        "SIEM",
+        "Threat Modeling",
+        "Privacy by Design",
+        "DPIA"
+      ]
+    },
+    {
+      "id": "ai_governance",
+      "name": "Gobernanza de IA",
+      "frameworks": [
+        "ISO/IEC 42001",
+        "NIST AI RMF",
+        "OECD AI Principles",
+        "UNESCO Recommendation on AI Ethics",
+        "EU AI Act"
+      ],
+      "topics": [
+        "Responsible AI",
+        "Human Oversight",
+        "Explainability",
+        "Fairness",
+        "Model Risk",
+        "AI Inventory",
+        "Impact Assessment",
+        "AI Audit"
+      ]
+    },
+    {
+      "id": "cloud_ai_platforms",
+      "name": "Plataformas cloud, datos e IA",
+      "platforms": [
+        "AWS",
+        "Microsoft Azure",
+        "Google Cloud",
+        "Databricks",
+        "Snowflake",
+        "Kubernetes"
+      ],
+      "topics": [
+        "Landing Zones",
+        "Networking",
+        "IAM",
+        "Terraform",
+        "FinOps",
+        "DevSecOps",
+        "MLOps",
+        "LLMOps",
+        "AgentOps"
+      ]
+    },
+    {
+      "id": "genai_agents",
+      "name": "GenAI, RAG y agentes",
+      "topics": [
+        "LLMs",
+        "Embeddings",
+        "Vector Databases",
+        "RAG",
+        "GraphRAG",
+        "Knowledge Graphs",
+        "MCP",
+        "LangGraph",
+        "Multi-Agent Systems",
+        "Guardrails",
+        "Evaluations",
+        "Observability"
+      ]
+    },
+    {
+      "id": "architecture_communication",
+      "name": "Comunicación y diagramación",
+      "tools": [
+        "Draw.io",
+        "Lucidchart",
+        "Lucidscale",
+        "Mermaid",
+        "PlantUML",
+        "Structurizr",
+        "Miro",
+        "Visio"
+      ],
+      "artifacts": [
+        "Context Diagram",
+        "Container Diagram",
+        "Component Diagram",
+        "Sequence Diagram",
+        "Data Flow Diagram",
+        "ERD",
+        "BPMN",
+        "Threat Model",
+        "Capability Map",
+        "Roadmap"
+      ]
+    }
+  ],
+  "curriculum": {
+    "structure": "12 meses, 4 trimestres, proyecto integrador incremental",
+    "months": [
+      {
+        "month": 1,
+        "title": "Fundamentos de arquitectura empresarial y estrategia",
+        "certification_alignment": [
+          "TOGAF Enterprise Architecture Foundation"
+        ],
+        "modules": [
+          "Rol del Enterprise Data & AI Architect",
+          "Estrategia, operating model y capacidades empresariales",
+          "Principios de arquitectura",
+          "Architecture Repository y gobernanza de decisiones",
+          "Introducción a TOGAF ADM"
+        ],
+        "deliverables": [
+          "Mapa de capacidades",
+          "Principios de arquitectura",
+          "Visión de arquitectura"
+        ]
+      },
+      {
+        "month": 2,
+        "title": "TOGAF aplicado a datos e IA",
+        "certification_alignment": [
+          "TOGAF Enterprise Architecture Foundation",
+          "TOGAF Enterprise Architecture Practitioner"
+        ],
+        "modules": [
+          "ADM aplicado a transformación Data & AI",
+          "Arquitectura de negocio, datos, aplicaciones y tecnología",
+          "Requirements Management",
+          "Architecture Governance",
+          "Roadmaps, plateaus y transition architectures",
+          "Preparación orientativa para certificación TOGAF"
+        ],
+        "deliverables": [
+          "Architecture Definition Document",
+          "Roadmap de transición",
+          "Matriz de stakeholders"
+        ]
+      },
+      {
+        "month": 3,
+        "title": "DAMA-DMBOK, gobierno y gestión de datos",
+        "certification_alignment": [
+          "CDMP Associate"
+        ],
+        "modules": [
+          "Data Governance",
+          "Data Architecture",
+          "Data Modeling and Design",
+          "Data Storage and Operations",
+          "Data Security",
+          "Data Integration and Interoperability",
+          "Document and Content Management",
+          "Reference and Master Data",
+          "Data Warehousing and Business Intelligence",
+          "Metadata Management",
+          "Data Quality"
+        ],
+        "deliverables": [
+          "Data Governance Operating Model",
+          "RACI de datos",
+          "Glosario empresarial",
+          "Plan de calidad de datos"
+        ]
+      },
+      {
+        "month": 4,
+        "title": "ISO/IEC 27001 y gestión de seguridad",
+        "certification_alignment": [
+          "ISO/IEC 27001 Foundation",
+          "ISO/IEC 27001 Lead Implementer - preparación"
+        ],
+        "modules": [
+          "Contexto, alcance y partes interesadas",
+          "Liderazgo, planificación y evaluación de riesgos",
+          "SoA y tratamiento de riesgos",
+          "Operación, auditoría interna y mejora continua",
+          "Controles de seguridad aplicados a datos e IA",
+          "Threat Modeling y DevSecOps"
+        ],
+        "deliverables": [
+          "Alcance de SGSI",
+          "Risk Register",
+          "Statement of Applicability",
+          "Plan de tratamiento"
+        ]
+      },
+      {
+        "month": 5,
+        "title": "ISO/IEC 27701, privacidad y derechos de titulares",
+        "certification_alignment": [
+          "ISO/IEC 27701 Foundation",
+          "Privacy Information Management"
+        ],
+        "modules": [
+          "Sistema de gestión de información de privacidad",
+          "Roles de responsable y encargado del tratamiento",
+          "Inventario de tratamientos y flujo de datos personales",
+          "Privacy by Design y Privacy by Default",
+          "DPIA y evaluación de riesgos de privacidad",
+          "Retención, eliminación, anonimización y seudonimización",
+          "Transferencias internacionales y proveedores",
+          "Gestión de incidentes y brechas de datos"
+        ],
+        "rights_of_data_subjects": [
+          "Derecho de acceso",
+          "Derecho de rectificación",
+          "Derecho de supresión o cancelación, según la jurisdicción",
+          "Derecho de oposición",
+          "Derecho de portabilidad",
+          "Derecho de bloqueo, cuando corresponda",
+          "Derecho a información y transparencia",
+          "Derechos frente a decisiones automatizadas y elaboración de perfiles, cuando correspondan",
+          "Canales, identidad, plazos, evidencias, excepciones y trazabilidad de solicitudes"
+        ],
+        "deliverables": [
+          "RoPA o registro de tratamientos",
+          "DPIA",
+          "Flujo de atención de derechos",
+          "Matriz de retención"
+        ]
+      },
+      {
+        "month": 6,
+        "title": "ISO/IEC 42001 y sistema de gestión de IA",
+        "certification_alignment": [
+          "ISO/IEC 42001 Foundation",
+          "ISO/IEC 42001 Lead Implementer - preparación"
+        ],
+        "modules": [
+          "Contexto, alcance y política de IA",
+          "Inventario y clasificación de sistemas de IA",
+          "Evaluación de impacto y riesgos de IA",
+          "Objetivos, controles y responsabilidades",
+          "Gestión del ciclo de vida de IA",
+          "Gestión de datos, modelos, proveedores y terceros",
+          "Supervisión humana y comunicación",
+          "Monitoreo, auditoría y mejora"
+        ],
+        "deliverables": [
+          "AI Management System Scope",
+          "AI Inventory",
+          "AI Risk Register",
+          "AI Impact Assessment",
+          "AI Policy"
+        ]
+      },
+      {
+        "month": 7,
+        "title": "ArchiMate, C4, ADR y modelado arquitectónico",
+        "modules": [
+          "ArchiMate: estrategia, negocio, aplicaciones, tecnología, implementación y motivación",
+          "C4: contexto, contenedores, componentes y código",
+          "Architecture Decision Records",
+          "BPMN y modelado de procesos",
+          "UML esencial para arquitectos",
+          "Data Flow Diagrams",
+          "Modelado de amenazas"
+        ],
+        "deliverables": [
+          "Modelo ArchiMate",
+          "Set C4",
+          "Catálogo ADR",
+          "BPMN de proceso crítico"
+        ]
+      },
+      {
+        "month": 8,
+        "title": "Diagramación profesional y Architecture as Code",
+        "tools": [
+          "Draw.io",
+          "Lucidchart",
+          "Lucidscale",
+          "Mermaid",
+          "PlantUML",
+          "Structurizr",
+          "Miro"
+        ],
+        "modules": [
+          "Convenciones visuales y storytelling arquitectónico",
+          "Diagramas editables y reutilizables",
+          "Iconografía cloud oficial",
+          "Diagramas declarativos en Git",
+          "Automatización de documentación",
+          "Versionado, revisión y publicación",
+          "Diagramación para ejecutivos, ingeniería, auditoría y compliance"
+        ],
+        "deliverables": [
+          "Biblioteca de plantillas AIF369",
+          "Repositorio Architecture as Code",
+          "Diagrama ejecutivo",
+          "Diagrama técnico"
+        ]
+      },
+      {
+        "month": 9,
+        "title": "DCAM y madurez de gestión de datos",
+        "certification_alignment": [
+          "DCAM - preparación conceptual"
+        ],
+        "modules": [
+          "Estrategia de datos y business case",
+          "Operating model y control",
+          "Arquitectura y tecnología",
+          "Calidad de datos",
+          "Gobierno y metadata",
+          "Analítica y uso de datos",
+          "Evaluación de madurez",
+          "Roadmap de mejora"
+        ],
+        "deliverables": [
+          "Assessment DCAM simulado",
+          "Heatmap de madurez",
+          "Roadmap de 24 meses"
+        ]
+      },
+      {
+        "month": 10,
+        "title": "Gobierno avanzado de IA y regulación",
+        "frameworks": [
+          "NIST AI RMF",
+          "EU AI Act",
+          "OECD AI Principles",
+          "UNESCO AI Ethics"
+        ],
+        "modules": [
+          "Map, Measure, Manage y Govern",
+          "Clasificación de riesgo de sistemas de IA",
+          "IA prohibida, alto riesgo, riesgo limitado y propósito general",
+          "Fairness, explicabilidad, robustez y seguridad",
+          "Human-in-the-loop, human-on-the-loop y human-in-command",
+          "Model Cards, System Cards y Datasheets for Datasets",
+          "AI red teaming y pruebas adversariales",
+          "Auditoría de algoritmos y evidencia",
+          "Gobierno de modelos fundacionales y proveedores"
+        ],
+        "deliverables": [
+          "AI Governance Playbook",
+          "Control Matrix",
+          "Model Card",
+          "Plan de auditoría de IA"
+        ]
+      },
+      {
+        "month": 11,
+        "title": "Enterprise Portfolio Architecture y transformación",
+        "modules": [
+          "Gestión de portafolio de iniciativas Data & AI",
+          "Capability-based planning",
+          "Build vs Buy vs Partner",
+          "SaaS, PaaS, open source y lock-in",
+          "Arquitecturas multicloud e híbridas",
+          "FinOps, GreenOps y costo total",
+          "Architecture Review Board",
+          "KPIs, OKRs y beneficios",
+          "Gestión del cambio y adopción"
+        ],
+        "deliverables": [
+          "Portafolio priorizado",
+          "Matriz build-buy-partner",
+          "Investment Roadmap",
+          "Architecture Review Board Pack"
+        ]
+      },
+      {
+        "month": 12,
+        "title": "Proyecto integral Enterprise Data & Agentic AI",
+        "modules": [
+          "Integración de estrategia, arquitectura, datos, seguridad, privacidad e IA",
+          "Construcción de RAG y GraphRAG",
+          "Orquestación de agentes",
+          "MCP y herramientas empresariales",
+          "Observabilidad, evaluaciones y guardrails",
+          "MLOps, LLMOps y AgentOps",
+          "Auditoría, evidencia y defensa ejecutiva",
+          "Plan 2027-2028"
+        ],
+        "deliverables": [
+          "Capstone completo",
+          "Demo funcional",
+          "Repositorio",
+          "Documento de arquitectura",
+          "Defensa ejecutiva"
+        ]
+      }
+    ]
+  },
+  "legal_and_regulatory_framework": {
+    "policy": "Todo contenido legal debe indicar jurisdicción, fecha de vigencia, versión, fuente oficial y descargo de que no constituye asesoría legal.",
+    "chile": [
+      {
+        "name": "Marco chileno de protección de datos personales",
+        "topics": [
+          "Principios del tratamiento",
+          "Bases de licitud",
+          "Responsable y encargado",
+          "Derechos de titulares",
+          "Seguridad y confidencialidad",
+          "Transferencias internacionales",
+          "Tratamiento automatizado",
+          "Infracciones, responsabilidad y autoridad de control"
+        ],
+        "source_requirement": "Usar exclusivamente texto legal y materiales oficiales vigentes; validar fechas de entrada en vigor y normas transitorias antes de publicar."
+      },
+      {
+        "name": "Ciberseguridad y protección de infraestructura",
+        "topics": [
+          "Gestión de incidentes",
+          "Obligaciones sectoriales",
+          "Coordinación con el SGSI"
+        ],
+        "source_requirement": "Mantener referencias oficiales versionadas."
+      }
+    ],
+    "international": [
+      "GDPR",
+      "EU AI Act",
+      "LGPD de Brasil",
+      "CCPA/CPRA de California como referencia comparada",
+      "Convenio 108+",
+      "Regulación sectorial aplicable a banca, salud, retail, telecomunicaciones y sector público"
+    ],
+    "rights_arco_and_extended_rights": {
+      "note": "La denominación ARCO puede variar por jurisdicción. El programa debe enseñar a mapear cada derecho al texto legal aplicable.",
+      "rights": [
+        "Acceso",
+        "Rectificación",
+        "Cancelación o supresión",
+        "Oposición",
+        "Portabilidad",
+        "Bloqueo",
+        "Limitación del tratamiento",
+        "Información y transparencia",
+        "Revisión de decisiones automatizadas",
+        "Impugnación y reclamación"
+      ],
+      "operational_controls": [
+        "Portal de solicitudes",
+        "Verificación de identidad",
+        "Gestión de plazos",
+        "Búsqueda multicanal",
+        "Legal hold y excepciones",
+        "Rectificación en sistemas fuente y derivados",
+        "Eliminación en backups según política",
+        "Notificación a encargados",
+        "Registro de evidencias",
+        "Métricas y auditoría"
+      ]
+    }
+  },
+  "technology_stack": {
+    "cloud": {
+      "aws": [
+        "S3",
+        "Lake Formation",
+        "Glue",
+        "Redshift",
+        "SageMaker",
+        "Bedrock",
+        "IAM",
+        "KMS",
+        "CloudWatch"
+      ],
+      "azure": [
+        "ADLS",
+        "Fabric",
+        "Synapse",
+        "Purview",
+        "Azure Machine Learning",
+        "Azure OpenAI",
+        "Entra ID",
+        "Key Vault",
+        "Monitor"
+      ],
+      "gcp": [
+        "Cloud Storage",
+        "BigQuery",
+        "Dataplex",
+        "Dataflow",
+        "Vertex AI",
+        "Cloud Run",
+        "GKE",
+        "IAM",
+        "Cloud KMS",
+        "Cloud Logging"
+      ]
+    },
+    "data_platforms": [
+      "Databricks",
+      "Snowflake",
+      "PostgreSQL",
+      "Kafka",
+      "Apache Iceberg",
+      "Delta Lake",
+      "dbt"
+    ],
+    "ai_and_agents": [
+      "Python",
+      "LangGraph",
+      "LangChain",
+      "MCP",
+      "MLflow",
+      "OpenTelemetry",
+      "Vector Databases",
+      "Knowledge Graphs"
+    ],
+    "governance_tools": [
+      "Collibra",
+      "Informatica",
+      "Microsoft Purview",
+      "Dataplex",
+      "AWS Lake Formation",
+      "Databricks Unity Catalog",
+      "OpenMetadata",
+      "DataHub"
+    ],
+    "diagramming": [
+      "Draw.io",
+      "Lucidchart",
+      "Lucidscale",
+      "Mermaid",
+      "PlantUML",
+      "Structurizr",
+      "Miro",
+      "Visio"
+    ],
+    "devops": [
+      "GitHub",
+      "GitLab",
+      "Terraform",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "Policy as Code",
+      "Infrastructure as Code"
+    ]
+  },
+  "capstone": {
+    "name": "Retail LATAM Agentic Enterprise",
+    "business_context": "Empresa regional de retail, e-commerce, marketplace, loyalty, logística, pagos y atención al cliente que desea operar con hiperpersonalización y agentes de IA sin quedar bloqueada por un único proveedor.",
+    "business_capabilities": [
+      "Customer 360",
+      "Catálogo inteligente",
+      "Recomendaciones",
+      "Marketing personalizado",
+      "Atención omnicanal",
+      "Fraude",
+      "Forecast de demanda",
+      "Optimización logística",
+      "Gestión de proveedores",
+      "Analítica ejecutiva"
+    ],
+    "architecture_scope": [
+      "Landing zone multicloud",
+      "Batch y streaming",
+      "Lakehouse",
+      "Data products",
+      "MDM",
+      "Catálogo, lineage y calidad",
+      "Semantic layer y knowledge graph",
+      "Feature store",
+      "RAG y GraphRAG",
+      "Agentes especializados y supervisor",
+      "MCP y APIs",
+      "MLOps, LLMOps y AgentOps",
+      "IAM, KMS, DLP, logging y SIEM",
+      "Privacy and AI governance"
+    ],
+    "required_agents": [
+      "Agente de gobierno de datos",
+      "Agente de privacidad y atención de derechos",
+      "Agente de arquitectura",
+      "Agente de calidad y observabilidad",
+      "Agente de catálogo y metadata",
+      "Agente de riesgo de IA",
+      "Agente de atención al cliente",
+      "Agente de recomendación con controles de negocio"
+    ],
+    "required_rag_components": [
+      "RAG de políticas internas",
+      "RAG de arquitectura",
+      "RAG normativo versionado",
+      "GraphRAG de activos, procesos, datos, modelos, riesgos y controles",
+      "Citación obligatoria de fuentes",
+      "Control de acceso por documento y fragmento",
+      "Evaluación de groundedness, relevancia, seguridad y fuga de datos"
+    ],
+    "mandatory_artifacts": [
+      "Business case",
+      "Mapa de capacidades",
+      "Arquitectura actual y objetivo",
+      "Modelos TOGAF y ArchiMate",
+      "Diagramas C4",
+      "ADRs",
+      "Data governance operating model",
+      "Data catalog y business glossary",
+      "Data quality scorecard",
+      "RoPA",
+      "DPIA",
+      "Flujo de derechos de titulares",
+      "SGSI scope, risk register y SoA",
+      "AI inventory",
+      "AI impact assessment",
+      "Model Cards y System Cards",
+      "Threat model",
+      "Control matrix",
+      "Plan de observabilidad",
+      "Roadmap 2027-2028",
+      "Demo funcional"
+    ],
+    "acceptance_criteria": [
+      "Arquitectura trazable desde objetivos hasta componentes y controles",
+      "Datos personales clasificados y minimizados",
+      "Derechos de titulares operacionalizados",
+      "Riesgos de seguridad, privacidad e IA registrados y tratados",
+      "Agentes con identidad, permisos mínimos, guardrails y trazabilidad",
+      "RAG con citas y evaluación automática",
+      "Decisiones críticas con supervisión humana",
+      "Diseño portable y estrategia explícita de lock-in",
+      "Costos, SLAs, SLOs y KPIs documentados"
+    ]
+  },
+  "assessment_model": {
+    "weights_percent": {
+      "knowledge_checks": 10,
+      "hands_on_labs": 25,
+      "architecture_artifacts": 25,
+      "case_studies": 10,
+      "capstone": 25,
+      "oral_defense": 5
+    },
+    "passing_score": 70,
+    "requirements": [
+      "Completar al menos el 80% de las actividades",
+      "Aprobar controles éticos, legales y de seguridad del capstone",
+      "Entregar repositorio y documentación",
+      "Defender decisiones y trade-offs"
+    ],
+    "badges": [
+      "Enterprise Architecture",
+      "Data Governance",
+      "Privacy Engineering",
+      "Information Security",
+      "AI Governance",
+      "Agentic AI Architecture",
+      "Architecture Communication"
+    ]
+  },
+  "content_model_for_agent": {
+    "entity_types": [
+      "program",
+      "track",
+      "month",
+      "module",
+      "lesson",
+      "lab",
+      "assessment",
+      "case_study",
+      "template",
+      "legal_source",
+      "standard_reference",
+      "architecture_pattern",
+      "tool_guide",
+      "capstone_artifact"
+    ],
+    "required_fields_per_lesson": [
+      "id",
+      "title",
+      "summary",
+      "learning_objectives",
+      "prerequisites",
+      "estimated_minutes",
+      "content_sections",
+      "examples",
+      "activity",
+      "knowledge_check",
+      "references",
+      "last_reviewed_at"
+    ],
+    "generation_rules": [
+      "No inventar requisitos de normas ISO ni reproducir contenido protegido de estándares.",
+      "Parafrasear conceptos y citar fuentes autorizadas.",
+      "Separar requisito legal, recomendación, control técnico y buena práctica.",
+      "Versionar leyes, reglamentos, marcos y documentación cloud.",
+      "Marcar contenido que requiera revisión jurídica o experta.",
+      "Usar ejemplos de Chile y LATAM sin limitar la transferibilidad internacional.",
+      "Incluir al menos un diagrama, un artefacto editable y un laboratorio por módulo.",
+      "Incluir decisiones y trade-offs, no solo definiciones.",
+      "Mantener trazabilidad entre competencia, lección, evaluación y entregable."
+    ],
+    "content_statuses": [
+      "draft",
+      "expert_review",
+      "legal_review",
+      "approved",
+      "published",
+      "deprecated"
+    ],
+    "review_roles": [
+      "Director académico",
+      "Arquitecto empresarial",
+      "Especialista en gobierno de datos",
+      "Especialista en seguridad",
+      "Especialista en privacidad",
+      "Especialista en gobierno de IA",
+      "Revisor legal",
+      "Instructional designer"
+    ]
+  },
+  "website_requirements": {
+    "pages": [
+      "Landing del Master",
+      "Malla curricular",
+      "Perfil de egreso",
+      "Proyecto capstone",
+      "Certificaciones y marcos relacionados",
+      "Docentes y mentores",
+      "Metodología",
+      "Preguntas frecuentes",
+      "Admisión y precios",
+      "Portal del estudiante",
+      "Biblioteca de plantillas",
+      "Repositorio de arquitecturas",
+      "Laboratorios",
+      "Evaluaciones",
+      "Progreso y badges"
+    ],
+    "features": [
+      "Buscador semántico",
+      "Tutor RAG con fuentes",
+      "Generador de diagramas Mermaid y Structurizr",
+      "Editor y descarga de plantillas",
+      "Tracking de progreso",
+      "Evaluaciones automáticas",
+      "Revisión humana de entregables",
+      "Portafolio público opcional",
+      "Versionado de contenido legal y técnico",
+      "Panel de docentes",
+      "Panel de cohortes",
+      "Certificado verificable"
+    ],
+    "seo_keywords": [
+      "master gobernanza de datos",
+      "master gobernanza de inteligencia artificial",
+      "arquitectura empresarial de datos e IA",
+      "ISO 42001 curso",
+      "DAMA DMBOK CDMP",
+      "TOGAF datos inteligencia artificial",
+      "AI governance LATAM",
+      "data governance Chile",
+      "arquitectura de agentes IA",
+      "RAG empresarial"
+    ]
+  },
+  "reference_policy": {
+    "official_sources_first": true,
+    "standards_copyright_notice": "Las normas ISO son documentos protegidos. El programa no debe copiar ni distribuir su texto completo sin licencia. Debe enseñar interpretación, implementación y uso legítimo mediante materiales propios y referencias autorizadas.",
+    "source_categories": [
+      "Legislación y reguladores oficiales",
+      "ISO y organismos de normalización",
+      "NIST",
+      "Unión Europea",
+      "OCDE",
+      "UNESCO",
+      "The Open Group",
+      "DAMA International",
+      "EDM Council",
+      "Documentación oficial de proveedores cloud",
+      "Artículos científicos y documentación técnica primaria"
+    ],
+    "update_frequency": {
+      "laws_and_regulations": "quarterly_or_on_change",
+      "cloud_platforms": "quarterly",
+      "ai_tools_and_models": "monthly",
+      "core_architecture_frameworks": "semiannual",
+      "course_quality_review": "per_cohort"
+    }
+  },
+  "roadmap_2027_2028": {
+    "2027": [
+      "Lanzamiento de primera cohorte",
+      "Tutor RAG normativo y arquitectónico",
+      "Laboratorio multicloud",
+      "Capstone Retail LATAM",
+      "Badges por dominio",
+      "Programa de mentores",
+      "Biblioteca de plantillas AIF369"
+    ],
+    "2028": [
+      "Especialización en Agentic Enterprise",
+      "Especialización en AI Risk and Audit",
+      "Knowledge Graph empresarial",
+      "Simulador de Architecture Review Board",
+      "Laboratorios de Physical AI y Edge AI",
+      "Marketplace de agentes y plantillas gobernadas",
+      "Alianzas académicas y de certificación"
+    ],
+    "future_topics": [
+      "Agentic Enterprise",
+      "AI Workforce",
+      "AI Operating System",
+      "Enterprise Memory",
+      "Digital Employees",
+      "Autonomous Operations",
+      "Multimodal AI",
+      "Reasoning Models",
+      "Small Language Models",
+      "Sovereign AI",
+      "Confidential Computing",
+      "Synthetic Data",
+      "Privacy Enhancing Technologies",
+      "Federated Learning",
+      "AI assurance",
+      "Post-quantum readiness"
+    ]
+  },
+  "agent_instruction": {
+    "objective": "Crear e integrar en aif369.com el Master AIF369 en Arquitectura, Gobernanza de Datos e Inteligencia Artificial usando este JSON como fuente estructural inicial.",
+    "execution_order": [
+      "Validar el esquema y generar tipos o interfaces",
+      "Crear la landing y la página de malla curricular",
+      "Crear estructura de base de datos o CMS",
+      "Cargar meses, módulos y entregables",
+      "Crear páginas del capstone y perfil de egreso",
+      "Implementar versionado de referencias",
+      "Crear panel de administración de contenidos",
+      "Incorporar tutor RAG solo con fuentes aprobadas",
+      "Agregar laboratorios y plantillas progresivamente",
+      "No publicar contenido legal sin revisión"
+    ],
+    "non_negotiable_rules": [
+      "No presentar el programa como grado académico oficial sin acreditación correspondiente.",
+      "No afirmar que AIF369 certifica oficialmente ISO, TOGAF, DAMA, DCAM o terceros sin convenios y autorización.",
+      "No copiar textos completos protegidos de estándares.",
+      "No ofrecer asesoría legal automatizada.",
+      "Mostrar fecha de actualización y fuentes en contenidos regulatorios.",
+      "Mantener accesibilidad, seguridad y privacidad desde el diseño."
+    ]
+  }
+}

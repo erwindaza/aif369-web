@@ -33,7 +33,7 @@ jobs:
           pip install pytest pytest-asyncio
 
       - name: Run agent tests
-        run: pytest tests/test_master_agents.py -v --tb=short
+        run: PYTHONPATH=. pytest tests/test_master_agents.py -v --tb=short
 
   validate-schema:
     runs-on: ubuntu-latest
