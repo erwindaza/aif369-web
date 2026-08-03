@@ -118,7 +118,7 @@ app = FastAPI(
 
 # ─── Health Check ──────────────────────────────────────────────────────────
 
-@app.get("/health", tags=["Health"])
+@app.get("/api/master/health", tags=["Health"])
 async def health_check():
     """Liveness check"""
     return {
@@ -128,7 +128,7 @@ async def health_check():
     }
 
 
-@app.get("/stats", tags=["System"])
+@app.get("/api/master/stats", tags=["System"])
 async def get_stats():
     """Get system statistics"""
     stats = await orchestrator.get_system_stats()
@@ -137,7 +137,7 @@ async def get_stats():
 
 # ─── Task API ──────────────────────────────────────────────────────────────
 
-@app.post("/submit", tags=["Tasks"], response_model=dict)
+@app.post("/api/master/submit", tags=["Tasks"], response_model=dict)
 async def submit_task(request: TaskRequest):
     """
     Submit a task to the orchestrator
@@ -176,7 +176,7 @@ async def submit_task(request: TaskRequest):
     }
 
 
-@app.get("/result/{task_id}", tags=["Tasks"], response_model=dict)
+@app.get("/api/master/result/{task_id}", tags=["Tasks"], response_model=dict)
 async def get_result(task_id: str, wait_ms: int = 0):
     """
     Get result for a task
@@ -215,7 +215,7 @@ async def get_result(task_id: str, wait_ms: int = 0):
     return result.to_dict()
 
 
-@app.post("/submit_and_wait", tags=["Tasks"], response_model=dict)
+@app.post("/api/master/submit_and_wait", tags=["Tasks"], response_model=dict)
 async def submit_and_wait(request: TaskRequest):
     """
     Submit task and wait for result (blocking)
@@ -251,7 +251,7 @@ async def submit_and_wait(request: TaskRequest):
 
 # ─── Recurring Tasks (Scheduler) ────────────────────────────────────────────
 
-@app.post("/schedule", tags=["Scheduler"])
+@app.post("/api/master/schedule", tags=["Scheduler"])
 async def schedule_recurring_task(
     task_name: str,
     cron_expression: str,
@@ -349,7 +349,7 @@ async def whatsapp_webhook(message: WhatsAppMessage):
     }
 
 
-@app.post("/classify", tags=["Classification"])
+@app.post("/api/master/classify", tags=["Classification"])
 async def classify_intent(request: dict):
     """
     Classify user intent and recommend agent
@@ -382,7 +382,7 @@ async def classify_intent(request: dict):
     }
 
 
-@app.post("/submit_auto", tags=["Tasks"])
+@app.post("/api/master/submit_auto", tags=["Tasks"])
 async def submit_auto(request: dict):
     """
     Submit task with automatic agent selection based on intent
@@ -444,7 +444,7 @@ async def submit_auto(request: dict):
         }
 
 
-@app.get("/agents", tags=["System"])
+@app.get("/api/master/agents", tags=["System"])
 async def list_agents():
     """List all available agents"""
     return {
