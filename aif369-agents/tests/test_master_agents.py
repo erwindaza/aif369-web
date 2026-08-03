@@ -8,8 +8,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import asyncio
 import pytest
-from models import Task
-from agents import InstructorAgent, EvaluatorAgent, ComplianceAgent
+from models.task import Task
+from agents.instructor_agent import InstructorAgent
+from agents.evaluator_agent import EvaluatorAgent
+from agents.compliance_agent import ComplianceAgent
 
 
 @pytest.mark.asyncio
