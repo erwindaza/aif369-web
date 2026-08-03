@@ -65,14 +65,14 @@ class DamabookAgent(BaseAgent):
             "aplicacion": "Organizaciones públicas y privadas que procesen datos personales",
         }
 
-        self.derechos_titular = [
+        self.derechos_titular = {
             "Acceso": "Derecho a acceder a sus datos personales",
             "Rectificación": "Corregir datos inexactos",
             "Supresión": "Eliminación de datos (derecho al olvido)",
             "Limitación": "Limitar el procesamiento",
             "Oposición": "Rechazar ciertos tipos de procesamiento",
             "Portabilidad": "Transferir datos a otra organización",
-        ]
+        }
 
         self.obligaciones = [
             "Obtener consentimiento explícito",
