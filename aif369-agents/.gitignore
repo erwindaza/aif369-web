@@ -47,9 +47,11 @@ htmlcov/
 *.log
 logs/
 
-# Ollama
+# Ollama (downloaded models only)
 .ollama/
-models/
+models/*.bin
+models/*.gguf
+models/*.safetensors
 
 # Database (if added later)
 *.db
