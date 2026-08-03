@@ -33,7 +33,9 @@ jobs:
           pip install pytest pytest-asyncio
 
       - name: Run all tests
-        run: PYTHONPATH=. pytest tests/ -v --tb=short --cov=agents --cov-report=xml
+        env:
+          PYTHONPATH: .
+        run: pytest tests/ -v --tb=short --cov=agents --cov-report=xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3

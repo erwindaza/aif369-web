@@ -33,7 +33,9 @@ jobs:
           pip install pytest pytest-asyncio
 
       - name: Run comprehensive tests
-        run: PYTHONPATH=. pytest tests/ -v --tb=short
+        env:
+          PYTHONPATH: .
+        run: pytest tests/ -v --tb=short
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -74,7 +76,8 @@ jobs:
       - name: Run integration tests
         env:
           DATABASE_URL: postgresql://postgres:test@localhost:5432/aif369_master_test
-        run: PYTHONPATH=. pytest tests/ -v -k integration --tb=short || true
+          PYTHONPATH: .
+        run: pytest tests/ -v -k integration --tb=short || true
 
   build-docker:
     needs: [test-agents, integration-tests]
