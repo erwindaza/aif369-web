@@ -3,8 +3,16 @@
 Test Instructor, Evaluator, Compliance agents
 """
 import sys
+import os
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+
+# Ensure parent directory is in path BEFORE any other imports
+parent_dir = str(Path(__file__).parent.parent.absolute())
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+# Change to parent directory for imports to work
+os.chdir(Path(__file__).parent.parent)
 
 import asyncio
 import pytest
