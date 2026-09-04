@@ -4,28 +4,28 @@
 locals {
   master_environments = {
     dev = {
-      service_name   = "aif369-master-api-dev"
-      min_instances  = 1
-      max_instances  = 5
-      memory         = "2Gi"
-      cpu            = "2"
-      timeout        = 3600
+      service_name  = "aif369-master-api-dev"
+      min_instances = 1
+      max_instances = 5
+      memory        = "2Gi"
+      cpu           = "2"
+      timeout       = 3600
     }
     qa = {
-      service_name   = "aif369-master-api-qa"
-      min_instances  = 1
-      max_instances  = 10
-      memory         = "2Gi"
-      cpu            = "2"
-      timeout        = 3600
+      service_name  = "aif369-master-api-qa"
+      min_instances = 1
+      max_instances = 10
+      memory        = "2Gi"
+      cpu           = "2"
+      timeout       = 3600
     }
     production = {
-      service_name   = "aif369-master-api"
-      min_instances  = 2
-      max_instances  = 20
-      memory         = "4Gi"
-      cpu            = "4"
-      timeout        = 3600
+      service_name  = "aif369-master-api"
+      min_instances = 2
+      max_instances = 20
+      memory        = "4Gi"
+      cpu           = "4"
+      timeout       = 3600
     }
   }
 }
@@ -46,7 +46,7 @@ resource "google_cloud_run_service" "master_api" {
         image = "gcr.io/${var.project_id}/aif369-master-api-${each.key}:latest"
 
         ports {
-          container_port = 8000  # FastAPI default
+          container_port = 8000 # FastAPI default
         }
 
         resources {
@@ -109,8 +109,8 @@ resource "google_cloud_run_service" "master_api" {
 
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale" = each.value.min_instances
-        "autoscaling.knative.dev/maxScale" = each.value.max_instances
+        "autoscaling.knative.dev/minScale"             = each.value.min_instances
+        "autoscaling.knative.dev/maxScale"             = each.value.max_instances
         "run.googleapis.com/cpu-throttling-after-init" = "false"
       }
     }
