@@ -81,15 +81,15 @@ jobs:
           fetch-depth: 0
 
       - name: SonarQube Scan
-        if: ${{ vars.SONAR_HOST_URL != '' || secrets.SONAR_HOST_URL != '' }}
+        if: ${{ vars.SONAR_HOST_URL != '' }}
         uses: sonarsource/sonarqube-scan-action@v4
         env:
-          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Skip (no SonarQube server configured yet)
-        if: ${{ vars.SONAR_HOST_URL == '' && secrets.SONAR_HOST_URL == '' }}
-        run: echo "SONAR_HOST_URL not set — add it plus SONAR_TOKEN as GitHub secrets to enable scanning."
+        if: ${{ vars.SONAR_HOST_URL == '' }}
+        run: echo "SONAR_HOST_URL not set — add it as a GitHub repo variable and SONAR_TOKEN as a secret to enable scanning."
 
   # ── Terraform validate ───────────────────────────────────
   terraform-validate:
