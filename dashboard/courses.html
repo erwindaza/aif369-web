@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis cursos - AIF369</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="../index.html" class="logo"><span class="logo-name">AIF369</span></a>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="../courses/index.html" class="btn btn-outline">Comprar cursos</a>
+        </div>
+    </nav>
+</header>
+<main>
+    <section class="section container">
+        <header class="section-header">
+            <h1>Mis cursos</h1>
+            <p>El contenido pagado se muestra solo con enrollment activo.</p>
+        </header>
+        <article class="revenue-card is-locked" data-access-product="engineering-with-ai-masterclass">
+            <h2>Engineering with AI Masterclass</h2>
+            <div data-locked-content>
+                <p class="revenue-alert">Acceso bloqueado. Compra la masterclass o entra con el email usado en PayPal.</p>
+                <a href="../checkout.html?product=engineering-with-ai-masterclass" class="btn btn-primary">Comprar acceso</a>
+            </div>
+            <div data-paid-content hidden>
+                <p class="revenue-alert">Acceso activo. Pago COMPLETED verificado por backend.</p>
+                <ul class="simple-list">
+                    <li>Modulo 1: Del problema de ingenieria a la especificacion</li>
+                    <li>Modulo 2: Historias, criterios y arquitectura</li>
+                    <li>Modulo 3: Flujo de implementacion asistido por IA</li>
+                </ul>
+            </div>
+        </article>
+    </section>
+</main>
+<script src="../assets/revenue-engine.js"></script>
+</body>
+</html>

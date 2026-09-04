@@ -3,6 +3,7 @@ import json
 import uuid
 import smtplib
 import re
+import secrets
 import requests as http_requests
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
@@ -431,8 +432,230 @@ def health_check():
     return jsonify({"status": "ok", "service": "aif369-backend"}), 200
 
 
-PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET", "")
-PAYPAL_BASE = "https://api-m.paypal.com"
+PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_SECRET") or os.getenv("PAYPAL_CLIENT_SECRET", "")
+PAYPAL_BASE = "https://api-m.sandbox.paypal.com" if PAYPAL_MODE == "sandbox" else "https://api-m.paypal.com"
+POSTGRES_URL = os.getenv("DATABASE_URL", "")
+
+PAYMENT_EVENTS_TABLE_ID = os.getenv("PAYMENT_EVENTS_TABLE_ID", "payment_events")
+STUDENT_ENROLLMENTS_TABLE = os.getenv("POSTGRES_STUDENT_TABLE", "student_enrollments")
+
+REVENUE_PRODUCTS = {
+    "engineering-with-ai-masterclass": {
+        "id": "engineering-with-ai-masterclass",
+        "slug": "engineering-with-ai-masterclass",
+        "name": "Engineering with AI Masterclass",
+        "type": "paid_masterclass",
+        "description": "Spec-Driven & Agentic Engineering para ingenieros.",
+        "currency": "USD",
+        "price": 39,
+        "status": "active",
+        "payment_required": True,
+        "course_id": "engineering-with-ai",
+    },
+    "private-ai-class": {
+        "id": "private-ai-class",
+        "slug": "private-ai-class",
+        "name": "Private AI / Data / Cloud Class",
+        "type": "one_to_one",
+        "description": "Clase privada de 60 minutos en IA, datos, cloud o agentes.",
+        "currency": "USD",
+        "price": 50,
+        "status": "active",
+        "payment_required": True,
+        "course_id": None,
+    },
+    "engineering-with-ai-full-program": {
+        "id": "engineering-with-ai-full-program",
+        "slug": "engineering-with-ai-full-program",
+        "name": "Engineering with AI Full Program",
+        "type": "professional_course",
+        "description": "Programa profesional completo en preventa.",
+        "currency": "USD",
+        "price": 297,
+        "status": "presale",
+        "payment_required": True,
+        "course_id": "engineering-with-ai",
+    },
+    "corporate-engineering-ai-workshop": {
+        "id": "corporate-engineering-ai-workshop",
+        "slug": "corporate-engineering-ai-workshop",
+        "name": "Engineering with AI - Corporate",
+        "type": "b2b_training",
+        "description": "Workshop corporativo de 2 a 4 horas.",
+        "currency": "USD",
+        "price": 600,
+        "status": "active",
+        "payment_required": True,
+        "course_id": None,
+    },
+    "ai-opportunity-assessment": {
+        "id": "ai-opportunity-assessment",
+        "slug": "ai-opportunity-assessment",
+        "name": "AI Opportunity Assessment",
+        "type": "consulting",
+        "description": "Mapa de oportunidades, ROI, riesgos y roadmap.",
+        "currency": "USD",
+        "price": 5000,
+        "status": "sell_with_discovery_call",
+        "payment_required": True,
+        "course_id": None,
+    },
+}
+
+_payment_audit_store = []
+_active_access_store = {}
+
+
+def _valid_email(email: str) -> bool:
+    return bool(re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email or ""))
+
+
+def _get_product(product_id: str):
+    return REVENUE_PRODUCTS.get((product_id or "").strip())
+
+
+def _record_payment_event(event_type: str, payload: dict) -> dict:
+    row = {
+        "id": str(uuid.uuid4()),
+        "event_type": event_type,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "payload": json.dumps(payload, ensure_ascii=False, default=str),
+    }
+    _payment_audit_store.append(row)
+    try:
+        get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{PAYMENT_EVENTS_TABLE_ID}", [row])
+    except Exception as bq_err:
+        print(f"Payment event BQ error (non-fatal): {bq_err}")
+    return row
+
+
+def _activate_access(email: str, product_id: str, order_id: str, capture_id: str = "") -> str:
+    """Grant access and return an unguessable bearer token bound to this purchase.
+
+    Access is looked up by this token, never by email alone, so knowing/guessing
+    a buyer's email is not enough to view their purchase status or paid content.
+    """
+    product = _get_product(product_id)
+    if not product:
+        return ""
+    token = secrets.token_urlsafe(32)
+    _active_access_store[token] = {
+        "email": email.strip().lower(),
+        "product_id": product_id,
+        "course_id": product.get("course_id"),
+        "payment_status": "COMPLETED",
+        "access_status": "ACTIVE",
+        "provider_order_id": order_id,
+        "provider_capture_id": capture_id,
+        "activated_at": datetime.now(timezone.utc).isoformat(),
+    }
+    return token
+
+
+def _postgres_connect():
+    """Lazy Postgres connector. Returns None if DATABASE_URL or psycopg2 is unavailable."""
+    if not POSTGRES_URL:
+        return None
+    try:
+        import psycopg2
+        return psycopg2.connect(POSTGRES_URL, connect_timeout=5)
+    except Exception as exc:
+        print(f"Postgres connection unavailable: {exc}")
+        return None
+
+
+def _ensure_student_enrollments_table(conn) -> None:
+    with conn.cursor() as cur:
+        cur.execute(f"""
+            CREATE TABLE IF NOT EXISTS {STUDENT_ENROLLMENTS_TABLE} (
+                id UUID PRIMARY KEY,
+                product_id TEXT NOT NULL,
+                full_name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                phone TEXT,
+                country TEXT,
+                role TEXT,
+                company TEXT,
+                message TEXT,
+                source_page TEXT,
+                signup_status TEXT NOT NULL DEFAULT 'pending',
+                payment_status TEXT NOT NULL DEFAULT 'pending',
+                payment_reference TEXT,
+                access_status TEXT NOT NULL DEFAULT 'locked',
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                UNIQUE (email, product_id)
+            )
+        """)
+
+
+def _upsert_student_enrollment(record: dict) -> dict:
+    conn = _postgres_connect()
+    if not conn:
+        return {"saved": False, "storage": "postgres_unavailable"}
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                _ensure_student_enrollments_table(conn)
+                cur.execute(f"""
+                    INSERT INTO {STUDENT_ENROLLMENTS_TABLE} (
+                        id, product_id, full_name, email, phone, country, role, company, message,
+                        source_page, signup_status, payment_status, payment_reference, access_status,
+                        created_at, updated_at
+                    ) VALUES (
+                        %(id)s, %(product_id)s, %(full_name)s, %(email)s, %(phone)s, %(country)s,
+                        %(role)s, %(company)s, %(message)s, %(source_page)s, %(signup_status)s,
+                        %(payment_status)s, %(payment_reference)s, %(access_status)s, NOW(), NOW()
+                    )
+                    ON CONFLICT (email, product_id) DO UPDATE SET
+                        full_name = EXCLUDED.full_name,
+                        phone = EXCLUDED.phone,
+                        country = EXCLUDED.country,
+                        role = EXCLUDED.role,
+                        company = EXCLUDED.company,
+                        message = EXCLUDED.message,
+                        source_page = EXCLUDED.source_page,
+                        signup_status = EXCLUDED.signup_status,
+                        payment_status = EXCLUDED.payment_status,
+                        payment_reference = EXCLUDED.payment_reference,
+                        access_status = EXCLUDED.access_status,
+                        updated_at = NOW()
+                    RETURNING id, created_at, updated_at
+                """, record)
+                row = cur.fetchone()
+                return {
+                    "saved": True,
+                    "id": str(row[0]),
+                    "created_at": row[1].isoformat() if hasattr(row[1], "isoformat") else row[1],
+                    "updated_at": row[2].isoformat() if hasattr(row[2], "isoformat") else row[2],
+                }
+    except Exception as exc:
+        print(f"Postgres enrollment write failed: {exc}")
+        return {"saved": False, "error": str(exc)}
+    finally:
+        conn.close()
+
+
+def _mark_student_paid(email: str, product_id: str, order_id: str, capture_id: str) -> None:
+    if not POSTGRES_URL:
+        return
+    payload = {
+        "id": str(uuid.uuid4()),
+        "product_id": product_id,
+        "full_name": email.split("@")[0] if email else "student",
+        "email": email,
+        "phone": None,
+        "country": None,
+        "role": None,
+        "company": None,
+        "message": None,
+        "source_page": "checkout",
+        "signup_status": "enrolled",
+        "payment_status": "completed",
+        "payment_reference": f"{order_id}:{capture_id}",
+        "access_status": "active",
+    }
+    _upsert_student_enrollment(payload)
 
 
 def _paypal_access_token() -> str:
@@ -454,7 +677,294 @@ def get_paypal_config():
     client_id = os.getenv("PAYPAL_CLIENT_ID", "")
     if not client_id:
         return jsonify({"error": "PayPal not configured"}), 503
-    return jsonify({"client_id": client_id}), 200
+    return jsonify({"client_id": client_id, "mode": PAYPAL_MODE}), 200
+
+
+@app.route("/api/revenue/products", methods=["GET"])
+def revenue_products():
+    """Public commercial product catalog. Prices are still enforced server-side."""
+    return jsonify({"products": list(REVENUE_PRODUCTS.values())}), 200
+
+
+@app.route("/api/revenue/access", methods=["POST"])
+def revenue_access_status():
+    """Return gated access status for a bearer access_token issued at capture time.
+
+    Email/product_id alone are never accepted here: they are not secrets, so
+    trusting them would let anyone query or unlock another buyer's access.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    token = (data.get("access_token") or "").strip()
+    if not token:
+        return jsonify({"payment_status": "NONE", "access_status": "LOCKED"}), 200
+    access = _active_access_store.get(token)
+    if not access:
+        return jsonify({"payment_status": "NONE", "access_status": "LOCKED"}), 200
+    return jsonify(access), 200
+
+
+@app.route("/api/student-enrollments", methods=["POST"])
+def create_student_enrollment():
+    """Store a student intake record in Postgres before payment."""
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+
+    data = request.get_json()
+    full_name = (data.get("full_name") or data.get("name") or "").strip()
+    email = (data.get("email") or "").strip().lower()
+    product_id = (data.get("product_id") or "").strip()
+    phone = (data.get("phone") or "").strip() or None
+    country = (data.get("country") or "").strip() or None
+    role = (data.get("role") or "").strip() or None
+    company = (data.get("company") or "").strip() or None
+    message = (data.get("message") or "").strip() or None
+    source_page = (data.get("source_page") or request.referrer or "").strip() or None
+
+    if not full_name or not _valid_email(email) or not product_id:
+        return jsonify({"error": "full_name, valid email and product_id are required"}), 400
+
+    product = _get_product(product_id)
+    if not product:
+        return jsonify({"error": "invalid product_id"}), 400
+
+    record = {
+        "id": str(uuid.uuid4()),
+        "product_id": product_id,
+        "full_name": full_name,
+        "email": email,
+        "phone": phone,
+        "country": country,
+        "role": role,
+        "company": company,
+        "message": message,
+        "source_page": source_page,
+        "signup_status": "pending",
+        "payment_status": "pending",
+        "payment_reference": None,
+        "access_status": "locked",
+    }
+
+    saved = _upsert_student_enrollment(record)
+    if not saved.get("saved"):
+        return jsonify({
+            "error": "Could not save student enrollment",
+            "details": saved.get("error") or saved.get("storage"),
+        }), 503
+
+    return jsonify({
+        "success": True,
+        "student_id": saved["id"],
+        "product_id": product_id,
+        "next_url": f"/checkout.html?product={product_id}",
+    }), 201
+
+
+@app.route("/api/paypal/revenue/create-order", methods=["POST"])
+def paypal_revenue_create_order():
+    """
+    Create an order for launch products. The browser sends only product identity;
+    amount, currency and description are controlled by this backend.
+    """
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    email = (data.get("email") or "").strip().lower()
+    product_id = (data.get("product_id") or "").strip()
+    product = _get_product(product_id)
+    if not _valid_email(email):
+        return jsonify({"error": "valid email required"}), 400
+    if not product:
+        return jsonify({"error": "invalid product_id"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured (missing secret)"}), 503
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "intent": "CAPTURE",
+                "purchase_units": [{
+                    "reference_id": product["id"],
+                    "description": f'{product["name"]} — AIF369',
+                    "custom_id": email,
+                    "amount": {
+                        "currency_code": product["currency"],
+                        "value": f'{product["price"]:.2f}',
+                    },
+                }],
+                "application_context": {
+                    "brand_name": "AIF369",
+                    "shipping_preference": "NO_SHIPPING",
+                    "user_action": "PAY_NOW",
+                },
+            },
+            timeout=15,
+        )
+        resp.raise_for_status()
+        order = resp.json()
+        _record_payment_event("paypal_order_created", {
+            "provider_order_id": order["id"],
+            "email": email,
+            "product_id": product["id"],
+            "amount": product["price"],
+            "currency": product["currency"],
+            "status": order.get("status"),
+        })
+        return jsonify({
+            "orderID": order["id"],
+            "product_id": product["id"],
+            "amount": product["price"],
+            "currency": product["currency"],
+        }), 200
+    except Exception as e:
+        print(f"PayPal revenue create-order error: {e}")
+        return jsonify({"error": "Could not create PayPal order"}), 500
+
+
+@app.route("/api/paypal/revenue/capture-order", methods=["POST"])
+def paypal_revenue_capture_order():
+    """Capture payment and grant access only when PayPal returns COMPLETED."""
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json()
+    order_id = (data.get("orderID") or "").strip()
+    email = (data.get("email") or "").strip().lower()
+    product_id = (data.get("product_id") or "").strip()
+    product = _get_product(product_id)
+    if not order_id:
+        return jsonify({"error": "orderID required"}), 400
+    if not _valid_email(email):
+        return jsonify({"error": "valid email required"}), 400
+    if not product:
+        return jsonify({"error": "invalid product_id"}), 400
+    if not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "PayPal not fully configured"}), 503
+
+    try:
+        token = _paypal_access_token()
+        resp = http_requests.post(
+            f"{PAYPAL_BASE}/v2/checkout/orders/{order_id}/capture",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        capture = resp.json()
+        status = capture.get("status")
+
+        if status != "COMPLETED":
+            _record_payment_event("paypal_capture_not_completed", {
+                "provider_order_id": order_id,
+                "email": email,
+                "product_id": product_id,
+                "status": status,
+            })
+            return jsonify({"error": "Payment not completed", "status": status, "access_status": "LOCKED"}), 400
+
+        capture_node = (
+            capture.get("purchase_units", [{}])[0]
+            .get("payments", {})
+            .get("captures", [{}])[0]
+        )
+        amount = float(capture_node.get("amount", {}).get("value", 0))
+        currency = capture_node.get("amount", {}).get("currency_code")
+        capture_id = capture_node.get("id", "")
+
+        if amount != float(product["price"]) or currency != product["currency"]:
+            _record_payment_event("paypal_capture_amount_mismatch", {
+                "provider_order_id": order_id,
+                "email": email,
+                "product_id": product_id,
+                "captured_amount": amount,
+                "expected_amount": product["price"],
+                "captured_currency": currency,
+                "expected_currency": product["currency"],
+            })
+            return jsonify({"error": "Payment amount mismatch", "access_status": "LOCKED"}), 409
+
+        access_token = _activate_access(email, product_id, order_id, capture_id)
+        _mark_student_paid(email, product_id, order_id, capture_id)
+        _record_payment_event("paypal_capture_completed", {
+            "provider_order_id": order_id,
+            "provider_capture_id": capture_id,
+            "email": email,
+            "product_id": product_id,
+            "amount": amount,
+            "currency": currency,
+            "status": status,
+            "access_status": "ACTIVE",
+        })
+        send_alert_email(
+            f"Pago confirmado — {product['name']}",
+            f"""<html><body style="font-family:sans-serif">
+            <h2>Pago confirmado</h2>
+            <p><strong>Producto:</strong> {product['name']}</p>
+            <p><strong>Monto:</strong> {amount} {currency}</p>
+            <p><strong>Email:</strong> {email}</p>
+            <p><strong>Order ID:</strong> {order_id}</p>
+            <p><strong>Capture ID:</strong> {capture_id}</p>
+            </body></html>"""
+        )
+        return jsonify({
+            "status": "COMPLETED",
+            "access_status": "ACTIVE",
+            "orderID": order_id,
+            "captureID": capture_id,
+            "access_token": access_token,
+            "product": product,
+        }), 200
+    except Exception as e:
+        print(f"PayPal revenue capture-order error: {e}")
+        return jsonify({"error": "Could not capture payment"}), 500
+
+
+@app.route("/api/paypal/webhook", methods=["POST"])
+def paypal_webhook():
+    """Record PayPal webhook events. Signature verification is required for live launch."""
+    event = request.get_json(silent=True) or {}
+    event_type = event.get("event_type", "unknown")
+    webhook_id = os.getenv("PAYPAL_WEBHOOK_ID", "")
+    if PAYPAL_MODE == "live" and not webhook_id:
+        return jsonify({"error": "PAYPAL_WEBHOOK_ID required in live mode"}), 503
+    _record_payment_event("paypal_webhook_received", {
+        "event_type": event_type,
+        "paypal_event_id": event.get("id"),
+        "resource": event.get("resource", {}),
+        "webhook_signature_headers_present": all([
+            request.headers.get("Paypal-Transmission-Id"),
+            request.headers.get("Paypal-Transmission-Sig"),
+            request.headers.get("Paypal-Cert-Url"),
+        ]),
+    })
+    return jsonify({"received": True, "event_type": event_type}), 200
+
+
+@app.route("/api/admin/revenue", methods=["GET"])
+def admin_revenue():
+    """Minimal admin revenue view protected by CONTENT_API_KEY."""
+    if not _require_api_key():
+        return jsonify({"error": "Unauthorized"}), 401
+    completed = [
+        row for row in _payment_audit_store
+        if row["event_type"] == "paypal_capture_completed"
+    ]
+    gross = 0.0
+    by_product = defaultdict(float)
+    for row in completed:
+        payload = json.loads(row["payload"])
+        gross += float(payload.get("amount", 0))
+        by_product[payload.get("product_id", "unknown")] += float(payload.get("amount", 0))
+    return jsonify({
+        "gross_revenue": gross,
+        "currency": "USD",
+        "payments_count": len(completed),
+        "revenue_by_product": dict(by_product),
+        "active_access_count": len(_active_access_store),
+        "recent_events": _payment_audit_store[-50:],
+    }), 200
 
 
 @app.route("/api/paypal/create-order", methods=["POST"])
@@ -1088,8 +1598,9 @@ def ensure_metadata_table():
         print(f"Error ensuring metadata table: {e}")
         return False
 
-# Crear tabla de metadata en startup
-ensure_metadata_table()
+# Crear tabla de metadata en startup, excepto en tests/imports offline.
+if os.getenv("AIF369_SKIP_STARTUP_BQ", "0") != "1":
+    ensure_metadata_table()
 
 @app.route("/api/scorecard", methods=["POST"])
 def submit_scorecard():

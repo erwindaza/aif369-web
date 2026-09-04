@@ -98,6 +98,16 @@ resource "google_cloud_run_service" "backend" {
           }
         }
 
+        env {
+          name = "DATABASE_URL"
+          value_from {
+            secret_key_ref {
+              name = "aif369-postgres-database-url"
+              key  = "latest"
+            }
+          }
+        }
+
         resources {
           limits = {
             cpu    = "1"

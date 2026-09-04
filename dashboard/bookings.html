@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis reservas - AIF369</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+    <section class="section container" style="padding-top:120px;">
+        <header class="section-header"><h1>Clases privadas</h1><p>Reserva habilitada solo despues de pago confirmado.</p></header>
+        <article class="revenue-card is-locked" data-access-product="private-ai-class">
+            <div data-locked-content>
+                <p class="revenue-alert">No hay pago activo para clase privada.</p>
+                <a href="../checkout.html?product=private-ai-class" class="btn btn-primary">Pagar clase</a>
+            </div>
+            <div data-paid-content hidden>
+                <p class="revenue-alert">Pago confirmado. Agenda tu horario con el mismo email de compra.</p>
+                <a href="https://calendly.com/edaza-aif369/30min" class="btn btn-primary">Agendar clase</a>
+            </div>
+        </article>
+    </section>
+</main>
+<script src="../assets/revenue-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Opportunity Assessment - AIF369</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span></a>
+        <div class="nav-links">
+            <a href="services.html">Servicios</a>
+            <a href="ai-opportunity-assessment.html" class="active">Assessment</a>
+            <a href="#lead" class="btn btn-primary">Cotizar</a>
+        </div>
+    </nav>
+</header>
+<main>
+    <section class="container revenue-hero">
+        <div class="hero-content">
+            <p class="badge">Consultoria pagada</p>
+            <h1>AI Opportunity Assessment</h1>
+            <p class="hero-subtitle">Identifica procesos, oportunidades de IA, ROI, riesgos, arquitectura, integraciones, gobierno y roadmap de produccion antes de invertir en un PoC.</p>
+            <div class="hero-actions">
+                <a href="#lead" class="btn btn-primary">Solicitar discovery comercial</a>
+                <a href="checkout.html?product=ai-opportunity-assessment" class="btn btn-outline">Pagar assessment inicial</a>
+            </div>
+        </div>
+    </section>
+    <section class="section section-alt">
+        <div class="container revenue-grid">
+            <article class="revenue-card"><h3>Entregables</h3><p>Mapa de oportunidades, estimacion ROI, clasificacion de riesgo, propuesta de arquitectura y recomendacion PoC.</p></article>
+            <article class="revenue-card"><h3>Rango inicial</h3><p>Desde USD $5,000 hasta USD $20,000 segun alcance, datos, stakeholders e integraciones.</p></article>
+            <article class="revenue-card"><h3>Ideal para</h3><p>Empresas que necesitan priorizar casos de uso con retorno medible y controles de gobierno.</p></article>
+        </div>
+    </section>
+    <section class="section" id="lead">
+        <div class="container">
+            <form class="contact-form" data-contact-form data-endpoint="/api/contact">
+                <div class="form-grid">
+                    <div class="form-group"><label>Nombre *</label><input name="name" required></div>
+                    <div class="form-group"><label>Email *</label><input type="email" name="email" required></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label>Empresa *</label><input name="company" required></div>
+                    <div class="form-group"><label>Rol</label><input name="role"></div>
+                </div>
+                <div class="form-group"><label>Proceso o desafio *</label><textarea name="message" required></textarea></div>
+                <input type="hidden" name="interest" value="ai-opportunity-assessment">
+                <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+            </form>
+        </div>
+    </section>
+</main>
+<script src="scripts.js"></script>
+</body>
+</html>

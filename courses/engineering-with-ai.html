@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering with AI - AIF369</title>
+    <meta name="description" content="Masterclass pagada Engineering with AI: Spec-Driven y Agentic Engineering para ingenieros.">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="../index.html" class="logo"><span class="logo-name">AIF369</span></a>
+        <div class="nav-links">
+            <a href="../index.html">Inicio</a>
+            <a href="index.html">Cursos</a>
+            <a href="../checkout.html?product=engineering-with-ai-masterclass" class="btn btn-primary">Comprar</a>
+        </div>
+    </nav>
+</header>
+<main>
+    <section class="container revenue-hero">
+        <div class="hero-content">
+            <p class="badge">Masterclass pagada - 120 minutos</p>
+            <h1>Engineering with AI</h1>
+            <p class="hero-subtitle">No necesitas convertirte en programador para construir con IA. Necesitas aprender a especificar: problema, requerimientos, historias, criterios de aceptacion, arquitectura y validacion.</p>
+            <div class="hero-actions">
+                <a href="../checkout.html?product=engineering-with-ai-masterclass" class="btn btn-primary">Comprar masterclass - USD $39</a>
+                <a href="../dashboard/courses.html" class="btn btn-outline">Ya compre, ver acceso</a>
+            </div>
+        </div>
+    </section>
+    <section class="section section-alt">
+        <div class="container">
+            <div class="revenue-grid">
+                <article class="revenue-card">
+                    <h3>Resultado</h3>
+                    <p>Sales con una especificacion simple y un flujo de implementacion asistido por IA para una solucion real.</p>
+                </article>
+                <article class="revenue-card">
+                    <h3>Contenido</h3>
+                    <ul class="simple-list">
+                        <li>Del problema a la especificacion</li>
+                        <li>User Stories para ingenieros</li>
+                        <li>Spec-Driven Development</li>
+                        <li>Agentic Engineering y validacion</li>
+                    </ul>
+                </article>
+                <article class="revenue-card">
+                    <h3>Regla comercial</h3>
+                    <p>No hay acceso a la clase, material ni dashboard hasta que PayPal confirme el pago y el backend active la inscripcion.</p>
+                </article>
+            </div>
+            <form class="revenue-card revenue-form" data-student-intake-form data-product-id="engineering-with-ai-masterclass" style="margin-top:var(--space-8);">
+                <h2>Inscripcion al curso especial</h2>
+                <label>Nombre completo <input name="full_name" autocomplete="name" required></label>
+                <label>Email <input name="email" type="email" autocomplete="email" required></label>
+                <div class="revenue-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-4);">
+                    <label>Telefono <input name="phone" autocomplete="tel"></label>
+                    <label>Pais <input name="country" autocomplete="country-name" placeholder="Chile"></label>
+                </div>
+                <div class="revenue-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-4);">
+                    <label>Rol <input name="role" placeholder="Ingeniero, lider tecnico, manager"></label>
+                    <label>Empresa <input name="company" placeholder="Empresa o independiente"></label>
+                </div>
+                <label>Motivo <textarea name="message" rows="4" placeholder="Cuéntame qué quieres resolver con este curso"></textarea></label>
+                <button type="submit" class="btn btn-primary">Guardar inscripción y continuar al pago</button>
+                <p class="small-text">Tus datos se guardan en Postgres con estado `pending`. El acceso se activa solo tras el pago confirmado.</p>
+            </form>
+        </div>
+    </section>
+</main>
+<script src="../assets/revenue-engine.js"></script>
+</body>
+</html>

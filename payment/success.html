@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago confirmado - AIF369</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+    <section class="section container" style="padding-top:120px;text-align:center;">
+        <p class="badge">Pago verificado</p>
+        <h1>Acceso activado</h1>
+        <p class="hero-subtitle">PayPal confirmo el pago y el backend activo el acceso para <strong data-product-name></strong>.</p>
+        <div class="hero-actions">
+            <a href="../dashboard/index.html" class="btn btn-primary">Ir al dashboard</a>
+            <a href="../dashboard/courses.html" class="btn btn-outline">Ver cursos</a>
+        </div>
+        <p class="small-text">Order ID: <span id="order-id"></span></p>
+    </section>
+</main>
+<script src="../assets/revenue-engine.js"></script>
+<script>document.getElementById("order-id").textContent = new URLSearchParams(location.search).get("orderID") || "registrado";</script>
+</body>
+</html>

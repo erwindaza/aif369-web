@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitacion corporativa Engineering with AI - AIF369</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav container">
+        <a href="index.html" class="logo"><span class="logo-name">AIF369</span></a>
+        <div class="nav-links">
+            <a href="courses/index.html">Cursos</a>
+            <a href="corporate-training.html" class="active">Empresas</a>
+            <a href="#lead" class="btn btn-primary">Solicitar propuesta</a>
+        </div>
+    </nav>
+</header>
+<main>
+    <section class="container revenue-hero">
+        <div class="hero-content">
+            <p class="badge">B2B training - 2 a 4 horas</p>
+            <h1>Engineering with AI - Corporate</h1>
+            <p class="hero-subtitle">Workshop para equipos de ingenieria, datos, operaciones y liderazgo tecnico que necesitan usar IA para especificar, construir, probar y documentar soluciones reales.</p>
+            <div class="hero-actions">
+                <a href="checkout.html?product=corporate-engineering-ai-workshop" class="btn btn-primary">Pagar workshop base - USD $600</a>
+                <a href="#lead" class="btn btn-outline">Pedir propuesta a medida</a>
+            </div>
+        </div>
+    </section>
+    <section class="section section-alt" id="lead">
+        <div class="container">
+            <div class="revenue-grid">
+                <article class="revenue-card"><h3>Para quien</h3><p>Universidades, institutos, OTEC, empresas tecnologicas, mineria, industria, retail y servicios financieros.</p></article>
+                <article class="revenue-card"><h3>Terminos</h3><p>100% upfront para sesiones pequenas. 50% upfront y 50% antes de entrega para programas mayores.</p></article>
+                <article class="revenue-card"><h3>Sin claims indebidos</h3><p>Certificado profesional AIF369. No se declara acreditacion SENCE, universitaria ni ChileValora salvo proceso oficial futuro.</p></article>
+            </div>
+            <form class="contact-form" data-contact-form data-endpoint="/api/education" style="margin-top:var(--space-8);">
+                <div class="form-grid">
+                    <div class="form-group"><label>Nombre *</label><input name="name" required></div>
+                    <div class="form-group"><label>Email *</label><input type="email" name="email" required></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label>Empresa *</label><input name="company" required></div>
+                    <div class="form-group"><label>Participantes</label><input name="teamSize" placeholder="Ej: 20"></div>
+                </div>
+                <div class="form-group"><label>Necesidad *</label><textarea name="message" required></textarea></div>
+                <input type="hidden" name="interest" value="corporate-engineering-ai-workshop">
+                <button class="btn btn-primary" type="submit">Enviar solicitud corporativa</button>
+            </form>
+        </div>
+    </section>
+</main>
+<script src="scripts.js"></script>
+</body>
+</html>

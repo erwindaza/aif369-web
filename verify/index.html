@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar certificado - AIF369</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+    <section class="section container" style="padding-top:120px;">
+        <header class="section-header">
+            <h1>Verificacion de certificado</h1>
+            <p>Busca un ID con formato AIF369-AIE-YYYY-NNNNNN.</p>
+        </header>
+        <form class="revenue-card revenue-form" onsubmit="event.preventDefault();document.getElementById('verify-result').textContent='Registro pendiente de conexion a base de datos de certificados.';">
+            <label>Certificate ID <input pattern="AIF369-AIE-[0-9]{4}-[0-9]{6}" placeholder="AIF369-AIE-2026-000001" required></label>
+            <button class="btn btn-primary" type="submit">Verificar</button>
+            <p id="verify-result" class="small-text"></p>
+            <p class="revenue-alert">Professional education certificate issued by AIF369. It is not a university degree, academic degree, government-issued professional license or ChileValora certification.</p>
+        </form>
+    </section>
+</main>
+</body>
+</html>

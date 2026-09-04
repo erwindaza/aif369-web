@@ -636,6 +636,94 @@ nav {
     font-weight: 600;
 }
 
+.revenue-hero {
+    padding: var(--space-10) 0 var(--space-8);
+}
+
+.revenue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+}
+
+.revenue-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+}
+
+.revenue-card strong {
+    color: var(--text-primary);
+}
+
+.revenue-price {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--secondary);
+    margin: var(--space-4) 0;
+}
+
+.revenue-alert {
+    border: 1px solid rgba(0, 217, 204, 0.25);
+    background: rgba(0, 217, 204, 0.08);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    padding: var(--space-4);
+}
+
+.revenue-alert-error {
+    border-color: rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.revenue-form {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.revenue-form label {
+    display: grid;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.revenue-form input,
+.revenue-form select,
+.revenue-form textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding: 0.85rem 1rem;
+    font: inherit;
+}
+
+.revenue-kpi {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+
+.revenue-kpi span {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.revenue-kpi strong {
+    color: var(--secondary);
+    font-size: var(--text-xl);
+}
+
+.is-locked [data-paid-content] {
+    display: none;
+}
+
 .contact-side {
     max-width: 420px;
 }

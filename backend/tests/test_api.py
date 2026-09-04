@@ -18,6 +18,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 os.environ.setdefault("CONTENT_API_KEY", "test-content-key-for-tests")
 # Disable SMTP in tests to prevent real email sending
 os.environ["SMTP_PASSWORD"] = ""
+os.environ["AIF369_SKIP_STARTUP_BQ"] = "1"
 
 # Test constant matching the env var above
 TEST_CONTENT_API_KEY = os.environ["CONTENT_API_KEY"]
@@ -75,6 +76,171 @@ class TestHealthCheck:
         response = client.get("/")
         data = response.get_json()
         assert "service" in data
+
+
+class TestRevenueEngine:
+    @pytest.fixture(autouse=True)
+    def configure_revenue_engine(self):
+        import main
+        main.PAYPAL_CLIENT_SECRET = "test-secret"
+        main.PAYPAL_CLIENT_ID = "test-client"
+        main._payment_audit_store.clear()
+        main._active_access_store.clear()
+
+    def test_products_catalog_is_public(self, client):
+        response = client.get("/api/revenue/products")
+        assert response.status_code == 200
+        data = response.get_json()
+        product_ids = {product["id"] for product in data["products"]}
+        assert "engineering-with-ai-masterclass" in product_ids
+        assert "private-ai-class" in product_ids
+
+    def test_access_locked_without_completed_payment(self, client):
+        response = _post_json(client, "/api/revenue/access", {
+            "access_token": "no-such-token",
+        })
+        assert response.status_code == 200
+        assert response.get_json()["access_status"] == "LOCKED"
+
+    @patch("main.http_requests.post")
+    def test_create_order_uses_backend_price(self, mock_post, client):
+        token_response = MagicMock()
+        token_response.json.return_value = {"access_token": "token"}
+        token_response.raise_for_status.return_value = None
+        order_response = MagicMock()
+        order_response.json.return_value = {"id": "ORDER-1", "status": "CREATED"}
+        order_response.raise_for_status.return_value = None
+        mock_post.side_effect = [token_response, order_response]
+
+        response = _post_json(client, "/api/paypal/revenue/create-order", {
+            "email": "student@example.com",
+            "product_id": "engineering-with-ai-masterclass",
+            "amount": 1,
+        })
+
+        assert response.status_code == 200
+        order_payload = mock_post.call_args_list[1].kwargs["json"]
+        amount = order_payload["purchase_units"][0]["amount"]
+        assert amount == {"currency_code": "USD", "value": "39.00"}
+
+    @patch("main.http_requests.post")
+    def test_capture_denied_does_not_activate_access(self, mock_post, client):
+        token_response = MagicMock()
+        token_response.json.return_value = {"access_token": "token"}
+        token_response.raise_for_status.return_value = None
+        capture_response = MagicMock()
+        capture_response.json.return_value = {"status": "DENIED", "purchase_units": []}
+        capture_response.raise_for_status.return_value = None
+        mock_post.side_effect = [token_response, capture_response]
+
+        response = _post_json(client, "/api/paypal/revenue/capture-order", {
+            "orderID": "ORDER-DENIED",
+            "email": "student@example.com",
+            "product_id": "engineering-with-ai-masterclass",
+        })
+
+        assert response.status_code == 400
+        assert response.get_json()["access_status"] == "LOCKED"
+        assert "access_token" not in response.get_json()
+
+    @patch("main.http_requests.post")
+    def test_capture_completed_activates_access(self, mock_post, client):
+        token_response = MagicMock()
+        token_response.json.return_value = {"access_token": "token"}
+        token_response.raise_for_status.return_value = None
+        capture_response = MagicMock()
+        capture_response.json.return_value = {
+            "status": "COMPLETED",
+            "purchase_units": [{
+                "payments": {
+                    "captures": [{
+                        "id": "CAPTURE-1",
+                        "amount": {"currency_code": "USD", "value": "39.00"},
+                    }]
+                }
+            }],
+        }
+        capture_response.raise_for_status.return_value = None
+        mock_post.side_effect = [token_response, capture_response]
+
+        response = _post_json(client, "/api/paypal/revenue/capture-order", {
+            "orderID": "ORDER-OK",
+            "email": "student@example.com",
+            "product_id": "engineering-with-ai-masterclass",
+        })
+
+        assert response.status_code == 200
+        result = response.get_json()
+        assert result["access_status"] == "ACTIVE"
+        access_token = result["access_token"]
+        assert access_token
+
+        access = _post_json(client, "/api/revenue/access", {
+            "access_token": access_token,
+        })
+        assert access.get_json()["access_status"] == "ACTIVE"
+
+    @patch("main.http_requests.post")
+    def test_capture_completed_rejects_lookup_by_email_alone(self, mock_post, client):
+        """Knowing the buyer's email must never be enough to see their access/payment status."""
+        token_response = MagicMock()
+        token_response.json.return_value = {"access_token": "token"}
+        token_response.raise_for_status.return_value = None
+        capture_response = MagicMock()
+        capture_response.json.return_value = {
+            "status": "COMPLETED",
+            "purchase_units": [{
+                "payments": {
+                    "captures": [{
+                        "id": "CAPTURE-2",
+                        "amount": {"currency_code": "USD", "value": "39.00"},
+                    }]
+                }
+            }],
+        }
+        capture_response.raise_for_status.return_value = None
+        mock_post.side_effect = [token_response, capture_response]
+
+        _post_json(client, "/api/paypal/revenue/capture-order", {
+            "orderID": "ORDER-OK-2",
+            "email": "student@example.com",
+            "product_id": "engineering-with-ai-masterclass",
+        })
+
+        access = _post_json(client, "/api/revenue/access", {
+            "email": "student@example.com",
+            "product_id": "engineering-with-ai-masterclass",
+        })
+        assert access.get_json()["access_status"] == "LOCKED"
+
+    @patch("main.http_requests.post")
+    def test_capture_amount_mismatch_keeps_access_locked(self, mock_post, client):
+        token_response = MagicMock()
+        token_response.json.return_value = {"access_token": "token"}
+        token_response.raise_for_status.return_value = None
+        capture_response = MagicMock()
+        capture_response.json.return_value = {
+            "status": "COMPLETED",
+            "purchase_units": [{
+                "payments": {
+                    "captures": [{
+                        "id": "CAPTURE-LOW",
+                        "amount": {"currency_code": "USD", "value": "1.00"},
+                    }]
+                }
+            }],
+        }
+        capture_response.raise_for_status.return_value = None
+        mock_post.side_effect = [token_response, capture_response]
+
+        response = _post_json(client, "/api/paypal/revenue/capture-order", {
+            "orderID": "ORDER-LOW",
+            "email": "student@example.com",
+            "product_id": "engineering-with-ai-masterclass",
+        })
+
+        assert response.status_code == 409
+        assert response.get_json()["access_status"] == "LOCKED"
 
 
 # ══════════════════════════════════════════════════════════

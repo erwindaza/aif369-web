@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin revenue - AIF369</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="section container" style="padding-top:120px;">
+    <header class="section-header">
+        <h1>Admin revenue</h1>
+        <p>Vista MVP protegida por API key para pagos, ingresos y accesos activos.</p>
+    </header>
+    <section class="revenue-card">
+        <form id="admin-form" class="revenue-form">
+            <label>API key <input id="admin-key" type="password" required></label>
+            <button class="btn btn-primary" type="submit">Cargar metricas</button>
+        </form>
+    </section>
+    <section class="revenue-grid" style="margin-top:var(--space-6);">
+        <div class="revenue-kpi"><span>Gross revenue</span><strong id="gross">-</strong></div>
+        <div class="revenue-kpi"><span>Payments</span><strong id="payments">-</strong></div>
+        <div class="revenue-kpi"><span>Active access</span><strong id="access">-</strong></div>
+    </section>
+    <pre id="admin-output" class="revenue-card" style="margin-top:var(--space-6);white-space:pre-wrap;overflow:auto;"></pre>
+</main>
+<script>
+document.getElementById("admin-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const key = document.getElementById("admin-key").value;
+    const host = location.hostname === "aif369.com" || location.hostname === "www.aif369.com"
+        ? "https://aif369-backend-api-830685315001.us-central1.run.app"
+        : "https://aif369-backend-api-dev-830685315001.us-central1.run.app";
+    const response = await fetch(host + "/api/admin/revenue", { headers: { "X-API-Key": key } });
+    const data = await response.json();
+    document.getElementById("gross").textContent = data.gross_revenue !== undefined ? data.gross_revenue + " " + data.currency : "-";
+    document.getElementById("payments").textContent = data.payments_count ?? "-";
+    document.getElementById("access").textContent = data.active_access_count ?? "-";
+    document.getElementById("admin-output").textContent = JSON.stringify(data, null, 2);
+});
+</script>
+</body>
+</html>
