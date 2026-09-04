@@ -69,6 +69,28 @@ jobs:
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
           SMTP_PASSWORD: ""
 
+  # ── Code quality (SonarQube, report-only) ────────────────
+  # Reports to a self-hosted SonarQube server. Does not gate deploy-backend-dev:
+  # add SONAR_HOST_URL and SONAR_TOKEN as GitHub secrets once the server is up.
+  sonar-scan:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        if: ${{ vars.SONAR_HOST_URL != '' || secrets.SONAR_HOST_URL != '' }}
+        uses: sonarsource/sonarqube-scan-action@v4
+        env:
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Skip (no SonarQube server configured yet)
+        if: ${{ vars.SONAR_HOST_URL == '' && secrets.SONAR_HOST_URL == '' }}
+        run: echo "SONAR_HOST_URL not set — add it plus SONAR_TOKEN as GitHub secrets to enable scanning."
+
   # ── Terraform validate ───────────────────────────────────
   terraform-validate:
     runs-on: ubuntu-latest
