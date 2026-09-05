@@ -26,24 +26,66 @@ TEST_CONTENT_API_KEY = os.environ["CONTENT_API_KEY"]
 
 # ── Fixtures ──────────────────────────────────────────────
 
+class _FakeFirestoreDoc:
+    """Minimal stand-in for a Firestore DocumentReference, backed by a dict."""
+
+    def __init__(self, store, key):
+        self._store = store
+        self._key = key
+
+    def set(self, data):
+        self._store[self._key] = dict(data)
+
+    def get(self):
+        data = self._store.get(self._key)
+        snapshot = MagicMock()
+        snapshot.exists = data is not None
+        snapshot.to_dict.return_value = data
+        return snapshot
+
+
+class _FakeFirestoreCollection:
+    def __init__(self, store):
+        self._store = store
+
+    def document(self, key):
+        return _FakeFirestoreDoc(self._store, key)
+
+    def stream(self):
+        return iter(list(self._store.values()))
+
+
+class _FakeFirestoreClient:
+    """In-memory Firestore fake so revenue-access tests exercise real set/get round trips."""
+
+    def __init__(self):
+        self._collections = {}
+
+    def collection(self, name):
+        return _FakeFirestoreCollection(self._collections.setdefault(name, {}))
+
+
 @pytest.fixture
 def app():
-    """Create a test Flask app with mocked BigQuery client."""
-    with patch("main.bigquery.Client") as mock_bq:
+    """Create a test Flask app with mocked BigQuery and Firestore clients."""
+    with patch("main.bigquery.Client") as mock_bq, patch("main.firestore.Client") as mock_fs:
         mock_client = MagicMock()
         mock_client.insert_rows_json.return_value = []  # No errors
         mock_bq.return_value = mock_client
+        mock_fs.return_value = _FakeFirestoreClient()
 
-        # Reset the lazy BQ client so the mock takes effect
+        # Reset the lazy clients so the mocks take effect
         import main
         main._bq_client = None
+        main._firestore_client = None
 
         from main import app as flask_app
         flask_app.config["TESTING"] = True
         yield flask_app
 
-        # Clean up: reset lazy client after test
+        # Clean up: reset lazy clients after test
         main._bq_client = None
+        main._firestore_client = None
 
 
 @pytest.fixture
@@ -84,8 +126,6 @@ class TestRevenueEngine:
         import main
         main.PAYPAL_CLIENT_SECRET = "test-secret"
         main.PAYPAL_CLIENT_ID = "test-client"
-        main._payment_audit_store.clear()
-        main._active_access_store.clear()
 
     def test_products_catalog_is_public(self, client):
         response = client.get("/api/revenue/products")
@@ -241,6 +281,54 @@ class TestRevenueEngine:
 
         assert response.status_code == 409
         assert response.get_json()["access_status"] == "LOCKED"
+
+    def test_student_enrollment_saved_to_bigquery(self, client):
+        response = _post_json(client, "/api/student-enrollments", {
+            "product_id": "engineering-with-ai-masterclass",
+            "full_name": "Test Student",
+            "email": "student@example.com",
+        })
+        assert response.status_code == 201
+        assert response.get_json()["success"] is True
+
+    def test_student_enrollment_bq_failure_returns_503(self, client):
+        with patch("main.get_bq_client") as mock_get_bq:
+            mock_bq = MagicMock()
+            mock_get_bq.return_value = mock_bq
+            mock_bq.insert_rows_json.side_effect = Exception("BQ unavailable")
+            response = _post_json(client, "/api/student-enrollments", {
+                "product_id": "engineering-with-ai-masterclass",
+                "full_name": "Test Student",
+                "email": "student@example.com",
+            })
+            assert response.status_code == 503
+
+    def test_admin_revenue_requires_api_key(self, client):
+        response = client.get("/api/admin/revenue")
+        assert response.status_code == 401
+
+    def test_admin_revenue_sums_completed_captures(self, client):
+        with patch("main.get_bq_client") as mock_get_bq:
+            mock_bq = MagicMock()
+            mock_get_bq.return_value = mock_bq
+            mock_bq.query.return_value.result.return_value = [
+                {
+                    "event_type": "paypal_capture_completed",
+                    "payload": json.dumps({"amount": 39.0, "product_id": "engineering-with-ai-masterclass"}),
+                    "created_at": "2026-01-01T00:00:00+00:00",
+                },
+                {
+                    "event_type": "paypal_order_created",
+                    "payload": json.dumps({"amount": 39.0, "product_id": "engineering-with-ai-masterclass"}),
+                    "created_at": "2026-01-01T00:00:00+00:00",
+                },
+            ]
+            response = client.get("/api/admin/revenue", headers={"X-API-Key": TEST_CONTENT_API_KEY})
+            assert response.status_code == 200
+            data = response.get_json()
+            assert data["gross_revenue"] == 39.0
+            assert data["payments_count"] == 1
+            assert len(data["recent_events"]) == 2
 
 
 # ══════════════════════════════════════════════════════════

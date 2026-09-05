@@ -12,6 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from google.cloud import bigquery
+from google.cloud import firestore
 import google.generativeai as genai
 
 # Cost Monitor module
@@ -434,10 +435,10 @@ def health_check():
 
 PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_SECRET") or os.getenv("PAYPAL_CLIENT_SECRET", "")
 PAYPAL_BASE = "https://api-m.sandbox.paypal.com" if PAYPAL_MODE == "sandbox" else "https://api-m.paypal.com"
-POSTGRES_URL = os.getenv("DATABASE_URL", "")
 
 PAYMENT_EVENTS_TABLE_ID = os.getenv("PAYMENT_EVENTS_TABLE_ID", "payment_events")
-STUDENT_ENROLLMENTS_TABLE = os.getenv("POSTGRES_STUDENT_TABLE", "student_enrollments")
+STUDENT_ENROLLMENTS_TABLE_ID = os.getenv("STUDENT_ENROLLMENTS_TABLE_ID", "student_enrollments")
+REVENUE_ACCESS_COLLECTION = os.getenv("REVENUE_ACCESS_COLLECTION", "revenue_access")
 
 REVENUE_PRODUCTS = {
     "engineering-with-ai-masterclass": {
@@ -502,8 +503,14 @@ REVENUE_PRODUCTS = {
     },
 }
 
-_payment_audit_store = []
-_active_access_store = {}
+_firestore_client = None
+
+
+def get_firestore_client():
+    global _firestore_client
+    if _firestore_client is None:
+        _firestore_client = firestore.Client(project=PROJECT_ID)
+    return _firestore_client
 
 
 def _valid_email(email: str) -> bool:
@@ -521,7 +528,6 @@ def _record_payment_event(event_type: str, payload: dict) -> dict:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "payload": json.dumps(payload, ensure_ascii=False, default=str),
     }
-    _payment_audit_store.append(row)
     try:
         get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{PAYMENT_EVENTS_TABLE_ID}", [row])
     except Exception as bq_err:
@@ -532,14 +538,16 @@ def _record_payment_event(event_type: str, payload: dict) -> dict:
 def _activate_access(email: str, product_id: str, order_id: str, capture_id: str = "") -> str:
     """Grant access and return an unguessable bearer token bound to this purchase.
 
-    Access is looked up by this token, never by email alone, so knowing/guessing
-    a buyer's email is not enough to view their purchase status or paid content.
+    Access is looked up by this token in Firestore, never by email alone, so
+    knowing/guessing a buyer's email is not enough to view their purchase
+    status or paid content. Firestore (not an in-process dict) so the grant
+    survives across Cloud Run instances/restarts.
     """
     product = _get_product(product_id)
     if not product:
         return ""
     token = secrets.token_urlsafe(32)
-    _active_access_store[token] = {
+    record = {
         "email": email.strip().lower(),
         "product_id": product_id,
         "course_id": product.get("course_id"),
@@ -549,96 +557,28 @@ def _activate_access(email: str, product_id: str, order_id: str, capture_id: str
         "provider_capture_id": capture_id,
         "activated_at": datetime.now(timezone.utc).isoformat(),
     }
+    try:
+        get_firestore_client().collection(REVENUE_ACCESS_COLLECTION).document(token).set(record)
+    except Exception as exc:
+        print(f"Firestore access write failed: {exc}")
     return token
 
 
-def _postgres_connect():
-    """Lazy Postgres connector. Returns None if DATABASE_URL or psycopg2 is unavailable."""
-    if not POSTGRES_URL:
-        return None
+def _record_student_enrollment(record: dict) -> dict:
+    row = {**record, "created_at": datetime.now(timezone.utc).isoformat()}
     try:
-        import psycopg2
-        return psycopg2.connect(POSTGRES_URL, connect_timeout=5)
+        errors = get_bq_client().insert_rows_json(
+            f"{PROJECT_ID}.{DATASET_ID}.{STUDENT_ENROLLMENTS_TABLE_ID}", [row]
+        )
+        if errors:
+            return {"saved": False, "error": str(errors)}
+        return {"saved": True, "id": row["id"]}
     except Exception as exc:
-        print(f"Postgres connection unavailable: {exc}")
-        return None
-
-
-def _ensure_student_enrollments_table(conn) -> None:
-    with conn.cursor() as cur:
-        cur.execute(f"""
-            CREATE TABLE IF NOT EXISTS {STUDENT_ENROLLMENTS_TABLE} (
-                id UUID PRIMARY KEY,
-                product_id TEXT NOT NULL,
-                full_name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                phone TEXT,
-                country TEXT,
-                role TEXT,
-                company TEXT,
-                message TEXT,
-                source_page TEXT,
-                signup_status TEXT NOT NULL DEFAULT 'pending',
-                payment_status TEXT NOT NULL DEFAULT 'pending',
-                payment_reference TEXT,
-                access_status TEXT NOT NULL DEFAULT 'locked',
-                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-                updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-                UNIQUE (email, product_id)
-            )
-        """)
-
-
-def _upsert_student_enrollment(record: dict) -> dict:
-    conn = _postgres_connect()
-    if not conn:
-        return {"saved": False, "storage": "postgres_unavailable"}
-    try:
-        with conn:
-            with conn.cursor() as cur:
-                _ensure_student_enrollments_table(conn)
-                cur.execute(f"""
-                    INSERT INTO {STUDENT_ENROLLMENTS_TABLE} (
-                        id, product_id, full_name, email, phone, country, role, company, message,
-                        source_page, signup_status, payment_status, payment_reference, access_status,
-                        created_at, updated_at
-                    ) VALUES (
-                        %(id)s, %(product_id)s, %(full_name)s, %(email)s, %(phone)s, %(country)s,
-                        %(role)s, %(company)s, %(message)s, %(source_page)s, %(signup_status)s,
-                        %(payment_status)s, %(payment_reference)s, %(access_status)s, NOW(), NOW()
-                    )
-                    ON CONFLICT (email, product_id) DO UPDATE SET
-                        full_name = EXCLUDED.full_name,
-                        phone = EXCLUDED.phone,
-                        country = EXCLUDED.country,
-                        role = EXCLUDED.role,
-                        company = EXCLUDED.company,
-                        message = EXCLUDED.message,
-                        source_page = EXCLUDED.source_page,
-                        signup_status = EXCLUDED.signup_status,
-                        payment_status = EXCLUDED.payment_status,
-                        payment_reference = EXCLUDED.payment_reference,
-                        access_status = EXCLUDED.access_status,
-                        updated_at = NOW()
-                    RETURNING id, created_at, updated_at
-                """, record)
-                row = cur.fetchone()
-                return {
-                    "saved": True,
-                    "id": str(row[0]),
-                    "created_at": row[1].isoformat() if hasattr(row[1], "isoformat") else row[1],
-                    "updated_at": row[2].isoformat() if hasattr(row[2], "isoformat") else row[2],
-                }
-    except Exception as exc:
-        print(f"Postgres enrollment write failed: {exc}")
+        print(f"Student enrollment BQ error: {exc}")
         return {"saved": False, "error": str(exc)}
-    finally:
-        conn.close()
 
 
 def _mark_student_paid(email: str, product_id: str, order_id: str, capture_id: str) -> None:
-    if not POSTGRES_URL:
-        return
     payload = {
         "id": str(uuid.uuid4()),
         "product_id": product_id,
@@ -655,7 +595,7 @@ def _mark_student_paid(email: str, product_id: str, order_id: str, capture_id: s
         "payment_reference": f"{order_id}:{capture_id}",
         "access_status": "active",
     }
-    _upsert_student_enrollment(payload)
+    _record_student_enrollment(payload)
 
 
 def _paypal_access_token() -> str:
@@ -699,10 +639,14 @@ def revenue_access_status():
     token = (data.get("access_token") or "").strip()
     if not token:
         return jsonify({"payment_status": "NONE", "access_status": "LOCKED"}), 200
-    access = _active_access_store.get(token)
-    if not access:
+    try:
+        doc = get_firestore_client().collection(REVENUE_ACCESS_COLLECTION).document(token).get()
+    except Exception as exc:
+        print(f"Firestore access read failed: {exc}")
         return jsonify({"payment_status": "NONE", "access_status": "LOCKED"}), 200
-    return jsonify(access), 200
+    if not doc.exists:
+        return jsonify({"payment_status": "NONE", "access_status": "LOCKED"}), 200
+    return jsonify(doc.to_dict()), 200
 
 
 @app.route("/api/student-enrollments", methods=["POST"])
@@ -746,7 +690,7 @@ def create_student_enrollment():
         "access_status": "locked",
     }
 
-    saved = _upsert_student_enrollment(record)
+    saved = _record_student_enrollment(record)
     if not saved.get("saved"):
         return jsonify({
             "error": "Could not save student enrollment",
@@ -944,26 +888,55 @@ def paypal_webhook():
 
 @app.route("/api/admin/revenue", methods=["GET"])
 def admin_revenue():
-    """Minimal admin revenue view protected by CONTENT_API_KEY."""
+    """Minimal admin revenue view protected by CONTENT_API_KEY.
+
+    Reads payment_events from BigQuery (not an in-process list) so figures
+    are consistent across Cloud Run instances/restarts.
+    """
     if not _require_api_key():
         return jsonify({"error": "Unauthorized"}), 401
-    completed = [
-        row for row in _payment_audit_store
-        if row["event_type"] == "paypal_capture_completed"
-    ]
+
     gross = 0.0
     by_product = defaultdict(float)
-    for row in completed:
-        payload = json.loads(row["payload"])
-        gross += float(payload.get("amount", 0))
-        by_product[payload.get("product_id", "unknown")] += float(payload.get("amount", 0))
+    payments_count = 0
+    recent_events = []
+    try:
+        query = f"""
+            SELECT event_type, payload, created_at
+            FROM `{PROJECT_ID}.{DATASET_ID}.{PAYMENT_EVENTS_TABLE_ID}`
+            ORDER BY created_at DESC
+            LIMIT 500
+        """
+        for row in get_bq_client().query(query).result():
+            if len(recent_events) < 50:
+                created_at = row["created_at"]
+                recent_events.append({
+                    "event_type": row["event_type"],
+                    "payload": row["payload"],
+                    "created_at": created_at.isoformat() if hasattr(created_at, "isoformat") else created_at,
+                })
+            if row["event_type"] == "paypal_capture_completed":
+                payload = json.loads(row["payload"])
+                amount = float(payload.get("amount", 0))
+                gross += amount
+                by_product[payload.get("product_id", "unknown")] += amount
+                payments_count += 1
+    except Exception as exc:
+        print(f"admin_revenue BQ query failed: {exc}")
+
+    active_access_count = 0
+    try:
+        active_access_count = sum(1 for _ in get_firestore_client().collection(REVENUE_ACCESS_COLLECTION).stream())
+    except Exception as exc:
+        print(f"Firestore access count failed: {exc}")
+
     return jsonify({
         "gross_revenue": gross,
         "currency": "USD",
-        "payments_count": len(completed),
+        "payments_count": payments_count,
         "revenue_by_product": dict(by_product),
-        "active_access_count": len(_active_access_store),
-        "recent_events": _payment_audit_store[-50:],
+        "active_access_count": active_access_count,
+        "recent_events": recent_events,
     }), 200
 
 
