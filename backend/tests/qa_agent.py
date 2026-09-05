@@ -63,9 +63,6 @@ PAGES = [
     ("big-data-ia.html", "Big Data"),
     ("automatizacion-airflow.html", "Airflow"),
     ("airflow-ia-avanzada.html", "Avanzada"),
-    ("course-desarrollo-ia.html", "Desarrollo"),
-    ("course-guias-practicas.html", "Guías"),
-    ("course-material-caio.html", "CAIO"),
     ("author.html", "Erwin"),
     ("cost-dashboard.html", "Cost"),
 ]
@@ -354,12 +351,7 @@ def test_frontend_pages(frontend_url: str) -> list[TestResult]:
 
 
 def test_frontend_pricing(frontend_url: str) -> list[TestResult]:
-    """Verify each course page shows its real (non-launch-special) price.
-
-    course-desarrollo-ia.html / course-guias-practicas.html / course-material-caio.html
-    are orphaned pages (linked from nowhere in the site) left over from the old
-    $10 launch-pricing scheme — not checked here, recommend deleting them.
-    """
+    """Verify each course page shows its real (non-launch-special) price."""
     results = []
     if not frontend_url:
         return results
@@ -399,15 +391,14 @@ def test_frontend_pricing(frontend_url: str) -> list[TestResult]:
 
 
 def test_frontend_enrollment_forms(frontend_url: str) -> list[TestResult]:
-    """Verify all 7 course pages have enrollment forms."""
+    """Verify all 4 course pages have enrollment forms."""
     results = []
     if not frontend_url:
         return results
 
     course_pages = [
         "cursos-ia.html", "big-data-ia.html", "automatizacion-airflow.html",
-        "airflow-ia-avanzada.html", "course-desarrollo-ia.html",
-        "course-guias-practicas.html", "course-material-caio.html",
+        "airflow-ia-avanzada.html",
     ]
 
     for page in course_pages:
