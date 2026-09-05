@@ -447,8 +447,8 @@ REVENUE_PRODUCTS = {
         "name": "Engineering with AI Masterclass",
         "type": "paid_masterclass",
         "description": "Spec-Driven & Agentic Engineering para ingenieros.",
-        "currency": "USD",
-        "price": 39,
+        "currency": "CLP",
+        "price": 24990,
         "status": "active",
         "payment_required": True,
         "course_id": "engineering-with-ai",
@@ -459,8 +459,8 @@ REVENUE_PRODUCTS = {
         "name": "Private AI / Data / Cloud Class",
         "type": "one_to_one",
         "description": "Clase privada de 60 minutos en IA, datos, cloud o agentes.",
-        "currency": "USD",
-        "price": 50,
+        "currency": "CLP",
+        "price": 39990,
         "status": "active",
         "payment_required": True,
         "course_id": None,
@@ -471,8 +471,8 @@ REVENUE_PRODUCTS = {
         "name": "Engineering with AI Full Program",
         "type": "professional_course",
         "description": "Programa profesional completo en preventa.",
-        "currency": "USD",
-        "price": 297,
+        "currency": "CLP",
+        "price": 299990,
         "status": "presale",
         "payment_required": True,
         "course_id": "engineering-with-ai",
@@ -483,8 +483,8 @@ REVENUE_PRODUCTS = {
         "name": "Engineering with AI - Corporate",
         "type": "b2b_training",
         "description": "Workshop corporativo de 2 a 4 horas.",
-        "currency": "USD",
-        "price": 600,
+        "currency": "CLP",
+        "price": 300000,
         "status": "active",
         "payment_required": True,
         "course_id": None,
@@ -519,6 +519,16 @@ def _valid_email(email: str) -> bool:
 
 def _get_product(product_id: str):
     return REVENUE_PRODUCTS.get((product_id or "").strip())
+
+
+# PayPal rejects decimal places on these currencies (e.g. "24990.00" for CLP is invalid).
+PAYPAL_ZERO_DECIMAL_CURRENCIES = {"CLP", "JPY", "HUF", "TWD", "KRW", "PYG", "VND", "XAF", "XOF"}
+
+
+def _format_paypal_amount(price, currency: str) -> str:
+    if (currency or "").upper() in PAYPAL_ZERO_DECIMAL_CURRENCIES:
+        return str(int(round(price)))
+    return f"{price:.2f}"
 
 
 def _record_payment_event(event_type: str, payload: dict) -> dict:
@@ -737,7 +747,7 @@ def paypal_revenue_create_order():
                     "custom_id": email,
                     "amount": {
                         "currency_code": product["currency"],
-                        "value": f'{product["price"]:.2f}',
+                        "value": _format_paypal_amount(product["price"], product["currency"]),
                     },
                 }],
                 "application_context": {

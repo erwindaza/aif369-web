@@ -142,6 +142,12 @@ class TestRevenueEngine:
         assert response.status_code == 200
         assert response.get_json()["access_status"] == "LOCKED"
 
+    def test_format_paypal_amount_zero_decimal_currency(self):
+        """CLP (and similar) must never carry decimals — PayPal rejects '24990.00'."""
+        import main
+        assert main._format_paypal_amount(24990, "CLP") == "24990"
+        assert main._format_paypal_amount(39.9, "USD") == "39.90"
+
     @patch("main.http_requests.post")
     def test_create_order_uses_backend_price(self, mock_post, client):
         token_response = MagicMock()
@@ -161,7 +167,7 @@ class TestRevenueEngine:
         assert response.status_code == 200
         order_payload = mock_post.call_args_list[1].kwargs["json"]
         amount = order_payload["purchase_units"][0]["amount"]
-        assert amount == {"currency_code": "USD", "value": "39.00"}
+        assert amount == {"currency_code": "CLP", "value": "24990"}
 
     @patch("main.http_requests.post")
     def test_capture_denied_does_not_activate_access(self, mock_post, client):
@@ -195,7 +201,7 @@ class TestRevenueEngine:
                 "payments": {
                     "captures": [{
                         "id": "CAPTURE-1",
-                        "amount": {"currency_code": "USD", "value": "39.00"},
+                        "amount": {"currency_code": "CLP", "value": "24990"},
                     }]
                 }
             }],
@@ -233,7 +239,7 @@ class TestRevenueEngine:
                 "payments": {
                     "captures": [{
                         "id": "CAPTURE-2",
-                        "amount": {"currency_code": "USD", "value": "39.00"},
+                        "amount": {"currency_code": "CLP", "value": "24990"},
                     }]
                 }
             }],
@@ -265,7 +271,7 @@ class TestRevenueEngine:
                 "payments": {
                     "captures": [{
                         "id": "CAPTURE-LOW",
-                        "amount": {"currency_code": "USD", "value": "1.00"},
+                        "amount": {"currency_code": "CLP", "value": "1"},
                     }]
                 }
             }],

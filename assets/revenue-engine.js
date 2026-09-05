@@ -1,27 +1,32 @@
 const AIF369_PRODUCTS = {
     "engineering-with-ai-masterclass": {
         name: "Engineering with AI Masterclass",
-        priceLabel: "USD $39",
+        priceLabel: "CLP $24.990",
+        currency: "CLP",
         next: "dashboard/courses.html"
     },
     "private-ai-class": {
         name: "Private AI / Data / Cloud Class",
-        priceLabel: "USD $50",
+        priceLabel: "CLP $39.990",
+        currency: "CLP",
         next: "dashboard/bookings.html"
     },
     "engineering-with-ai-full-program": {
         name: "Engineering with AI Full Program",
-        priceLabel: "USD $297",
+        priceLabel: "CLP $299.990",
+        currency: "CLP",
         next: "dashboard/courses.html"
     },
     "corporate-engineering-ai-workshop": {
         name: "Engineering with AI - Corporate",
-        priceLabel: "USD $600",
+        priceLabel: "Desde CLP $300.000",
+        currency: "CLP",
         next: "corporate-training.html#lead"
     },
     "ai-opportunity-assessment": {
         name: "AI Opportunity Assessment",
         priceLabel: "Desde USD $5,000",
+        currency: "USD",
         next: "ai-opportunity-assessment.html#lead"
     }
 };
@@ -85,7 +90,7 @@ async function initRevenueCheckout() {
     }
 
     const script = document.createElement("script");
-    script.src = "https://www.paypal.com/sdk/js?client-id=" + encodeURIComponent(clientId) + "&components=buttons&currency=USD";
+    script.src = "https://www.paypal.com/sdk/js?client-id=" + encodeURIComponent(clientId) + "&components=buttons&currency=" + encodeURIComponent(product.currency || "USD");
     script.onload = () => {
         paypal.Buttons({
             style: { layout: "vertical", color: "gold", shape: "rect", label: "pay", height: 45 },
