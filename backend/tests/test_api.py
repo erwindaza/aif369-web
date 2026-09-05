@@ -148,6 +148,35 @@ class TestRevenueEngine:
         assert main._format_paypal_amount(24990, "CLP") == "24990"
         assert main._format_paypal_amount(39.9, "USD") == "39.90"
 
+
+class TestLegacyCoursePrice:
+    def test_regular_email_pays_full_price(self, client):
+        response = _post_json(client, "/api/course-price", {
+            "email": "student@example.com",
+            "course": "Curso de Inteligencia Artificial",
+        })
+        assert response.status_code == 200
+        data = response.get_json()
+        assert data["price"] == 240
+        assert data["is_vip"] is False
+
+    def test_vip_email_pays_discounted_price(self, client, monkeypatch):
+        monkeypatch.setenv("VIP_EMAILS", "vip@example.com")
+        response = _post_json(client, "/api/course-price", {
+            "email": "vip@example.com",
+            "course": "Curso de Inteligencia Artificial",
+        })
+        data = response.get_json()
+        assert data["price"] == 10
+        assert data["is_vip"] is True
+
+    def test_unknown_course_falls_back_to_default_price(self, client):
+        response = _post_json(client, "/api/course-price", {
+            "email": "student@example.com",
+            "course": "Curso Inexistente",
+        })
+        assert response.get_json()["price"] == 197
+
     @patch("main.http_requests.post")
     def test_create_order_uses_backend_price(self, mock_post, client):
         token_response = MagicMock()

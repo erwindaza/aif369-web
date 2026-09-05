@@ -354,29 +354,36 @@ def test_frontend_pages(frontend_url: str) -> list[TestResult]:
 
 
 def test_frontend_pricing(frontend_url: str) -> list[TestResult]:
-    """Verify pricing is consistent ($10 USD, no Black Week)."""
+    """Verify each course page shows its real (non-launch-special) price.
+
+    course-desarrollo-ia.html / course-guias-practicas.html / course-material-caio.html
+    are orphaned pages (linked from nowhere in the site) left over from the old
+    $10 launch-pricing scheme — not checked here, recommend deleting them.
+    """
     results = []
     if not frontend_url:
         return results
 
-    course_pages = [
-        "cursos-ia.html", "big-data-ia.html", "automatizacion-airflow.html",
-        "airflow-ia-avanzada.html", "course-desarrollo-ia.html",
-        "course-guias-practicas.html", "course-material-caio.html",
-    ]
+    course_pages = {
+        "cursos-ia.html": "240",
+        "big-data-ia.html": "400",
+        "automatizacion-airflow.html": "300",
+        "airflow-ia-avanzada.html": "300",
+    }
 
-    for page in course_pages:
+    for page, expected_price in course_pages.items():
         try:
             r = requests.get(urljoin(frontend_url + "/", page), timeout=15)
             text = r.text
-            has_10_usd = "$10" in text or "USD $10" in text or "USD&nbsp;$10" in text
+            has_expected_price = f"${expected_price}" in text
+            has_stale_10_usd = "USD $10" in text or "USD&nbsp;$10" in text
             no_black_week = "black week" not in text.lower()
             no_old_price = "$500" not in text and "$3,000" not in text and "$3.000" not in text
 
             results.append(TestResult(
-                "Pricing", f"Price $10 on {page}",
-                has_10_usd,
-                f"Found $10: {has_10_usd}",
+                "Pricing", f"Price ${expected_price} on {page}",
+                has_expected_price and not has_stale_10_usd,
+                f"Found ${expected_price}: {has_expected_price}, stale $10: {has_stale_10_usd}",
                 severity="critical"
             ))
             results.append(TestResult(

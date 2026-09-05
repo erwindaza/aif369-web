@@ -1089,14 +1089,13 @@ def _get_vip_emails() -> set:
     raw = os.getenv("VIP_EMAILS", "")
     return {e.strip().lower() for e in raw.split(",") if e.strip()}
 
-# Course prices (matches products-catalog.json)
+# Course prices (matches products-catalog.json). Floor: ~USD 20/hour of content.
 COURSE_PRICES = {
-    "Curso de Inteligencia Artificial":          197,
-    "Big Data + IA: Arquitecturas Modernas":     297,
-    "MLOps: De Modelos a Producción":            347,
-    "Automatización con Apache Airflow":         247,
-    "Automatización con Apache Airflow Avanzada": 247,
-    "Test Pago AIF369":                          1,   # test only — remove after verification
+    "Curso de Inteligencia Artificial":          240,  # 12h
+    "Big Data + IA: Arquitecturas Modernas":     400,  # 20h
+    "MLOps: De Modelos a Producción":            347,  # curated open-source (DataTalksClub) — see curso-mlops.html
+    "Automatización con Apache Airflow":         300,  # 15h
+    "Automatización con Apache Airflow Avanzada": 300,  # 15h
 }
 VIP_PRICE = 10
 
