@@ -81,8 +81,7 @@ def main():
 
     if not LINKEDIN_EMAIL or not LINKEDIN_PASSWORD:
         log(f"❌ Credenciales vacías")
-        log(f"   EMAIL: '{LINKEDIN_EMAIL}'")
-        log(f"   PASSWORD: '{LINKEDIN_PASSWORD}'")
+        log("   Configura LINKEDIN_EMAIL y LINKEDIN_PASSWORD")
         return False
 
     post = get_today_post()

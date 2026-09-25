@@ -17,6 +17,15 @@ env:
   SERVICE_NAME: aif369-backend-api-qa
 
 jobs:
+  # ── Security gate ────────────────────────────────────────
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Secret scan tracked files
+        run: bash scripts/scan-secrets.sh
+
   # ── Run full test suite ──────────────────────────────────
   tests:
     runs-on: ubuntu-latest
@@ -46,7 +55,7 @@ jobs:
 
   # ── Terraform apply QA ──────────────────────────────────
   terraform-apply-qa:
-    needs: [tests]
+    needs: [security-scan, tests]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -79,8 +88,8 @@ jobs:
 
   # ── Deploy backend to QA ─────────────────────────────────
   deploy-backend-qa:
-    needs: [tests]
-    if: always() && needs.tests.result == 'success'
+    needs: [security-scan, tests]
+    if: always() && needs.security-scan.result == 'success' && needs.tests.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -25,10 +25,15 @@ def step(number: int, title: str):
     print(f"PASO {number}: {title}")
     print(f"{'='*80}\n")
 
+def mask_value(value: str) -> str:
+    if not value:
+        return "(no configurado)"
+    return f"{value[:2]}***{value[-2:]}" if len(value) > 4 else "***"
+
 def main():
     log("🚀 LINKEDIN BOT INTERACTIVO")
-    log(f"   EMAIL: {LINKEDIN_EMAIL}")
-    log(f"   PASSWORD: {'*' * len(LINKEDIN_PASSWORD)}\n")
+    log(f"   EMAIL: {mask_value(LINKEDIN_EMAIL)}")
+    log("   PASSWORD: ***\n")
 
     # PASO 1: Abrir Firefox
     step(1, "Abre Firefox y navega a https://www.linkedin.com/login")
@@ -40,7 +45,7 @@ def main():
 
     # PASO 2: Escribir EMAIL
     step(2, "Escribir EMAIL carácter por carácter")
-    log(f"📝 Escribiendo: {LINKEDIN_EMAIL}\n")
+    log(f"📝 Escribiendo email ({len(LINKEDIN_EMAIL)} caracteres)\n")
 
     for i, char in enumerate(LINKEDIN_EMAIL):
         if char == '@':
@@ -50,7 +55,7 @@ def main():
             log(f"   [{i+1:2d}] '.' → Presionando Period")
             pyautogui.press('period')
         else:
-            log(f"   [{i+1:2d}] '{char}'")
+            log(f"   [{i+1:2d}] carácter oculto")
             pyautogui.typewrite(char, interval=0.05)
         time.sleep(0.2)
 
@@ -68,10 +73,10 @@ def main():
 
     # PASO 4: Escribir PASSWORD
     step(4, "Escribir PASSWORD carácter por carácter")
-    log(f"📝 Escribiendo: {LINKEDIN_PASSWORD}\n")
+    log(f"📝 Escribiendo password ({len(LINKEDIN_PASSWORD)} caracteres)\n")
 
     for i, char in enumerate(LINKEDIN_PASSWORD):
-        log(f"   [{i+1:2d}] '{char}'")
+        log(f"   [{i+1:2d}] carácter oculto")
         pyautogui.typewrite(char, interval=0.05)
         time.sleep(0.2)
 

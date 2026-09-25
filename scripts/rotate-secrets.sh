@@ -122,36 +122,11 @@ for SERVICE in aif369-backend aif369-backend-qa aif369-backend-dev; do
 done
 
 # ------------------------------------------------------------
-# PASO 8: Actualizar .env local con nuevas claves
+# PASO 8: Mantener secretos fuera del filesystem local
 # ------------------------------------------------------------
 echo ""
-echo "📝  Actualizando backend/.env local..."
-cat > "$(dirname "$0")/../backend/.env" <<EOF
-# AIF369 Backend — Local Development Environment
-# Este archivo está en .gitignore. NUNCA commitear.
-
-# GCP Project
-PROJECT_ID=aif369-backend
-DATASET_ID=aif369_analytics
-ENVIRONMENT=dev
-
-# SMTP (Zoho Mail)
-SMTP_USER=edaza@aif369.com
-NOTIFICATION_EMAIL=edaza@aif369.com
-CC_EMAIL=erwin.daza@gmail.com
-
-# Ollama fallback
-OLLAMA_URL=http://localhost:11434
-OLLAMA_MODEL=mistral:7b
-
-# Secrets — en producción vienen de GCP Secret Manager
-GEMINI_API_KEY=$NEW_GEMINI_KEY
-SMTP_PASSWORD=$NEW_SMTP_PASS
-CONTENT_API_KEY=$NEW_CONTENT_KEY
-PAYPAL_CLIENT_ID=$NEW_PAYPAL_CLIENT_ID
-PAYPAL_SECRET=$NEW_PAYPAL_SECRET
-EOF
-echo "   ✅  backend/.env actualizado"
+echo "📝  No se escriben secretos a backend/.env ni a reportes locales."
+echo "   Para desarrollo local, usa Secret Manager o variables de entorno efímeras."
 
 # ------------------------------------------------------------
 # PASO 9: Forzar redeploy de Cloud Run para cargar nuevos secrets

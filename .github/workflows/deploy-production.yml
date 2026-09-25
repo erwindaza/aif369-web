@@ -17,6 +17,15 @@ env:
   SERVICE_NAME: aif369-backend-api
 
 jobs:
+  # ── Security gate ────────────────────────────────────────
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Secret scan tracked files
+        run: bash scripts/scan-secrets.sh
+
   # ── Gate: run full test suite ────────────────────────────
   verify:
     runs-on: ubuntu-latest
@@ -46,7 +55,7 @@ jobs:
 
   # ── Terraform apply PRODUCTION ───────────────────────────
   terraform-apply-prod:
-    needs: [verify]
+    needs: [security-scan, verify]
     runs-on: ubuntu-latest
     environment: production
     permissions:
@@ -80,8 +89,8 @@ jobs:
 
   # ── Deploy backend to PRODUCTION ─────────────────────
   deploy-backend-prod:
-    needs: [verify]
-    if: always() && needs.verify.result == 'success'
+    needs: [security-scan, verify]
+    if: always() && needs.security-scan.result == 'success' && needs.verify.result == 'success'
     runs-on: ubuntu-latest
     environment: production
     permissions:

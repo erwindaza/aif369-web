@@ -29,6 +29,7 @@ Thumbs.db
 .gcloud/
 .envrc
 **/__pycache__/
+logs/
 
 # Private drafts (do not commit)
 private/

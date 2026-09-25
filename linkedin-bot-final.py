@@ -97,13 +97,12 @@ def main():
     # Validar credenciales
     if not LINKEDIN_EMAIL or not LINKEDIN_PASSWORD:
         log(f"❌ CREDENCIALES VACÍAS")
-        log(f"   EMAIL: '{LINKEDIN_EMAIL}'")
-        log(f"   PASSWORD: '{LINKEDIN_PASSWORD}'")
+        log("   Configura LINKEDIN_EMAIL y LINKEDIN_PASSWORD")
         return False
 
     log(f"\n✅ CREDENCIALES CARGADAS:")
-    log(f"   EMAIL: {LINKEDIN_EMAIL}")
-    log(f"   PASSWORD: {'*' * len(LINKEDIN_PASSWORD)}")
+    log(f"   EMAIL: {LINKEDIN_EMAIL[:2]}***{LINKEDIN_EMAIL[-2:]}" if len(LINKEDIN_EMAIL) > 4 else "   EMAIL: ***")
+    log("   PASSWORD: ***")
 
     post = get_today_post()
     if not post:

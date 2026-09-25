@@ -18,6 +18,15 @@ env:
   SERVICE_NAME: aif369-backend-api-dev
 
 jobs:
+  # ── Security checks ─────────────────────────────────────
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Secret scan tracked files
+        run: bash scripts/scan-secrets.sh
+
   # ── Frontend checks ──────────────────────────────────────
   frontend-checks:
     runs-on: ubuntu-latest
@@ -116,7 +125,7 @@ jobs:
 
   # ── Deploy backend to DEV ────────────────────────────────
   deploy-backend-dev:
-    needs: [frontend-checks, backend-tests, terraform-validate]
+    needs: [security-scan, frontend-checks, backend-tests, terraform-validate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
