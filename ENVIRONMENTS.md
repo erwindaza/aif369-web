@@ -10,7 +10,7 @@ BQ dev  BQ qa   BQ prod
 CR dev  CR qa   CR prod
 ```
 
-**Regla de oro**: nada llega a producción sin pasar antes por QA.
+**Regla de oro**: nada llega a producción sin pasar antes por QA y sin aprobación humana explícita en el PR `qa → main`.
 
 ---
 
@@ -50,10 +50,11 @@ git push origin dev
 #   ✅ Health check QA
 ```
 
-### 3. Promoción a Producción (PR qa → main)
+### 3. Promoción a Producción (PR qa → main con aprobación humana)
 ```bash
-# Crear PR desde qa hacia main en GitHub
-# Solo después de validar en QA
+# El agente puede crear el PR qa → main y adjuntar evidencia DEV/QA.
+# El agente NO puede aprobar ni mergear ese PR.
+# Un humano revisa, aprueba y mergea el PR.
 # Al hacer merge → GitHub Action deploy-production.yml:
 #   ✅ Tests backend (production gate)
 #   ✅ Terraform apply PRODUCTION
@@ -128,7 +129,7 @@ Terraform crea ambas tablas automáticamente al hacer `apply` por entorno.
 |-----------------------|------------------|----------------------------------------------|
 | `ci-dev.yml`          | push a `dev`     | Tests + deploy DEV + TF apply DEV            |
 | `deploy-qa.yml`       | push a `qa`      | Tests + TF apply QA + deploy QA              |
-| `deploy-production.yml` | push a `main` | Tests + TF apply PROD + deploy PROD          |
+| `deploy-production.yml` | merge/push a `main` después de PR aprobado | Tests + TF apply PROD + deploy PROD |
 
 ---
 
