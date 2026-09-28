@@ -1,7 +1,8 @@
 # ============================================================
 # CD Pipeline: Deploy to PRODUCTION
-# Triggered ONLY on push to main (after merge from qa)
-# Gate: must pass all tests + health check before going live
+# Triggered by merge/push to main after a human-approved PR from QA.
+# Agents may prepare the PR and evidence, but must not approve or merge it.
+# Gate: must pass all tests + health check before going live.
 # ============================================================
 name: deploy-production
 
