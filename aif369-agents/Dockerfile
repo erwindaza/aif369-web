@@ -14,9 +14,18 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
+# main.py imports models, orchestrator, core, agents, config and tools. Omitting
+# any of these makes the process die on import, which Cloud Run reports as
+# "container failed to start and listen on $PORT" rather than as an import error.
 COPY agents/ agents/
-COPY tests/ tests/
+COPY api/ api/
+COPY config/ config/
+COPY core/ core/
 COPY db/ db/
+COPY models/ models/
+COPY orchestrator/ orchestrator/
+COPY tools/ tools/
+COPY tests/ tests/
 COPY *.py ./
 
 # Cloud Run injects PORT (default 8080); fall back to 8080 for local docker run

@@ -296,6 +296,7 @@
         <div class="aif-chat-messages" id="aif-messages"></div>
         <div class="aif-quick-actions" id="aif-quick-actions">
             <button class="aif-quick-btn" data-msg="${isEN ? 'What services do you offer?' : '¿Qué servicios ofrecen?'}">${isEN ? 'Services' : 'Servicios'}</button>
+            <button class="aif-quick-btn" data-msg="${isEN ? 'Quote a Data & ETL Sprint with dashboard and multiple sources' : 'Cotizar un Data & ETL Sprint con dashboard y varias fuentes'}">${isEN ? 'Quote' : 'Cotizar'}</button>
             <button class="aif-quick-btn" data-msg="${isEN ? 'What are your course options?' : '¿Qué cursos tienen?'}">${isEN ? 'Courses' : 'Cursos'}</button>
             <button class="aif-quick-btn" data-msg="${isEN ? 'How much does it cost?' : '¿Cuánto cuesta un diagnóstico?'}">${isEN ? 'Pricing' : 'Precios'}</button>
             <button class="aif-quick-btn" data-msg="${isEN ? 'What is the AI Readiness Scorecard?' : '¿Qué es el AI Readiness Scorecard?'}">Scorecard</button>
