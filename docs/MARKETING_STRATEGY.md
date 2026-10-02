@@ -97,7 +97,7 @@ Adaptación del modelo AIDA al contexto AIF369:
 ### Temporal (timing de contacto)
 - **Inmediato**: Chat widget + WhatsApp (respuesta < 5 min en horario laboral).
 - **24h**: Email de confirmación automatizado (ya implementado).
-- **48h**: Follow-up humano por email (Erwin).
+- **48h**: Follow-up humano por email (owner).
 - **1 semana**: Segundo follow-up con recurso de valor (artículo o scorecard).
 - **2 semanas**: Tercer contacto — invitación a webinar o caso de estudio.
 - **1 mes**: Newsletter mensual para leads fríos.
@@ -150,7 +150,7 @@ Adaptación del modelo AIDA al contexto AIF369:
 | Día | Acción |
 |-----|--------|
 | 0 | Email automático de confirmación (ya implementado) |
-| 0-1 | Email personal de Erwin (dentro de 24h laborales) |
+| 0-1 | Email del owner (dentro de 24h laborales) |
 | 3 | Si no responde: segundo email con propuesta de fecha |
 | 7 | Si no responde: último follow-up + link a scorecard |
 
@@ -208,7 +208,7 @@ No influencers de moda — influencers de decisión:
 ## 8. Quick Wins Inmediatos (Esta Semana)
 
 1. **Publicar primer post de LinkedIn** con el framework Método 369 (crear visual).
-2. **Enviar el Scorecard** a 20 contactos directos de Erwin por email personal.
+2. **Enviar el Scorecard** a 20 contactos directos del owner por email.
 3. **Activar Google Analytics** en el sitio (si no está activo).
 4. **Programar 3 posts de LinkedIn** para esta semana (Lu-Mi-Vi).
 5. **Enviar 5 mensajes personales** a CTOs/CDOs con oferta de sesión gratuita.
@@ -263,8 +263,8 @@ No influencers de moda — influencers de decisión:
 2. **Lead magnets activos** → Scorecard + PDF → emails capturados → nurturing.
 3. **Follow-up sistemático** → 48h post-lead → propuesta en 1 semana → cierre en 2-4 semanas.
 4. **Social proof** → primer caso → testimonial → logos → credibilidad.
-5. **Automatización** → Chat persiste conversaciones → WhatsApp precalifica → BigQuery analiza → Erwin cierra.
+5. **Automatización** → Chat persiste conversaciones → WhatsApp precalifica → BigQuery analiza → El owner cierra.
 
 **El dinero no viene del sitio web. Viene de las conversaciones que el sitio web genera.**
 
-> El sitio es el vendedor que trabaja 24/7. LinkedIn es el networker. WhatsApp es el closer. Erwin es quien entrega valor.
+> El sitio es el vendedor que trabaja 24/7. LinkedIn es el networker. WhatsApp es el closer. El equipo es quien entrega valor.

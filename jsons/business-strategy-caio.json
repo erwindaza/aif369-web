@@ -5,7 +5,6 @@
     "description": "Modelo de negocio (Business Model Canvas), toolkit CAIO, propuesta de valor, timelines, diferenciador competitivo y plantillas de proyecto para AIF369.",
     "last_updated": "2025-07-14"
   },
-
   "business_model_canvas": {
     "key_partners": [
       "Google Cloud Platform (infraestructura, Gemini API, BigQuery)",
@@ -27,7 +26,7 @@
     ],
     "key_resources": [
       "Método 369 (metodología propietaria)",
-      "Experiencia de Erwin Daza (+15 años en tech/datos/IA)",
+      "Experiencia de AIF369 (+15 años en tech/datos/IA)",
       "Plataforma digital (aif369.com + backend IA)",
       "Base de conocimiento regulatorio (EU AI Act, Chile)",
       "Red de contactos C-level en Chile y LATAM",
@@ -59,26 +58,61 @@
     "customer_segments": [
       {
         "segment": "Mid-market companies (200-5000 empleados)",
-        "pains": ["quieren usar IA pero sin exponerse", "no tienen gobierno formal", "hay experimentos aislados", "la gerencia pide resultados rápidos"],
-        "gains": ["portafolio IA priorizado", "gobierno claro", "quick wins en 4-6 semanas"],
+        "pains": [
+          "quieren usar IA pero sin exponerse",
+          "no tienen gobierno formal",
+          "hay experimentos aislados",
+          "la gerencia pide resultados rápidos"
+        ],
+        "gains": [
+          "portafolio IA priorizado",
+          "gobierno claro",
+          "quick wins en 4-6 semanas"
+        ],
         "revenue_potential": "alto"
       },
       {
         "segment": "Industrias reguladas (banca, salud, energía)",
-        "pains": ["riesgo reputacional", "presión regulatoria", "tratamiento intensivo de datos", "necesidad de trazabilidad"],
-        "gains": ["compliance ready", "risk register", "audit trail", "documentación formal"],
+        "pains": [
+          "riesgo reputacional",
+          "presión regulatoria",
+          "tratamiento intensivo de datos",
+          "necesidad de trazabilidad"
+        ],
+        "gains": [
+          "compliance ready",
+          "risk register",
+          "audit trail",
+          "documentación formal"
+        ],
         "revenue_potential": "muy alto"
       },
       {
         "segment": "Directorios y C-level",
-        "pains": ["falta de claridad sobre qué preguntar", "temor a aprobar IA sin controles", "necesidad de priorizar inversión"],
-        "gains": ["sesiones ejecutivas claras", "framework de decisión", "roadmap priorizado"],
+        "pains": [
+          "falta de claridad sobre qué preguntar",
+          "temor a aprobar IA sin controles",
+          "necesidad de priorizar inversión"
+        ],
+        "gains": [
+          "sesiones ejecutivas claras",
+          "framework de decisión",
+          "roadmap priorizado"
+        ],
         "revenue_potential": "alto"
       },
       {
         "segment": "Equipos de data y digitales",
-        "pains": ["tienen capacidad técnica pero no marco ejecutivo", "necesitan patrocinio", "necesitan pasar de PoC a operación"],
-        "gains": ["operating model", "MLOps baseline", "sponsor alignment"],
+        "pains": [
+          "tienen capacidad técnica pero no marco ejecutivo",
+          "necesitan patrocinio",
+          "necesitan pasar de PoC a operación"
+        ],
+        "gains": [
+          "operating model",
+          "MLOps baseline",
+          "sponsor alignment"
+        ],
         "revenue_potential": "medio"
       }
     ],
@@ -86,27 +120,48 @@
       {
         "channel": "Website (aif369.com)",
         "purpose": "Captura de leads, educación, scorecard, blog, contacto",
-        "conversion_tools": ["AI Readiness Scorecard", "Chat widget con Gemini", "Formulario de contacto", "Blog posts"]
+        "conversion_tools": [
+          "AI Readiness Scorecard",
+          "Chat widget con Gemini",
+          "Formulario de contacto",
+          "Blog posts"
+        ]
       },
       {
         "channel": "LinkedIn",
         "purpose": "Thought leadership, networking C-level, posicionamiento experto",
-        "conversion_tools": ["Posts de opinión/framework", "Artículos largos", "Comentarios estratégicos"]
+        "conversion_tools": [
+          "Posts de opinión/framework",
+          "Artículos largos",
+          "Comentarios estratégicos"
+        ]
       },
       {
         "channel": "WhatsApp Business",
         "purpose": "Atención directa, calificación de leads, scheduling",
-        "conversion_tools": ["Agente automatizado", "Respuesta rápida", "Link a scorecard"]
+        "conversion_tools": [
+          "Agente automatizado",
+          "Respuesta rápida",
+          "Link a scorecard"
+        ]
       },
       {
         "channel": "Email marketing",
         "purpose": "Nurturing, follow-up, newsletters",
-        "conversion_tools": ["Zoho Mail", "Templates de seguimiento", "Lead magnets"]
+        "conversion_tools": [
+          "Zoho Mail",
+          "Templates de seguimiento",
+          "Lead magnets"
+        ]
       },
       {
         "channel": "Referidos y red profesional",
         "purpose": "Generación orgánica de leads calificados",
-        "conversion_tools": ["Programa de referidos", "Co-presentaciones", "Partnerships"]
+        "conversion_tools": [
+          "Programa de referidos",
+          "Co-presentaciones",
+          "Partnerships"
+        ]
       }
     ],
     "customer_relationships": [
@@ -123,60 +178,98 @@
         "type": "proyecto",
         "duration": "4-6 semanas",
         "description": "Diagnóstico ejecutivo y hoja de ruta inicial",
-        "includes": ["assessment", "2 workshops", "mapa de casos de uso", "riesgos iniciales", "quick wins"]
+        "includes": [
+          "assessment",
+          "2 workshops",
+          "mapa de casos de uso",
+          "riesgos iniciales",
+          "quick wins"
+        ]
       },
       {
         "name": "Paquete Governed Pilot 369",
         "type": "proyecto",
         "duration": "8-12 semanas",
         "description": "Piloto gobernado con métricas y controles",
-        "includes": ["diseño de caso priorizado", "blueprint", "controles de riesgo", "dashboard en tiempo real", "evaluación de adopción"]
+        "includes": [
+          "diseño de caso priorizado",
+          "blueprint",
+          "controles de riesgo",
+          "dashboard en tiempo real",
+          "evaluación de adopción"
+        ]
       },
       {
         "name": "Paquete Enterprise 369",
         "type": "proyecto",
         "duration": "3-6 meses",
         "description": "Modelo operativo y capacidad organizacional de IA",
-        "includes": ["governance framework", "AI committee model", "portfolio management", "policy pack", "operating model", "roadmap de escalamiento"]
+        "includes": [
+          "governance framework",
+          "AI committee model",
+          "portfolio management",
+          "policy pack",
+          "operating model",
+          "roadmap de escalamiento"
+        ]
       },
       {
         "name": "CAIO as a Service (retainer)",
         "type": "recurrente_mensual",
         "description": "Acompañamiento ejecutivo continuo como Chief AI Officer externo",
-        "includes": ["sesiones mensuales", "revisión de portafolio", "gobernanza continua", "advisory on-demand"]
+        "includes": [
+          "sesiones mensuales",
+          "revisión de portafolio",
+          "gobernanza continua",
+          "advisory on-demand"
+        ]
       },
       {
         "name": "Executive Workshops",
         "type": "evento",
         "description": "Talleres de 2-4 horas para directorio o gerencias",
-        "includes": ["material ejecutivo", "casos de uso", "sesión guiada", "roadmap inicial"]
+        "includes": [
+          "material ejecutivo",
+          "casos de uso",
+          "sesión guiada",
+          "roadmap inicial"
+        ]
       },
       {
         "name": "Thought Leadership & Content",
         "type": "proyecto",
         "description": "Diseño de contenido y posicionamiento para clientes",
-        "includes": ["pilares editoriales", "ghostwriting", "calendario mensual"]
+        "includes": [
+          "pilares editoriales",
+          "ghostwriting",
+          "calendario mensual"
+        ]
       }
     ],
     "cost_structure": [
       "Infraestructura GCP (Cloud Run, BigQuery, Gemini API): ~$50-100/mes",
       "Dominio + Vercel: ~$20/mes",
       "Zoho Mail: ~$5/mes",
-      "Tiempo de Erwin Daza (principal activo)",
+      "Tiempo de AIF369 (principal activo)",
       "Herramientas de productividad y desarrollo",
       "Marketing y contenido",
       "Consultores asociados (variable, por proyecto)"
     ]
   },
-
   "caio_toolkit": {
-    "description": "Kit de herramientas y plantillas que el CAIO (Erwin) usa para ejecutar proyectos. Cada entregable tiene su plantilla asociada.",
+    "description": "Kit de herramientas y plantillas que el CAIO usa para ejecutar proyectos. Cada entregable tiene su plantilla asociada.",
     "diagnostic_tools": [
       {
         "name": "AI Readiness Scorecard",
         "purpose": "Evaluación rápida de madurez en 5 dimensiones",
         "format": "Online (aif369.com/scorecard.html) + PDF ejecutivo",
-        "dimensions": ["Estrategia", "Datos", "Tecnología", "Organización", "Gobernanza"],
+        "dimensions": [
+          "Estrategia",
+          "Datos",
+          "Tecnología",
+          "Organización",
+          "Gobernanza"
+        ],
         "output": "Score 0-100, nivel de madurez (1-5), recomendaciones por dimensión"
       },
       {
@@ -202,59 +295,138 @@
       {
         "name": "AI Policy Template",
         "purpose": "Política organizacional de IA",
-        "sections": ["alcance", "principios", "roles y responsabilidades", "clasificación de sistemas", "proceso de aprobación", "manejo de incidentes", "revisión periódica"]
+        "sections": [
+          "alcance",
+          "principios",
+          "roles y responsabilidades",
+          "clasificación de sistemas",
+          "proceso de aprobación",
+          "manejo de incidentes",
+          "revisión periódica"
+        ]
       },
       {
         "name": "AI Inventory Template",
         "purpose": "Registro de todos los sistemas IA en la organización",
-        "fields": ["nombre del sistema", "descripción", "owner", "nivel de riesgo", "datos que usa", "fecha de despliegue", "estado", "última revisión"]
+        "fields": [
+          "nombre del sistema",
+          "descripción",
+          "owner",
+          "nivel de riesgo",
+          "datos que usa",
+          "fecha de despliegue",
+          "estado",
+          "última revisión"
+        ]
       },
       {
         "name": "Use Case Intake Form",
         "purpose": "Formulario estándar para proponer nuevos casos de uso de IA",
-        "sections": ["descripción del caso", "objetivo de negocio", "datos requeridos", "impacto esperado", "riesgos identificados", "recursos necesarios", "sponsor"]
+        "sections": [
+          "descripción del caso",
+          "objetivo de negocio",
+          "datos requeridos",
+          "impacto esperado",
+          "riesgos identificados",
+          "recursos necesarios",
+          "sponsor"
+        ]
       },
       {
         "name": "Risk Assessment Template",
         "purpose": "Evaluación de riesgo por caso de uso",
-        "domains": ["privacy", "security", "bias", "hallucination", "automation error", "reputational harm", "legal non-compliance"],
-        "scale": {"impact": ["low", "medium", "high", "critical"], "likelihood": ["unlikely", "possible", "likely", "very_likely"]}
+        "domains": [
+          "privacy",
+          "security",
+          "bias",
+          "hallucination",
+          "automation error",
+          "reputational harm",
+          "legal non-compliance"
+        ],
+        "scale": {
+          "impact": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "likelihood": [
+            "unlikely",
+            "possible",
+            "likely",
+            "very_likely"
+          ]
+        }
       },
       {
         "name": "Model Card / System Card",
         "purpose": "Documentación estándar de un modelo o sistema IA",
-        "sections": ["purpose", "training data", "performance metrics", "limitations", "ethical considerations", "deployment context", "maintenance plan"]
+        "sections": [
+          "purpose",
+          "training data",
+          "performance metrics",
+          "limitations",
+          "ethical considerations",
+          "deployment context",
+          "maintenance plan"
+        ]
       },
       {
         "name": "Incident Response Playbook",
         "purpose": "Protocolo para incidentes relacionados con IA",
-        "phases": ["detección", "contención", "investigación", "remediación", "comunicación", "lecciones aprendidas"]
+        "phases": [
+          "detección",
+          "contención",
+          "investigación",
+          "remediación",
+          "comunicación",
+          "lecciones aprendidas"
+        ]
       }
     ],
     "delivery_templates": [
       {
         "name": "Kickoff Deck",
         "purpose": "Presentación de inicio de proyecto",
-        "sections": ["contexto del cliente", "alcance acordado", "equipo y roles", "timeline", "entregables", "próximos pasos"]
+        "sections": [
+          "contexto del cliente",
+          "alcance acordado",
+          "equipo y roles",
+          "timeline",
+          "entregables",
+          "próximos pasos"
+        ]
       },
       {
         "name": "Weekly Status Report",
         "purpose": "Reporte semanal de avance",
-        "sections": ["logros de la semana", "próximas actividades", "riesgos y bloqueos", "decisiones pendientes"]
+        "sections": [
+          "logros de la semana",
+          "próximas actividades",
+          "riesgos y bloqueos",
+          "decisiones pendientes"
+        ]
       },
       {
         "name": "Executive Summary Deliverable",
         "purpose": "Entregable final ejecutivo",
-        "sections": ["resumen ejecutivo", "hallazgos principales", "recomendaciones", "roadmap", "quick wins", "inversión estimada"]
+        "sections": [
+          "resumen ejecutivo",
+          "hallazgos principales",
+          "recomendaciones",
+          "roadmap",
+          "quick wins",
+          "inversión estimada"
+        ]
       }
     ]
   },
-
   "competitive_differentiator": {
     "positioning_statement": "AIF369 es la única consultora en Chile que combina estrategia ejecutiva, gobernanza de IA, compliance regulatorio y arquitectura técnica en una metodología integrada (Método 369), entregando desde diagnóstico hasta AI Factory con accountability real.",
     "vs_big_consulting": {
       "them": "Proyectos largos, costosos, equipos junior, frameworks genéricos, poca personalización",
-      "us": "Acceso directo al senior (Erwin), metodología propia, resultados en semanas no meses, costo accesible"
+      "us": "Acceso directo al senior, metodología propia, resultados en semanas no meses, costo accesible"
     },
     "vs_tech_vendors": {
       "them": "Venden herramientas, no estrategia. Lock-in tecnológico. Sin gobierno ni riesgo.",
@@ -273,13 +445,12 @@
       "Resultados medibles desde las primeras semanas"
     ]
   },
-
   "revenue_timeline": {
     "phase_1_foundation": {
       "period": "Mes 1-2",
       "goal": "Primeros 3 clientes pagados",
       "actions": [
-        "Activar red de contactos directa de Erwin",
+        "Activar red de contactos directa del owner",
         "5 reuniones exploratorias por semana",
         "Publicar 2 posts de LinkedIn por semana",
         "Enviar scorecard a 50 contactos target",
@@ -324,15 +495,26 @@
       "revenue_target": "Ingresos mensuales estables y predecibles"
     }
   },
-
   "marketing_playbook": {
     "content_strategy": {
       "linkedin": {
         "frequency": "3 posts/semana mínimo",
         "types": [
-          {"type": "Insight post", "frequency": "1/semana", "purpose": "Mostrar expertise, generar engagement"},
-          {"type": "Framework post", "frequency": "1/semana", "purpose": "Demostrar metodología, educar"},
-          {"type": "Opinion post", "frequency": "1/semana", "purpose": "Posicionar como thought leader"}
+          {
+            "type": "Insight post",
+            "frequency": "1/semana",
+            "purpose": "Mostrar expertise, generar engagement"
+          },
+          {
+            "type": "Framework post",
+            "frequency": "1/semana",
+            "purpose": "Demostrar metodología, educar"
+          },
+          {
+            "type": "Opinion post",
+            "frequency": "1/semana",
+            "purpose": "Posicionar como thought leader"
+          }
         ],
         "best_practices": [
           "Abrir con hook provocativo o dato concreto",
@@ -344,12 +526,28 @@
       },
       "blog": {
         "frequency": "2 posts/mes mínimo",
-        "types": ["artículos profundos (800-1200 palabras)", "guías prácticas", "análisis regulatorio", "casos de uso"],
-        "seo_focus": ["consultoría IA Chile", "gobernanza IA", "CAIO advisory", "AI governance", "método 369"]
+        "types": [
+          "artículos profundos (800-1200 palabras)",
+          "guías prácticas",
+          "análisis regulatorio",
+          "casos de uso"
+        ],
+        "seo_focus": [
+          "consultoría IA Chile",
+          "gobernanza IA",
+          "CAIO advisory",
+          "AI governance",
+          "método 369"
+        ]
       },
       "email": {
         "frequency": "1 newsletter/mes",
-        "content": ["resumen del mes", "artículo destacado", "tip práctico", "CTA a scorecard o agenda"]
+        "content": [
+          "resumen del mes",
+          "artículo destacado",
+          "tip práctico",
+          "CTA a scorecard o agenda"
+        ]
       }
     },
     "lead_magnets": [
@@ -378,7 +576,12 @@
     ],
     "sensory_marketing": {
       "visual": {
-        "brand_colors": ["#0088FF (azul)", "#00D9CC (cyan)", "#0A1628 (navy oscuro)", "#E2E8F0 (texto claro)"],
+        "brand_colors": [
+          "#0088FF (azul)",
+          "#00D9CC (cyan)",
+          "#0A1628 (navy oscuro)",
+          "#E2E8F0 (texto claro)"
+        ],
         "consistency": "Mismos colores y tipografía (Inter) en web, LinkedIn, presentaciones, emails",
         "imagery": "Iconos limpios, gradientes sutiles, sin stock photos genéricas"
       },
@@ -398,64 +601,167 @@
       }
     }
   },
-
   "project_templates": {
     "starter_369": {
       "name": "Starter 369",
       "duration": "4-6 semanas",
       "phases": [
-        {"week": "1", "activity": "Kickoff + entrevistas clave", "deliverable": "Documento de contexto"},
-        {"week": "2", "activity": "Assessment de madurez + análisis", "deliverable": "Scorecard detallado"},
-        {"week": "3", "activity": "Workshop de priorización", "deliverable": "Mapa de casos de uso priorizados"},
-        {"week": "4", "activity": "Diseño de hoja de ruta", "deliverable": "Roadmap ejecutivo"},
-        {"week": "5-6", "activity": "Quick wins + entrega final", "deliverable": "Informe final + presentación al sponsor"}
+        {
+          "week": "1",
+          "activity": "Kickoff + entrevistas clave",
+          "deliverable": "Documento de contexto"
+        },
+        {
+          "week": "2",
+          "activity": "Assessment de madurez + análisis",
+          "deliverable": "Scorecard detallado"
+        },
+        {
+          "week": "3",
+          "activity": "Workshop de priorización",
+          "deliverable": "Mapa de casos de uso priorizados"
+        },
+        {
+          "week": "4",
+          "activity": "Diseño de hoja de ruta",
+          "deliverable": "Roadmap ejecutivo"
+        },
+        {
+          "week": "5-6",
+          "activity": "Quick wins + entrega final",
+          "deliverable": "Informe final + presentación al sponsor"
+        }
       ]
     },
     "governed_pilot_369": {
       "name": "Governed Pilot 369",
       "duration": "8-12 semanas",
       "phases": [
-        {"week": "1-2", "activity": "Diagnóstico + selección de caso", "deliverable": "Blueprint del piloto"},
-        {"week": "3-4", "activity": "Diseño de controles y gobierno", "deliverable": "Risk assessment + controles"},
-        {"week": "5-8", "activity": "Implementación gobernada", "deliverable": "Piloto funcionando con métricas"},
-        {"week": "9-10", "activity": "Monitoreo y ajustes", "deliverable": "Dashboard + KPIs"},
-        {"week": "11-12", "activity": "Evaluación + roadmap de escala", "deliverable": "Informe de resultados + plan de escalamiento"}
+        {
+          "week": "1-2",
+          "activity": "Diagnóstico + selección de caso",
+          "deliverable": "Blueprint del piloto"
+        },
+        {
+          "week": "3-4",
+          "activity": "Diseño de controles y gobierno",
+          "deliverable": "Risk assessment + controles"
+        },
+        {
+          "week": "5-8",
+          "activity": "Implementación gobernada",
+          "deliverable": "Piloto funcionando con métricas"
+        },
+        {
+          "week": "9-10",
+          "activity": "Monitoreo y ajustes",
+          "deliverable": "Dashboard + KPIs"
+        },
+        {
+          "week": "11-12",
+          "activity": "Evaluación + roadmap de escala",
+          "deliverable": "Informe de resultados + plan de escalamiento"
+        }
       ]
     },
     "enterprise_369": {
       "name": "Enterprise 369",
       "duration": "3-6 meses",
       "phases": [
-        {"month": "1", "activity": "Diagnóstico profundo + estrategia", "deliverable": "Estrategia IA + governance framework"},
-        {"month": "2", "activity": "Diseño de operating model + AI committee", "deliverable": "Operating model + committee charter"},
-        {"month": "3", "activity": "Policy pack + portfolio management", "deliverable": "Políticas + portafolio priorizado"},
-        {"month": "4-5", "activity": "Implementación + capacitación", "deliverable": "AI Factory v1 + equipos capacitados"},
-        {"month": "6", "activity": "Monitoreo + handoff", "deliverable": "Dashboard, playbooks, roadmap de mejora continua"}
+        {
+          "month": "1",
+          "activity": "Diagnóstico profundo + estrategia",
+          "deliverable": "Estrategia IA + governance framework"
+        },
+        {
+          "month": "2",
+          "activity": "Diseño de operating model + AI committee",
+          "deliverable": "Operating model + committee charter"
+        },
+        {
+          "month": "3",
+          "activity": "Policy pack + portfolio management",
+          "deliverable": "Políticas + portafolio priorizado"
+        },
+        {
+          "month": "4-5",
+          "activity": "Implementación + capacitación",
+          "deliverable": "AI Factory v1 + equipos capacitados"
+        },
+        {
+          "month": "6",
+          "activity": "Monitoreo + handoff",
+          "deliverable": "Dashboard, playbooks, roadmap de mejora continua"
+        }
       ]
     }
   },
-
   "kpis_dashboard": {
     "website": [
-      {"metric": "Visitantes únicos/mes", "target": "500+ en mes 3"},
-      {"metric": "Scorecards completados/mes", "target": "20+ en mes 3"},
-      {"metric": "Formularios de contacto/mes", "target": "10+ en mes 3"},
-      {"metric": "Chat conversations/mes", "target": "50+ en mes 3"},
-      {"metric": "Tasa de conversión (visit → lead)", "target": "3-5%"}
+      {
+        "metric": "Visitantes únicos/mes",
+        "target": "500+ en mes 3"
+      },
+      {
+        "metric": "Scorecards completados/mes",
+        "target": "20+ en mes 3"
+      },
+      {
+        "metric": "Formularios de contacto/mes",
+        "target": "10+ en mes 3"
+      },
+      {
+        "metric": "Chat conversations/mes",
+        "target": "50+ en mes 3"
+      },
+      {
+        "metric": "Tasa de conversión (visit → lead)",
+        "target": "3-5%"
+      }
     ],
     "sales": [
-      {"metric": "Reuniones exploratorias/semana", "target": "5"},
-      {"metric": "Propuestas enviadas/mes", "target": "4-6"},
-      {"metric": "Win rate", "target": "30-40%"},
-      {"metric": "Ticket promedio", "target": "Variable según paquete"},
-      {"metric": "Time to close", "target": "2-4 semanas"}
+      {
+        "metric": "Reuniones exploratorias/semana",
+        "target": "5"
+      },
+      {
+        "metric": "Propuestas enviadas/mes",
+        "target": "4-6"
+      },
+      {
+        "metric": "Win rate",
+        "target": "30-40%"
+      },
+      {
+        "metric": "Ticket promedio",
+        "target": "Variable según paquete"
+      },
+      {
+        "metric": "Time to close",
+        "target": "2-4 semanas"
+      }
     ],
     "content": [
-      {"metric": "LinkedIn post views/semana", "target": "1000+"},
-      {"metric": "LinkedIn engagement rate", "target": "3-5%"},
-      {"metric": "Blog visits/mes", "target": "200+"},
-      {"metric": "Email open rate", "target": "25-35%"},
-      {"metric": "Scorecard completions → meeting booked", "target": "15-20%"}
+      {
+        "metric": "LinkedIn post views/semana",
+        "target": "1000+"
+      },
+      {
+        "metric": "LinkedIn engagement rate",
+        "target": "3-5%"
+      },
+      {
+        "metric": "Blog visits/mes",
+        "target": "200+"
+      },
+      {
+        "metric": "Email open rate",
+        "target": "25-35%"
+      },
+      {
+        "metric": "Scorecard completions → meeting booked",
+        "target": "15-20%"
+      }
     ]
   }
 }

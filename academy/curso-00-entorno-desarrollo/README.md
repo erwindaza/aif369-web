@@ -45,7 +45,7 @@ Un repositorio en GitHub con:
 Podrás mostrar este repo en tu portafolio profesional.
 
 ## Instructor
-**Erwin Daza** — AI Engineer & Architect con 15+ años en datos e infraestructura. Ha construido plataformas de IA desde 0 y sabe exactamente qué necesitas para no quedarte atrapado en los "gotchas" profesionales.
+**AIF369** — AI Engineer & Architect con 15+ años en datos e infraestructura. Ha construido plataformas de IA desde 0 y sabe exactamente qué necesitas para no quedarte atrapado en los "gotchas" profesionales.
 
 ## ¿Listo?
 [Ir al contenido →]

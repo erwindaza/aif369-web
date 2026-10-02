@@ -19,7 +19,7 @@ feature/local -> dev -> qa -> PR qa-to-main -> aprobación humana -> producción
 - WhatsApp y email deben registrar trazabilidad comercial sin exponer datos
   sensibles innecesarios.
 - Todo agente que ejecute acciones externas debe usar herramientas auditables.
-- Producción queda bloqueada hasta PR aprobado por Erwin u otro owner humano.
+- Producción queda bloqueada hasta PR aprobado por el owner humano.
 
 ## Sprint 1: WhatsApp Sales Agent Operativo
 
@@ -96,7 +96,7 @@ Conectar ventas por WhatsApp con email, calendario y propuesta comercial.
 ### Criterios de aceptación
 
 - Lead caliente recibe siguiente paso claro.
-- Erwin recibe contexto suficiente para cerrar sin releer toda la conversación.
+- El humano recibe contexto suficiente para cerrar sin releer toda la conversación.
 - El sistema distingue respuesta automática, propuesta y derivación humana.
 
 ## Sprint 4: Plataforma Agentica Gobernada

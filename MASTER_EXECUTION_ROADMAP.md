@@ -719,7 +719,7 @@ class CapstoneAgent:
 5. **Versioning**
    ```
    Every edit creates version:
-   - lesson_001_v1 (Aug 5, by Erwin)
+   - lesson_001_v1 (Aug 5, by AIF369)
    - lesson_001_v2 (Aug 7, changes title)
    - lesson_001_v3 (Aug 10, expert feedback)
    

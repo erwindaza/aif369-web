@@ -14,8 +14,8 @@
       "visual_archetype": "Boutique consulting firm especializada en AI Governance, CAIO Advisory y AI Factory Design"
     },
     "information_architecture": {
-      "primary_navigation": ["Inicio", "Método 369", "Servicios", "Gobernanza y Riesgo", "Insights", "Sobre Erwin", "Contacto"],
-      "footer_navigation": ["Diagnóstico 369", "Advisory Ejecutivo", "AI Governance", "Privacy y Compliance", "AI Factory", "Blog", "LinkedIn de Erwin", "AIF369"]
+      "primary_navigation": ["Inicio", "Método 369", "Servicios", "Gobernanza y Riesgo", "Insights", "Sobre AIF369", "Contacto"],
+      "footer_navigation": ["Diagnóstico 369", "Advisory Ejecutivo", "AI Governance", "Privacy y Compliance", "AI Factory", "Blog", "LinkedIn de AIF369", "AIF369"]
     },
     "content_design_rules": {
       "headline_style": ["Titulares cortos y con autoridad", "No usar frases vacías de marketing", "Hablar de valor, control, riesgo, gobierno y ejecución", "Evitar clichés como revolucionar, transformar todo, cambiar el mundo"],
@@ -62,7 +62,7 @@
         "Haz que el Método 369 sea el centro visual y narrativo del sitio",
         "Crea componentes reutilizables y content-driven",
         "Mantén consistencia entre home, servicios, metodología e insights",
-        "Resalta el perfil de Erwin Daza Castillo con link a LinkedIn",
+        "Resalta el perfil de AIF369",
         "Evita clichés visuales de inteligencia artificial",
         "Prioriza claridad, autoridad y conversión"
       ],

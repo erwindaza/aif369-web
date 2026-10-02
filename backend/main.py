@@ -215,7 +215,7 @@ HERRAMIENTAS GRATUITAS:
 - Compliance-CL: Generador automático de documentos para cumplimiento Ley 21.719 (Protección de Datos). Genera RAT, Política de Privacidad, DPA, Plan de Brechas, Código de Ética, Matriz de Riesgos. Disponible en aif369.com/compliance-tool.html
 
 SOBRE AIF369:
-- Fundada por Erwin Daza Castillo — CAIO Advisor, Data & AI Architect, AI Governance Strategist.
+- Fundada por AIF369 — CAIO Advisor, Data & AI Architect, AI Governance Strategist.
 - Creador del Método 369 para adopción gobernada de IA.
 - Empresa chilena. Emite boleta de honorarios.
 - Enfoque: ROI medible, governance, riesgo y operación continua.
@@ -1316,7 +1316,7 @@ def paypal_capture_order():
 
         print(f"PayPal capture OK: {order_id} | ${amount} | {email} | {course}")
 
-        # Notify Erwin
+        # Notify owner
         send_alert_email(
             f"💳 Pago recibido — {course}",
             f"""<html><body style="font-family:sans-serif">
@@ -1558,7 +1558,7 @@ def paypal_capture_order_service():
         except Exception as bq_err:
             print(f"BigQuery insert error (non-fatal): {bq_err}")
 
-        # Notify Erwin
+        # Notify owner
         send_alert_email(
             f"💳 Nuevo Cliente — {service_display}",
             f"""<html><body style="font-family:sans-serif;color:#333">
@@ -2402,7 +2402,7 @@ def assessment_datos():
             accent_color="#A855F7"
         )
 
-        # Notify Erwin
+        # Notify owner
         send_email_notification({
             "submission_id": submission_id,
             "timestamp": timestamp,
@@ -2998,7 +2998,7 @@ def daily_report():
         return jsonify({"error": str(e)}), 500
 
 CONTENT_PROMPT = """Eres un redactor experto de contenido B2B sobre inteligencia artificial, datos y cloud para empresas.
-Escribes para el blog de AIF369, una consultora chilena fundada por Erwin Daza.
+Escribes para el blog de AIF369, una consultora chilena de advisory en datos e IA.
 
 METODOLOGÍA PROPIA - MÉTODO 369:
 - 3 Fases: Diagnóstico → Diseño → Despliegue
@@ -3019,7 +3019,7 @@ REGLAS DE REDACCIÓN:
 4. Cada artículo debe tener: título, subtítulo, 4-6 secciones con h2, conclusión con CTA.
 5. Formato: HTML limpio con <h1>, <h2>, <h3>, <p>, <ul>/<ol>, <li>, <strong>.
 6. Al final, incluye un CTA hacia el scorecard (scorecard.html) o contacto (index.html#contacto).
-7. Incluye "Por Erwin Daza" como autor con link a LinkedIn: https://www.linkedin.com/in/erwin-daza-castillo/
+7. Incluye "Por AIF369" como autor: https://www.linkedin.com/in/erwin-daza-castillo/
 8. Longitud: 800-1200 palabras.
 9. NO inventes estadísticas. Usa datos reales conocidos o di "según estudios recientes".
 10. Contexto: Chile y Latinoamérica, pero aplicable globalmente."""

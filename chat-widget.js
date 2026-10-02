@@ -75,8 +75,8 @@
         },
         {
             keywords: /erwin|fundador|founder|quién|who|about|sobre/i,
-            es: 'AIF369 fue fundada por **Erwin Daza Castillo** — CAIO Advisor, Data & AI Architect, AI Governance Strategist. Creador del Método 369 para adopción gobernada de IA. Empresa chilena que emite boleta de honorarios.\n\nConócelo: https://calendly.com/edaza-aif369/30min',
-            en: 'AIF369 was founded by **Erwin Daza Castillo** — CAIO Advisor, Data & AI Architect, AI Governance Strategist. Creator of the 369 Method for governed AI adoption. Chilean company.\n\nMeet him: https://calendly.com/edaza-aif369/30min'
+            es: 'AIF369 fue fundada por **AIF369** — CAIO Advisor, Data & AI Architect, AI Governance Strategist. Creador del Método 369 para adopción gobernada de IA. Empresa chilena que emite boleta de honorarios.\n\nConócelo: https://calendly.com/edaza-aif369/30min',
+            en: 'AIF369 was founded by **AIF369** — CAIO Advisor, Data & AI Architect, AI Governance Strategist. Creator of the 369 Method for governed AI adoption. Chilean company.\n\nMeet him: https://calendly.com/edaza-aif369/30min'
         },
         {
             keywords: /bejoby|empleo|job|trabajo|employment|hiring|contrat/i,

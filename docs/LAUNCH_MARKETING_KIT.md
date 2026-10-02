@@ -295,7 +295,7 @@ Texto: "IA en produccion no es un prompt. Es ingenieria."
 - **Metodologia:** https://aif369.com/metodologia.html
 - **Agendar llamada:** https://calendly.com/edaza-aif369/30min
 - **Cursos:** https://aif369.com/education.html
-- **LinkedIn de Erwin:** https://www.linkedin.com/in/erwin-daza-castillo/
+- **LinkedIn de AIF369:** https://www.linkedin.com/company/aif369/
 
 ### Para TikTok bio (un solo link):
 Usa **Linktree** (linktr.ee) o **bio.link** con todos los links arriba.

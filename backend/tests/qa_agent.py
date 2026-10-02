@@ -63,7 +63,7 @@ PAGES = [
     ("big-data-ia.html", "Big Data"),
     ("automatizacion-airflow.html", "Airflow"),
     ("airflow-ia-avanzada.html", "Avanzada"),
-    ("author.html", "Erwin"),
+    ("nosotros.html", "AIF369"),
     ("cost-dashboard.html", "Cost"),
 ]
 
