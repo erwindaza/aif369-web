@@ -1219,12 +1219,26 @@ def paypal_create_order():
 
     if not email or not course:
         return jsonify({"error": "email and course required"}), 400
+    if course in NON_SELLABLE_COURSES:
+        return jsonify({
+            "error": f"'{course}' no es vendible online: {NON_SELLABLE_COURSES[course]}",
+            "code": "not_sellable",
+            "contact": "WhatsApp https://wa.me/56997547192",
+        }), 409
     if not PAYPAL_CLIENT_SECRET:
         return jsonify({"error": "PayPal not fully configured (missing secret)"}), 503
 
     # Price set by server — period.
+    # Sin default: un course desconocido debe fallar, no cobrarse a un precio
+    # inventado. El default anterior (197) cobraba cualquier string arbitrario.
+    if course not in COURSE_PRICES:
+        return jsonify({
+            "error": f"Curso desconocido: '{course}'",
+            "code": "unknown_course",
+            "available": sorted(COURSE_PRICES.keys()),
+        }), 400
     is_vip = email in _get_vip_emails()
-    full_price = COURSE_PRICES.get(course, 197)
+    full_price = COURSE_PRICES[course]
     price = VIP_PRICE if (is_vip and VIP_PRICE < full_price) else full_price
 
     try:
@@ -1344,12 +1358,24 @@ def _get_vip_emails() -> set:
     return {e.strip().lower() for e in raw.split(",") if e.strip()}
 
 # Course prices (matches products-catalog.json). Floor: ~USD 20/hour of content.
+# Cursos propios de AIF369. NO incluye MLOps: ese curso es contenido curated
+# open-source de DataTalksClub (tercero). Se usa solo como contexto de
+# referencia para el agente de gobernanza, no se revende.
+#
+# IMPORTANTE: create-order valida `course` contra esta tabla con un 400
+# explicito. No reintroducir un default tipo COURSE_PRICES.get(course, 197):
+# un default cobra cualquier nombre arbitrario a un precio inventado.
 COURSE_PRICES = {
     "Curso de Inteligencia Artificial":          240,  # 12h
     "Big Data + IA: Arquitecturas Modernas":     400,  # 20h
-    "MLOps: De Modelos a Producción":            347,  # curated open-source (DataTalksClub) — see curso-mlops.html
     "Automatización con Apache Airflow":         300,  # 15h
     "Automatización con Apache Airflow Avanzada": 300,  # 15h
+}
+
+# slugs que existen en el catalogo publicamente pero no son vendibles online.
+# Se rechazan con 409 para que el frontend pueda distinguirlos de un typo.
+NON_SELLABLE_COURSES = {
+    "MLOps: De Modelos a Producción": "contenido de terceros (DataTalksClub), no vendible",
 }
 VIP_PRICE = 10
 
