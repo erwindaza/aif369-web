@@ -90,6 +90,8 @@ jobs:
   deploy-prod:
     needs: build-docker
     runs-on: ubuntu-latest
+    outputs:
+      prod_url: ${{ steps.verify.outputs.prod_url }}
     permissions:
       contents: read
       id-token: write
@@ -121,11 +123,13 @@ jobs:
             --quiet
 
       - name: Verify deployment
+        id: verify
         run: |
           PROD_URL=$(gcloud run services describe $SERVICE_NAME \
             --region $REGION --project $PROJECT_ID \
             --format='value(status.url)')
           echo "PROD URL: $PROD_URL"
+          echo "prod_url=$PROD_URL" >> "$GITHUB_OUTPUT"
 
           # Health check with retries
           for i in {1..15}; do
@@ -159,8 +163,15 @@ jobs:
 
       - name: Run production smoke tests
         env:
-          PROD_URL: https://aif369-master-api-xyz.run.app
+          # URL real resuelta por el job deploy-prod. Antes era un placeholder
+          # hardcodeado (aif369-master-api-xyz.run.app) que nunca apuntaba al
+          # servicio desplegado, así que el smoke test no probaba nada real.
+          PROD_URL: ${{ needs.deploy-prod.outputs.prod_url }}
         run: |
+          if [ -z "$PROD_URL" ]; then
+            echo "❌ PROD_URL vacío: no se pudo resolver la URL del servicio"; exit 1
+          fi
+          echo "Smoke testing: $PROD_URL"
           python -c "
           import asyncio
           import httpx
