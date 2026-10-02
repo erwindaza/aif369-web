@@ -4,6 +4,8 @@ import uuid
 import smtplib
 import re
 import secrets
+import hashlib
+import hmac
 import requests as http_requests
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
@@ -100,6 +102,20 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 TABLE_ID = "contact_form_submissions"
 PAYPAL_TABLE_ID = "paypal_transactions"
 QUOTE_TABLE_ID = "crm_agent_quotes"
+WHATSAPP_CONTACT_TABLE_ID = "whatsapp_crm_contacts"
+
+# Meta WhatsApp Cloud API. Values are injected from Secret Manager; never place
+# credentials in source control. The webhook remains unavailable until all
+# required values are configured.
+WHATSAPP_VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "")
+WHATSAPP_ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN", "")
+WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "")
+WHATSAPP_APP_SECRET = os.getenv("WHATSAPP_APP_SECRET", "")
+WHATSAPP_GRAPH_VERSION = os.getenv("WHATSAPP_GRAPH_VERSION", "v23.0")
+_processed_whatsapp_message_ids: set[str] = set()
+WHATSAPP_PROCESSED_COLLECTION = os.getenv(
+    "WHATSAPP_PROCESSED_COLLECTION", "whatsapp_processed_messages"
+)
 
 # Configuración PayPal
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
@@ -1799,6 +1815,234 @@ def save_chat_to_bigquery(message_data):
         print(f"Error saving chat to BigQuery: {e}")
         return False
 
+
+def _whatsapp_contact_hash(phone_number: str) -> str:
+    """Return a stable pseudonymous identifier; raw phone numbers are not persisted."""
+    return hashlib.sha256(phone_number.encode("utf-8")).hexdigest()
+
+
+def _valid_whatsapp_signature(raw_body: bytes, signature_header: str) -> bool:
+    """Validate Meta's X-Hub-Signature-256 over the exact request body."""
+    if not WHATSAPP_APP_SECRET or not signature_header.startswith("sha256="):
+        return False
+    expected = hmac.new(
+        WHATSAPP_APP_SECRET.encode("utf-8"), raw_body, hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(signature_header[7:], expected)
+
+
+def _send_whatsapp_text(recipient: str, message: str) -> bool:
+    """Send one text response through the official Meta Cloud API."""
+    if not WHATSAPP_ACCESS_TOKEN or not WHATSAPP_PHONE_NUMBER_ID:
+        return False
+    response = http_requests.post(
+        f"https://graph.facebook.com/{WHATSAPP_GRAPH_VERSION}/{WHATSAPP_PHONE_NUMBER_ID}/messages",
+        headers={
+            "Authorization": f"Bearer {WHATSAPP_ACCESS_TOKEN}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": recipient,
+            "type": "text",
+            "text": {"preview_url": True, "body": message[:4096]},
+        },
+        timeout=15,
+    )
+    if not response.ok:
+        print(f"WhatsApp Cloud API send failed: status={response.status_code}")
+        return False
+    return True
+
+
+def _claim_whatsapp_message(message_id: str, contact_hash: str) -> bool:
+    """Atomically claim a Meta message id so retries do not send duplicates."""
+    if not message_id:
+        return False
+    if message_id in _processed_whatsapp_message_ids:
+        return False
+    try:
+        get_firestore_client().collection(WHATSAPP_PROCESSED_COLLECTION).document(
+            message_id
+        ).create({
+            "message_id": message_id,
+            "contact_hash": contact_hash,
+            "environment": ENVIRONMENT,
+            "created_at": firestore.SERVER_TIMESTAMP,
+        })
+    except Exception as exc:
+        if "Already exists" in str(exc) or "409" in str(exc):
+            return False
+        print(f"WhatsApp persistent dedupe unavailable; using memory fallback: {exc}")
+
+    _processed_whatsapp_message_ids.add(message_id)
+    if len(_processed_whatsapp_message_ids) > 10000:
+        _processed_whatsapp_message_ids.clear()
+        _processed_whatsapp_message_ids.add(message_id)
+    return True
+
+
+def _release_whatsapp_message_claim(message_id: str) -> None:
+    """Allow Meta retry when outbound delivery failed before a response was sent."""
+    _processed_whatsapp_message_ids.discard(message_id)
+    try:
+        get_firestore_client().collection(WHATSAPP_PROCESSED_COLLECTION).document(
+            message_id
+        ).delete()
+    except Exception as exc:
+        print(f"WhatsApp dedupe release unavailable: {exc}")
+
+
+def _save_whatsapp_contact_event(contact_hash: str, display_name: str, intent: str) -> None:
+    """Append a CRM touchpoint without persisting the customer's raw phone number."""
+    row = {
+        "event_id": str(uuid.uuid4()),
+        "contact_hash": contact_hash,
+        "display_name": display_name[:200],
+        "channel": "whatsapp",
+        "funnel_stage": "intent" if intent == "quote_request" else "interest",
+        "intent": intent,
+        "event_at": datetime.now(timezone.utc).isoformat(),
+        "environment": ENVIRONMENT,
+    }
+    try:
+        errors = get_bq_client().insert_rows_json(
+            f"{PROJECT_ID}.{DATASET_ID}.{WHATSAPP_CONTACT_TABLE_ID}", [row]
+        )
+        if errors:
+            print(f"WhatsApp CRM insert errors: {errors}")
+    except Exception as exc:
+        print(f"WhatsApp CRM event unavailable: {exc}")
+
+
+def _load_whatsapp_recent_context(session_id: str, limit: int = 4) -> str:
+    """Load recent WhatsApp turns for continuity without exposing phone numbers."""
+    try:
+        query = f"""
+            SELECT user_message, assistant_response
+            FROM `{PROJECT_ID}.{DATASET_ID}.{CHAT_TABLE_ID}`
+            WHERE session_id = @session_id AND source_page = 'whatsapp'
+            ORDER BY timestamp DESC
+            LIMIT @limit
+        """
+        job_config = bigquery.QueryJobConfig(query_parameters=[
+            bigquery.ScalarQueryParameter("session_id", "STRING", session_id),
+            bigquery.ScalarQueryParameter("limit", "INT64", limit),
+        ])
+        rows = list(get_bq_client().query(query, job_config=job_config).result())
+    except Exception as exc:
+        print(f"WhatsApp context unavailable: {exc}")
+        return ""
+
+    turns = []
+    for row in reversed(rows):
+        user_msg = (row.get("user_message") or "")[:700]
+        assistant_msg = (row.get("assistant_response") or "")[:700]
+        turns.append(f"Cliente: {user_msg}\nAIF369: {assistant_msg}")
+    return "\n".join(turns)
+
+
+def _generate_whatsapp_reply(message: str, session_id: str) -> tuple[str, str, str]:
+    """Run the sales agent for a WhatsApp inbound message."""
+    intent = detect_intent(message)
+    recent_context = _load_whatsapp_recent_context(session_id)
+    if QUOTE_INTENT_RE.search(message):
+        reply, _ = build_sales_quote_response(
+            message, session_id, "whatsapp", "whatsapp-cloud-api"
+        )
+        return reply, "crm_quote_agent", "quote_request"
+
+    if GEMINI_API_KEY:
+        try:
+            model = genai.GenerativeModel(
+                model_name="gemini-2.5-flash",
+                system_instruction=(
+                    SYSTEM_PROMPT
+                    + "\nCANAL WHATSAPP: responde en texto breve, sin tablas Markdown, "
+                    "califica el lead y termina con una sola pregunta concreta."
+                ),
+                generation_config=genai.types.GenerationConfig(
+                    temperature=0, top_p=0.1, max_output_tokens=300
+                ),
+            )
+            prompt = message
+            if recent_context:
+                prompt = (
+                    "Contexto reciente de esta conversacion:\n"
+                    f"{recent_context}\n\nNuevo mensaje del cliente:\n{message}"
+                )
+            return model.generate_content(prompt).text, "gemini", intent
+        except Exception as exc:
+            print(f"WhatsApp Gemini response failed: {exc}")
+
+    return (
+        "¡Hola! Soy el asistente comercial de AIF369. Puedo ayudarte con "
+        "Data & AI Factory, integración ETL, automatización, gobierno de IA "
+        "y cotizaciones. ¿Qué proceso necesitas resolver y cuántas fuentes de datos tiene?",
+        "safe_fallback",
+        intent,
+    )
+
+
+def _is_hot_whatsapp_lead(intent: str, message: str) -> bool:
+    """Flag opportunities that should reach the human sales owner quickly."""
+    hot_intents = {"quote_request", "pricing", "scheduling"}
+    hot_keywords = [
+        "contratar", "comprar", "agenda", "agendar", "reunion", "reunión",
+        "cotizar", "presupuesto", "urgente", "propuesta", "implementacion",
+        "implementación", "empresa", "piloto", "proyecto",
+    ]
+    text = message.lower()
+    return intent in hot_intents or any(keyword in text for keyword in hot_keywords)
+
+
+def _notify_whatsapp_hot_lead(
+    contact_hash: str, display_name: str, inbound_message: str, reply: str, intent: str
+) -> None:
+    """Send a privacy-preserving sales alert for high-intent WhatsApp leads."""
+    if not _is_hot_whatsapp_lead(intent, inbound_message):
+        return
+    safe_name = display_name or "Contacto WhatsApp"
+    body = f"""
+    <h2>Nuevo lead caliente por WhatsApp</h2>
+    <p><strong>Nombre:</strong> {safe_name}</p>
+    <p><strong>Contacto hash:</strong> {contact_hash}</p>
+    <p><strong>Intención:</strong> {intent}</p>
+    <p><strong>Mensaje:</strong> {inbound_message[:1000]}</p>
+    <p><strong>Respuesta enviada:</strong> {reply[:1000]}</p>
+    <p>Revisar la conversación en BigQuery con session_id whatsapp:{contact_hash}.</p>
+    """
+    send_alert_email("Lead caliente AIF369 por WhatsApp", body)
+
+
+def _extract_whatsapp_messages(payload: dict) -> list[dict]:
+    """Normalize inbound text messages from a Meta webhook payload."""
+    inbound = []
+    for entry in payload.get("entry", []):
+        for change in entry.get("changes", []):
+            value = change.get("value", {})
+            names = {
+                contact.get("wa_id"): contact.get("profile", {}).get("name", "")
+                for contact in value.get("contacts", [])
+            }
+            for message in value.get("messages", []):
+                sender = message.get("from", "")
+                message_type = message.get("type", "")
+                if message_type == "text":
+                    body = message.get("text", {}).get("body", "").strip()
+                else:
+                    body = ""
+                if sender and message.get("id"):
+                    inbound.append({
+                        "id": message["id"],
+                        "from": sender,
+                        "name": names.get(sender, ""),
+                        "type": message_type,
+                        "body": body,
+                    })
+    return inbound
+
 def save_chat_metadata(session_id, user_role=None, industry=None, project_status=None, lead_quality=None):
     """Guarda metadata de sesión de chat para seguimiento de leads."""
     try:
@@ -2203,6 +2447,82 @@ def assessment_datos():
     except Exception as e:
         print(f"Error in assessment-datos: {e}")
         return jsonify({"error": "Internal server error", "message": str(e)}), 500
+
+
+@app.route("/api/whatsapp/webhook", methods=["GET"])
+def verify_whatsapp_webhook():
+    """Complete the Meta webhook verification challenge."""
+    if not WHATSAPP_VERIFY_TOKEN:
+        return jsonify({"error": "WhatsApp webhook is not configured"}), 503
+    if (
+        request.args.get("hub.mode") == "subscribe"
+        and secrets.compare_digest(
+            request.args.get("hub.verify_token", ""), WHATSAPP_VERIFY_TOKEN
+        )
+    ):
+        return Response(request.args.get("hub.challenge", ""), status=200, mimetype="text/plain")
+    return jsonify({"error": "Invalid verification token"}), 403
+
+
+@app.route("/api/whatsapp/webhook", methods=["POST"])
+def receive_whatsapp_webhook():
+    """Receive, answer and audit inbound Meta WhatsApp Cloud API messages."""
+    raw_body = request.get_data(cache=True)
+    if not _valid_whatsapp_signature(
+        raw_body, request.headers.get("X-Hub-Signature-256", "")
+    ):
+        return jsonify({"error": "Invalid webhook signature"}), 401
+
+    payload = request.get_json(silent=True) or {}
+    messages = _extract_whatsapp_messages(payload)
+    for inbound in messages:
+        message_id = inbound["id"]
+        contact_hash = _whatsapp_contact_hash(inbound["from"])
+        if not _claim_whatsapp_message(message_id, contact_hash):
+            continue
+
+        session_id = f"whatsapp:{contact_hash}"
+        if inbound["type"] != "text" or not inbound["body"]:
+            reply = (
+                "Por ahora puedo atender mensajes de texto. Cuéntame por escrito "
+                "qué servicio o cotización necesitas."
+            )
+            provider, intent = "safe_fallback", "unsupported_message"
+        else:
+            reply, provider, intent = _generate_whatsapp_reply(
+                inbound["body"], session_id
+            )
+
+        if not _send_whatsapp_text(inbound["from"], reply):
+            _release_whatsapp_message_claim(message_id)
+            return jsonify({"error": "WhatsApp response delivery failed"}), 502
+
+        save_chat_to_bigquery({
+            "message_id": message_id,
+            "session_id": session_id,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "user_message": inbound["body"][:5000],
+            "assistant_response": reply[:5000],
+            "provider": provider,
+            "turn_number": 1,
+            "source_page": "whatsapp",
+            "user_agent": "meta-whatsapp-cloud-api",
+            "ip_address": "",
+            "language": detect_language(inbound["body"]),
+            "intent_detected": intent,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "origin_header": "meta",
+            "suspicious": False,
+        })
+        _save_whatsapp_contact_event(
+            contact_hash, inbound["name"], intent
+        )
+        _notify_whatsapp_hot_lead(
+            contact_hash, inbound["name"], inbound["body"], reply, intent
+        )
+
+    return jsonify({"received": True, "messages_processed": len(messages)}), 200
 
 
 @app.route("/api/chat", methods=["POST"])

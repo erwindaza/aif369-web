@@ -7,6 +7,8 @@ Run smoke against deployed: pytest tests/ -v -k smoke --deployed-url=https://...
 import json
 import os
 import sys
+import hashlib
+import hmac
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -35,6 +37,14 @@ class _FakeFirestoreDoc:
 
     def set(self, data):
         self._store[self._key] = dict(data)
+
+    def create(self, data):
+        if self._key in self._store:
+            raise Exception("Already exists")
+        self._store[self._key] = dict(data)
+
+    def delete(self):
+        self._store.pop(self._key, None)
 
     def get(self):
         data = self._store.get(self._key)
@@ -795,7 +805,135 @@ class TestCORS:
 
 
 # ══════════════════════════════════════════════════════════
-# 10. SMOKE TESTS (against deployed service)
+# 10. WHATSAPP SALES AGENT
+# ══════════════════════════════════════════════════════════
+
+class TestWhatsAppAgent:
+    def test_webhook_verification_accepts_configured_token(self, client):
+        with patch("main.WHATSAPP_VERIFY_TOKEN", "verify-test-token"):
+            response = client.get(
+                "/api/whatsapp/webhook",
+                query_string={
+                    "hub.mode": "subscribe",
+                    "hub.verify_token": "verify-test-token",
+                    "hub.challenge": "challenge-123",
+                },
+            )
+
+        assert response.status_code == 200
+        assert response.text == "challenge-123"
+
+    def test_webhook_rejects_invalid_signature(self, client):
+        with patch("main.WHATSAPP_APP_SECRET", "app-secret"):
+            response = client.post(
+                "/api/whatsapp/webhook",
+                json={"object": "whatsapp_business_account"},
+                headers={"X-Hub-Signature-256": "sha256=invalid"},
+            )
+
+        assert response.status_code == 401
+
+    def test_webhook_answers_quote_and_audits_contact(self, client):
+        payload = {
+            "object": "whatsapp_business_account",
+            "entry": [{
+                "changes": [{
+                    "value": {
+                        "contacts": [{
+                            "wa_id": "56911112222",
+                            "profile": {"name": "Cliente QA"},
+                        }],
+                        "messages": [{
+                            "from": "56911112222",
+                            "id": "wamid.qa-quote-1",
+                            "type": "text",
+                            "text": {"body": "Necesito precio para integrar tres fuentes ETL"},
+                        }],
+                    }
+                }]
+            }],
+        }
+        body = json.dumps(payload, separators=(",", ":")).encode()
+        signature = hmac.new(b"app-secret", body, hashlib.sha256).hexdigest()
+
+        with patch("main.WHATSAPP_APP_SECRET", "app-secret"), \
+             patch("main._generate_whatsapp_reply", return_value=(
+                 "Rango estimado: USD 1.000–2.000", "crm_quote_agent", "quote_request"
+             )), \
+             patch("main._send_whatsapp_text", return_value=True) as send_mock, \
+             patch("main.save_chat_to_bigquery") as chat_save, \
+             patch("main._save_whatsapp_contact_event") as contact_save, \
+             patch("main.send_alert_email") as alert_mock:
+            response = client.post(
+                "/api/whatsapp/webhook",
+                data=body,
+                content_type="application/json",
+                headers={"X-Hub-Signature-256": f"sha256={signature}"},
+            )
+
+        assert response.status_code == 200
+        assert response.get_json()["messages_processed"] == 1
+        send_mock.assert_called_once_with(
+            "56911112222", "Rango estimado: USD 1.000–2.000"
+        )
+        saved_row = chat_save.call_args.args[0]
+        assert saved_row["source_page"] == "whatsapp"
+        assert "56911112222" not in saved_row["session_id"]
+        contact_save.assert_called_once()
+        alert_mock.assert_called_once()
+
+    def test_webhook_deduplicates_retried_message_id(self, client):
+        payload = {
+            "object": "whatsapp_business_account",
+            "entry": [{
+                "changes": [{
+                    "value": {
+                        "contacts": [{
+                            "wa_id": "56911112222",
+                            "profile": {"name": "Cliente QA"},
+                        }],
+                        "messages": [{
+                            "from": "56911112222",
+                            "id": "wamid.qa-dedupe-1",
+                            "type": "text",
+                            "text": {"body": "Quiero agendar una reunion"},
+                        }],
+                    }
+                }]
+            }],
+        }
+        body = json.dumps(payload, separators=(",", ":")).encode()
+        signature = hmac.new(b"app-secret", body, hashlib.sha256).hexdigest()
+        headers = {"X-Hub-Signature-256": f"sha256={signature}"}
+
+        with patch("main.WHATSAPP_APP_SECRET", "app-secret"), \
+             patch("main._generate_whatsapp_reply", return_value=(
+                 "Agenda aquí: https://calendly.com/edaza-aif369/30min", "gemini", "scheduling"
+             )), \
+             patch("main._send_whatsapp_text", return_value=True) as send_mock, \
+             patch("main.save_chat_to_bigquery"), \
+             patch("main._save_whatsapp_contact_event"), \
+             patch("main.send_alert_email"):
+            first = client.post(
+                "/api/whatsapp/webhook",
+                data=body,
+                content_type="application/json",
+                headers=headers,
+            )
+            second = client.post(
+                "/api/whatsapp/webhook",
+                data=body,
+                content_type="application/json",
+                headers=headers,
+            )
+
+        assert first.status_code == 200
+        assert second.status_code == 200
+        assert send_mock.call_count == 1
+
+
+# ══════════════════════════════════════════════════════════
+# 11. SMOKE TESTS (against deployed service)
 # ══════════════════════════════════════════════════════════
 
 class TestSmoke:
