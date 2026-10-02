@@ -137,7 +137,8 @@ jobs:
             --allow-unauthenticated \
             --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
             --set-env-vars "ENVIRONMENT=$ENVIRONMENT,OLLAMA_HOST=http://ollama:11434" \
-            --tag qa \
+            --tag qa-env \
+            --tag v${{ github.run_number }} \
             --quiet
 
       - name: Run smoke tests
