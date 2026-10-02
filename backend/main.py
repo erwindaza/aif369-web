@@ -99,6 +99,7 @@ DATASET_ID = os.getenv("DATASET_ID", "aif369_analytics")
 ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 TABLE_ID = "contact_form_submissions"
 PAYPAL_TABLE_ID = "paypal_transactions"
+QUOTE_TABLE_ID = "crm_agent_quotes"
 
 # Configuración PayPal
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
@@ -226,7 +227,248 @@ CONTACTO:
 - Web: aif369.com
 - Email: edaza@aif369.com
 
+AGENTE CRM Y COTIZACIONES:
+- Si el usuario pide precio, cotización, presupuesto o valor de un proyecto de datos/IA, el backend puede calcular una cotización orientativa usando reglas comerciales y datos agregados del CRM/BigQuery.
+- La cotización online es referencial, no vinculante, y debe explicitar supuestos, rango USD y siguiente paso de cierre.
+- Nunca reveles datos personales, nombres de clientes, correos, conversaciones internas ni ventas individuales. Solo puedes usar evidencia agregada.
+- Para cerrar la venta, pide email corporativo, empresa, rol, urgencia, fuentes de datos, cantidad aproximada de fuentes/reportes y si requiere IA o dashboard.
+
 Si el usuario parece interesado en contratar, indícale que puede agendar una asesoría gratuita en https://calendly.com/edaza-aif369/30min, escribir por WhatsApp +56 9 9754 7192, o hacer el Scorecard gratuito en aif369.com/scorecard.html"""
+
+QUOTE_INTENT_RE = re.compile(
+    r"\b(cotiz|cotizar|cotizacion|cotización|precio|precios|presupuesto|valor|cu[aá]nto cuesta|cuanto cuesta|tarifa|quote|pricing|cost|budget)\b",
+    re.IGNORECASE,
+)
+
+QUOTE_SERVICE_CATALOG = {
+    "data_etl_sprint": {
+        "label": "Data & ETL Sprint 10 días",
+        "base_min": 1800,
+        "base_max": 3500,
+        "keywords": ["etl", "elt", "pipeline", "airflow", "script", "automatizar", "excel", "data sprint"],
+    },
+    "data_integration": {
+        "label": "Data Integration & ETL Sprint 10 días",
+        "base_min": 2200,
+        "base_max": 4500,
+        "keywords": ["integrar", "integracion", "integración", "fuentes", "api", "crm", "erp", "duplicados"],
+    },
+    "dashboard": {
+        "label": "Dashboard Ejecutivo",
+        "base_min": 2500,
+        "base_max": 5500,
+        "keywords": ["dashboard", "power bi", "looker", "quicksight", "kpi", "reporte", "tablero"],
+    },
+    "ai_enrichment": {
+        "label": "AI Enrichment Pipeline",
+        "base_min": 3500,
+        "base_max": 8500,
+        "keywords": ["ia", "ai", "llm", "clasificar", "normalizar", "matching", "semantico", "semántico", "enriquecer"],
+    },
+    "factory_cell": {
+        "label": "Data Factory Cell mensual",
+        "base_min": 4500,
+        "base_max": 12000,
+        "keywords": ["celula", "célula", "mensual", "backlog", "retainer", "equipo", "capacidad"],
+    },
+}
+
+
+def _detect_quote_service(message: str) -> tuple[str, dict]:
+    text = (message or "").lower()
+    scores = {}
+    for service_key, service in QUOTE_SERVICE_CATALOG.items():
+        scores[service_key] = sum(1 for kw in service["keywords"] if kw in text)
+    best_key = max(scores, key=scores.get)
+    if scores[best_key] == 0:
+        best_key = "data_etl_sprint"
+    return best_key, QUOTE_SERVICE_CATALOG[best_key]
+
+
+def _quote_complexity_multiplier(message: str) -> tuple[float, list[str]]:
+    text = (message or "").lower()
+    multiplier = 1.0
+    reasons = []
+
+    high_complexity = ["near real time", "tiempo real", "streaming", "varias fuentes", "múltiples fuentes", "multiples fuentes", "erp", "crm", "sap", "salesforce", "ia", "llm", "gobernanza", "trazabilidad"]
+    medium_complexity = ["dashboard", "api", "cloud", "bigquery", "data warehouse", "validaciones", "calidad", "automatizar"]
+
+    high_hits = [term for term in high_complexity if term in text]
+    medium_hits = [term for term in medium_complexity if term in text]
+
+    if high_hits:
+        multiplier += min(0.55, 0.15 * len(high_hits))
+        reasons.append("alcance con integraciones, gobierno, IA o trazabilidad avanzada")
+    if medium_hits:
+        multiplier += min(0.30, 0.08 * len(medium_hits))
+        reasons.append("requiere automatización, validaciones o visualización ejecutiva")
+    if any(term in text for term in ["urgente", "esta semana", "rápido", "rapido", "10 días", "10 dias"]):
+        multiplier += 0.15
+        reasons.append("plazo acelerado")
+
+    return round(multiplier, 2), reasons
+
+
+def get_crm_quote_context(service_key: str) -> dict:
+    """Consulta BigQuery para obtener evidencia agregada del CRM sin exponer PII."""
+    empty = {
+        "contact_leads_90d": 0,
+        "closed_payments_180d": 0,
+        "avg_closed_amount_usd": None,
+        "matched_quote_count_180d": 0,
+        "source": "fallback_no_bq",
+    }
+    try:
+        client = get_bq_client()
+        query = f"""
+        SELECT
+          (SELECT COUNT(*)
+           FROM `{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}`
+           WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 90 DAY)
+             AND (
+               LOWER(COALESCE(interest, '')) LIKE @service_like OR
+               LOWER(COALESCE(form_type, '')) LIKE @service_like OR
+               LOWER(COALESCE(message, '')) LIKE @service_like
+             )) AS contact_leads_90d,
+          (SELECT COUNT(*)
+           FROM `{PROJECT_ID}.{DATASET_ID}.{PAYMENT_EVENTS_TABLE_ID}`
+           WHERE created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 180 DAY)
+             AND LOWER(COALESCE(product_id, '')) LIKE @service_like) AS closed_payments_180d,
+          (SELECT SAFE_CAST(ROUND(AVG(SAFE_CAST(amount AS FLOAT64)), 2) AS FLOAT64)
+           FROM `{PROJECT_ID}.{DATASET_ID}.{PAYMENT_EVENTS_TABLE_ID}`
+           WHERE created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 180 DAY)
+             AND status IN ('COMPLETED', 'completed', 'APPROVED', 'approved')
+             AND LOWER(COALESCE(product_id, '')) LIKE @service_like) AS avg_closed_amount_usd,
+          (SELECT COUNT(*)
+           FROM `{PROJECT_ID}.{DATASET_ID}.{QUOTE_TABLE_ID}`
+           WHERE created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 180 DAY)
+             AND service_key = @service_key) AS matched_quote_count_180d
+        """
+        job_config = bigquery.QueryJobConfig(query_parameters=[
+            bigquery.ScalarQueryParameter("service_like", "STRING", f"%{service_key.replace('_', '%')}%"),
+            bigquery.ScalarQueryParameter("service_key", "STRING", service_key),
+        ])
+        rows = list(client.query(query, job_config=job_config).result())
+        if not rows:
+            return empty
+        row = rows[0]
+        return {
+            "contact_leads_90d": int(row.contact_leads_90d or 0),
+            "closed_payments_180d": int(row.closed_payments_180d or 0),
+            "avg_closed_amount_usd": float(row.avg_closed_amount_usd) if row.avg_closed_amount_usd else None,
+            "matched_quote_count_180d": int(row.matched_quote_count_180d or 0),
+            "source": "bigquery_aggregates",
+        }
+    except Exception as e:
+        print(f"Quote CRM context unavailable: {e}")
+        return empty
+
+
+def save_quote_to_bigquery(quote_data: dict) -> bool:
+    try:
+        errors = get_bq_client().insert_rows_json(f"{PROJECT_ID}.{DATASET_ID}.{QUOTE_TABLE_ID}", [quote_data])
+        if errors:
+            print(f"Quote BQ insert errors: {errors}")
+            return False
+        return True
+    except Exception as e:
+        print(f"Error saving quote to BigQuery: {e}")
+        return False
+
+
+def ensure_quote_table():
+    """Crea la tabla de cotizaciones del agente CRM si no existe."""
+    try:
+        client = get_bq_client()
+        table_id = f"{PROJECT_ID}.{DATASET_ID}.{QUOTE_TABLE_ID}"
+        try:
+            client.get_table(table_id)
+            return True
+        except Exception:
+            pass
+
+        schema = [
+            bigquery.SchemaField("quote_id", "STRING", mode="REQUIRED"),
+            bigquery.SchemaField("created_at", "TIMESTAMP", mode="REQUIRED"),
+            bigquery.SchemaField("session_id", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("source_page", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("service_key", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("service_label", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("user_message", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("currency", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("estimated_min", "INTEGER", mode="NULLABLE"),
+            bigquery.SchemaField("estimated_max", "INTEGER", mode="NULLABLE"),
+            bigquery.SchemaField("complexity_multiplier", "FLOAT", mode="NULLABLE"),
+            bigquery.SchemaField("assumptions_json", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("crm_context_json", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("stage", "STRING", mode="NULLABLE"),
+            bigquery.SchemaField("ip_address", "STRING", mode="NULLABLE"),
+        ]
+        table = bigquery.Table(table_id, schema=schema)
+        table.time_partitioning = bigquery.TimePartitioning(
+            type_=bigquery.TimePartitioningType.DAY,
+            field="created_at"
+        )
+        table.clustering_fields = ["service_key", "stage", "session_id"]
+        client.create_table(table)
+        print(f"Created quote table {table_id}")
+        return True
+    except Exception as e:
+        print(f"Error ensuring quote table: {e}")
+        return False
+
+
+def build_sales_quote_response(user_message: str, session_id: str, source_page: str, client_ip: str) -> tuple[str, dict]:
+    service_key, service = _detect_quote_service(user_message)
+    multiplier, reasons = _quote_complexity_multiplier(user_message)
+    crm_context = get_crm_quote_context(service_key)
+
+    min_price = int(round(service["base_min"] * multiplier / 100) * 100)
+    max_price = int(round(service["base_max"] * multiplier / 100) * 100)
+
+    avg_closed = crm_context.get("avg_closed_amount_usd")
+    if avg_closed and avg_closed > 0:
+        min_price = int(round(min(min_price, avg_closed * 0.85) / 100) * 100)
+        max_price = int(round(max(max_price, avg_closed * 1.25) / 100) * 100)
+
+    assumptions = reasons or ["alcance puntual de 1 proceso de datos con fuentes y objetivo definidos"]
+    evidence = "base comercial AIF369"
+    if crm_context.get("source") == "bigquery_aggregates":
+        evidence = (
+            f"base comercial AIF369 + señales agregadas CRM "
+            f"({crm_context['contact_leads_90d']} leads 90d, "
+            f"{crm_context['matched_quote_count_180d']} cotizaciones 180d)"
+        )
+
+    quote_id = str(uuid.uuid4())
+    quote_row = {
+        "quote_id": quote_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "session_id": session_id,
+        "source_page": source_page,
+        "service_key": service_key,
+        "service_label": service["label"],
+        "user_message": user_message[:5000],
+        "currency": "USD",
+        "estimated_min": min_price,
+        "estimated_max": max_price,
+        "complexity_multiplier": multiplier,
+        "assumptions_json": json.dumps(assumptions, ensure_ascii=False),
+        "crm_context_json": json.dumps(crm_context, ensure_ascii=False),
+        "stage": "online_estimate",
+        "ip_address": client_ip,
+    }
+    save_quote_to_bigquery(quote_row)
+
+    response = (
+        f"Para lo que describes, lo más cercano es **{service['label']}**. "
+        f"Como cotización orientativa, estimaría un rango de **USD ${min_price:,} a USD ${max_price:,}**.\n\n"
+        f"Supuestos: {', '.join(assumptions)}. "
+        f"Esta estimación usa {evidence}; no expone datos de clientes ni correos individuales.\n\n"
+        "Para cerrarla bien necesito 5 datos: empresa, email corporativo, cantidad de fuentes, si hay dashboard/IA involucrado y urgencia. "
+        "Agenda 30 minutos aquí: https://calendly.com/edaza-aif369/30min o escribe por WhatsApp +56 9 9754 7192."
+    )
+    return response, quote_row
 
 
 def send_email_notification(submission_data):
@@ -1595,6 +1837,7 @@ def ensure_metadata_table():
 # Crear tabla de metadata en startup, excepto en tests/imports offline.
 if os.getenv("AIF369_SKIP_STARTUP_BQ", "0") != "1":
     ensure_metadata_table()
+    ensure_quote_table()
 
 @app.route("/api/scorecard", methods=["POST"])
 def submit_scorecard():
@@ -2049,8 +2292,26 @@ def chat():
         input_tokens = 0
         output_tokens = 0
 
+        # --- Agente CRM de cotizaciones online ---
+        # Para preguntas de precio evitamos respuestas genéricas: consultamos
+        # señales agregadas del CRM/BigQuery, calculamos un rango auditable y
+        # registramos la cotización para analítica posterior.
+        if QUOTE_INTENT_RE.search(user_message):
+            try:
+                reply, quote_row = build_sales_quote_response(user_message, session_id, source_page, client_ip)
+                provider = "crm_quote_agent"
+                intent = "quote_request"
+                print(
+                    "Quote generated | "
+                    f"service={quote_row.get('service_key')} "
+                    f"range={quote_row.get('estimated_min')}-{quote_row.get('estimated_max')} "
+                    f"session={session_id}"
+                )
+            except Exception as quote_error:
+                print(f"CRM quote agent failed, falling back to LLM: {quote_error}")
+
         # --- Intento 1: Gemini ---
-        if GEMINI_API_KEY:
+        if reply is None and GEMINI_API_KEY:
             try:
                 model = genai.GenerativeModel(
                     model_name="gemini-2.5-flash",
