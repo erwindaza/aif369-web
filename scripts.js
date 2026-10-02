@@ -327,6 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
             interest: submission.interest || "",
             team_size: submission.teamSize || "",
             message: submission.message || submission.context || "Solicitud enviada desde el sitio web.",
+            form_type: submission.formType || "",
             source_page: window.location.href
         };
     }
@@ -449,6 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 teamSize: formData.get("teamSize")?.toString().trim() || "",
                 context: formData.get("context")?.toString().trim() || "",
                 message: formData.get("message")?.toString().trim() || "",
+                formType: formData.get("form_type")?.toString().trim() || form.dataset.contactForm || "",
                 submittedAt: new Date().toISOString()
             };
 
