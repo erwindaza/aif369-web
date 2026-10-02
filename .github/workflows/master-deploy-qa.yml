@@ -152,6 +152,26 @@ jobs:
           curl -f "$QA_URL/api/master/health" || exit 1
           echo "✓ Health check passed"
 
+      # Cloud Run reporta "container failed to start and listen on $PORT" sin
+      # decir por que — el error real (import faltante, crash en lifespan,
+      # etc.) solo aparece en los logs de la revision. Sin este paso no hay
+      # forma de diagnosticar un fallo de startup desde CI.
+      - name: Dump revision logs on failure
+        if: failure()
+        run: |
+          echo "===== Cloud Run revision logs for $SERVICE_NAME ====="
+          gcloud logging read \
+            "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"$SERVICE_NAME\"" \
+            --project=$PROJECT_ID \
+            --limit=60 \
+            --freshness=30m \
+            --format='value(timestamp, severity, textPayload)' || \
+            echo "(no se pudieron leer los logs: puede faltar permiso de logs)"
+          echo "====================================================="
+          echo "Traza completa: gcloud logging read \\"
+          echo "  \"resource.type=\\\"cloud_run_revision\\\" AND resource.labels.service_name=\\\"$SERVICE_NAME\\\" \\" \\"
+          echo "  --project=$PROJECT_ID --limit=100 --freshness=1h"
+
   notify-qa:
     needs: deploy-qa
     runs-on: ubuntu-latest
