@@ -1,0 +1,27 @@
+# Nunca debe entrar al build context ni a la imagen.
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+service-account.json
+service_account.json
+credentials.json
+secrets.yaml
+secrets.yml
+
+.git/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Artefactos locales
+venv/
+.venv/
+.DS_Store
+*.log
+reports/
+*.json.gz
