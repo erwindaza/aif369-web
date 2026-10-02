@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://aif369.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://aif369.com/services.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aif369.com/data-ai-factory</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aif369.com/data-etl-sprint</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aif369.com/data-integration-etl-sprint</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://aif369.com/education.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://aif369.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://aif369.com/scorecard.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

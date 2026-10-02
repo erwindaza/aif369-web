@@ -16,6 +16,10 @@ env:
   ENVIRONMENT: production
   DATASET_ID: aif369_analytics
   SERVICE_NAME: aif369-backend-api
+  # Producción DEBE procesar pagos reales. Si esto se omite, main.py deriva
+  # "live" desde ENVIRONMENT=production, pero se fija explícitamente para que el
+  # modo sea visible en el log del workflow y no dependa del default.
+  PAYPAL_MODE: live
 
 jobs:
   # ── Security gate ────────────────────────────────────────
@@ -129,7 +133,7 @@ jobs:
             --project $PROJECT_ID \
             --allow-unauthenticated \
             --service-account aif369-backend-sa@$PROJECT_ID.iam.gserviceaccount.com \
-            --set-env-vars "PROJECT_ID=$PROJECT_ID,DATASET_ID=$DATASET_ID,ENVIRONMENT=$ENVIRONMENT" \
+            --set-env-vars "PROJECT_ID=$PROJECT_ID,DATASET_ID=$DATASET_ID,ENVIRONMENT=$ENVIRONMENT,PAYPAL_MODE=$PAYPAL_MODE" \
             --set-env-vars "SMTP_USER=edaza@aif369.com,NOTIFICATION_EMAIL=edaza@aif369.com,CC_EMAIL=erwin.daza@gmail.com" \
             --update-secrets "SMTP_PASSWORD=aif369-smtp-password:latest,GEMINI_API_KEY=aif369-gemini-api-key:latest,CONTENT_API_KEY=aif369-content-api-key:latest,PAYPAL_CLIENT_ID=aif369-paypal-client-id:latest,PAYPAL_SECRET=aif369-paypal-secret:latest,UDEMY_CLIENT_ID=aif369-udemy-client-id:latest,UDEMY_CLIENT_SECRET=aif369-udemy-client-secret:latest"
 
@@ -145,11 +149,26 @@ jobs:
           fi
           echo "✅ Production health check passed"
 
+      - name: Verify PayPal is in live mode
+        run: |
+          PROD_URL=$(gcloud run services describe $SERVICE_NAME \
+            --region $REGION --project $PROJECT_ID \
+            --format='value(status.url)')
+          MODE=$(curl -s --max-time 30 "$PROD_URL" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("paypal_mode",""))')
+          echo "Reported paypal_mode: ${MODE:-<none>}"
+          if [ "$MODE" != "live" ]; then
+            echo "❌ Expected paypal_mode=live in production but got '${MODE:-<none>}'."
+            echo "   Payments would be processed in sandbox and no real money would be captured."
+            exit 1
+          fi
+          echo "✅ PayPal live mode confirmed"
+
       - name: Production deployment summary
         run: |
           echo "╔══════════════════════════════════════════╗"
           echo "║  PRODUCTION Deployment Complete          ║"
           echo "║  Environment: production                 ║"
+          echo "║  PayPal mode: live                        ║"
           echo "║  Dataset: $DATASET_ID                    ║"
           echo "║  Service: $SERVICE_NAME                  ║"
           echo "╚══════════════════════════════════════════╝"

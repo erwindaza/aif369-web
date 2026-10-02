@@ -218,6 +218,8 @@ class TestLegacyCoursePrice:
         assert response.get_json()["access_status"] == "LOCKED"
         assert "access_token" not in response.get_json()
 
+
+class TestRevenueAccess:
     @patch("main.http_requests.post")
     def test_capture_completed_activates_access(self, mock_post, client):
         token_response = MagicMock()
@@ -546,6 +548,20 @@ class TestScorecard:
 class TestChat:
     # All chat requests must include a trusted Origin header (security gate added in 17f190b).
     TRUSTED_ORIGIN = {"Origin": "https://aif369.com"}
+
+    def test_chat_quote_request_returns_estimate_and_records_quote(self, client):
+        response = _post_json(client, "/api/chat", {
+            "message": "Necesito cotizar un ETL con dashboard y varias fuentes para 10 dias",
+            "session_id": "quote-test-session",
+            "turn_number": 1,
+            "source_page": "https://aif369.com/data-etl-sprint",
+        }, headers=self.TRUSTED_ORIGIN)
+
+        assert response.status_code == 200
+        data = response.get_json()
+        assert data["provider"] == "crm_quote_agent"
+        assert "USD $" in data["response"]
+        assert "Data & ETL Sprint" in data["response"] or "Dashboard Ejecutivo" in data["response"]
 
     def test_chat_valid_message_gemini(self, client):
         """Chat with mocked Gemini returns 200 and a response."""
