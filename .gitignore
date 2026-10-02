@@ -27,6 +27,7 @@ Thumbs.db
 
 # Local tooling
 .gcloud/
+.venv*/
 .envrc
 **/__pycache__/
 logs/
@@ -88,8 +89,10 @@ BEJOBY_COMPLIANCE_MODULE.md
 !README.md
 !AGENTS.md
 !docs/README.md
+!docs/agentic-sales-sprints.md
 !docs/data-ai-factory-dev-spec.md
 !docs/data-ai-factory-qa-prod-notes.md
+!docs/whatsapp-sales-agent.md
 !CHANGELOG.md
 !MASTER_IMPLEMENTATION_PLAN.md
 !MASTER_EXECUTION_ROADMAP.md
