@@ -35,7 +35,8 @@ Conversation Service (src/index.js + src/db.js)   ← dedupe idempotente, upsert
       ↓
 Router determinístico (src/router.js, respuesta según tenant)
       ├── meta guard / opt-out / handoff / retomar bot / estado / ping
-      ├── saludo y agenda (respuestas fijas, sin LLM); cotización → LLM con precios del knowledge
+      ├── saludo y agenda (respuestas fijas, sin LLM); cotización → retrieval/LLM con precios del knowledge
+      ├── recepción multiagente (Erwin Androide) y ruteo experto por dominio
       └── clasificación de intención (src/intents.js: 12 intents)
       ↓
 Grafo conversacional (src/graph.js, un turno = un recorrido)
@@ -77,9 +78,25 @@ Por conversación se persiste un `ConversationState` (`conversation_state.state`
 
 Variables de la fase de estado: `GRAPH_ENABLED=0` vuelve al pipeline anterior (sin grafo), `EXTRACTOR=auto|rules|model` elige la extracción de slots, `TENANT` el bot por defecto.
 
-### Dos bots (tenants)
+### Agentes expertos (tenants)
 
-`src/tenants.js` define `aif369` y `priceclima` con su marca, su saludo, su prompt (`src/prompt.js`), su knowledge (`knowledge/<tenant>/`) y su registro de slots. El que atiende se fija por `contacts.tenant` y, si no existe, por la variable `TENANT` (default `aif369`). Nunca se mezclan marcas en la misma conversación.
+`src/tenants.js` define los agentes `personal`, `aif369`, `priceclima`,
+`bejoby` y `pricescrapers` con marca, saludo, prompt/knowledge
+(`knowledge/<tenant>/`) y registro de slots. Cada agente tiene un contrato en
+`agents/<tenant>/AGENTS.md`; la política común está en
+`agents/OPERATING_POLICY.md`.
+
+Antes de responder, `src/expert-router.js` infiere el dominio:
+
+- `PriceClima.com`: aire acondicionado, climatización, instalación, mantención y obras relacionadas.
+- `AIF369.com`: Data, IA, agentes, ETL/ELT, gobierno y proyectos de implementación.
+- `Bejoby`: talento TI y coaching.
+- `PriceScrapers`: desarrollo full stack, scraping, APIs e integraciones.
+- `Personal`: mensajes para Erwin; el bot no impersona a Erwin.
+
+Si el número no es conocido o el tema es ambiguo, el saludo de recepción es
+neutral: "Hola, habla Erwin Androide. ¿Con quién tengo el gusto y en qué te
+puedo ayudar?". Si el usuario escribe en inglés, responde en inglés.
 
 ```bash
 npm run simulate -- --tenant priceclima     # conversación de climatización
@@ -88,9 +105,17 @@ TENANT=priceclima npm run simulate          # otro bot completo
 
 ### Contacto y links en las respuestas
 
-`src/contact.js` agrega un pie corto con los datos de la empresa (web, WhatsApp, email, CTA y dirección) **solo cuando aporta**: cuando la respuesta habla de agendar, cotizar, servicios, precios o contacto (mismos disparadores que el widget web `chat-widget.js`), y siempre en saludo, cotización, agenda, handoff y respuestas de reserva (`knowledge_guard`/`fallback`). Opt-out, ping y estado técnico no lo llevan y nunca se duplica un link ya escrito. El mismo bloque viaja en el prompt (`contactMessage` en `src/prompt.js`) para que el modelo cite links reales.
+`src/contact.js` agrega un pie corto con datos de empresa **solo cuando aporta**:
+agenda, contacto, llamada, asesor, visita, compra, garantía o derivación humana.
+No se fuerza en saludo, cotización ni handoff para evitar spam de firma.
+Opt-out, ping y estado técnico no lo llevan y nunca se duplica un link ya
+escrito. El mismo bloque viaja en el prompt (`contactMessage` en
+`src/prompt.js`) para que el modelo cite links reales cuando corresponde.
 
-Ambos bots atienden desde el mismo número (+56 9 9754 7192) y el mismo correo (`edaza@aif369.com`); cada uno conserva su web y su CTA (Calendly AIF369, priceclima.com/contacto + Morandé 835 dpto 518).
+Los agentes comerciales atienden desde el mismo número operativo
+(+56 9 9754 7192). Para AIF369, las cotizaciones se preparan como draft antes
+de enviarse desde `edaza@aif369.com`; copiar a Erwin personal requiere
+confirmación de la casilla configurada.
 
 ### Conocimiento
 
@@ -174,7 +199,10 @@ Setup desde cero: `scripts/setup-agent01.sh` (con sudo interactivo) o `printf '<
 ## Agent02: worker de propuestas
 
 `agent02` no atiende WhatsApp. Consume `worker_jobs` desde la misma base local de
-`agent01` via tunel SSH y deja borradores en `sales_drafts`.
+`agent01` via tunel SSH y deja borradores en `sales_drafts`. También puede
+usarse como apoyo para consultas de base de datos, contexto de oportunidades,
+precios, drafts y reglas de negocio antes de que `agent01` responda o antes de
+enviar una cotización.
 
 Servicios systemd en `agent02`:
 

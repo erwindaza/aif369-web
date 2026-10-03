@@ -27,3 +27,7 @@ Receptionist for personal messages addressed to Erwin Daza.
 ## Handoff
 
 Mark human handoff for Erwin. Store the message and wait.
+
+## Human Contact
+
+If another agent needs clarification from the real Erwin Daza Castillo, the approved WhatsApp number for internal escalation is +56 9 4287 1283.
