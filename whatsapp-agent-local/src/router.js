@@ -8,6 +8,7 @@ import {
   META_REPLY,
 } from './prompt.js';
 import { getTenant } from './tenants.js';
+import { detectExpert, detectLanguage, languageReply, receptionistGreeting } from './expert-router.js';
 
 export const ROUTES = [
   'healthcheck',
@@ -32,6 +33,8 @@ const llmDecision = (route, intent, extra = {}) => ({
 
 export function route(message, { health, tenant = getTenant() } = {}) {
   const text = String(message.text || '').trim();
+  const language = detectLanguage(text);
+  const expert = detectExpert(text);
   const isDefaultTenant = tenant.id === 'aif369';
 
   if (/^ping$/i.test(text)) return { route: 'healthcheck', reply: 'pong', llm: false };
@@ -53,7 +56,13 @@ export function route(message, { health, tenant = getTenant() } = {}) {
       intent: 'OTHER',
       resume: true,
       llm: false,
-      reply: `Listo, retomo como asistente comercial de ${tenant.name}. ¿Quieres cotizar, agendar una llamada o revisar qué servicio calza mejor con tu caso?`,
+      language,
+      expert,
+      reply: languageReply(
+        language,
+        `Listo, retomo como Erwin Androide. ¿Que necesitas resolver o con quien quieres hablar?`,
+        'Done, Erwin Androide is back. What do you need help with, or who would you like to speak with?'
+      ),
     };
   }
 
@@ -78,31 +87,49 @@ export function route(message, { health, tenant = getTenant() } = {}) {
       ? HANDOFF_REPLY
       : `Perfecto, dejo esta conversación para seguimiento humano de ${tenant.name} (${tenant.handoff}). ` +
         'Para adelantar, ¿me cuentas qué necesitas?';
-    return { route: 'human_handoff', intent, handoff: true, llm: false, reply };
+    return { route: 'human_handoff', intent, handoff: true, llm: false, language, expert, reply };
   }
 
   if (intent === 'QUOTE_REQUEST') {
     // Los precios viven en knowledge: al LLM con retrieval se citan y no se inventan.
-    return llmDecision('cotizacion', intent, { hot: true, lead: true });
+    return llmDecision('cotizacion', intent, { hot: true, lead: true, language, expert });
   }
 
   if (intent === 'MEETING' && isDefaultTenant) {
-    return { route: 'agenda', intent, hot: true, lead: true, llm: false, reply: MEETING_REPLY };
+    return { route: 'agenda', intent, hot: true, lead: true, llm: false, language, expert, reply: MEETING_REPLY };
   }
 
   if (intent === 'GREETING') {
-    return { route: 'saludo', intent, llm: false, reply: tenant.greeting || GREETING_REPLY };
+    return {
+      route: 'saludo',
+      intent,
+      llm: false,
+      language,
+      expert,
+      reply: receptionistGreeting({ knownName: message.knownName, language }),
+    };
   }
 
   if (intent === 'PROJECT_RECOVERY') {
-    return llmDecision('oportunidad', intent, { hot: true, lead: true });
+    return llmDecision('oportunidad', intent, { hot: true, lead: true, language, expert });
   }
 
   if (lead) {
-    return llmDecision('oportunidad', intent, { hot });
+    return llmDecision('oportunidad', intent, { hot, language, expert });
   }
 
-  return llmDecision('conversacion_general', intent, { hot });
+  if (!expert.expert || expert.confidence < 0.5) {
+    return {
+      route: 'recepcion',
+      intent,
+      llm: false,
+      language,
+      expert,
+      reply: receptionistGreeting({ knownName: message.knownName, language }),
+    };
+  }
+
+  return llmDecision('conversacion_general', intent, { hot, language, expert });
 }
 
 export { serviceForIntent };

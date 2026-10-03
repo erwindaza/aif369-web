@@ -3,13 +3,12 @@ import { getTenant } from './tenants.js';
 // Mismos disparadores que el widget web de aif369 (chat-widget.js): solo aporta
 // el pie de contacto cuando la respuesta habla de agendar, cotizar o contactar.
 export const CONTACT_TRIGGER =
-  /agend|cotiz|servicio|precio|costo|cu[aá]nto|contact|whatsapp|reuni[oó]n|llamada|propuesta|diagn[oó]stico|scorecard|asesor|visita|terreno|instalaci|mantenci|comprar|pedido|env[ií]o|garant[ií]a|deriv|humano|manager/i;
+  /agend|contact|whatsapp|reuni[oó]n|llamada|asesor|visita|terreno|comprar|pedido|env[ií]o|garant[ií]a|deriv|humano|manager/i;
 
 const NO_FOOTER_ROUTES = new Set(['opt_out', 'healthcheck', 'estado_tecnico']);
 
 export const footerForces = (route, model) =>
-  ['saludo', 'cotizacion', 'agenda', 'human_handoff'].includes(route) ||
-  ['knowledge_guard', 'fallback'].includes(model);
+  ['agenda'].includes(route);
 
 export function contactFooter(tenant = getTenant()) {
   const c = tenant.contact;

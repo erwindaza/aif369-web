@@ -27,22 +27,23 @@ test('el pie solo se agrega cuando aporta', () => {
   const cualquiera = 'Entonces necesitas proyecto de datos e IA. ¿En que empresa trabajas?';
   assert.equal(withContactFooter(cualquiera, aif, { route: 'conversacion_general', model: 'state_machine' }), cualquiera);
 
-  const conGatillo = 'Ofrecemos servicios de ETL y gobierno de IA.';
+  const conGatillo = 'Podemos agendar una llamada con el equipo.';
   const out = withContactFooter(conGatillo, aif, { route: 'conversacion_general', model: 'ollama' });
-  assert.match(out, /Ofrecemos servicios/);
+  assert.match(out, /Podemos agendar/);
   assert.match(out, /calendly\.com/);
-  assert.equal(CONTACT_TRIGGER.test('¿Cuánto cuesta?'), true);
+  assert.equal(CONTACT_TRIGGER.test('¿Cuánto cuesta?'), false);
 });
 
-test('saludo, cotización, agenda, handoff y respuestas de reserva siempre llevan pie', () => {
-  for (const route of ['saludo', 'cotizacion', 'agenda', 'human_handoff']) {
+test('solo agenda fuerza pie; saludo, cotización y handoff no lo repiten por defecto', () => {
+  for (const route of ['saludo', 'cotizacion', 'human_handoff']) {
+    assert.equal(footerForces(route, null), false, route);
+    const out = withContactFooter('Te ayudo con eso.', aif, { route, model: 'instant_rule' });
+    assert.doesNotMatch(out, /aif369\.com/);
+  }
+  for (const route of ['agenda']) {
     assert.equal(footerForces(route, null), true, route);
     const out = withContactFooter('Te ayudo con eso.', aif, { route, model: 'instant_rule' });
     assert.match(out, /aif369\.com/);
-  }
-  for (const model of ['knowledge_guard', 'fallback']) {
-    const out = withContactFooter('No tengo ese dato confirmado.', aif, { route: 'conversacion_general', model });
-    assert.match(out, /wa\.me\/56997547192/);
   }
 });
 

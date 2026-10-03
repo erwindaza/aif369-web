@@ -11,6 +11,27 @@ const SHARED_CONTACT = {
 };
 
 export const TENANTS = {
+  personal: {
+    id: 'personal',
+    name: 'Erwin',
+    brand: 'contacto personal de Erwin Daza',
+    knowledgeLabel: 'CONTACTO PERSONAL DE ERWIN',
+    greeting:
+      'Hola, habla Erwin Androide. Este canal tambien recibe mensajes personales para Erwin. ' +
+      '¿Con quien tengo el gusto y cual es el motivo de tu mensaje?',
+    slotRegistry: 'personal',
+    primaryIntent: 'personal_contact',
+    knowledgeScope: 'mensajes personales para Erwin Daza',
+    handoff: 'Erwin Daza personalmente',
+    contact: {
+      web: null,
+      phone: SHARED_CONTACT.phone,
+      phoneUrl: SHARED_CONTACT.phoneUrl,
+      email: 'erwin.androide@gmail.con',
+      address: null,
+      cta: null,
+    },
+  },
   aif369: {
     id: 'aif369',
     name: 'AIF369',
@@ -47,6 +68,44 @@ export const TENANTS = {
       web: 'https://priceclima.com',
       address: 'Morandé 835 dpto 518, Santiago',
       cta: { label: 'Contacto', url: 'https://priceclima.com/contacto' },
+    },
+  },
+  bejoby: {
+    id: 'bejoby',
+    name: 'Bejoby',
+    brand: 'talento TI y coaching',
+    knowledgeLabel: 'CONOCIMIENTO DE BEJOBY (talento TI y coaching, usa solo esto)',
+    greeting:
+      'Hola, habla Erwin Androide. Puedo ayudarte con Bejoby en talento TI, recruiting y coaching. ' +
+      '¿Buscas contratar talento, recolocacion, coaching o hablar con Erwin?',
+    slotRegistry: 'bejoby',
+    primaryIntent: 'it_talent_coaching',
+    knowledgeScope: 'talento TI, seleccion, staffing, carrera y coaching',
+    handoff: 'el equipo Bejoby o Erwin por este mismo WhatsApp',
+    contact: {
+      ...SHARED_CONTACT,
+      web: 'https://bejoby.com',
+      address: null,
+      cta: null,
+    },
+  },
+  pricescrapers: {
+    id: 'pricescrapers',
+    name: 'PriceScrapers',
+    brand: 'desarrollo de software full stack y automatizacion',
+    knowledgeLabel: 'CONOCIMIENTO DE PRICESCRAPERS (software full stack, usa solo esto)',
+    greeting:
+      'Hola, habla Erwin Androide. Puedo ayudarte con PriceScrapers en desarrollo full stack, scraping e integraciones. ' +
+      '¿Que software o automatizacion necesitas construir?',
+    slotRegistry: 'pricescrapers',
+    primaryIntent: 'software_development',
+    knowledgeScope: 'desarrollo full stack, web apps, scraping, APIs e integraciones',
+    handoff: 'el equipo PriceScrapers o Erwin por este mismo WhatsApp',
+    contact: {
+      ...SHARED_CONTACT,
+      web: 'https://pricescrapers.com',
+      address: null,
+      cta: null,
     },
   },
 };

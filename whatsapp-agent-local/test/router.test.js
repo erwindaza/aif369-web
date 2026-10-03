@@ -15,7 +15,8 @@ test('saludo es deterministico', () => {
   const d = route(msg('Hola, buenas'));
   assert.equal(d.route, 'saludo');
   assert.equal(d.llm, false);
-  assert.ok(d.reply.length > 10);
+  assert.match(d.reply, /Erwin Androide/);
+  assert.match(d.reply, /Con quien tengo el gusto/i);
 });
 
 test('peticion de humano activa handoff', () => {
@@ -39,6 +40,21 @@ test('cotizacion va al LLM para citar precios del conocimiento', () => {
   assert.equal(d.lead, true);
   assert.equal(d.llm, true);
   assert.equal(d.reply, undefined, 'los precios salen del knowledge, no de una plantilla');
+});
+
+test('rutea a experto antes de contestar', () => {
+  assert.equal(route(msg('Quiero hacer un ETL de datos')).expert.expert, 'aif369');
+  assert.equal(route(msg('Necesito instalar un aire acondicionado')).expert.expert, 'priceclima');
+  assert.equal(route(msg('Busco contratar talento TI senior')).expert.expert, 'bejoby');
+  assert.equal(route(msg('Necesito desarrollar una app full stack')).expert.expert, 'pricescrapers');
+});
+
+test('recibe ingles en ingles', () => {
+  const d = route(msg('Hi can you speak english?'));
+  assert.equal(d.route, 'saludo');
+  assert.equal(d.language, 'en');
+  assert.match(d.reply, /Hi/);
+  assert.doesNotMatch(d.reply, /Hola/);
 });
 
 test('agenda usa calendly sin LLM', () => {

@@ -125,7 +125,7 @@ export async function runGraph({
       ctx.state.next_slot = selectNextSlot(ctx.state, registry);
     }],
     ['route', () => {
-      ctx.branch = ctx.isQuestion ? 'faq' : 'sales';
+      ctx.branch = ctx.isQuestion || PRICE_QUESTION_RE.test(text) ? 'faq' : 'sales';
     }],
     ['next_slot', () => {
       if (ctx.branch !== 'sales') return;
@@ -139,7 +139,10 @@ export async function runGraph({
     }],
     ['rag', async () => {
       if (ctx.branch !== 'faq') return;
-      const result = await deps.retrieve(text);
+      const retrievalQuery = PRICE_QUESTION_RE.test(text)
+        ? `${text} precios valores paquetes servicios ${tenant.name}`
+        : text;
+      const result = await deps.retrieve(retrievalQuery);
       ctx.context = result.context;
       ctx.hits = result.hits || [];
       ctx.retrievalMs = result.retrievalMs || 0;
@@ -255,13 +258,13 @@ export async function runGraph({
         } else {
           console.log(`[graph] reintento fallido (${check.issues.join(',')}); uso respuesta determinista`);
           ctx.reply =
-            priceSummary(ctx.context, check.issues) ||
+            priceSummary(ctx.context, check.issues, question) ||
             deterministicReply({ state: { ...ctx.state, next_action: ctx.action }, registry, question });
           ctx.model = 'state_machine';
         }
       } else if (!ctx.validation.ok && !ctx.generated) {
         ctx.reply =
-          priceSummary(ctx.context, ctx.validation.issues) ||
+          priceSummary(ctx.context, ctx.validation.issues, question) ||
           deterministicReply({ state: { ...ctx.state, next_action: ctx.action }, registry, question });
         ctx.model = 'state_machine';
       }

@@ -24,7 +24,7 @@ const extractPrices = (text) => String(text || '').match(/\$\s?\d(?:[\d.,]*\d)?/
 
 // El usuario pregunto por plata: la respuesta debe citar montos del conocimiento.
 export const PRICE_QUESTION_RE =
-  /(precio|precios|cu[aá]nto (cuesta|vale|salen)|cu[aá]nto es|costo|costos|cotiz|presupuesto|tarifa|valen)/i;
+  /(precio|precios|valor|valores|cu[aá]nto (cuesta|vale|salen)|cu[aá]nto es|costo|costos|cotiz|presupuesto|tarifa|valen)/i;
 
 const PRICE_VALUE_RE = /\$\s?\d/;
 
@@ -123,14 +123,15 @@ export function repairHint({ issues, question }) {
 }
 
 // Si el modelo no citó montos, se arman frases del conocimiento (no se inventa nada).
-export function priceSummary(context = '', issues = []) {
+export function priceSummary(context = '', issues = [], question = null) {
   if (!issues.includes('prices_not_cited')) return null;
   const sentences = String(context || '')
     .split(/(?<=[.!?])\s+|\n+/)
     .map((s) => s.replace(/\s+/g, ' ').trim())
     .filter((s) => PRICE_VALUE_RE.test(s) && s.length >= 10 && s.length <= 300);
   if (!sentences.length) return null;
-  return sentences.slice(0, 2).join(' ');
+  const summary = sentences.slice(0, 2).join(' ');
+  return question ? `${summary} ${question}` : summary;
 }
 
 // Último recurso: respuesta 100% determinista (nunca inventa).

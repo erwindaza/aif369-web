@@ -25,7 +25,7 @@ import { serviceForIntent } from './intents.js';
 import { startHealthServer } from './health.js';
 import { runGraph } from './graph.js';
 import { normalizeState } from './conversation-state.js';
-import { tenantForContact } from './tenants.js';
+import { getTenant, tenantForContact, knowledgeDirFor } from './tenants.js';
 import { withContactFooter } from './contact.js';
 import { connect, wa } from './whatsapp.js';
 
@@ -179,8 +179,12 @@ async function handleInbound(message) {
     return;
   }
 
-  const tenant = tenantForContact(contact);
-  const decision = route(message, { health: statusText(), tenant });
+  let tenant = tenantForContact(contact);
+  const knownName = contact.push_name || contact.display_name || null;
+  const decision = route({ ...message, knownName }, { health: statusText(), tenant });
+  if (decision.expert?.expert) {
+    tenant = getTenant(decision.expert.expert);
+  }
   const qualification = extractQualification(text, contact.qualification || {});
   console.log(
     `[router] route=${decision.route} intent=${decision.intent || '-'} conversation=${message.conversation_id}`
@@ -260,7 +264,7 @@ async function handleInbound(message) {
     const counts = await countMessages(chatJid);
 
     if (!config.graphEnabled) {
-      const { context, retrievalMs, hits } = await buildKnowledgeContext(text);
+      const { context, retrievalMs, hits } = await buildKnowledgeContext(text, { dir: knowledgeDirFor(tenant.id) });
       const summary = `estado=${contact.lead_status || 'NEW'} intent=${decision.intent || '-'} ${
         qualificationSummary(qualification) || 'sin datos de calificacion'
       } mensajes=${counts.inbound}`;
