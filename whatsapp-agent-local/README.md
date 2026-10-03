@@ -93,6 +93,7 @@ Antes de responder, `src/expert-router.js` infiere el dominio:
 - `Bejoby`: talento TI y coaching.
 - `PriceScrapers`: desarrollo full stack, scraping, APIs e integraciones.
 - `Personal`: mensajes para Erwin; el bot no impersona a Erwin.
+- `Accountant`: calculos, compras, ventas, proveedores y validacion de cotizaciones.
 
 Si el número no es conocido o el tema es ambiguo, el saludo de recepción es
 neutral: "Hola, habla Erwin Androide. ¿Con quién tengo el gusto y en qué te
@@ -116,6 +117,32 @@ Los agentes comerciales atienden desde el mismo número operativo
 (+56 9 9754 7192). Para AIF369, las cotizaciones se preparan como draft antes
 de enviarse desde `edaza@aif369.com`; copiar a Erwin personal requiere
 confirmación de la casilla configurada.
+
+### Cotizaciones y aprobacion
+
+El flujo correcto de cotizacion es:
+
+1. El agente comercial califica la oportunidad.
+2. `agent02` o el agente backoffice prepara el borrador.
+3. El agente `Accountant` valida los calculos con logica deterministica, no con
+   texto generado por LLM. Las operaciones permitidas incluyen suma, resta,
+   multiplicacion, division, porcentajes, redondeos, subtotal, descuento,
+   impuestos y total.
+4. Se envia primero un email interno a Erwin con subject del tipo:
+   `[BORRADOR REVISION] <cliente> - <tipo de cotizacion>`.
+5. El cuerpo debe indicar que es una cotizacion borrador para revision previa a
+   la cotizacion comercial real.
+6. Solo despues de aprobacion por email, WhatsApp o estado manual aprobado, el
+   agente puede preparar el envio al cliente final desde Zoho Mail
+   `edaza@aif369.com`.
+7. Para trabajos con compras o proveedores, pedir y registrar cotizaciones de
+   proveedores antes de comprometer precio final al cliente.
+
+Tablas relacionadas:
+
+- `quote_calculations`: line items, formulas, subtotales, descuentos, impuestos y total validado.
+- `quote_approvals`: solicitud y decision de aprobacion interna.
+- `outbound_email_queue`: emails internos, emails al cliente y solicitudes a proveedores.
 
 ### Conocimiento
 

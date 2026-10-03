@@ -166,7 +166,18 @@ CREATE TABLE IF NOT EXISTS worker_jobs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   agent_name TEXT NOT NULL DEFAULT 'agent02',
   job_type TEXT NOT NULL
-    CHECK (job_type IN ('draft_proposal', 'draft_sow', 'draft_email', 'research_account', 'human_followup')),
+    CHECK (job_type IN (
+      'draft_proposal',
+      'draft_sow',
+      'draft_email',
+      'research_account',
+      'human_followup',
+      'calculate_quote',
+      'request_internal_quote_approval',
+      'send_approved_quote',
+      'request_supplier_quote',
+      'record_supplier_quote'
+    )),
   status TEXT NOT NULL DEFAULT 'pending'
     CHECK (status IN ('pending', 'claimed', 'done', 'failed', 'cancelled')),
   priority INTEGER NOT NULL DEFAULT 50 CHECK (priority >= 0 AND priority <= 100),
@@ -194,9 +205,9 @@ CREATE TABLE IF NOT EXISTS sales_drafts (
   opportunity_id UUID REFERENCES opportunities(id) ON DELETE SET NULL,
   contact_jid TEXT REFERENCES contacts(jid) ON DELETE SET NULL,
   draft_type TEXT NOT NULL
-    CHECK (draft_type IN ('proposal', 'sow', 'followup_email', 'contract_brief')),
+    CHECK (draft_type IN ('proposal', 'sow', 'followup_email', 'contract_brief', 'quote_email', 'supplier_quote_request')),
   status TEXT NOT NULL DEFAULT 'draft'
-    CHECK (status IN ('draft', 'ready_for_review', 'approved', 'sent', 'archived')),
+    CHECK (status IN ('draft', 'ready_for_review', 'internal_review_sent', 'approved', 'rejected', 'sent', 'archived')),
   title TEXT NOT NULL,
   body TEXT NOT NULL,
   assumptions JSONB NOT NULL DEFAULT '[]'::jsonb,
@@ -216,3 +227,73 @@ CREATE INDEX IF NOT EXISTS sales_drafts_opportunity_idx
 
 CREATE INDEX IF NOT EXISTS sales_drafts_status_idx
   ON sales_drafts (status, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS quote_calculations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  opportunity_id UUID REFERENCES opportunities(id) ON DELETE SET NULL,
+  draft_id UUID REFERENCES sales_drafts(id) ON DELETE SET NULL,
+  calculator_agent TEXT NOT NULL DEFAULT 'accountant_agent',
+  currency TEXT NOT NULL DEFAULT 'USD',
+  subtotal NUMERIC NOT NULL DEFAULT 0,
+  discount_percent NUMERIC NOT NULL DEFAULT 0 CHECK (discount_percent >= 0 AND discount_percent <= 100),
+  discount_amount NUMERIC NOT NULL DEFAULT 0,
+  tax_percent NUMERIC NOT NULL DEFAULT 0 CHECK (tax_percent >= 0 AND tax_percent <= 100),
+  tax_amount NUMERIC NOT NULL DEFAULT 0,
+  total NUMERIC NOT NULL DEFAULT 0,
+  formula_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+  line_items JSONB NOT NULL DEFAULT '[]'::jsonb,
+  validation_status TEXT NOT NULL DEFAULT 'pending'
+    CHECK (validation_status IN ('pending', 'valid', 'invalid')),
+  validation_errors JSONB NOT NULL DEFAULT '[]'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS quote_calculations_opportunity_idx
+  ON quote_calculations (opportunity_id, created_at DESC)
+  WHERE opportunity_id IS NOT NULL;
+
+CREATE TABLE IF NOT EXISTS quote_approvals (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  draft_id UUID REFERENCES sales_drafts(id) ON DELETE CASCADE,
+  calculation_id UUID REFERENCES quote_calculations(id) ON DELETE SET NULL,
+  approval_channel TEXT NOT NULL CHECK (approval_channel IN ('email', 'whatsapp', 'manual')),
+  approver_name TEXT NOT NULL DEFAULT 'Erwin Daza Castillo',
+  approver_contact TEXT,
+  status TEXT NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending', 'approved', 'rejected', 'changes_requested')),
+  approval_message TEXT,
+  internal_email_subject TEXT,
+  internal_email_to TEXT NOT NULL DEFAULT 'erwin.daza@gmail.con',
+  internal_email_from TEXT NOT NULL DEFAULT 'edaza@aif369.com',
+  sent_for_review_at TIMESTAMPTZ,
+  decided_at TIMESTAMPTZ,
+  metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS quote_approvals_status_idx
+  ON quote_approvals (status, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS outbound_email_queue (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  draft_id UUID REFERENCES sales_drafts(id) ON DELETE SET NULL,
+  approval_id UUID REFERENCES quote_approvals(id) ON DELETE SET NULL,
+  status TEXT NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending', 'approved_to_send', 'sent', 'failed', 'cancelled')),
+  email_from TEXT NOT NULL DEFAULT 'edaza@aif369.com',
+  email_to TEXT NOT NULL,
+  email_cc TEXT,
+  subject TEXT NOT NULL,
+  body TEXT NOT NULL,
+  purpose TEXT NOT NULL CHECK (purpose IN ('internal_quote_review', 'client_quote', 'supplier_quote_request', 'supplier_quote_response')),
+  provider TEXT NOT NULL DEFAULT 'zoho_mail',
+  provider_message_id TEXT,
+  error TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  sent_at TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS outbound_email_queue_status_idx
+  ON outbound_email_queue (status, created_at ASC);

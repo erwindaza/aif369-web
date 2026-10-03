@@ -108,6 +108,26 @@ export const TENANTS = {
       cta: null,
     },
   },
+  accountant: {
+    id: 'accountant',
+    name: 'Accountant',
+    brand: 'control contable, compras, ventas y cotizaciones',
+    knowledgeLabel: 'REGLAS DE COTIZACION Y CALCULO (usa solo esto)',
+    greeting:
+      'Hola, soy el agente contador de apoyo. Valido calculos, cotizaciones, compras y ventas antes de enviar compromisos comerciales.',
+    slotRegistry: 'aif369',
+    primaryIntent: 'quote_accounting',
+    knowledgeScope: 'calculos de cotizacion, compras, ventas, proveedores, descuentos, impuestos y totales',
+    handoff: 'Erwin Daza para aprobacion comercial',
+    contact: {
+      web: null,
+      phone: SHARED_CONTACT.phone,
+      phoneUrl: SHARED_CONTACT.phoneUrl,
+      email: 'edaza@aif369.com',
+      address: null,
+      cta: null,
+    },
+  },
 };
 
 export function getTenant(id = config.tenant) {
