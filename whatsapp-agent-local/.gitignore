@@ -1,0 +1,9 @@
+.env
+data/
+runtime/
+sessions/
+tokens/
+.auth/
+node_modules/
+*.session
+npm-debug.log*

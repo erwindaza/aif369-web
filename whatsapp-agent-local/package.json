@@ -1,0 +1,30 @@
+{
+  "name": "aif369-whatsapp-agent-local",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Agente comercial de WhatsApp 100% local (agent01): Baileys + PostgreSQL + Ollama",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "db:init": "node src/db-init.js",
+    "leads": "node src/cli-leads.js leads",
+    "chat": "node src/cli-leads.js chat",
+    "latency": "node src/cli-leads.js latency",
+    "worker:proposals": "node src/cli-worker.js proposals",
+    "worker:drafts": "node src/cli-worker.js drafts",
+    "test": "node --test",
+    "simulate": "node scripts/simulate.mjs",
+    "bench": "node scripts/bench-ollama.mjs"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.7.24",
+    "dotenv": "^16.4.7",
+    "pg": "^8.13.1",
+    "pino": "^9.5.0",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

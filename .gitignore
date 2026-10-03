@@ -90,6 +90,7 @@ BEJOBY_COMPLIANCE_MODULE.md
 !AGENTS.md
 !docs/README.md
 !docs/agentic-sales-sprints.md
+!docs/database-catalog.md
 !docs/data-ai-factory-dev-spec.md
 !docs/data-ai-factory-qa-prod-notes.md
 !docs/whatsapp-sales-agent.md
@@ -98,3 +99,12 @@ BEJOBY_COMPLIANCE_MODULE.md
 !MASTER_EXECUTION_ROADMAP.md
 !aif369-agents/KIMI_K3_SETUP.md
 !aif369-agents/SPRINT_0_README.md
+
+# WhatsApp local sales agent source and knowledge are versioned; sessions/data are not.
+whatsapp-agent-local/data/
+whatsapp-agent-local/runtime/
+whatsapp-agent-local/sessions/
+whatsapp-agent-local/tokens/
+whatsapp-agent-local/.auth/
+whatsapp-agent-local/node_modules/
+!whatsapp-agent-local/**/*.md
