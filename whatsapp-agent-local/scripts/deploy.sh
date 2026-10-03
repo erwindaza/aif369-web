@@ -16,4 +16,4 @@ rsync -az --delete \
   "$SRC" "${HOST}:~/whatsapp-agent/"
 
 echo "OK: codigo sincronizado en ${HOST}:~/whatsapp-agent"
-echo "En agent01: cd ~/whatsapp-agent && npm install && sudo systemctl restart whatsapp-agent"
+echo "Siguiente: ssh ${HOST} 'cd ~/whatsapp-agent && npm install'"

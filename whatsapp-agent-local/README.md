@@ -139,6 +139,7 @@ curl -s http://127.0.0.1:8090/health
 npm run leads                             # leads + oportunidades + handoffs + latencias
 npm run worker:proposals                  # agent02: crea jobs y borradores de propuesta
 npm run worker:drafts                     # lista borradores comerciales para revision
+npm run worker:start                      # loop continuo para agent02
 npm run chat -- "<jid>@s.whatsapp.net"    # historial de una conversación
 npm run latency                           # percentiles de retrieval/llm/total
 ```
@@ -169,6 +170,23 @@ ssh agent01 'cd ~/whatsapp-agent && export PATH=$HOME/.local/bin:$PATH && bash s
 Pendiente (futuro): usar Gemini vía el backend (`/api/chat` de `backend/main.py`, mismo `SYSTEM_PROMPT` del widget web) cuando el cliente busque productos de aif369.com; hoy el agente WhatsApp responde 100% local con Ollama.
 
 Setup desde cero: `scripts/setup-agent01.sh` (con sudo interactivo) o `printf '<pw>' | sudo -S bash scripts/setup-sudo.sh` (solo operaciones root).
+
+## Agent02: worker de propuestas
+
+`agent02` no atiende WhatsApp. Consume `worker_jobs` desde la misma base local de
+`agent01` via tunel SSH y deja borradores en `sales_drafts`.
+
+Servicios systemd en `agent02`:
+
+```bash
+sudo systemctl status aif369-db-tunnel-agent02.service
+sudo systemctl status aif369-sales-worker-agent02.service
+sudo journalctl -u aif369-sales-worker-agent02.service -n 80 --no-pager
+cd ~/whatsapp-agent && npm run worker:drafts
+```
+
+El tunel escucha solo en `127.0.0.1:15432` dentro de `agent02` y apunta a
+`127.0.0.1:5432` en `agent01`. No abrir Postgres a la red local.
 
 ## Recuperación de sesión
 

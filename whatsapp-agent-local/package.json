@@ -15,6 +15,7 @@
     "latency": "node src/cli-leads.js latency",
     "worker:proposals": "node src/cli-worker.js proposals",
     "worker:drafts": "node src/cli-worker.js drafts",
+    "worker:start": "node src/worker-loop.js",
     "test": "node --test",
     "simulate": "node scripts/simulate.mjs",
     "bench": "node scripts/bench-ollama.mjs"
